@@ -62,7 +62,7 @@ onMounted(() => {
   }
 
   100% {
-    transform: translateY(20px);
+    transform: translateY(25px);
   }
 }
 
@@ -76,7 +76,7 @@ img {
 }
 
 h4 {
-  @apply text-2xl sm:text-3xl my-8 font-bold;
+  @apply text-2xl sm:text-3xl mb-4 mt-6 sm:my-8 font-bold ;
   color: $purple-container;
 }
 

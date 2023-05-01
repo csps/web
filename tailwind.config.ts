@@ -5,7 +5,11 @@ export default {
     "./src/**/*.{vue,ts}"
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        'sans': ['Inter', 'sans-serif'],
+      }
+    },
   },
   plugins: [],
 }

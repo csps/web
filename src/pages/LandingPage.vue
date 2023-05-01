@@ -8,7 +8,16 @@
       <p>
         Welcome to the UC Main CSP-S official website!
         We appreciate your patience and understanding as we develop our website.
-        Thank you for your support, and stay tuned for updates and exciting announcements!
+
+        <br><br>
+
+        While we're working on building an amazing online space for you, you can stay connected with us through our social media accounts and online communities.
+        You can find the links to our Facebook, Gmail, Discord, and Github by clicking on the icons below.
+
+        <br><br>
+
+        Stay updated on our latest events, activities, and announcements by following us on these platforms and feel free to reach out to us via email or facebook.
+        Thank you for your support and stay tuned.
       </p>
 
       <div class="flex items-center space-x-5">
@@ -76,12 +85,12 @@ img {
 }
 
 h4 {
-  @apply text-2xl sm:text-3xl mb-4 mt-6 sm:my-8 font-bold ;
+  @apply text-2xl sm:text-3xl my-6 sm:my-8 font-bold ;
   color: $purple-container;
 }
 
 p {
-  @apply text-sm sm:text-base text-white text-center font-medium mb-8;
+  @apply text-sm sm:text-base text-white text-justify font-medium mb-8 leading-[23px] sm:leading-[32px];
 }
 
 a {

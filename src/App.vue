@@ -1,9 +1,9 @@
 <template>
   <div class="h-full">
-    <LandingPage />
+    <LaunchingSoon />
   </div>
 </template>
 
 <script lang="ts" setup>
-import LandingPage from './pages/LandingPage.vue';
+import LaunchingSoon from './pages/LaunchingSoon.vue';
 </script>

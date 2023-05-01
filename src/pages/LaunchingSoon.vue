@@ -2,7 +2,7 @@
   <div class="flex justify-center container mx-auto h-full overflow-hidden">
     <div id="parent" class="flex flex-col justify-center items-center h-full px-8 w-full lg:px-0 lg:w-1/2 pb-24">
   
-      <img :src="Logo" alt="CSPS-S UC Main Logo" class="logo" />
+      <img ref="logo" :src="Logo" class="logo" alt="CSPS-S UC Main Logo" />
       <h4>We're launching soon!</h4>
   
       <p>
@@ -31,8 +31,9 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted } from "vue";
+import { ref, onMounted } from "vue";
 import anime from "animejs";
+import VanillaTilt from "vanilla-tilt";
 
 import Logo from "~/assets/img/logo.png";
 
@@ -40,6 +41,8 @@ import FacebookSvg from "~/assets/svg/facebook.svg";
 import MailSvg from "~/assets/svg/mail.svg";
 import DiscordSvg from "~/assets/svg/discord.svg";
 import GithubSvg from "~/assets/svg/github.svg";
+
+const logo = ref(null);
 
 const links = [
   { href: "https://web.facebook.com/UCMainCSPS", src: FacebookSvg, alt: "CSP-S UC Main Facebook Page" },
@@ -49,6 +52,13 @@ const links = [
 ];
 
 onMounted(() => {
+  VanillaTilt.init(logo.value!, {
+    "full-page-listening": true,
+    "max-glare": 0.5,
+    "reverse": true,
+    "max": 20,
+  });
+
   anime({
     targets: "#parent > *",
     scale: [0, 1],
@@ -71,7 +81,7 @@ onMounted(() => {
   }
 
   100% {
-    transform: translateY(25px);
+    transform: translateY(20px);
   }
 }
 
@@ -85,12 +95,12 @@ img {
 }
 
 h4 {
-  @apply text-2xl sm:text-3xl my-6 sm:my-8 font-bold ;
+  @apply text-2xl sm:text-3xl mt-8 mb-6 sm:my-8 font-bold ;
   color: $purple-container;
 }
 
 p {
-  @apply text-sm sm:text-base text-white text-justify font-medium mb-8 leading-[23px] sm:leading-[32px];
+  @apply text-sm sm:text-base text-white text-justify font-medium mb-10 leading-[23px] sm:leading-[32px];
 }
 
 a {

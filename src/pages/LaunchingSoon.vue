@@ -1,8 +1,12 @@
 <template>
   <div class="flex justify-center container mx-auto h-full overflow-hidden">
-    <div id="parent" class="flex flex-col justify-center items-center h-full px-8 w-full lg:px-0 lg:w-1/2 pb-24">
-  
-      <img ref="logo" :src="Logo" class="logo" alt="CSPS-S UC Main Logo" />
+    <div id="parent" class="flex flex-col pt-12 2xl:pt-24 items-center h-full px-8 w-full lg:px-0 lg:w-1/2 pb-24">
+      
+      <div class="logo-container">
+        <img :src="CCSLogo" alt="CCS UC Logo" />
+        <img :src="CSPSLogo" alt="CSPS-S UC Main Logo" />
+        <img :src="UCLogo" alt="UC Logo" />
+      </div>
       <h4>We're launching soon!</h4>
   
       <p>
@@ -20,7 +24,7 @@
         Thank you for your support and stay tuned.
       </p>
 
-      <div class="flex items-center space-x-5">
+      <div class="flex items-center space-x-7">
         <a v-for="(link, i) in links" :href="link.href" :key="i" target="_blank">
           <img :src="link.src" :alt="link.alt" class="w-8 sm:w-9" />
         </a>
@@ -31,18 +35,17 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted } from "vue";
+import { onMounted } from "vue";
 import anime from "animejs";
-import VanillaTilt from "vanilla-tilt";
 
-import Logo from "~/assets/img/logo.png";
+import CCSLogo from "~/assets/img/ccs_logo.png";
+import CSPSLogo from "~/assets/img/csps_logo.png";
+import UCLogo from "~/assets/img/uc_logo.png";
 
 import FacebookSvg from "~/assets/svg/facebook.svg";
 import MailSvg from "~/assets/svg/mail.svg";
 import DiscordSvg from "~/assets/svg/discord.svg";
 import GithubSvg from "~/assets/svg/github.svg";
-
-const logo = ref(null);
 
 const links = [
   { href: "https://web.facebook.com/UCMainCSPS", src: FacebookSvg, alt: "CSP-S UC Main Facebook Page" },
@@ -52,13 +55,6 @@ const links = [
 ];
 
 onMounted(() => {
-  VanillaTilt.init(logo.value!, {
-    "full-page-listening": true,
-    "max-glare": 0.5,
-    "reverse": true,
-    "max": 20,
-  });
-
   anime({
     targets: "#parent > *",
     scale: [0, 1],
@@ -89,18 +85,21 @@ img {
   -webkit-user-drag: none;
 }
 
-.logo {
-  @apply w-[200px] sm:w-[250px] border-4 rounded-full;
-  border-color: $purple;
+.logo-container {
+  @apply flex justify-center space-x-5 lg:space-x-10;
+
+  img {
+    @apply w-[90px] sm:w-[125px] lg:w-[150px];
+  }
 }
 
 h4 {
-  @apply text-2xl sm:text-3xl mt-8 mb-6 sm:my-8 font-bold ;
+  @apply text-2xl lg:text-3xl mt-8 mb-6 sm:my-8 font-bold ;
   color: $purple-container;
 }
 
 p {
-  @apply text-sm sm:text-base text-white text-justify font-medium mb-10 leading-[23px] sm:leading-[32px];
+  @apply text-sm lg:text-base text-white text-justify font-medium mb-12 leading-[23px] lg:leading-[32px];
 }
 
 a {

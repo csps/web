@@ -2,8 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url("../assets/fonts/font.scss");
 @import "variables.scss";
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap');
 
 :root {
   ::selection {
@@ -31,8 +31,4 @@ body {
   100% {
     background-position: 0% 50%;
   }
-}
-
-#app {
-  @apply h-screen;
 }

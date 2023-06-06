@@ -1,6 +1,6 @@
 <template>
-  <div class="h-full">
-    <router-view />
+  <div>
+    Home Page
   </div>
 </template>
 

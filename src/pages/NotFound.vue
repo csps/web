@@ -1,6 +1,6 @@
 <template>
-  <div class="h-full">
-    <router-view />
+  <div>
+    Oops! The page you are looking for does not exist.
   </div>
 </template>
 

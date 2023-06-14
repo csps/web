@@ -1,14 +1,23 @@
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
+import path from 'path'
 
 // https://vitejs.dev/config/
 export default defineConfig({
   base: "./",
-  plugins: [vue()],
+  plugins: [
+    vue({
+      template: {
+        compilerOptions: {
+          isCustomElement: tag => tag.startsWith('swiper-')
+        }
+      }
+    })
+  ],
   resolve: {
-    alias: {
-      "~": "/src"
-    }
+    alias: [
+      { find: '~', replacement: path.resolve(__dirname, './src') }
+    ]
   },
   server: {
     port: 3000

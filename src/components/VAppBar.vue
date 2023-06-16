@@ -19,7 +19,12 @@
       <!-- Navigation Links -->
       <div class="flex-grow hidden xl:block">
         <div class="flex justify-end space-x-5">
-          <v-button v-for="link in NAV_LINKS" :key="link.path" :color="link.path === '/login' ? 'secondary' : 'transparent'">
+          <v-button
+            v-for="link in NAV_LINKS"
+            :key="link.path"
+            :color="link.path === '/login' ? 'secondary' : 'transparent'"
+            :to="link.path"
+          >
             {{ link.name }}
           </v-button>
         </div>
@@ -27,6 +32,7 @@
 
     </div>
   </div>
+  <div class="appbar-extension absolute top-0 left-0 right-0 bg-primary h-[40vh] rounded-br-3xl rounded-bl-3xl -z-[1]" />
 </template>
 
 <script lang="ts" setup>
@@ -57,7 +63,7 @@ defineProps({
 }
 
 .appbar {
-  @apply h-20;
+  @apply h-20 rounded-bl-3xl rounded-br-3xl;
 }
 
 h3 {

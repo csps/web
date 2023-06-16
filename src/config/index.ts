@@ -6,7 +6,7 @@ import GithubSvg from "~/assets/svg/github.svg?raw";
 import { getSvgData } from "~/utils/string";
 
 export const NAV_LINKS = [
-  { name: 'Home', path: '/home' },
+  { name: 'Home', path: '/' },
   { name: 'About Us', path: '/about' },
   { name: 'Bulletin Board', path: '/bulletin' },
   { name: 'Shop', path: '/shop' },

@@ -1,8 +1,14 @@
 <template>
-  <button :class="icon ? 'btn-icon' : 'btn-' + color" v-wave="!noRipple">
+  <component
+    class="btn"
+    :is="to ? 'router-link' : 'button'"
+    :class="icon ? 'btn-icon' : 'btn-' + color"
+    :to="to"
+    v-wave="!noRipple"
+  >
     <v-icon v-if="icon" :path="icon" />
     <slot v-else />
-  </button>
+  </component>
 </template>
 
 <script lang="ts" setup>
@@ -12,7 +18,8 @@ withDefaults(defineProps<{
   variant?: "default" | "outlined" | "tonal" | "text",
   icon?: string,
   color?: string,
-  noRipple?: boolean
+  noRipple?: boolean,
+  to?: string
 }>(), {
   variant: 'default',
   color: "primary",
@@ -22,12 +29,21 @@ withDefaults(defineProps<{
 </script>
 
 <style lang="scss" scoped>
-button:not(.btn-icon) {
-  @apply min-w-min px-4 py-1.5 rounded-lg whitespace-nowrap font-medium text-primary-light-90 hover:bg-primary-light-10;
+.btn:not(.btn-icon) {
+  @apply min-w-min px-4 py-1.5 rounded-lg whitespace-nowrap font-medium;
 }
 
 .btn-icon {
   @apply p-2 bg-primary text-primary-light-90 hover:bg-primary-light-10 rounded-full;
+}
+
+.btn-primary {
+  @apply text-primary-light-90 hover:bg-primary-light-10;
+}
+
+.btn-transparent {
+  @extend .btn-primary;
+  @apply bg-transparent;
 }
 
 .btn-secondary {

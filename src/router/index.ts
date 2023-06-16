@@ -1,6 +1,6 @@
 import type { RouteRecordRaw } from "vue-router";
 import { createRouter, createWebHistory } from "vue-router";
-import { setPageTitle } from "~/utils/page";
+import { setPageTitle, setBodyPath } from "~/utils/page";
 
 /**
  * The routes of the application.
@@ -8,11 +8,6 @@ import { setPageTitle } from "~/utils/page";
 const routes: RouteRecordRaw[] = [
   {
     path: "/",
-    name: "Landing",
-    component: () => import("../pages/LandingPage.vue")
-  },
-  {
-    path: "/home",
     name: "Home",
     component: () => import("../pages/HomePage.vue")
   },
@@ -54,9 +49,12 @@ const router = createRouter({
 /**
  * Executes after each route change.
  */
-// router.beforeEach((to, from, next) => {
-//   next(); // Continue to the page
-// });
+router.beforeEach((to, _from, next) => {
+  // Set path to body
+  setBodyPath(to.path);
+  // Continue to the page
+  next();
+});
 
 /**
  * Executes after each route change.

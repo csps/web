@@ -52,6 +52,6 @@ p {
 }
 
 .message-card {
-  @apply w-full md:w-4/5 lg:w-3/4 xl:w-1/2 3xl:w-1/3 flex flex-col items-center p-10 bg-white mt-10 rounded-2xl;
+  @apply mx-4 w-full md:w-3/4 lg:w-3/5 xl:w-1/2 2xl:w-2/5 3xl:w-1/3 flex flex-col items-center p-10 mt-10 rounded-2xl;
 }
 </style>

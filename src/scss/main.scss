@@ -11,7 +11,7 @@
     color: $purple;
   }
 
-  @apply overflow-hidden;
+  @apply overflow-x-hidden;
 }
 
 .slide-fade-enter-active {
@@ -32,10 +32,23 @@
   @apply hidden;
 }
 
-body.home {
-  @apply bg-secondary;
+body {
+  @apply bg-primary;
 
   .appbar-extension {
     @apply block;
   }
+}
+
+*::-webkit-scrollbar {
+  width: 8px !important;
+}
+
+*::-webkit-scrollbar-track {
+  @apply bg-gray-50 dark:bg-primary;
+}
+
+*::-webkit-scrollbar-thumb {
+  @apply bg-secondary dark:bg-secondary;
+  border-radius: 20px;
 }

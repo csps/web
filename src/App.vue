@@ -3,11 +3,9 @@
     <VAppBar />
 
     <router-view v-slot="{ Component }">
-      <div class="p-4">
-        <Transition name="slide-fade" mode="out-in">
-          <component :is="Component" />
-        </Transition>
-      </div>
+      <Transition name="slide-fade" mode="out-in">
+        <component :is="Component" />
+      </Transition>
     </router-view>
 
   </div>

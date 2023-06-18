@@ -32,7 +32,6 @@
 
     </div>
   </div>
-  <div class="appbar-extension absolute top-0 left-0 right-0 bg-primary h-[40vh] rounded-br-3xl rounded-bl-3xl -z-[1]" />
 </template>
 
 <script lang="ts" setup>
@@ -63,7 +62,7 @@ defineProps({
 }
 
 .appbar {
-  @apply h-20 rounded-bl-3xl rounded-br-3xl;
+  @apply h-20;
 }
 
 h3 {

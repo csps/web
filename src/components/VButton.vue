@@ -2,7 +2,7 @@
   <component
     class="btn"
     :is="to ? 'router-link' : 'button'"
-    :class="icon ? 'btn-icon' : 'btn-' + color"
+    :class="[large ? 'large' : '', icon ? 'btn-icon' : 'btn-' + color]"
     :to="to"
     v-wave="!noRipple"
   >
@@ -19,11 +19,13 @@ withDefaults(defineProps<{
   icon?: string,
   color?: string,
   noRipple?: boolean,
-  to?: string
+  to?: string,
+  large?: boolean
 }>(), {
   variant: 'default',
   color: "primary",
-  noRipple: false
+  noRipple: false,
+  class: ''
 });
 
 </script>
@@ -31,6 +33,10 @@ withDefaults(defineProps<{
 <style lang="scss" scoped>
 .btn:not(.btn-icon) {
   @apply min-w-min px-4 py-1.5 rounded-lg whitespace-nowrap font-medium;
+}
+
+.btn.large {
+  @apply px-5 py-3 #{!important};
 }
 
 .btn-icon {
@@ -48,6 +54,6 @@ withDefaults(defineProps<{
 
 .btn-secondary {
   @apply bg-secondary hover:bg-secondary-light-10;
-  color: theme("colors.secondary-dark-90") !important;
+  color: theme("colors.secondary-dark-80") !important;
 }
 </style>

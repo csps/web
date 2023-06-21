@@ -55,12 +55,34 @@
       </div>
     </div>
   </div>
+  <div style="border: 10px; height:100%; color: #4A2558;">a </div>
+  <div style="border: 10px; color: #D4A923; background-color: #D4A923;">a</div>
+  <div id="introduction">
+    <h1 id="title" style="padding-bottom: 40px;">
+      MEET THE 
+      <font color="#D4A923">CSPS OFFICERS</font>
+    </h1>
+    <div id="stack_image">
+      <div id="lin_grad">
+      </div>
+      <div id="top">
+        <img :src="Jewel"/>
+        <h3 id="position">President</h3>
+        <p id="position" style="color: #06203F; margin-top: 4px;">Jewel Cedrick Gesim</p>
+      </div>
+    </div>
+  </div>
+  <div id="introduction">
+    <img id="line" :src="Dev"/>
+  </div>
 </template>
 
 <script lang="ts" setup>
 import Image from '~/assets/img/csps.png';
 import CLine from "~/assets/img/ccs_line.png";
 import ULine from "~/assets/img/uc_line.png";
+import Jewel from "~/assets/img/jewel.png";
+import Dev from "~/assets/img/dev_line.png";
 </script>
 
 <style lang="scss" scoped>
@@ -70,6 +92,37 @@ import ULine from "~/assets/img/uc_line.png";
   height: 100%;
   text-align: center;
   padding: 20px 20px 20px 35px;
+}
+#stack_image{
+  width: 100px;
+  height: 200px;
+  position: relative;
+  margin-left: 650px;
+  margin-bottom: 200px;
+  margin-top: 40px;
+}
+#top{
+  margin-top: -40px;
+  margin-left: 50px;
+  width: 300px;
+  height: 300px;
+  position: absolute;
+}
+#lin_grad{
+  width: 400px;
+  height: 400px;            
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-image: linear-gradient(#06203F,white);
+  border-radius: 32px;
+  box-shadow: 0px 5px 10px 0px;
+}
+#position{
+  margin-top: 20px;
+  color: #D4A923;
+  font-size: 20px;
+  font-weight: bold;
 }
 #missions{
   text-align: center;

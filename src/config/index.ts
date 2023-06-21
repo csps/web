@@ -19,3 +19,7 @@ export const SOCIAL_LINKS = [
   { href: "https://discord.gg/4k8bfSTV", src: getSvgData(DiscordSvg), alt: "CSP-S UC Main Discord Server" },
   { href: "https://github.com/csps", src: getSvgData(GithubSvg), alt: "CSP-S UC Main Github Organization" },
 ];
+
+export const Env = {
+  initialHistoryLength: 0
+};

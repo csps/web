@@ -2,7 +2,7 @@
   <component
     class="btn"
     :is="to ? 'router-link' : 'button'"
-    :class="[large ? 'large' : '', icon ? 'btn-icon' : 'btn-' + color]"
+    :class="[large ? 'large' : '', icon ? 'btn-icon' : 'btn-' + color, transparent ? 'btn-transparent' : '']"
     :to="to"
     v-wave="!noRipple"
   >
@@ -20,12 +20,14 @@ withDefaults(defineProps<{
   color?: string,
   noRipple?: boolean,
   to?: string,
-  large?: boolean
+  large?: boolean,
+  transparent?: boolean,
 }>(), {
   variant: 'default',
   color: "primary",
   noRipple: false,
-  class: ''
+  class: '',
+  transparent: false
 });
 
 </script>
@@ -49,7 +51,7 @@ withDefaults(defineProps<{
 
 .btn-transparent {
   @extend .btn-primary;
-  @apply bg-transparent;
+  @apply bg-transparent hover:bg-primary-light-90/10;
 }
 
 .btn-secondary {

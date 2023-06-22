@@ -66,10 +66,7 @@ import VIcon from '~/components/VIcon.vue';
 
 import { mdiArrowRight } from '@mdi/js';
 import { ref, onMounted } from 'vue';
-import TextPlugin from "gsap/TextPlugin";
 import gsap from "gsap";
-
-gsap.registerPlugin(TextPlugin);
 
 register();
 

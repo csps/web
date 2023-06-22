@@ -22,6 +22,7 @@
           <v-button
             v-for="link in NAV_LINKS"
             :key="link.path"
+            :transparent="transparent"
             :color="link.path === '/login' ? 'secondary' : 'transparent'"
             :to="link.path"
           >
@@ -62,7 +63,7 @@ defineProps({
 }
 
 .appbar {
-  @apply h-20;
+  @apply relative h-20 z-10;
 }
 
 h3 {

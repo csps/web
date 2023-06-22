@@ -202,11 +202,11 @@ onMounted(() => {
   font-size: 40px;
   font-weight: bold;
 
-  @apply text-secondary-dark-80 mb-7;
+  @apply text-primary-dark-80 mb-7;
 }
 
 #welcome{
-  @apply text-secondary-dark-90 text-xl text-justify leading-8;
+  @apply text-primary-dark-90 text-xl text-justify leading-8;
 }
 
 #unorder{

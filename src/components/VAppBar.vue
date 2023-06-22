@@ -51,6 +51,7 @@ import { Env, NAV_LINKS } from "~/config";
 import { useStore } from "~/store";
 
 import VButton from "~/components/VButton.vue";
+import { getHistoryLength } from '~/utils/page';
 
 defineProps({
   transparent: {
@@ -64,7 +65,7 @@ const router = useRouter();
 
 function back() {
   router.back();
-  store.isShowBackButton = window.history.state.position - Env.initialHistoryLength > 0;
+  store.isShowBackButton = getHistoryLength() - Env.initialHistoryLength > 0;
 }
 </script>
 

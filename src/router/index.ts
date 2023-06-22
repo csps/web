@@ -1,6 +1,6 @@
 import type { RouteRecordRaw } from "vue-router";
 import { createRouter, createWebHistory } from "vue-router";
-import { setPageTitle, setBodyPath } from "~/utils/page";
+import { setPageTitle, setBodyPath, getHistoryLength } from "~/utils/page";
 import { useStore } from "~/store";
 import { Env } from "~/config";
 
@@ -41,7 +41,7 @@ const routes: RouteRecordRaw[] = [
 ];
 
 // Set initial history length
-Env.initialHistoryLength = window.history.state.position;
+Env.initialHistoryLength = getHistoryLength();
 
 /**
  * Creates a new router instance.

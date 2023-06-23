@@ -1,6 +1,6 @@
 <template>
   <div class="h-full">
-    <VAppBar />
+    <VAppBar transparent />
 
     <router-view v-slot="{ Component }">
       <Transition name="slide-fade" mode="out-in">

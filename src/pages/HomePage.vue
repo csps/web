@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="h-full">
     <!-- Call To Action -->
     <div class="rounded-br-3xl rounded-bl-3xl -z-[1]">
       <div class="container mx-auto text-center pt-24 pb-10 2xl:pt-28 2xl:pb-20 px-4">
@@ -27,7 +27,7 @@
       </svg>
     </div>
 
-    <div class="bg-secondary">
+    <div class="bg-secondary h-full">
       <swiper-container
         ref="message"
         effect="cards"
@@ -77,7 +77,7 @@ const messages = [
   {
     image: ImagePlaceholder,
     name: "Mr. Huebert Ferolino",
-    position: "Chairperson for Computer Science",
+    position: "Adviser / Chairperson for Computer Science",
     message: template
   },
   {

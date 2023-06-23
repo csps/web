@@ -14,6 +14,10 @@
   @apply overflow-x-hidden;
 }
 
+html, body, #app {
+  @apply h-full;
+}
+
 .slide-fade-enter-active {
   transition: all 0.15s ease-out;
 }

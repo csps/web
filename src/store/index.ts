@@ -1,7 +1,9 @@
 import { defineStore } from "pinia";
 
-const useStore = defineStore("global", () => {
-  
-});
+export const useStore = defineStore("global", () => {
+  const isShowBackButton = false;
 
-export default useStore;
+  return {
+    isShowBackButton
+  }
+});

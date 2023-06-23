@@ -10,8 +10,8 @@
           Connect, collaborate, and Grow Together
         </h5>
         <div class="pt-9 space-x-3" ref="buttons">
-          <v-button color="secondary" large>
-            Sign up 
+          <v-button to="/login" color="secondary" large>
+            Login
           </v-button>
           <v-button large>
             Explore
@@ -42,7 +42,6 @@
           class="flex justify-center"
         >
           <MessageCard
-            class="bg-white/75 backdrop-blur-md"
             :image="message.image"
             :name="message.name"
             :position="message.position"
@@ -75,7 +74,7 @@ const messages = [
   {
     image: ImagePlaceholder,
     name: "Mr. Huebert Ferolino",
-    position: "Adviser / Chairman",
+    position: "Chairperson for Computer Science",
     message: template
   },
   {
@@ -83,13 +82,7 @@ const messages = [
     name: "Mr. Neil Basabe",
     position: "Dean - UC Main CCS",
     message: template
-  },
-  {
-    image: ImagePlaceholder,
-    name: "Mr. Franz Josef Caminade",
-    position: "Assistant Chairman",
-    message: template
-  },
+  }
 ];
 
 const wavifyEl = ref();
@@ -101,7 +94,7 @@ const message = ref();
 onMounted(() => {
   wavify(wavifyEl.value, {
     height: 50,
-    bones: 6,
+    bones: 5,
     amplitude: 50,
     color: "#D4A923",
     speed: .25,

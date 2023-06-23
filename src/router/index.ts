@@ -1,6 +1,8 @@
 import type { RouteRecordRaw } from "vue-router";
 import { createRouter, createWebHistory } from "vue-router";
-import { setPageTitle, setBodyPath } from "~/utils/page";
+import { setPageTitle, setBodyPath, getHistoryLength } from "~/utils/page";
+import { useStore } from "~/store";
+import { Env } from "~/config";
 
 /**
  * The routes of the application.
@@ -38,6 +40,9 @@ const routes: RouteRecordRaw[] = [
   },
 ];
 
+// Set initial history length
+Env.initialHistoryLength = getHistoryLength();
+
 /**
  * Creates a new router instance.
  */
@@ -45,6 +50,7 @@ const router = createRouter({
   history: createWebHistory("./"),
   routes
 });
+
 
 /**
  * Executes after each route change.
@@ -59,9 +65,17 @@ router.beforeEach((to, _from, next) => {
 /**
  * Executes after each route change.
  */
-router.afterEach((to) => {
+router.afterEach((to, from) => {
   // Set page title
   setPageTitle(to.name as string);
+
+  // If not on page load
+  if (!from.name) return;
+  // If not on the same page
+  if (to.path === from.path) return;
+
+  // Set back button visibility
+  useStore().isShowBackButton = window.history.state.position - Env.initialHistoryLength > 0;
 });
 
 export default router;

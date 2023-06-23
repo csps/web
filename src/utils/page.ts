@@ -14,3 +14,11 @@ export function setBodyPath(path: string) {
   document.body.setAttribute("class", "");
   document.body.classList.add(path.replace("/", "") || "home");
 }
+
+/**
+ * Get history length
+ */
+export function getHistoryLength() {
+  const { state } = window.history;
+  return state ? state.position : 0;
+}

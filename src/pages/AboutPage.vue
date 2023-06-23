@@ -18,7 +18,7 @@
 
     <div class="-translate-y-20">
       <div class="container mx-auto pt-10">
-        <div id="introduction">
+        <div class="introduction">
           <div class="grid gap-10 grid-cols-2">
             <div>
               <h1 id="title" ref="s1Title">Why CSP-S?</h1>
@@ -30,60 +30,70 @@
             <img ref="s1Image" class="shadow-primary-light-70 shadow-lg rounded-[32px]" id="csps" :src="Image" />
           </div>
         </div>
-        <div id="introduction">
-          <img id="line" :src="CLine"/>
-          <h1 id="ccs">College of Computer Studies</h1>
+        <div class="introduction">
+          <div class="grid gap-10 grid-cols-3">
+          <img style="margin-top: 75px;" :src="TopLeft"/>
+          <img class="line" :src="CLine"/>
+          <img style="margin-top: 73px; margin-left: 10px;" :src="TopRight"/>
+          </div>
+          <h1 class="ccs" style="text-align: center;">College of Computer Studies</h1>
         </div>
         <div id="state">
-          <div id="mission">
-            <h4 id="tile">Mission</h4>
-            <p id="missions">We envision being the hub of quality, globally-competitive and socially-responsive information technology education</p>
+          <div class="mission">
+            <h4 class="tile">Mission</h4>
+            <p class="missions">We envision being the hub of quality, globally-competitive and socially-responsive information technology education</p>
           </div>
-          <div id="mission">
-            <h4 id="tile">Vision</h4>
-            <p id="text">We commit to continuously:</p>
-            <ul id="unorder">
+          <div class="mission">
+            <h4 class="tile">Vision</h4>
+            <p class="text">We commit to continuously:</p>
+            <ul class="unorder">
               <li style="margin-bottom: 10px;">Offer relevant programs that mold well-rounded computing professionals;</li>
               <li style="margin-bottom: 10px;">Engage in accreditation and quality standards; and </li>
               <li style="margin-bottom: 10px;">Facilitate in building an IT-enabled nation.</li>
             </ul>
           </div>
-          <div id="mission">
-            <h4 id="tile">Goals</h4>
-            <p id="text">We aim to cultivate a teaching-learning environment that:</p>
-            <ul id="unorder">
+          <div class="mission">
+            <h4 class="tile">Goals</h4>
+            <p class="text">We aim to cultivate a teaching-learning environment that:</p>
+            <ul class="unorder">
               <li style="margin-bottom: 10px;">Promotes scholarly endeavors for the promotion of moral,social, cultural, and environmental interests;</li>
               <li style="margin-bottom: 10px;">Meets the demands of the industry in terms of technical,personal and interpersonal skills; Conducts intellectual, technological and significant researches in computing; and Optimizes the use of appropriate and advanced resources and services.</li>
             </ul>
           </div>
-          <div id="mission">
-            <h4 id="tile">Core Values</h4>
-            <p id="text">These are the core values that CCS believes in:</p>
-            <ul id="unorder">
+          <div class="mission">
+            <h4 class="tile">Core Values</h4>
+            <p class="text">These are the core values that CCS believes in:</p>
+            <ul class="unorder">
               <li style="margin-bottom: 10px;">Initiative (inceptum) wit, practicality, ingenuity</li>
               <li style="margin-bottom: 10px;">Innovation (innovatio) technology, creativity, novelty</li>
               <li style="margin-bottom: 10px;">Service (muneris) industry, loyalty, courtesy</li>
             </ul>
           </div>
         </div>
-        <div id="introduction">
-          <img id="line" :src="ULine"/> 
-          <h1 id="ccs">University of Cebu</h1>
-          <div id="mv">
-            <div id="ms">
-              <h4 id="tile">Mission</h4>
-              <p id="missions">The University offers affordable and quality education responsive to the demands of local and international communities.</p>
+        <div class="introduction">
+          <div class="grid gap-10 grid-cols-3">
+          <img style="margin-top: 100px;" :src="BottomLeft"/>
+          <img class="line" :src="ULine"/> 
+          <img style="margin-top: 100px; margin-left: 10px;" :src="BottomRight"/>
+          </div>
+          <h1 class="ccs" style="text-align: center;">University of Cebu</h1>
+          <div id="mv" style="padding-bottom: 150px;">
+            <div class="grid gap-10 grid-cols-2">
+            <div class="ms" style="margin-right: 90px;">
+              <h4 class="tile">Mission</h4>
+              <p class="missions">The University offers affordable and quality education responsive to the demands of local and international communities.</p>
             </div>
-            <div id="ms">
-              <h4 id="tile">Vision</h4>
-              <p id="missions">Democratize quality education.Be the visionary and industry leader.Give hope and transform lives.</p>
+            <div class="ms" style="margin-left: 90px;">
+              <h4 class="tile">Vision</h4>
+              <p class="missions" >Democratize quality education.Be the visionary and industry leader.Give hope and transform lives.</p>
+            </div>
             </div>
           </div>
         </div>
-        <div style="border: 10px; height:100%; background-color: #4A2558;">a </div>
-        <div style="border: 10px; color: #D4A923; background-color: #D4A923;">a</div>
-        <div id="introduction">
-          <h1 id="title" style="padding-bottom: 40px;" class="text-center">
+        <div style="border: 10px; position: absolute; right: 0; left: 0; color: #4A2558; background-color: #4A2558;">a</div>
+        <div style="border: 10px; position: absolute;margin-top: 20px; right: 0; left: 0; color: #D4A923; background-color: #D4A923;">a</div>
+        <div class="introduction" >
+          <h1 id="title" style="padding-bottom: 50px; padding-top: 100px;" class="text-center">
             MEET THE 
             <font color="#D4A923">CSPS OFFICERS</font>
           </h1>
@@ -92,13 +102,15 @@
             </div>
             <div id="top">
               <img :src="Jewel"/>
-              <h3 id="position">President</h3>
-              <p id="position" style="color: #06203F; margin-top: 4px;">Jewel Cedrick Gesim</p>
+              <h3 id="position" style="text-align: center; font-size: 25px;">President</h3>
+              <p id="position" style="color: #06203F; margin-top: 4px; font-size: 25px; font-weight: bold; text-align: center;">Jewel Cedrick Gesim</p>
           </div>
         </div>
       </div>
-      <div id="introduction">
-        <img id="line" :src="Dev"/>
+      <div class="introduction">
+        <img class="line" :src="Dev"/>
+        <h1 class="ccs" style="text-align: center;">Developers Message</h1>
+        <div id="dev_message" style="background-color: #4A2558; color:white; font-size: 20px; text-align: center; border-radius: 20px; padding: 50px;  ">Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsum</div>
       </div>
       </div>
     </div>
@@ -112,6 +124,10 @@ import CLine from "~/assets/img/ccs_line.png";
 import ULine from "~/assets/img/uc_line.png";
 import Jewel from "~/assets/img/jewel.png";
 import Dev from "~/assets/img/dev_line.png";
+import TopLeft from "~/assets/border/top_left.png";
+import TopRight from "~/assets/border/top_right.png";
+import BottomLeft from "~/assets/border/bottom_left.png";
+import BottomRight from "~/assets/border/bottom_right.png";
 
 import { ref, onMounted } from 'vue';
 import { wavify } from '~/utils/wavify';
@@ -150,16 +166,17 @@ onMounted(() => {
 </script>
 
 <style lang="scss" scoped>
-#introduction{
+.introduction{
   width: 100%;
   height: 100%;
   padding: 20px 20px 20px 35px;
+
 }
 #stack_image{
   width: 100px;
   height: 200px;
   position: relative;
-  margin-left: 650px;
+  margin-left: 540px;
   margin-bottom: 200px;
   margin-top: 40px;
 }
@@ -186,17 +203,17 @@ onMounted(() => {
   font-size: 20px;
   font-weight: bold;
 }
-#missions{
+.missions{
   text-align: center;
   padding: 20px;
 }
-#ms{
-  background-color: #06203F;
-  width: fit-content;
-  max-width: 350px;
+.ms{
+  background-color: #4A2558;
+  border: #D4A923;
+  width: 550px;
   color: white;
   border-radius: 20px;
-  height: 350px;
+  height: 220px;
 }
 #title{
   font-size: 40px;
@@ -209,7 +226,7 @@ onMounted(() => {
   @apply text-primary-dark-90 text-xl text-justify leading-8;
 }
 
-#unorder{
+.unorder{
   margin: auto;
   padding-left: 20px;
   list-style-position: inside;
@@ -224,18 +241,14 @@ onMounted(() => {
   height: 100%;
   gap: 5rem;
   padding-left: 50px;
-  padding-bottom: 200px;
+  padding-bottom: 50px;
 }
 #mv{
-  display: grid;
-  grid-auto-flow: column;
-  width: 70%;
   height: 100%;
+  width: fit-content;
   margin: auto;
-  padding-left: 190px;
-
 }
-#mission{
+.mission{
   background-color: #06203F;
   width: fit-content;
   max-width: 350px;
@@ -244,14 +257,14 @@ onMounted(() => {
   height: 490px;
 
 }
-#tile{
+.tile{
   color: #D4A923;
   text-align: center;
   font-weight: bold;
   padding-top: 30px;
   font-size: 20px;
 }
-#text{
+.text{
   padding-top: 20px;
   padding-left: 20px;
   padding-right: 20px;
@@ -265,10 +278,11 @@ onMounted(() => {
 #csps{
   margin: auto;
 }
-#line{
+.line{
   margin: auto;
+  padding-top: 50px;
 }
-#ccs{
+.ccs{
   font-size: 20px;
   font-weight: bold;
   padding-bottom: 50px;

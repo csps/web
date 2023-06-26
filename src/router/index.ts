@@ -1,6 +1,6 @@
 import type { RouteRecordRaw } from "vue-router";
 import { createRouter, createWebHistory } from "vue-router";
-import { setPageTitle, setBodyPath, getHistoryLength } from "~/utils/page";
+import { setPageTitle, getHistoryLength } from "~/utils/page";
 import { useStore } from "~/store";
 import { Env } from "~/config";
 
@@ -55,9 +55,7 @@ const router = createRouter({
 /**
  * Executes after each route change.
  */
-router.beforeEach((to, _from, next) => {
-  // Set path to body
-  setBodyPath(to.path);
+router.beforeEach((_to, _from, next) => {
   // Continue to the page
   next();
 });

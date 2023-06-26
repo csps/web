@@ -11,7 +11,7 @@
     color: $purple;
   }
 
-  @apply overflow-x-hidden;
+  @apply overflow-x-hidden h-full min-h-full;
 }
 
 .slide-fade-enter-active {
@@ -33,7 +33,7 @@
 }
 
 body {
-  @apply bg-primary;
+  @apply bg-primary h-full min-h-full;
 
   .appbar-extension {
     @apply block;

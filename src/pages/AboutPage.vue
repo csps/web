@@ -5,8 +5,8 @@
         <div class="layer" />
       </div>
       <div class="absolute flex flex-col justify-center items-center top-0 w-full h-full pb-5">
-        <img ref="headerImg" width="200" :src="CSPSLogo" alt="CSPS Logo" />
-        <h4 ref="headerTitle" class="mt-10 text-3xl font-bold text-primary-light-90 text-center">
+        <img class="anim-1" width="200" :src="CSPSLogo" alt="CSPS Logo" />
+        <h4 class="anim-2 mt-10 text-2xl lg:text-3xl font-bold text-primary-light-90 text-center">
           Computing Society of the Philippines - Students
         </h4>
         <svg class="absolute -bottom-1 z-10" height="100" width="100%" version="1.1" xmlns="http://www.w3.org/2000/svg">
@@ -19,58 +19,62 @@
     <div class="-translate-y-20">
       <div class="container mx-auto pt-10">
         <div class="introduction">
-          <div class="grid gap-10 grid-cols-2">
-            <div>
-              <h1 id="title" ref="s1Title">Why CSP-S?</h1>
-              <p id="welcome" ref="s1Subtitle">
-                Welcome to the  Computing Science of the Philippines - Students (CSP-S)! We are a student body organization that aims to create a welcoming and inclusive community for all computer science students at the University of Cebu - Main Campus. Our goal is to promote inclusivity and diversity within the field of computing, ensuring that every student has the opportunity to explore their interests and succeed in their academic and professional pursuits.
+          <div class="grid gap-10 grid-cols-1 lg:grid-cols-2">
+            <div class="flex items-center flex-col justify-center">
+              <h1 id="title" class="text-center lg:text-left w-full anim-3">Why CSP-S?</h1>
+              <p id="welcome" class="anim-4">
+                Welcome to the  Computing Society of the Philippines - Students (CSP-S)! We are a student body organization that aims to create a welcoming and inclusive community for all computer science students at the University of Cebu - Main Campus. Our goal is to promote inclusivity and diversity within the field of computing, ensuring that every student has the opportunity to explore their interests and succeed in their academic and professional pursuits.
                 Join us at CSP-S and become part of a community that celebrates diversity and fosters growth and development for all students in the field of computer science. We welcome you with open arms!
               </p>
             </div>
-            <img ref="s1Image" class="shadow-primary-light-70 shadow-lg rounded-[32px]" id="csps" :src="Image" />
+            <img class="anim-5 shadow-primary-light-70 shadow-lg rounded-[32px]" id="csps" :src="Image" />
           </div>
         </div>
-        <div class="introduction">
-          <div class="grid gap-10 grid-cols-3">
-          <img style="margin-top: 75px;" :src="TopLeft"/>
-          <img class="line" :src="CLine"/>
-          <img style="margin-top: 73px; margin-left: 10px;" :src="TopRight"/>
-          </div>
-          <h1 class="ccs" style="text-align: center;">College of Computer Studies</h1>
+        
+        <div class="flex flex-col items-center justify-center mb-16 mt-24">
+          <img class="anim-6 w-32 mb-5" :src="CCSLogo" alt="CCS Logo" />
+          <h1 class="anim-7 text-2xl font-bold text-primary" style="text-align: center;">College of Computer Studies</h1>
         </div>
-        <div id="state">
-          <div class="mission">
-            <h4 class="tile">Mission</h4>
-            <p class="missions">We envision being the hub of quality, globally-competitive and socially-responsive information technology education</p>
-          </div>
-          <div class="mission">
-            <h4 class="tile">Vision</h4>
-            <p class="text">We commit to continuously:</p>
-            <ul class="unorder">
-              <li style="margin-bottom: 10px;">Offer relevant programs that mold well-rounded computing professionals;</li>
-              <li style="margin-bottom: 10px;">Engage in accreditation and quality standards; and </li>
-              <li style="margin-bottom: 10px;">Facilitate in building an IT-enabled nation.</li>
-            </ul>
-          </div>
-          <div class="mission">
-            <h4 class="tile">Goals</h4>
-            <p class="text">We aim to cultivate a teaching-learning environment that:</p>
-            <ul class="unorder">
-              <li style="margin-bottom: 10px;">Promotes scholarly endeavors for the promotion of moral,social, cultural, and environmental interests;</li>
-              <li style="margin-bottom: 10px;">Meets the demands of the industry in terms of technical,personal and interpersonal skills; Conducts intellectual, technological and significant researches in computing; and Optimizes the use of appropriate and advanced resources and services.</li>
-            </ul>
-          </div>
-          <div class="mission">
-            <h4 class="tile">Core Values</h4>
-            <p class="text">These are the core values that CCS believes in:</p>
-            <ul class="unorder">
-              <li style="margin-bottom: 10px;">Initiative (inceptum) wit, practicality, ingenuity</li>
-              <li style="margin-bottom: 10px;">Innovation (innovatio) technology, creativity, novelty</li>
-              <li style="margin-bottom: 10px;">Service (muneris) industry, loyalty, courtesy</li>
-            </ul>
+
+        <GeometryShapes />
+
+        <div class="flex justify-center">
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 justify-items-center px-4 w-full lg:w-2/3 2xl:w-1/2">
+            <CardAbout title="Mission">
+              We envision being the hub of quality, globally-competitive and socially-responsive information technology education.
+            </CardAbout>
+            <CardAbout title="Vision">
+              <p class="mb-5">We commit to continuously:</p>
+              <ul>
+                <li>Offer relevant programs that mold well-rounded computing professionals;</li>
+                <li>Engage in accreditation and quality standards; and </li>
+                <li>Facilitate in building an IT-enabled nation.</li>
+              </ul>
+            </CardAbout>
+            <CardAbout title="Goals">
+              <p class="mb-5">We aim to cultivate a teaching-learning environment that:</p>
+              <ul>
+                <li>Promotes scholarly endeavors for the promotion of moral, social, cultural, and environmental interests.</li>
+                <li>Meets the demands of the industry in terms of technical, personal, and interpersonal skills.</li>
+                <li>Conducts intellectual, technological, and significant researches in computing.</li>
+                <li>Optimizes the use of appropriate and advanced resources and services.</li>
+              </ul>
+            </CardAbout>
+            <CardAbout title="Core Values">
+              <p class="mb-5">These are the core values that CCS believes in:</p>
+              <ul>
+                <li>Initiative (inceptum) wit, practicality, ingenuity</li>
+                <li>Innovation (innovatio) technology, creativity, resourcefulness</li>
+                <li>Integrity (integritas) honesty, trustworthiness, reliability</li>
+                <li>Intelligence (intelligentia) wisdom, knowledge, expertise</li>
+                <li>Interdependence (interdependentia) teamwork, cooperation, unity</li>
+                <li>Industry (industria) diligence, perseverance, hard work</li>
+              </ul>
+            </CardAbout>
           </div>
         </div>
-        <div class="introduction">
+
+        <!-- <div class="introduction">
           <div class="grid gap-10 grid-cols-3">
           <img style="margin-top: 100px;" :src="BottomLeft"/>
           <img class="line" :src="ULine"/> 
@@ -111,7 +115,7 @@
         <img class="line" :src="Dev"/>
         <h1 class="ccs" style="text-align: center;">Developers Message</h1>
         <div id="dev_message" style="background-color: #4A2558; color:white; font-size: 20px; text-align: center; border-radius: 20px; padding: 50px;  ">Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsum</div>
-      </div>
+      </div> -->
       </div>
     </div>
   </div>
@@ -120,25 +124,17 @@
 <script lang="ts" setup>
 import Image from '~/assets/img/csps.png';
 import CSPSLogo from '~/assets/img/csps_logo.png';
-import CLine from "~/assets/img/ccs_line.png";
-import ULine from "~/assets/img/uc_line.png";
-import Jewel from "~/assets/img/jewel.png";
-import Dev from "~/assets/img/dev_line.png";
-import TopLeft from "~/assets/border/top_left.png";
-import TopRight from "~/assets/border/top_right.png";
-import BottomLeft from "~/assets/border/bottom_left.png";
-import BottomRight from "~/assets/border/bottom_right.png";
+import CCSLogo from '~/assets/img/ccs_logo.png';
 
 import { ref, onMounted } from 'vue';
 import { wavify } from '~/utils/wavify';
-import gsap from 'gsap';
 
-const headerImg = ref();
-const headerTitle = ref();
-const s1Title = ref();
-const s1Subtitle = ref();
-const s1Image = ref();
+import GeometryShapes from '~/composables/GeometryShapes.vue';
+import CardAbout from '~/composables/CardAbout.vue';
+
 const wavifyEl = ref();
+
+// TODO: Add scroll animation
 
 onMounted(() => {
   wavify(wavifyEl.value, {
@@ -148,30 +144,16 @@ onMounted(() => {
     color: "rgb(237, 233, 238)",
     speed: .25,
   });
-
-  gsap.fromTo([headerImg.value, headerTitle.value, s1Title.value, s1Subtitle.value, s1Image.value],
-    {
-      x: -100,
-      opacity: 0,
-    },
-    {
-      duration: 0.5,
-      x: 0,
-      opacity: 1,
-      stagger: 0.1,
-      ease: "power2.out",
-    }
-  );
 });
 </script>
 
-<style lang="scss" scoped>
+.<style lang="scss" scoped>
 .introduction{
   width: 100%;
   height: 100%;
   padding: 20px 20px 20px 35px;
-
 }
+
 #stack_image{
   width: 100px;
   height: 200px;
@@ -216,14 +198,11 @@ onMounted(() => {
   height: 220px;
 }
 #title{
-  font-size: 40px;
-  font-weight: bold;
-
-  @apply text-primary-dark-80 mb-7;
+  @apply text-primary mb-7 font-bold text-3xl;
 }
 
 #welcome{
-  @apply text-primary-dark-90 text-xl text-justify leading-8;
+  @apply text-primary-dark-90 text-lg text-justify leading-8;
 }
 
 .unorder{
@@ -243,6 +222,15 @@ onMounted(() => {
   padding-left: 50px;
   padding-bottom: 50px;
 }
+
+ul {
+  @apply list-disc mt-3;
+
+  li {
+    @apply ml-6 pb-5 text-start text-primary leading-[30px];
+  }
+}
+
 #mv{
   height: 100%;
   width: fit-content;
@@ -286,7 +274,8 @@ onMounted(() => {
   font-size: 20px;
   font-weight: bold;
   padding-bottom: 50px;
-  color: #06203F;
+  
+  @apply text-primary;
 }
 
 .background {

@@ -4,7 +4,12 @@
 
       <!-- Back button -->
       <Transition>
-        <v-button v-if="store.isShowBackButton" @click="back" :icon="mdiArrowLeft" />
+        <v-button
+          v-if="store.isShowBackButton"
+          :transparent="transparent"
+          @click="back"
+          :icon="mdiArrowLeft"
+        />
       </Transition>
 
       <!-- Logos -->
@@ -35,7 +40,7 @@
 
       <!-- Drawer Button -->
       <div class="flex-grow justify-end flex xl:hidden">
-        <v-button :icon="mdiMenu" />
+        <v-button :icon="mdiMenu" :transparent="transparent" />
       </div>
     </div>
   </div>

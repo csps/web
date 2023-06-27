@@ -1,5 +1,5 @@
 <template>
-  <div class="flex justify-between absolute left-0 right-0">
+  <div class="flex justify-between absolute left-0 right-0 z-[1000]">
     <div class="left">
       <div class="yellow" />
       <div class="primary" />

@@ -35,14 +35,26 @@
           <img class="anim-6 w-32 mb-5" :src="CCSLogo" alt="CCS Logo" />
           <h1 class="anim-7 text-2xl font-bold text-primary" style="text-align: center;">College of Computer Studies</h1>
         </div>
+      </div>
 
-        <GeometryShapes />
+      <GeometryShapes />
 
-        <div class="flex justify-center">
-          <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 justify-items-center px-4 w-full lg:w-2/3 2xl:w-1/2">
+      <div class="flex justify-center relative ">
+        <div class="absolute top-0 left-0 right-0 bottom-0 ccs-info h-full w-full z-[500]" />
+        <swiper-container
+          class="py-16"
+          effect="coverflow"
+          slides-per-view="3"
+          centered-slides="true"
+          coverflow-effect-slide-shadows="false"
+          autoplay-delay="5000"
+        >
+          <swiper-slide>
             <CardAbout title="Mission">
               We envision being the hub of quality, globally-competitive and socially-responsive information technology education.
             </CardAbout>
+          </swiper-slide>
+          <swiper-slide>
             <CardAbout title="Vision">
               <p class="mb-5">We commit to continuously:</p>
               <ul>
@@ -51,15 +63,20 @@
                 <li>Facilitate in building an IT-enabled nation.</li>
               </ul>
             </CardAbout>
+          </swiper-slide>
+          <swiper-slide>
             <CardAbout title="Goals">
               <p class="mb-5">We aim to cultivate a teaching-learning environment that:</p>
               <ul>
                 <li>Promotes scholarly endeavors for the promotion of moral, social, cultural, and environmental interests.</li>
                 <li>Meets the demands of the industry in terms of technical, personal, and interpersonal skills.</li>
                 <li>Conducts intellectual, technological, and significant researches in computing.</li>
-                <li>Optimizes the use of appropriate and advanced resources and services.</li>
+                <li>Optimizes the use of appropriate technologies in the delivery of instruction.</li>
+                <li>Provides opportunities for faculty and students to participate in community extension services.</li>
               </ul>
             </CardAbout>
+          </swiper-slide>
+          <swiper-slide>
             <CardAbout title="Core Values">
               <p class="mb-5">These are the core values that CCS believes in:</p>
               <ul>
@@ -71,8 +88,9 @@
                 <li>Industry (industria) diligence, perseverance, hard work</li>
               </ul>
             </CardAbout>
-          </div>
-        </div>
+          </swiper-slide>
+        </swiper-container>
+      </div>
 
         <!-- <div class="introduction">
           <div class="grid gap-10 grid-cols-3">
@@ -116,7 +134,6 @@
         <h1 class="ccs" style="text-align: center;">Developers Message</h1>
         <div id="dev_message" style="background-color: #4A2558; color:white; font-size: 20px; text-align: center; border-radius: 20px; padding: 50px;  ">Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsum</div>
       </div> -->
-      </div>
     </div>
   </div>
 </template>
@@ -128,11 +145,15 @@ import CCSLogo from '~/assets/img/ccs_logo.png';
 
 import { ref, onMounted } from 'vue';
 import { wavify } from '~/utils/wavify';
+import { register } from 'swiper/element/bundle';
+import type { SwiperContainer } from 'swiper/element';
 
 import GeometryShapes from '~/composables/GeometryShapes.vue';
 import CardAbout from '~/composables/CardAbout.vue';
 
 const wavifyEl = ref();
+
+register();
 
 // TODO: Add scroll animation
 
@@ -144,6 +165,24 @@ onMounted(() => {
     color: "rgb(237, 233, 238)",
     speed: .25,
   });
+
+  const swiperEl: SwiperContainer | null = document.querySelector('swiper-container');
+  if (swiperEl === null) return;
+
+  Object.assign(swiperEl, {
+    slidesPerView: 1,
+    spaceBetween: 100,
+    breakpoints: {
+      0: {
+        slidesPerView: 1,
+      },
+      1024: {
+        slidesPerView: 3,
+      },
+    },
+  });
+
+  swiperEl.initialize();
 });
 </script>
 
@@ -270,6 +309,7 @@ ul {
   margin: auto;
   padding-top: 50px;
 }
+
 .ccs{
   font-size: 20px;
   font-weight: bold;
@@ -288,5 +328,14 @@ ul {
   .layer {
     @apply absolute top-0 left-0 w-full h-full bg-primary/90;
   }
+}
+
+.ccs-info {
+  @apply pointer-events-none;
+  background-image: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0) 50%, theme("colors.primary-light-90"));
+}
+
+swiper-slide {
+  @apply flex justify-center;
 }
 </style>

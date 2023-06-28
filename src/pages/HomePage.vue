@@ -33,6 +33,7 @@
         effect="cards"
         keyboard-enabled="true"
         initial-slide="1"
+        round-lengths="true"
         cards-effect-slide-shadows="false"
         class="overflow-hidden pb-10"
       >

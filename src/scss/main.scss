@@ -28,16 +28,8 @@
   opacity: 0;
 }
 
-.appbar-extension {
-  @apply hidden;
-}
-
 body {
   @apply bg-primary h-full min-h-full;
-
-  .appbar-extension {
-    @apply block;
-  }
 }
 
 *::-webkit-scrollbar {

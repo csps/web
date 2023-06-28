@@ -5,8 +5,8 @@
         <div class="layer" />
       </div>
       <div class="absolute flex flex-col justify-center items-center top-0 w-full h-full pb-5">
-        <img class="anim-1" width="200" :src="CSPSLogo" alt="CSPS Logo" />
-        <h4 class="anim-2 mt-10 text-2xl lg:text-3xl font-bold text-primary-light-90 text-center">
+        <img class="anim-1 w-[150px] sm:w-[200px]" :src="CSPSLogo" alt="CSPS Logo" />
+        <h4 class="anim-2 mt-10 text-lg px-8 sm:text-2xl lg:text-3xl font-bold text-primary-light-90 text-center">
           Computing Society of the Philippines - Students
         </h4>
         <svg class="absolute -bottom-1 z-10" height="100" width="100%" version="1.1" xmlns="http://www.w3.org/2000/svg">
@@ -22,7 +22,7 @@
           <div class="grid gap-10 grid-cols-1 lg:grid-cols-2">
             <div class="flex items-center flex-col justify-center">
               <h1 id="title" class="text-center lg:text-left w-full anim-3">Why CSP-S?</h1>
-              <p id="welcome" class="anim-4">
+              <p class="anim-4 welcome">
                 Welcome to the  Computing Society of the Philippines - Students (CSP-S)! We are a student body organization that aims to create a welcoming and inclusive community for all computer science students at the University of Cebu - Main Campus. Our goal is to promote inclusivity and diversity within the field of computing, ensuring that every student has the opportunity to explore their interests and succeed in their academic and professional pursuits.
                 Join us at CSP-S and become part of a community that celebrates diversity and fosters growth and development for all students in the field of computer science. We welcome you with open arms!
               </p>
@@ -33,29 +33,30 @@
         
         <div class="flex flex-col items-center justify-center mb-16 mt-24">
           <img class="anim-6 w-32 mb-5" :src="CCSLogo" alt="CCS Logo" />
-          <h1 class="anim-7 text-2xl font-bold text-primary" style="text-align: center;">College of Computer Studies</h1>
+          <h1 class="anim-7 text-xl lg:text-2xl font-bold text-primary" style="text-align: center;">College of Computer Studies</h1>
         </div>
       </div>
 
-      <GeometryShapes />
-
-      <div class="flex justify-center relative ">
-        <div class="absolute top-0 left-0 right-0 bottom-0 ccs-info h-full w-full z-[500]" />
+      <div class="flex justify-center relative">
+        <div class="absolute top-0 left-0 right-0 bottom-0 slides h-full w-full z-[500]" />
         <swiper-container
-          class="py-16"
+          class="py-4 lg:py-16 swiper-1 w-full"
           effect="coverflow"
           slides-per-view="3"
           centered-slides="true"
+          round-lengths="true"
           coverflow-effect-slide-shadows="false"
+          autoplay-disable-on-interaction="false"
           autoplay-delay="3000"
+          grab-cursor="true"
         >
           <swiper-slide>
-            <CardAbout class="w-1/2 lg:w-full" title="Mission">
+            <CardAbout class="mx-8 w-full sm:w-1/2 xl:w-full" title="Mission">
               We envision being the hub of quality, globally-competitive and socially-responsive information technology education.
             </CardAbout>
           </swiper-slide>
           <swiper-slide>
-            <CardAbout class="w-1/2 lg:w-full" title="Vision">
+            <CardAbout class="mx-8 w-full sm:w-1/2 xl:w-full" title="Vision">
               <p class="mb-5">We commit to continuously:</p>
               <ul>
                 <li>Offer relevant programs that mold well-rounded computing professionals;</li>
@@ -65,7 +66,7 @@
             </CardAbout>
           </swiper-slide>
           <swiper-slide>
-            <CardAbout class="w-1/2 lg:w-full" title="Goals">
+            <CardAbout class="mx-8 w-full sm:w-1/2 xl:w-full" title="Goals">
               <p class="mb-5">We aim to cultivate a teaching-learning environment that:</p>
               <ul>
                 <li>Promotes scholarly endeavors for the promotion of moral, social, cultural, and environmental interests.</li>
@@ -77,7 +78,7 @@
             </CardAbout>
           </swiper-slide>
           <swiper-slide>
-            <CardAbout class="w-1/2 lg:w-full" title="Core Values">
+            <CardAbout class="mx-8 w-full sm:w-1/2 xl:w-full" title="Core Values">
               <p class="mb-5">These are the core values that CCS believes in:</p>
               <ul>
                 <li>Initiative (inceptum) wit, practicality, ingenuity</li>
@@ -94,26 +95,36 @@
 
       <div class="container mx-auto">
         <div class="flex flex-col items-center justify-center mb-16 mt-24">
-          <img class="anim-6 w-32 mb-5" :src="UCLogo" alt="UC Logo" />
-          <h1 class="anim-7 text-2xl font-bold text-tertiary" style="text-align: center;">University of Cebu</h1>
+          <img class="anim-6 w-36 mb-7" :src="UCLogo" alt="UC Logo" />
+          <h1 class="anim-7 text-2xl font-bold text-primary" style="text-align: center;">University of Cebu</h1>
         </div>
       </div>
 
-      <GeometryShapes />
-
-      <div class="flex flex-col items-center justify-center">
-        <div class="grid grid-cols-1 xl:grid-cols-2 gap-[50px] xl:gap-[100px] w-1/2 mt-16 justify-items-center">
-          <CardAbout class="w-full" title="Mission">
-            The University offers affordable and quality education responsive to the demands of local and international communities.
-          </CardAbout>
-  
-          <CardAbout class="w-full" title="Vision">
-            Democratize quality education. Be the visionary and industry leader. Give hope and transform lives.
-          </CardAbout>
-        </div>
+      <div class="relative">
+        <div class="absolute top-0 left-0 right-0 bottom-0 slides h-full w-full z-[500]" />
+        <swiper-container
+          effect="coverflow"
+          grab-cursor="true"
+          round-lengths="true"
+          autoplay-delay="3000"
+          coverflow-effect-slide-shadows="false"
+          class="py-4 lg:py-16 w-full xl:w-1/3 2xl:w-1/4 overflow-hidden lg:overflow-visible"
+          autoplay-disable-on-interaction="false"
+        >
+          <swiper-slide class="p-3">
+            <CardAbout class="mx-8 w-full sm:w-1/2 xl:w-full" title="Mission">
+              The University offers affordable and quality education responsive to the demands of local and international communities.
+            </CardAbout>
+          </swiper-slide>
+          <swiper-slide class="p-3">
+            <CardAbout class="mx-8 w-full sm:w-1/2 xl:w-full" title="Vision">
+              Democratize quality education. Be the visionary and industry leader. Give hope and transform lives.
+            </CardAbout>
+          </swiper-slide>
+        </swiper-container>
       </div>
 
-        <!-- 
+      <!-- <div class="mt-24">
         <div style="border: 10px; position: absolute; right: 0; left: 0; color: #4A2558; background-color: #4A2558;">a</div>
         <div style="border: 10px; position: absolute;margin-top: 20px; right: 0; left: 0; color: #D4A923; background-color: #D4A923;">a</div>
         <div class="introduction" >
@@ -129,12 +140,13 @@
               <h3 id="position" style="text-align: center; font-size: 25px;">President</h3>
               <p id="position" style="color: #06203F; margin-top: 4px; font-size: 25px; font-weight: bold; text-align: center;">Jewel Cedrick Gesim</p>
           </div>
+          </div>
         </div>
-      </div>
-      <div class="introduction">
+        <div class="introduction">
         <img class="line" :src="Dev"/>
         <h1 class="ccs" style="text-align: center;">Developers Message</h1>
         <div id="dev_message" style="background-color: #4A2558; color:white; font-size: 20px; text-align: center; border-radius: 20px; padding: 50px;  ">Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsum</div>
+        </div>
       </div> -->
     </div>
   </div>
@@ -151,7 +163,6 @@ import { wavify } from '~/utils/wavify';
 import { register } from 'swiper/element/bundle';
 import type { SwiperContainer } from 'swiper/element';
 
-import GeometryShapes from '~/composables/GeometryShapes.vue';
 import CardAbout from '~/composables/CardAbout.vue';
 
 const wavifyEl = ref();
@@ -167,23 +178,23 @@ onMounted(() => {
     speed: .25,
   });
 
-  const swiperEl: SwiperContainer | null = document.querySelector('swiper-container');
-  if (swiperEl === null) return;
+  const swiper1: SwiperContainer | null = document.querySelector('.swiper-1');
+  if (swiper1 === null) return;
 
-  Object.assign(swiperEl, {
+  Object.assign(swiper1, {
     slidesPerView: 1,
     spaceBetween: 100,
     breakpoints: {
       0: {
         slidesPerView: 1,
       },
-      1024: {
+      1280: {
         slidesPerView: 3,
       },
     },
   });
 
-  swiperEl.initialize();
+  swiper1.initialize();
 });
 </script>
 
@@ -194,7 +205,7 @@ onMounted(() => {
   padding: 20px 20px 20px 35px;
 }
 
-#stack_image{
+#stack_image {
   width: 100px;
   height: 200px;
   position: relative;
@@ -202,6 +213,7 @@ onMounted(() => {
   margin-bottom: 200px;
   margin-top: 40px;
 }
+
 #top{
   margin-top: -40px;
   margin-left: 50px;
@@ -209,7 +221,8 @@ onMounted(() => {
   height: 300px;
   position: absolute;
 }
-#lin_grad{
+
+#lin_grad {
   width: 400px;
   height: 400px;            
   position: absolute;
@@ -219,6 +232,7 @@ onMounted(() => {
   border-radius: 32px;
   box-shadow: 0px 5px 10px 0px;
 }
+
 #position{
   margin-top: 20px;
   color: #D4A923;
@@ -230,71 +244,18 @@ onMounted(() => {
   @apply text-primary mb-7 font-bold text-3xl;
 }
 
-#welcome{
-  @apply text-primary-dark-90 text-lg text-justify leading-8;
-}
-
-.unorder{
-  margin: auto;
-  padding-left: 20px;
-  list-style-position: inside;
-  list-style-type: circle;
-  padding-top: 20px;
-  padding-right: 20px;
-}
-#state{
-  display: grid;
-  grid-auto-flow: column;
-  width: 100%;
-  height: 100%;
-  gap: 5rem;
-  padding-left: 50px;
-  padding-bottom: 50px;
+.welcome {
+  @apply text-primary-dark-90 text-sm leading-7 lg:text-lg text-justify lg:leading-8;
 }
 
 ul {
   @apply list-disc mt-3;
 
   li {
-    @apply ml-6 pb-5 text-start text-primary leading-[30px];
+    @apply ml-6 pb-5 text-start leading-7 text-primary lg:leading-[30px];
   }
 }
 
-#mv{
-  height: 100%;
-  width: fit-content;
-  margin: auto;
-}
-.mission{
-  background-color: #06203F;
-  width: fit-content;
-  max-width: 350px;
-  color: white;
-  border-radius: 20px;
-  height: 490px;
-
-}
-.tile{
-  color: #D4A923;
-  text-align: center;
-  font-weight: bold;
-  padding-top: 30px;
-  font-size: 20px;
-}
-.text{
-  padding-top: 20px;
-  padding-left: 20px;
-  padding-right: 20px;
-}
-#join{
-  font-size: 20px;
-  margin-left: 400px;
-  margin-right: 400px;
-  padding-bottom: 50px;
-}
-#csps{
-  margin: auto;
-}
 .line{
   margin: auto;
   padding-top: 50px;
@@ -320,9 +281,9 @@ ul {
   }
 }
 
-.ccs-info {
+.slides {
   @apply pointer-events-none;
-  background-image: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0) 50%, theme("colors.primary-light-90"));
+  background-image: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0) 75%, theme("colors.primary-light-90"));
 }
 
 swiper-slide {

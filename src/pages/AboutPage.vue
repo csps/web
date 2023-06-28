@@ -20,13 +20,15 @@
       <div class="container mx-auto pt-10">
         <div class="grid gap-10 grid-cols-1 lg:grid-cols-2">
           <div class="flex items-center flex-col justify-center">
-            <h1 id="title" class="text-center lg:text-left w-full anim-3">Why CSP-S?</h1>
+            <h1 class="title text-center lg:text-left w-full anim-3">Why CSP-S?</h1>
             <p class="anim-4 welcome">
               Welcome to the  Computing Society of the Philippines - Students (CSP-S)! We are a student body organization that aims to create a welcoming and inclusive community for all computer science students at the University of Cebu - Main Campus. Our goal is to promote inclusivity and diversity within the field of computing, ensuring that every student has the opportunity to explore their interests and succeed in their academic and professional pursuits.
               Join us at CSP-S and become part of a community that celebrates diversity and fosters growth and development for all students in the field of computer science. We welcome you with open arms!
             </p>
           </div>
-          <img class="anim-5 shadow-primary-light-70 shadow-lg rounded-[32px]" id="csps" :src="Image" />
+          <div class="flex justify-center">
+            <img class="anim-5 shadow-primary-light-70 shadow-lg rounded-[32px]" id="csps" :src="Image" />
+          </div>
         </div>
         
         <div class="flex flex-col items-center justify-center mb-16 mt-24">
@@ -35,7 +37,7 @@
         </div>
       </div>
 
-      <div class="flex justify-center relative">
+      <div class="flex justify-center relative anim-8">
         <div class="absolute top-0 left-0 right-0 bottom-0 slides h-full w-full z-[500]" />
         <swiper-container
           class="py-4 lg:py-16 swiper-1 w-full"
@@ -93,12 +95,12 @@
 
       <div class="container mx-auto">
         <div class="flex flex-col items-center justify-center mb-16 mt-24">
-          <img class="anim-6 w-36 mb-7" :src="UCLogo" alt="UC Logo" />
-          <h1 class="anim-7 text-2xl font-bold text-primary" style="text-align: center;">University of Cebu</h1>
+          <img class="anim-9 w-36 mb-7" :src="UCLogo" alt="UC Logo" />
+          <h1 class="anim-10 text-2xl font-bold text-primary" style="text-align: center;">University of Cebu</h1>
         </div>
       </div>
 
-      <div class="relative">
+      <div class="relative anim-11">
         <div class="absolute top-0 left-0 right-0 bottom-0 slides h-full w-full z-[500]" />
         <swiper-container
           effect="coverflow"
@@ -124,11 +126,11 @@
 
       <div class="mt-0">
         <div class="introduction">
-          <h1 id="title" style="padding-bottom: 50px; padding-top: 100px;" class="text-center">
+          <h1 class="title pb-[50px] pt-[100px] text-center anim-12">
             MEET THE <span class="text-secondary">CSPS OFFICERS!</span>
           </h1>
 
-          <div class="flex justify-center relative">
+          <div class="flex justify-center relative anim-13">
             <div class="absolute top-0 left-0 right-0 bottom-0 officers h-full w-full z-[500]" />
             <swiper-container
               effect="coverflow"
@@ -186,8 +188,12 @@ import { ref, onMounted } from 'vue';
 import { wavify } from '~/utils/wavify';
 import { register } from 'swiper/element/bundle';
 import type { SwiperContainer } from 'swiper/element';
+import ScrollTrigger from "gsap/ScrollTrigger";
+import gsap from "gsap";
 
 import CardAbout from '~/composables/CardAbout.vue';
+
+gsap.registerPlugin(ScrollTrigger);
 
 const wavifyEl = ref();
 const officers = [
@@ -197,7 +203,7 @@ const officers = [
   { name: "Krisha Mae Gabuya", position: "Secretary", thumb: Krisha },
   { name: "Enrico Bacalso", position: "Treasurer", thumb: Enrico },
   { name: "Marianne Leigh Reyes", position: "Assistant Treasurer", thumb: Leym },
-  { name: "Dinotine", position: "Auditor", thumb: Christine },
+  { name: "Christine Lange", position: "Auditor", thumb: Christine },
   { name: "Raymond Benedict Branzuela", position: "P.R.O", thumb: Rybryb },
   { name: "Andrian Paul Sedigo", position: "P.I.O", thumb: Andrian },
 ];
@@ -211,6 +217,72 @@ onMounted(() => {
     amplitude: 30,
     color: "rgb(237, 233, 238)",
     speed: .25,
+  });
+
+  const fromAnim = {
+    x: -100,
+    opacity: 0,
+  };
+
+  const toAnim = {
+    x: 0,
+    stagger: 0.2,
+    opacity: 1,
+  };
+
+  gsap.fromTo([".anim-1", ".anim-2", ".anim-3", ".anim-4", ".anim-5"], fromAnim, toAnim);
+  gsap.fromTo([".anim-6", ".anim-7"], fromAnim, {
+    ...toAnim,
+    scrollTrigger: {
+      trigger: ".anim-6",
+      start: "top 80%",
+      end: "bottom center",
+    },
+  });
+  
+  gsap.fromTo(".anim-8", fromAnim, {
+    ...toAnim,
+    scrollTrigger: {
+      trigger: ".anim-8",
+      start: "top center",
+      end: "bottom center",
+    },
+  });
+  
+  gsap.fromTo([".anim-9", ".anim-10"], fromAnim, {
+    ...toAnim,
+    scrollTrigger: {
+      trigger: ".anim-9",
+      start: "top 80%",
+      end: "bottom center",
+    },
+  });
+
+  gsap.fromTo(".anim-11", fromAnim, {
+    ...toAnim,
+    scrollTrigger: {
+      trigger: ".anim-11",
+      start: "top center",
+      end: "bottom center",
+    },
+  });
+
+  gsap.fromTo(".anim-12", fromAnim, {
+    ...toAnim,
+    scrollTrigger: {
+      trigger: ".anim-12",
+      start: "top 80%",
+      end: "bottom center",
+    },
+  });
+
+  gsap.fromTo(".anim-13", fromAnim, {
+    ...toAnim,
+    scrollTrigger: {
+      trigger: ".anim-13",
+      start: "top center",
+      end: "bottom center",
+    },
   });
 
   const swiper1: SwiperContainer | null = document.querySelector('.swiper-1');
@@ -260,7 +332,7 @@ onMounted(() => {
   font-weight: bold;
 }
 
-#title{
+.title{
   @apply text-primary mb-7 font-bold text-3xl;
 }
 

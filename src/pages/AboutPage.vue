@@ -18,17 +18,15 @@
 
     <div class="-translate-y-20">
       <div class="container mx-auto pt-10">
-        <div class="introduction">
-          <div class="grid gap-10 grid-cols-1 lg:grid-cols-2">
-            <div class="flex items-center flex-col justify-center">
-              <h1 id="title" class="text-center lg:text-left w-full anim-3">Why CSP-S?</h1>
-              <p class="anim-4 welcome">
-                Welcome to the  Computing Society of the Philippines - Students (CSP-S)! We are a student body organization that aims to create a welcoming and inclusive community for all computer science students at the University of Cebu - Main Campus. Our goal is to promote inclusivity and diversity within the field of computing, ensuring that every student has the opportunity to explore their interests and succeed in their academic and professional pursuits.
-                Join us at CSP-S and become part of a community that celebrates diversity and fosters growth and development for all students in the field of computer science. We welcome you with open arms!
-              </p>
-            </div>
-            <img class="anim-5 shadow-primary-light-70 shadow-lg rounded-[32px]" id="csps" :src="Image" />
+        <div class="grid gap-10 grid-cols-1 lg:grid-cols-2">
+          <div class="flex items-center flex-col justify-center">
+            <h1 id="title" class="text-center lg:text-left w-full anim-3">Why CSP-S?</h1>
+            <p class="anim-4 welcome">
+              Welcome to the  Computing Society of the Philippines - Students (CSP-S)! We are a student body organization that aims to create a welcoming and inclusive community for all computer science students at the University of Cebu - Main Campus. Our goal is to promote inclusivity and diversity within the field of computing, ensuring that every student has the opportunity to explore their interests and succeed in their academic and professional pursuits.
+              Join us at CSP-S and become part of a community that celebrates diversity and fosters growth and development for all students in the field of computer science. We welcome you with open arms!
+            </p>
           </div>
+          <img class="anim-5 shadow-primary-light-70 shadow-lg rounded-[32px]" id="csps" :src="Image" />
         </div>
         
         <div class="flex flex-col items-center justify-center mb-16 mt-24">
@@ -51,12 +49,12 @@
           grab-cursor="true"
         >
           <swiper-slide>
-            <CardAbout class="mx-8 w-full sm:w-1/2 xl:w-full" title="Mission">
+            <CardAbout class="mx-8 w-full sm:w-1/2 2xl:w-full" title="Mission">
               We envision being the hub of quality, globally-competitive and socially-responsive information technology education.
             </CardAbout>
           </swiper-slide>
           <swiper-slide>
-            <CardAbout class="mx-8 w-full sm:w-1/2 xl:w-full" title="Vision">
+            <CardAbout class="mx-8 w-full sm:w-1/2 2xl:w-full" title="Vision">
               <p class="mb-5">We commit to continuously:</p>
               <ul>
                 <li>Offer relevant programs that mold well-rounded computing professionals;</li>
@@ -66,7 +64,7 @@
             </CardAbout>
           </swiper-slide>
           <swiper-slide>
-            <CardAbout class="mx-8 w-full sm:w-1/2 xl:w-full" title="Goals">
+            <CardAbout class="mx-8 w-full sm:w-1/2 2xl:w-full" title="Goals">
               <p class="mb-5">We aim to cultivate a teaching-learning environment that:</p>
               <ul>
                 <li>Promotes scholarly endeavors for the promotion of moral, social, cultural, and environmental interests.</li>
@@ -78,7 +76,7 @@
             </CardAbout>
           </swiper-slide>
           <swiper-slide>
-            <CardAbout class="mx-8 w-full sm:w-1/2 xl:w-full" title="Core Values">
+            <CardAbout class="mx-8 w-full sm:w-1/2 2xl:w-full" title="Core Values">
               <p class="mb-5">These are the core values that CCS believes in:</p>
               <ul>
                 <li>Initiative (inceptum) wit, practicality, ingenuity</li>
@@ -112,42 +110,58 @@
           autoplay-disable-on-interaction="false"
         >
           <swiper-slide class="p-3">
-            <CardAbout class="mx-8 w-full sm:w-1/2 xl:w-full" title="Mission">
+            <CardAbout class="mx-8 w-full sm:w-1/2 2xl:w-full" title="Mission">
               The University offers affordable and quality education responsive to the demands of local and international communities.
             </CardAbout>
           </swiper-slide>
           <swiper-slide class="p-3">
-            <CardAbout class="mx-8 w-full sm:w-1/2 xl:w-full" title="Vision">
+            <CardAbout class="mx-8 w-full sm:w-1/2 2xl:w-full" title="Vision">
               Democratize quality education. Be the visionary and industry leader. Give hope and transform lives.
             </CardAbout>
           </swiper-slide>
         </swiper-container>
       </div>
 
-      <!-- <div class="mt-24">
-        <div style="border: 10px; position: absolute; right: 0; left: 0; color: #4A2558; background-color: #4A2558;">a</div>
-        <div style="border: 10px; position: absolute;margin-top: 20px; right: 0; left: 0; color: #D4A923; background-color: #D4A923;">a</div>
-        <div class="introduction" >
-          <h1 id="title" style="padding-bottom: 50px; padding-top: 100px;" class="text-center">
-            MEET THE 
-            <font color="#D4A923">CSPS OFFICERS</font>
-          </h1>
-          <div id="stack_image">
-            <div id="lin_grad">
-            </div>
-            <div id="top">
-              <img :src="Jewel"/>
-              <h3 id="position" style="text-align: center; font-size: 25px;">President</h3>
-              <p id="position" style="color: #06203F; margin-top: 4px; font-size: 25px; font-weight: bold; text-align: center;">Jewel Cedrick Gesim</p>
-          </div>
-          </div>
-        </div>
+      <div class="mt-0">
         <div class="introduction">
-        <img class="line" :src="Dev"/>
-        <h1 class="ccs" style="text-align: center;">Developers Message</h1>
-        <div id="dev_message" style="background-color: #4A2558; color:white; font-size: 20px; text-align: center; border-radius: 20px; padding: 50px;  ">Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsum</div>
+          <h1 id="title" style="padding-bottom: 50px; padding-top: 100px;" class="text-center">
+            MEET THE <span class="text-secondary">CSPS OFFICERS!</span>
+          </h1>
+
+          <div class="flex justify-center relative">
+            <div class="absolute top-0 left-0 right-0 bottom-0 officers h-full w-full z-[500]" />
+            <swiper-container
+              effect="coverflow"
+              grab-cursor="true"
+              round-lengths="true"
+              autoplay-delay="3000"
+              pagination="true"
+              coverflow-effect-slide-shadows="false"
+              class="officers-swiper py-4 lg:py-16 w-full xl:w-1/3 2xl:w-1/4 overflow-hidden lg:overflow-visible"
+              autoplay-disable-on-interaction="false"
+            >
+              <swiper-slide
+                v-for="officer in officers"
+                :key="officer.name"
+              >
+                <CardAbout class="mx-8 w-full sm:w-1/2 2xl:w-full" :title="officer.position">
+                  <div class="flex flex-col items-center justify-center">
+                    <img :src="officer.thumb" class="rounded-full w-64 mb-7" />
+                    <h3 class="text-xl font-bold text-primary mb-2">{{ officer.name }}</h3>
+                    <p class="text-lg text-center">{{ officer.position }}</p>
+                  </div>
+                </CardAbout>
+              </swiper-slide>
+            </swiper-container>
+          </div>
         </div>
-      </div> -->
+
+        <!-- <div class="introduction">
+          <img class="line" :src="Dev"/>
+          <h1 class="ccs" style="text-align: center;">Developers Message</h1>
+          <div id="dev_message" style="background-color: #4A2558; color:white; font-size: 20px; text-align: center; border-radius: 20px; padding: 50px;  ">Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsum</div>
+        </div> -->
+      </div>
     </div>
   </div>
 </template>
@@ -158,6 +172,16 @@ import CSPSLogo from '~/assets/img/csps_logo.png';
 import CCSLogo from '~/assets/img/ccs_logo.png';
 import UCLogo from '~/assets/img/uc_logo.png';
 
+import Jewel from '~/assets/img/profile/Jewel.jpg';
+import Brian from '~/assets/img/profile/Brian.jpg';
+import Jeremy from '~/assets/img/profile/Jeremy.jpg';
+import Krisha from '~/assets/img/profile/Krisha.jpg';
+import Leym from '~/assets/img/profile/Leym.jpg';
+import Christine from '~/assets/img/profile/Christine.jpg';
+import Enrico from '~/assets/img/profile/Enrico.jpg';
+import Rybryb from '~/assets/img/profile/Rybryb.jpg';
+import Andrian from '~/assets/img/profile/Andrian.jpg';
+
 import { ref, onMounted } from 'vue';
 import { wavify } from '~/utils/wavify';
 import { register } from 'swiper/element/bundle';
@@ -166,6 +190,17 @@ import type { SwiperContainer } from 'swiper/element';
 import CardAbout from '~/composables/CardAbout.vue';
 
 const wavifyEl = ref();
+const officers = [
+  { name: "Jewel Cedrick Gesim", position: "President", thumb: Jewel },
+  { name: "Brian Keith Lisondra", position: "VP - Internal", thumb: Brian },
+  { name: "Jeremy Andy Ampatin", position: "VP - External", thumb: Jeremy },
+  { name: "Krisha Mae Gabuya", position: "Secretary", thumb: Krisha },
+  { name: "Enrico Bacalso", position: "Treasurer", thumb: Enrico },
+  { name: "Marianne Leigh Reyes", position: "Assistant Treasurer", thumb: Leym },
+  { name: "Dinotine", position: "Auditor", thumb: Christine },
+  { name: "Raymond Benedict Branzuela", position: "P.R.O", thumb: Rybryb },
+  { name: "Andrian Paul Sedigo", position: "P.I.O", thumb: Andrian },
+];
 
 register();
 
@@ -188,7 +223,7 @@ onMounted(() => {
       0: {
         slidesPerView: 1,
       },
-      1280: {
+      1536: {
         slidesPerView: 3,
       },
     },
@@ -199,21 +234,6 @@ onMounted(() => {
 </script>
 
 .<style lang="scss" scoped>
-.introduction{
-  width: 100%;
-  height: 100%;
-  padding: 20px 20px 20px 35px;
-}
-
-#stack_image {
-  width: 100px;
-  height: 200px;
-  position: relative;
-  margin-left: 540px;
-  margin-bottom: 200px;
-  margin-top: 40px;
-}
-
 #top{
   margin-top: -40px;
   margin-left: 50px;
@@ -222,7 +242,7 @@ onMounted(() => {
   position: absolute;
 }
 
-#lin_grad {
+.lin_grad {
   width: 400px;
   height: 400px;            
   position: absolute;
@@ -284,6 +304,15 @@ ul {
 .slides {
   @apply pointer-events-none;
   background-image: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0) 75%, theme("colors.primary-light-90"));
+}
+
+.officers {
+  @apply pointer-events-none;
+  background-image: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0) 25%, theme("colors.primary-light-90"));
+}
+
+.officers-swiper {
+  --swiper-pagination-color: theme("colors.primary");
 }
 
 swiper-slide {

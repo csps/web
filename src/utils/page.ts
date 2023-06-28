@@ -7,15 +7,6 @@ export function setPageTitle(title: string) {
 }
 
 /**
- * Set body path as class
- * @param path Path to set to body
- */
-export function setBodyPath(path: string) {
-  document.body.setAttribute("class", "");
-  document.body.classList.add(path.replace("/", "") || "home");
-}
-
-/**
  * Get history length
  */
 export function getHistoryLength() {

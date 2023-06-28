@@ -11,7 +11,7 @@
     color: $purple;
   }
 
-  @apply overflow-x-hidden;
+  @apply overflow-x-hidden h-full min-h-full;
 }
 
 html, body, #app {
@@ -32,16 +32,8 @@ html, body, #app {
   opacity: 0;
 }
 
-.appbar-extension {
-  @apply hidden;
-}
-
 body {
-  @apply bg-primary;
-
-  .appbar-extension {
-    @apply block;
-  }
+  @apply bg-primary h-full min-h-full;
 }
 
 *::-webkit-scrollbar {

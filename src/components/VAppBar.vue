@@ -4,7 +4,12 @@
 
       <!-- Back button -->
       <Transition>
-        <v-button v-if="store.isShowBackButton" @click="back" :icon="mdiArrowLeft" />
+        <v-button
+          v-if="store.isShowBackButton"
+          :transparent="transparent"
+          @click="back"
+          :icon="mdiArrowLeft"
+        />
       </Transition>
 
       <!-- Logos -->
@@ -24,6 +29,7 @@
           <v-button
             v-for="link in NAV_LINKS"
             :key="link.path"
+            :transparent="transparent"
             :color="link.path === '/login' ? 'secondary' : 'transparent'"
             :to="link.path"
           >
@@ -34,7 +40,7 @@
 
       <!-- Drawer Button -->
       <div class="flex-grow justify-end flex xl:hidden">
-        <v-button :icon="mdiMenu" />
+        <v-button :icon="mdiMenu" :transparent="transparent" />
       </div>
     </div>
   </div>
@@ -79,7 +85,7 @@ function back() {
 }
 
 .appbar {
-  @apply h-20;
+  @apply relative h-20 z-10;
 }
 
 h3 {

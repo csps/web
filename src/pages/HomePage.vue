@@ -33,6 +33,7 @@
         effect="cards"
         keyboard-enabled="true"
         initial-slide="1"
+        round-lengths="true"
         cards-effect-slide-shadows="false"
         class="overflow-hidden pb-10"
       >
@@ -65,10 +66,7 @@ import VIcon from '~/components/VIcon.vue';
 
 import { mdiArrowRight } from '@mdi/js';
 import { ref, onMounted } from 'vue';
-import TextPlugin from "gsap/TextPlugin";
 import gsap from "gsap";
-
-gsap.registerPlugin(TextPlugin);
 
 register();
 

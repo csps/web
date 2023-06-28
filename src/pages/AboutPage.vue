@@ -16,7 +16,7 @@
       </div>
     </div>
 
-    <div class="-translate-y-20">
+    <div class="-translate-y-20 bg-primary-light-90">
       <div class="container mx-auto pt-10">
         <div class="grid gap-10 grid-cols-1 lg:grid-cols-2">
           <div class="flex items-center flex-col justify-center">
@@ -124,7 +124,7 @@
         </swiper-container>
       </div>
 
-      <div class="mt-0">
+      <div class="pb-8">
         <div class="introduction">
           <h1 class="title pb-[50px] pt-[100px] text-center anim-12">
             MEET THE <span class="text-secondary">CSPS OFFICERS!</span>

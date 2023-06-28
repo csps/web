@@ -27,7 +27,7 @@
             </p>
           </div>
           <div class="flex justify-center">
-            <img class="anim-5 shadow-primary-light-70 shadow-lg rounded-[32px]" id="csps" :src="Image" />
+            <img class="anim-5 shadow-primary-light-70 shadow-lg rounded-[32px] px-6" id="csps" :src="Image" />
           </div>
         </div>
         
@@ -337,7 +337,7 @@ onMounted(() => {
 }
 
 .welcome {
-  @apply text-primary-dark-90 text-sm leading-7 lg:text-lg text-justify lg:leading-8;
+  @apply text-primary-dark-90 text-sm leading-7 lg:text-lg text-justify lg:leading-8 px-6;
 }
 
 ul {
@@ -380,7 +380,7 @@ ul {
 
 .officers {
   @apply pointer-events-none;
-  background-image: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0) 25%, theme("colors.primary-light-90"));
+  background-image: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0) 30%, theme("colors.primary-light-90"));
 }
 
 .officers-swiper {

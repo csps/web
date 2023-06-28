@@ -24,7 +24,7 @@ defineProps({
 
 <style lang="scss" scoped>
 .card {
-  @apply bg-white p-9 rounded-lg relative w-1/2 lg:w-full;
+  @apply bg-white p-9 rounded-lg relative;
 }
 
 h4 {

@@ -47,15 +47,15 @@
           slides-per-view="3"
           centered-slides="true"
           coverflow-effect-slide-shadows="false"
-          autoplay-delay="5000"
+          autoplay-delay="3000"
         >
           <swiper-slide>
-            <CardAbout title="Mission">
+            <CardAbout class="w-1/2 lg:w-full" title="Mission">
               We envision being the hub of quality, globally-competitive and socially-responsive information technology education.
             </CardAbout>
           </swiper-slide>
           <swiper-slide>
-            <CardAbout title="Vision">
+            <CardAbout class="w-1/2 lg:w-full" title="Vision">
               <p class="mb-5">We commit to continuously:</p>
               <ul>
                 <li>Offer relevant programs that mold well-rounded computing professionals;</li>
@@ -65,7 +65,7 @@
             </CardAbout>
           </swiper-slide>
           <swiper-slide>
-            <CardAbout title="Goals">
+            <CardAbout class="w-1/2 lg:w-full" title="Goals">
               <p class="mb-5">We aim to cultivate a teaching-learning environment that:</p>
               <ul>
                 <li>Promotes scholarly endeavors for the promotion of moral, social, cultural, and environmental interests.</li>
@@ -77,7 +77,7 @@
             </CardAbout>
           </swiper-slide>
           <swiper-slide>
-            <CardAbout title="Core Values">
+            <CardAbout class="w-1/2 lg:w-full" title="Core Values">
               <p class="mb-5">These are the core values that CCS believes in:</p>
               <ul>
                 <li>Initiative (inceptum) wit, practicality, ingenuity</li>
@@ -92,26 +92,28 @@
         </swiper-container>
       </div>
 
-        <!-- <div class="introduction">
-          <div class="grid gap-10 grid-cols-3">
-          <img style="margin-top: 100px;" :src="BottomLeft"/>
-          <img class="line" :src="ULine"/> 
-          <img style="margin-top: 100px; margin-left: 10px;" :src="BottomRight"/>
-          </div>
-          <h1 class="ccs" style="text-align: center;">University of Cebu</h1>
-          <div id="mv" style="padding-bottom: 150px;">
-            <div class="grid gap-10 grid-cols-2">
-            <div class="ms" style="margin-right: 90px;">
-              <h4 class="tile">Mission</h4>
-              <p class="missions">The University offers affordable and quality education responsive to the demands of local and international communities.</p>
-            </div>
-            <div class="ms" style="margin-left: 90px;">
-              <h4 class="tile">Vision</h4>
-              <p class="missions" >Democratize quality education.Be the visionary and industry leader.Give hope and transform lives.</p>
-            </div>
-            </div>
-          </div>
+      <div class="container mx-auto">
+        <div class="flex flex-col items-center justify-center mb-16 mt-24">
+          <img class="anim-6 w-32 mb-5" :src="UCLogo" alt="UC Logo" />
+          <h1 class="anim-7 text-2xl font-bold text-tertiary" style="text-align: center;">University of Cebu</h1>
         </div>
+      </div>
+
+      <GeometryShapes />
+
+      <div class="flex flex-col items-center justify-center">
+        <div class="grid grid-cols-1 xl:grid-cols-2 gap-[50px] xl:gap-[100px] w-1/2 mt-16 justify-items-center">
+          <CardAbout class="w-full" title="Mission">
+            The University offers affordable and quality education responsive to the demands of local and international communities.
+          </CardAbout>
+  
+          <CardAbout class="w-full" title="Vision">
+            Democratize quality education. Be the visionary and industry leader. Give hope and transform lives.
+          </CardAbout>
+        </div>
+      </div>
+
+        <!-- 
         <div style="border: 10px; position: absolute; right: 0; left: 0; color: #4A2558; background-color: #4A2558;">a</div>
         <div style="border: 10px; position: absolute;margin-top: 20px; right: 0; left: 0; color: #D4A923; background-color: #D4A923;">a</div>
         <div class="introduction" >
@@ -142,6 +144,7 @@
 import Image from '~/assets/img/csps.png';
 import CSPSLogo from '~/assets/img/csps_logo.png';
 import CCSLogo from '~/assets/img/ccs_logo.png';
+import UCLogo from '~/assets/img/uc_logo.png';
 
 import { ref, onMounted } from 'vue';
 import { wavify } from '~/utils/wavify';
@@ -154,8 +157,6 @@ import CardAbout from '~/composables/CardAbout.vue';
 const wavifyEl = ref();
 
 register();
-
-// TODO: Add scroll animation
 
 onMounted(() => {
   wavify(wavifyEl.value, {
@@ -224,18 +225,7 @@ onMounted(() => {
   font-size: 20px;
   font-weight: bold;
 }
-.missions{
-  text-align: center;
-  padding: 20px;
-}
-.ms{
-  background-color: #4A2558;
-  border: #D4A923;
-  width: 550px;
-  color: white;
-  border-radius: 20px;
-  height: 220px;
-}
+
 #title{
   @apply text-primary mb-7 font-bold text-3xl;
 }

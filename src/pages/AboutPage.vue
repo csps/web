@@ -20,14 +20,14 @@
       <div class="container mx-auto pt-10">
         <div class="grid gap-10 grid-cols-1 lg:grid-cols-2">
           <div class="flex items-center flex-col justify-center">
-            <h1 class="title text-center lg:text-left w-full anim-3">Why CSP-S?</h1>
+            <h1 class="title text-center lg:text-left w-full anim-3 px-6">Why CSP-S?</h1>
             <p class="anim-4 welcome">
               Welcome to the  Computing Society of the Philippines - Students (CSP-S)! We are a student body organization that aims to create a welcoming and inclusive community for all computer science students at the University of Cebu - Main Campus. Our goal is to promote inclusivity and diversity within the field of computing, ensuring that every student has the opportunity to explore their interests and succeed in their academic and professional pursuits.
               Join us at CSP-S and become part of a community that celebrates diversity and fosters growth and development for all students in the field of computer science. We welcome you with open arms!
             </p>
           </div>
-          <div class="flex justify-center">
-            <img class="anim-5 shadow-primary-light-70 shadow-lg rounded-[32px] px-6" id="csps" :src="Image" />
+          <div class="flex justify-center px-6">
+            <img class="anim-5 shadow-primary-light-70 shadow-lg rounded-[32px]" id="csps" :src="Image" />
           </div>
         </div>
         

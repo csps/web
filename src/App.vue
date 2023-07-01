@@ -1,5 +1,5 @@
 <template>
-  <div class="h-full">
+  <div>
     <VAppBar transparent />
 
     <router-view v-slot="{ Component }">
@@ -7,10 +7,12 @@
         <component :is="Component" />
       </Transition>
     </router-view>
-
   </div>
+
+  <VFooter />
 </template>
 
 <script lang="ts" setup>
 import VAppBar from './components/VAppBar.vue';
+import VFooter from './components/VFooter.vue';
 </script>

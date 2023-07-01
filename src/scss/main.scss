@@ -48,3 +48,7 @@ body {
   @apply bg-secondary dark:bg-secondary;
   border-radius: 20px;
 }
+
+img {
+  -webkit-user-drag: none;
+}

@@ -1,5 +1,5 @@
 <template>
-  <div class="h-full">
+  <div class="relative">
     <!-- Call To Action -->
     <div class="rounded-br-3xl rounded-bl-3xl -z-[1]">
       <div class="container mx-auto text-center pt-24 pb-10 2xl:pt-28 2xl:pb-20 px-4">
@@ -13,7 +13,7 @@
           <v-button to="/login" color="secondary" large>
             Login
           </v-button>
-          <v-button large>
+          <v-button to="/about" large>
             Explore
             <v-icon :path="mdiArrowRight" />
           </v-button>
@@ -23,19 +23,18 @@
       <!-- Wavify -->
       <svg width="100%" height="100%" version="1.1" xmlns="http://www.w3.org/2000/svg">
         <defs></defs>
-        <path ref="wavifyEl" d=""/>
+        <path ref="wavifyEl" d="" />
       </svg>
     </div>
 
-    <div class="bg-secondary h-full">
+    <div class="bg-secondary py-24">
       <swiper-container
         ref="message"
         effect="cards"
         keyboard-enabled="true"
-        initial-slide="1"
         round-lengths="true"
         cards-effect-slide-shadows="false"
-        class="overflow-hidden pb-10"
+        class="overflow-visible"
       >
         <swiper-slide
           v-for="message in messages"
@@ -73,15 +72,15 @@ register();
 const template = "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quas inventore excepturi consequuntur veniam ad nulla hic facere laborum omnis quaerat atque incidunt voluptates ut, laudantium est autem libero rerum maiores, enim quis voluptate ab nemo. Adipisci itaque alias reprehenderit aliquid et dolorum eveniet rerum laudantium excepturi recusandae. Similique officiis modi aut corrupti alias expedita quo quis possimus corporis! Error ut necessitatibus ullam quod rerum nemo, assumenda magni impedit? Laboriosam sapiente optio at. Neque voluptates iste itaque ratione amet, sed cumque quo pariatur quos corporis quae rem debitis et tempora, ex perspiciatis! Repellendus corrupti numquam, repudiandae minima laudantium quo doloribus accusantium vel quasi hic beatae assumenda accusamus delectus earum enim possimus in! Velit quo id fugiat atque consequatur reprehenderit blanditiis est, magnam nemo ex consectetur repellat, cupiditate cumque. Repellendus ducimus facere, quam eum sequi aut magni quasi! Nesciunt minima numquam natus nobis adipisci necessitatibus exercitationem ipsa beatae, nam, officia expedita placeat!";
 const messages = [
   {
-    image: ImagePlaceholder,
-    name: "Mr. Huebert Ferolino",
-    position: "Adviser / Chairperson for Computer Science",
-    message: template
-  },
-  {
     image: ImageDean,
     name: "Mr. Neil Basabe",
     position: "Dean - UC Main CCS",
+    message: template
+  },
+  {
+    image: ImagePlaceholder,
+    name: "Mr. Huebert Ferolino",
+    position: "Adviser / Chairperson for Computer Science",
     message: template
   }
 ];

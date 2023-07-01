@@ -137,7 +137,6 @@
               grab-cursor="true"
               round-lengths="true"
               autoplay-delay="3000"
-              pagination="true"
               coverflow-effect-slide-shadows="false"
               class="officers-swiper py-4 lg:py-16 w-full xl:w-1/3 2xl:w-1/4 overflow-hidden lg:overflow-visible"
               autoplay-disable-on-interaction="false"
@@ -148,7 +147,7 @@
               >
                 <CardAbout class="mx-8 w-full sm:w-1/2 2xl:w-full" :title="officer.position">
                   <div class="flex flex-col items-center justify-center">
-                    <img :src="officer.thumb" class="rounded-full w-64 mb-7" />
+                    <img :src="officer.thumb" class="rounded-full w-64 mb-7" loading="lazy" />
                     <h3 class="text-xl font-bold text-primary mb-2">{{ officer.name }}</h3>
                     <p class="text-lg text-center">{{ officer.position }}</p>
                   </div>
@@ -235,7 +234,7 @@ onMounted(() => {
     ...toAnim,
     scrollTrigger: {
       trigger: ".anim-6",
-      start: "top 80%",
+      start: "top 60%",
       end: "bottom center",
     },
   });
@@ -253,7 +252,7 @@ onMounted(() => {
     ...toAnim,
     scrollTrigger: {
       trigger: ".anim-9",
-      start: "top 80%",
+      start: "top 60%",
       end: "bottom center",
     },
   });
@@ -271,7 +270,7 @@ onMounted(() => {
     ...toAnim,
     scrollTrigger: {
       trigger: ".anim-12",
-      start: "top 80%",
+      start: "top 50%",
       end: "bottom center",
     },
   });

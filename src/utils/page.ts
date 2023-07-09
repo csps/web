@@ -3,7 +3,7 @@
  * @param title Page title
  */
 export function setPageTitle(title: string) {
-  document.title = `${title === "Home" ? "" : title + " | "} CSP-S UC Main`;
+  document.title = `${title === "Home" ? "" : title + " | "} UC Main Computing Society of the Philippines - Students`;
 }
 
 /**

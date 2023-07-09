@@ -10,8 +10,13 @@
     background-color: $purple-container;
     color: $purple;
   }
-
+  
   @apply overflow-x-hidden h-full min-h-full;
+}
+
+
+.comsci::selection {
+  @apply bg-secondary text-secondary-dark-70;
 }
 
 html, body, #app {

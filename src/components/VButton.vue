@@ -4,7 +4,7 @@
     :is="to ? 'router-link' : 'button'"
     :class="[large ? 'large' : '', icon ? 'btn-icon' : 'btn-' + color, transparent ? 'btn-transparent' : '']"
     :to="to"
-    v-wave="!noRipple"
+    v-wave="noRipple ? false : rippleColor ? { color: rippleColor } : true" 
   >
     <v-icon v-if="icon" :path="icon" />
     <slot v-else />
@@ -22,17 +22,21 @@ withDefaults(defineProps<{
   to?: string,
   large?: boolean,
   transparent?: boolean,
+  rippleColor?: string,
 }>(), {
   variant: 'default',
   color: "primary",
   noRipple: false,
-  class: '',
-  transparent: false
+  transparent: false,
 });
 
 </script>
 
 <style lang="scss" scoped>
+.btn {
+  @apply cursor-none sm:cursor-pointer;
+}
+
 .btn:not(.btn-icon) {
   @apply min-w-min px-4 py-1.5 rounded-lg whitespace-nowrap font-medium;
 }

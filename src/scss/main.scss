@@ -14,11 +14,6 @@
   @apply overflow-x-hidden h-full min-h-full;
 }
 
-
-.comsci::selection {
-  @apply bg-secondary text-secondary-dark-70;
-}
-
 html, body, #app {
   @apply h-full;
 }
@@ -56,4 +51,8 @@ body {
 
 img {
   -webkit-user-drag: none;
+}
+
+.swiper {
+  overflow: visible !important;
 }

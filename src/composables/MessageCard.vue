@@ -42,7 +42,7 @@ defineProps({
 
 <style lang="scss" scoped>
 .profile {
-  @apply w-[200px] h-[200px] absolute overflow-hidden rounded-full top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 border-[8px] z-[500] border-white/50;
+  @apply w-[200px] h-[200px] absolute overflow-hidden rounded-full top-28 left-1/2 -translate-x-1/2 -translate-y-1/2 border-[8px] z-[500] border-white/50;
 }
 
 h2 {

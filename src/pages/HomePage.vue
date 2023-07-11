@@ -4,7 +4,7 @@
     <div class="rounded-br-3xl rounded-bl-3xl -z-[1]">
       <div class="container mx-auto text-center pt-16 pb-10 2xl:pt-28 2xl:pb-20 px-4">
         <h2 class="text-3xl 2xl:text-4xl font-bold text-primary-light-90 mb-3" ref="title">
-          Dive into the world of <span class="text-secondary-light-10 comsci">Computer Science</span>
+          Dive into the world of Computer Science
         </h2>
         <h5 class="text-base 2xl:text-xl font-medium text-primary-light-60" ref="subtitle">
           Connect, collaborate, and Grow Together
@@ -27,20 +27,20 @@
       </svg>
     </div>
 
-    <div class="bg-secondary pt-12 pb-24 -translate-y-1 overflow-x-hidden">
+    <div class="bg-secondary pb-24 -translate-y-1 overflow-x-hidden">
       <swiper-container
         ref="message"
         effect="coverflow"
         keyboard-enabled="true"
         round-lengths="true"
-        class="mt-16 overflow-visible"
+        class="overflow-visible"
         coverflow-effect-slide-shadows="false"
         grab-cursor="true"
       >
         <swiper-slide
           v-for="message in messages"
           :key="message.name"
-          class="flex justify-center"
+          class="flex pt-28 pb-10 justify-center overflow-visible"
         >
           <MessageCard
             :image="message.image"

@@ -20,7 +20,7 @@
       <div class="container mx-auto pt-10">
         <div class="grid gap-10 grid-cols-1 lg:grid-cols-2">
           <div class="flex items-center flex-col justify-center">
-            <h1 class="title text-center lg:text-left w-full anim-3 px-6">Why CSP-S?</h1>
+            <h1 class="title text-center lg:text-left w-full anim-3 px-6">About us</h1>
             <p class="anim-4 welcome">
               Welcome to the  Computing Society of the Philippines - Students (CSP-S)! We are a student body organization that aims to create a welcoming and inclusive community for all computer science students at the University of Cebu - Main Campus. Our goal is to promote inclusivity and diversity within the field of computing, ensuring that every student has the opportunity to explore their interests and succeed in their academic and professional pursuits.
               Join us at CSP-S and become part of a community that celebrates diversity and fosters growth and development for all students in the field of computer science. We welcome you with open arms!
@@ -40,22 +40,20 @@
       <div class="flex justify-center relative anim-8">
         <div class="absolute top-0 left-0 right-0 bottom-0 slides h-full w-full z-[500]" />
         <swiper-container
-          class="py-4 lg:py-16 swiper-1 w-full"
+          class="swiper-1 w-full overflow-visible swiper"
           effect="coverflow"
           slides-per-view="3"
           centered-slides="true"
           round-lengths="true"
           coverflow-effect-slide-shadows="false"
-          autoplay-disable-on-interaction="false"
-          autoplay-delay="3000"
           grab-cursor="true"
         >
-          <swiper-slide>
+          <swiper-slide class="py-16">
             <CardAbout class="mx-8 w-full sm:w-1/2 2xl:w-full" title="Mission">
               We envision being the hub of quality, globally-competitive and socially-responsive information technology education.
             </CardAbout>
           </swiper-slide>
-          <swiper-slide>
+          <swiper-slide class="py-16">
             <CardAbout class="mx-8 w-full sm:w-1/2 2xl:w-full" title="Vision">
               <p class="mb-5">We commit to continuously:</p>
               <ul>
@@ -65,7 +63,7 @@
               </ul>
             </CardAbout>
           </swiper-slide>
-          <swiper-slide>
+          <swiper-slide class="py-16">
             <CardAbout class="mx-8 w-full sm:w-1/2 2xl:w-full" title="Goals">
               <p class="mb-5">We aim to cultivate a teaching-learning environment that:</p>
               <ul>
@@ -77,7 +75,7 @@
               </ul>
             </CardAbout>
           </swiper-slide>
-          <swiper-slide>
+          <swiper-slide class="py-16">
             <CardAbout class="mx-8 w-full sm:w-1/2 2xl:w-full" title="Core Values">
               <p class="mb-5">These are the core values that CCS believes in:</p>
               <ul>
@@ -106,10 +104,9 @@
           effect="coverflow"
           grab-cursor="true"
           round-lengths="true"
-          autoplay-delay="3000"
+          centered-slides="true"
           coverflow-effect-slide-shadows="false"
-          class="py-4 lg:py-16 w-full xl:w-1/3 2xl:w-1/4 overflow-hidden lg:overflow-visible"
-          autoplay-disable-on-interaction="false"
+          class="swiper-2 py-4 lg:py-8 w-full overflow-hidden lg:overflow-visible"
         >
           <swiper-slide class="p-3">
             <CardAbout class="mx-8 w-full sm:w-1/2 2xl:w-full" title="Mission">
@@ -135,13 +132,15 @@
             <swiper-container
               effect="coverflow"
               grab-cursor="true"
+              centered-slides="true"
               round-lengths="true"
               autoplay-delay="3000"
               coverflow-effect-slide-shadows="false"
-              class="officers-swiper py-4 lg:py-16 w-full xl:w-1/3 2xl:w-1/4 overflow-hidden lg:overflow-visible"
+              class="officers-swiper swiper-3 py-4 lg:py-8 w-full overflow-hidden lg:overflow-visible"
               autoplay-disable-on-interaction="false"
             >
               <swiper-slide
+                class="py-8"
                 v-for="officer in officers"
                 :key="officer.name"
               >
@@ -156,12 +155,6 @@
             </swiper-container>
           </div>
         </div>
-
-        <!-- <div class="introduction">
-          <img class="line" :src="Dev"/>
-          <h1 class="ccs" style="text-align: center;">Developers Message</h1>
-          <div id="dev_message" style="background-color: #4A2558; color:white; font-size: 20px; text-align: center; border-radius: 20px; padding: 50px;  ">Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsumLorem ipsum lorem ipsum</div>
-        </div> -->
       </div>
     </div>
   </div>
@@ -300,7 +293,40 @@ onMounted(() => {
     },
   });
 
+  const swiper2: SwiperContainer | null = document.querySelector('.swiper-2');
+  if (swiper2 === null) return;
+
+  Object.assign(swiper2, {
+    slidesPerView: 1,
+    spaceBetween: 100,
+    breakpoints: {
+      0: {
+        slidesPerView: 1,
+      },
+      1536: {
+        slidesPerView: 3,
+      },
+    },
+  });
+
+  const swiper3: SwiperContainer | null = document.querySelector('.swiper-3');
+  if (swiper3 === null) return;
+
+  Object.assign(swiper3, {
+    slidesPerView: 1,
+    breakpoints: {
+      0: {
+        slidesPerView: 1,
+      },
+      1536: {
+        slidesPerView: 4,
+      },
+    },
+  });
+
   swiper1.initialize();
+  swiper2.initialize();
+  swiper3.initialize();
 });
 </script>
 

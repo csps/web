@@ -25,7 +25,7 @@ withDefaults(defineProps<{
   rippleColor?: string,
 }>(), {
   variant: 'default',
-  color: "primary",
+  color: "transparent",
   noRipple: false,
   transparent: false,
 });
@@ -34,7 +34,7 @@ withDefaults(defineProps<{
 
 <style lang="scss" scoped>
 .btn {
-  @apply cursor-none sm:cursor-pointer;
+  @apply cursor-none sm:cursor-pointer dark:text-neutral-70;
 }
 
 .btn:not(.btn-icon) {
@@ -46,20 +46,20 @@ withDefaults(defineProps<{
 }
 
 .btn-icon {
-  @apply p-2 bg-primary text-primary-light-90 hover:bg-primary-light-10 rounded-full;
+  @apply p-2 bg-primary text-primary-90 hover:bg-primary-10 rounded-full;
 }
 
 .btn-primary {
-  @apply text-primary-light-90 hover:bg-primary-light-10;
+  @apply bg-csps-primary hover:bg-purple-200/10;
 }
 
 .btn-transparent {
   @extend .btn-primary;
-  @apply bg-transparent hover:bg-primary-light-90/10;
+  @apply bg-transparent hover:bg-purple-200/10;
 }
 
 .btn-secondary {
-  @apply bg-secondary hover:bg-secondary-light-10;
-  color: theme("colors.secondary-dark-80") !important;
+  @apply bg-csps-secondary text-secondary-10 hover:bg-secondary-80
+    dark:bg-primary dark:hover:bg-primary-30 dark:text-on-primary;
 }
 </style>

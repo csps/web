@@ -1,15 +1,8 @@
 <template>
   <div class="card">
-    <div class="b b1" />
-    <div class="b b2" />
-    <div class="b b3" />
-    <div class="b b4" />
-
     <h4>{{ title }}</h4>
     <p><slot /></p>
 
-    <div class="s s1" />
-    <div class="s s2" />
   </div>
 </template>
 
@@ -24,19 +17,19 @@ defineProps({
 
 <style lang="scss" scoped>
 .card {
-  @apply bg-white p-12 lg:p-14 rounded-lg relative;
+  @apply bg-tertiary-95 dark:bg-surface-variant p-8 lg:p-14 rounded-[28px] relative shadow-xl;
 }
 
 h4 {
-  @apply text-primary text-center text-2xl font-bold mb-5;
+  @apply text-tertiary-20 dark:text-on-surface-variant text-center text-2xl font-bold mb-5;
 }
 
 p { 
-  @apply text-primary text-sm leading-7 lg:text-base text-center lg:leading-[30px];
+  @apply text-tertiary-30 dark:text-on-surface-variant font-medium text-sm leading-7 lg:text-base text-center lg:leading-[30px];
 }
 
 .b {
-  @apply absolute w-3 h-3 border-[3px] border-secondary rotate-45;
+  @apply absolute w-3 h-3 border-[3px] border-csps-secondary rotate-45;
 }
 
 .b1 {
@@ -56,7 +49,7 @@ p {
 }
 
 .s {
-  @apply w-[75%] h-2 bg-primary/50 absolute left-1/2 -translate-x-1/2;
+  @apply w-[75%] h-2 bg-tertiary absolute left-1/2 -translate-x-1/2;
 }
 
 .s1 {

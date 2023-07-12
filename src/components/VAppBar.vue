@@ -1,7 +1,6 @@
 <template>
   <div class="appbar" :class="[ transparent ? 'bg-transparent' : 'bg-primary' ]">
     <div class="container mx-auto px-4 flex items-center space-x-5 h-full">
-
       <!-- Back button -->
       <Transition>
         <v-button
@@ -24,23 +23,27 @@
       <h3 class="block lg:hidden xl:block 2xl:hidden">UC Main CSP-S</h3>
 
       <!-- Navigation Links -->
-      <div class="flex-grow hidden xl:block">
-        <div class="flex justify-end space-x-5">
+      <div class="flex items-center gap-5 flex-grow justify-end">
+
+        <md-switch @change="onThemeChange" :selected="store.isDark" icons />
+
+        <div class="xl:flex justify-end space-x-5 hidden">
           <v-button
+            :class="{ 'dark:!text-on-surface': route.name === 'About' }"
             v-for="link in NAV_LINKS"
             :key="link.path"
             :transparent="transparent"
-            :color="link.path === '/login' ? 'secondary' : 'transparent'"
+            color="transparent"
             :to="link.path"
           >
             {{ link.name }}
           </v-button>
         </div>
-      </div>
 
-      <!-- Drawer Button -->
-      <div class="flex-grow justify-end flex xl:hidden">
-        <v-button :icon="mdiMenu" :transparent="transparent" />
+        <!-- Drawer Button -->
+        <div class="flex justify-end xl:hidden">
+          <v-button :icon="mdiMenu" :transparent="transparent" />
+        </div>
       </div>
     </div>
   </div>
@@ -51,13 +54,18 @@ import CCSLogo from '~/assets/img/ccs_logo.png';
 import CSPSLogo from '~/assets/img/csps_logo.png';
 import UCLogo from '~/assets/img/uc_logo.png';
 
-import { useRouter } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
 import { mdiMenu, mdiArrowLeft } from "@mdi/js";
 import { Env, NAV_LINKS } from "~/config";
 import { useStore } from "~/store";
 
 import VButton from "~/components/VButton.vue";
 import { getHistoryLength } from '~/utils/page';
+import { setDarkMode } from '~/utils/theme';
+import { getItem } from '~/utils/string';
+
+import "@material/web/switch/switch";
+import { onMounted } from 'vue';
 
 defineProps({
   transparent: {
@@ -66,8 +74,19 @@ defineProps({
   },
 });
 
+onMounted(() => {
+  store.isDark = getItem("dark") === "1";
+  setDarkMode(store.isDark);
+});
+
 const store = useStore();
+const route = useRoute();
 const router = useRouter();
+
+function onThemeChange() {
+  store.isDark = !store.isDark;
+  setDarkMode(store.isDark);
+}
 
 function back() {
   router.back();
@@ -89,6 +108,6 @@ function back() {
 }
 
 h3 {
-  @apply text-primary-light-90 text-lg font-bold;
+  @apply text-lg font-bold;
 }
 </style>

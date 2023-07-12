@@ -1,12 +1,12 @@
 <template>
-  <div class="h-full bg-primary-light-90">
+  <div class="h-full bg-surface text-on-surface">
     <div class="relative -translate-y-20 w-full">
       <div class="relative w-full background">
         <div class="layer" />
       </div>
       <div class="absolute flex flex-col justify-center items-center top-0 w-full h-full pb-5">
         <img class="anim-1 w-[150px] sm:w-[200px]" :src="CSPSLogo" alt="CSPS Logo" />
-        <h4 class="anim-2 mt-10 text-lg px-8 sm:text-2xl lg:text-3xl font-bold text-primary-light-90 text-center">
+        <h4 class="anim-2 mt-10 text-lg px-8 sm:text-2xl lg:text-3xl font-bold text-primary-95 dark:text-on-surface text-center">
           Computing Society of the Philippines - Students
         </h4>
         <svg class="absolute -bottom-1 z-10" height="100" width="100%" version="1.1" xmlns="http://www.w3.org/2000/svg">
@@ -16,55 +16,36 @@
       </div>
     </div>
 
-    <div class="-translate-y-20 bg-primary-light-90">
-      <div class="container mx-auto pt-10">
-        <div class="grid gap-10 grid-cols-1 lg:grid-cols-2">
-          <div class="flex items-center flex-col justify-center">
-            <h1 class="title text-center lg:text-left w-full anim-3 px-6">About us</h1>
+    <div class="-translate-y-20">
+      <div class="container mx-auto pt-10 sm:pt-24">
+        <div class="flex items-center justify-center gap-10">
+          <div class="w-full lg:w-2/3 xl:w-1/2">
+            <h1 class="title text-center lg:text-left anim-3 px-6">About us</h1>
             <p class="anim-4 welcome">
-              Welcome to the  Computing Society of the Philippines - Students (CSP-S)! We are a student body organization that aims to create a welcoming and inclusive community for all computer science students at the University of Cebu - Main Campus. Our goal is to promote inclusivity and diversity within the field of computing, ensuring that every student has the opportunity to explore their interests and succeed in their academic and professional pursuits.
+              Welcome to the  Computing Society of the Philippines - Students!
+              We are a student body organization that aims to create a welcoming and inclusive community for all computer science students at the University of Cebu - Main Campus.
+              Our goal is to promote inclusivity and diversity within the field of computing, ensuring that every student has the opportunity to explore their interests and succeed in their academic and professional pursuits.
               Join us at CSP-S and become part of a community that celebrates diversity and fosters growth and development for all students in the field of computer science. We welcome you with open arms!
             </p>
           </div>
-          <div class="flex justify-center px-6">
-            <img class="anim-5 shadow-primary-light-70 shadow-lg rounded-[32px]" id="csps" :src="Image" />
+          <div class="hidden lg:flex justify-center w-1/4">
+            <img class="anim-5 shadow-primary-light-70 shadow-lg rounded-[28px]" :src="Image" alt="CSPS" />
           </div>
         </div>
         
         <div class="flex flex-col items-center justify-center mb-16 mt-24">
-          <img class="anim-6 w-32 mb-5" :src="CCSLogo" alt="CCS Logo" />
-          <h1 class="anim-7 text-xl lg:text-2xl font-bold text-primary" style="text-align: center;">College of Computer Studies</h1>
+          <img class="anim-6 w-24 sm:w-32 mb-5" :src="CCSLogo" alt="CCS Logo" />
+          <h1 class="anim-7 text-xl lg:text-2xl font-bold text-csps-primary text-center dark:text-on-surface-variant">
+            College of Computer Studies
+          </h1>
         </div>
       </div>
 
-      <div class="flex justify-center relative anim-8">
-        <div class="absolute top-0 left-0 right-0 bottom-0 slides h-full w-full z-[500]" />
-        <swiper-container
-          class="swiper-1 w-full overflow-visible swiper"
-          effect="coverflow"
-          slides-per-view="3"
-          centered-slides="true"
-          round-lengths="true"
-          coverflow-effect-slide-shadows="false"
-          grab-cursor="true"
-        >
-          <swiper-slide class="py-16">
-            <CardAbout class="mx-8 w-full sm:w-1/2 2xl:w-full" title="Mission">
-              We envision being the hub of quality, globally-competitive and socially-responsive information technology education.
-            </CardAbout>
-          </swiper-slide>
-          <swiper-slide class="py-16">
-            <CardAbout class="mx-8 w-full sm:w-1/2 2xl:w-full" title="Vision">
-              <p class="mb-5">We commit to continuously:</p>
-              <ul>
-                <li>Offer relevant programs that mold well-rounded computing professionals;</li>
-                <li>Engage in accreditation and quality standards; and </li>
-                <li>Facilitate in building an IT-enabled nation.</li>
-              </ul>
-            </CardAbout>
-          </swiper-slide>
-          <swiper-slide class="py-16">
-            <CardAbout class="mx-8 w-full sm:w-1/2 2xl:w-full" title="Goals">
+      <div class="container mx-auto px-6">
+        <div class="flex justify-center">
+          <div class="grid grid-cols-1 lg:grid-cols-3 justify-center relative anim-8 gap-5 lg:gap-10 mt-16 w-full xl:w-3/4">
+            <div class="surface">
+              <h2 class="headline-small mb-3">Goals</h2>
               <p class="mb-5">We aim to cultivate a teaching-learning environment that:</p>
               <ul>
                 <li>Promotes scholarly endeavors for the promotion of moral, social, cultural, and environmental interests.</li>
@@ -73,10 +54,26 @@
                 <li>Optimizes the use of appropriate technologies in the delivery of instruction.</li>
                 <li>Provides opportunities for faculty and students to participate in community extension services.</li>
               </ul>
-            </CardAbout>
-          </swiper-slide>
-          <swiper-slide class="py-16">
-            <CardAbout class="mx-8 w-full sm:w-1/2 2xl:w-full" title="Core Values">
+            </div>
+            <div class="grid gap-5 lg:gap-10">
+              <div class="surface">
+                <h2 class="headline-small mb-3">Mission</h2>
+                <p>
+                  We envision being the hub of quality, globally-competitive and socially-responsive information technology education.
+                </p>
+              </div>
+              <div class="surface">
+                <h2 class="headline-small mb-3">Vision</h2>
+                <p class="mb-5">We commit to continuously:</p>
+                <ul>
+                  <li>Offer relevant programs that mold well-rounded computing professionals;</li>
+                  <li>Engage in accreditation and quality standards; and </li>
+                  <li>Facilitate in building an IT-enabled nation.</li>
+                </ul>
+              </div>
+            </div>
+            <div class="surface">
+              <h2 class="headline-small mb-3">Core Values</h2>
               <p class="mb-5">These are the core values that CCS believes in:</p>
               <ul>
                 <li>Initiative (inceptum) wit, practicality, ingenuity</li>
@@ -86,45 +83,34 @@
                 <li>Interdependence (interdependentia) teamwork, cooperation, unity</li>
                 <li>Industry (industria) diligence, perseverance, hard work</li>
               </ul>
-            </CardAbout>
-          </swiper-slide>
-        </swiper-container>
-      </div>
-
-      <div class="container mx-auto">
-        <div class="flex flex-col items-center justify-center mb-16 mt-24">
-          <img class="anim-9 w-36 mb-7" :src="UCLogo" alt="UC Logo" />
-          <h1 class="anim-10 text-2xl font-bold text-primary" style="text-align: center;">University of Cebu</h1>
+            </div>
+          </div>
         </div>
-      </div>
-
-      <div class="relative anim-11">
-        <div class="absolute top-0 left-0 right-0 bottom-0 slides h-full w-full z-[500]" />
-        <swiper-container
-          effect="coverflow"
-          grab-cursor="true"
-          round-lengths="true"
-          centered-slides="true"
-          coverflow-effect-slide-shadows="false"
-          class="swiper-2 py-4 lg:py-8 w-full overflow-hidden lg:overflow-visible"
-        >
-          <swiper-slide class="p-3">
-            <CardAbout class="mx-8 w-full sm:w-1/2 2xl:w-full" title="Mission">
+      
+        <div class="flex flex-col items-center justify-center my-16 lg:my-24">
+          <img class="anim-9 w-24 sm:w-32 mb-7" :src="UCLogo" alt="UC Logo" />
+          <h1 class="anim-10 text-xl lg:text-2xl font-bold text-tertiary-20 dark:text-on-surface-variant" style="text-align: center;">University of Cebu</h1>
+        </div>
+        <div class="flex flex-col md:flex-row justify-center gap-5 lg:gap-10 anim-11">
+          <div class="surface tertiary md:w-1/2 xl:w-1/4">
+            <h2 class="headline-small mb-3">Mission</h2>
+            <p>
               The University offers affordable and quality education responsive to the demands of local and international communities.
-            </CardAbout>
-          </swiper-slide>
-          <swiper-slide class="p-3">
-            <CardAbout class="mx-8 w-full sm:w-1/2 2xl:w-full" title="Vision">
+            </p>
+          </div>
+          <div class="surface tertiary md:w-1/2 xl:w-1/4">
+            <h2 class="headline-small mb-3">Vision</h2>
+            <p>
               Democratize quality education. Be the visionary and industry leader. Give hope and transform lives.
-            </CardAbout>
-          </swiper-slide>
-        </swiper-container>
+            </p>
+          </div>
+        </div>
       </div>
 
       <div class="pb-8">
         <div class="introduction">
-          <h1 class="title pb-[50px] pt-[100px] text-center anim-12">
-            MEET THE <span class="text-secondary">CSPS OFFICERS!</span>
+          <h1 class="title pt-[100px] text-center anim-12">
+            MEET THE <span class="text-csps-secondary">CSPS OFFICERS!</span>
           </h1>
 
           <div class="flex justify-center relative anim-13">
@@ -136,7 +122,7 @@
               round-lengths="true"
               autoplay-delay="3000"
               coverflow-effect-slide-shadows="false"
-              class="officers-swiper swiper-3 py-4 lg:py-8 w-full overflow-hidden lg:overflow-visible"
+              class="officers-swiper py-4 lg:py-8 w-full overflow-hidden lg:overflow-visible"
               autoplay-disable-on-interaction="false"
             >
               <swiper-slide
@@ -146,9 +132,9 @@
               >
                 <CardAbout class="mx-8 w-full sm:w-1/2 2xl:w-full" :title="officer.position">
                   <div class="flex flex-col items-center justify-center">
-                    <img :src="officer.thumb" class="rounded-full w-64 mb-7" loading="lazy" />
-                    <h3 class="text-xl font-bold text-primary mb-2">{{ officer.name }}</h3>
-                    <p class="text-lg text-center">{{ officer.position }}</p>
+                    <img :src="officer.thumb" class="rounded-full w-64 mb-7 dark:filter dark:saturate-[0.9]" loading="lazy" />
+                    <h3 class="text-xl font-bold text-tertiary-20 dark:text-on-surface-variant mb-2">{{ officer.name }}</h3>
+                    <p class="text-lg text-ceter">{{ officer.position }}</p>
                   </div>
                 </CardAbout>
               </swiper-slide>
@@ -176,10 +162,11 @@ import Enrico from '~/assets/img/profile/Enrico.jpg';
 import Rybryb from '~/assets/img/profile/Rybryb.jpg';
 import Andrian from '~/assets/img/profile/Andrian.jpg';
 
-import { ref, onMounted } from 'vue';
-import { wavify } from '~/utils/wavify';
-import { register } from 'swiper/element/bundle';
 import type { SwiperContainer } from 'swiper/element';
+import { ref, onMounted, watch } from 'vue';
+import { wavify } from '~/utils/wavify';
+import { useStore } from '~/store';
+import { register } from 'swiper/element/bundle';
 import ScrollTrigger from "gsap/ScrollTrigger";
 import gsap from "gsap";
 
@@ -187,6 +174,7 @@ import CardAbout from '~/composables/CardAbout.vue';
 
 gsap.registerPlugin(ScrollTrigger);
 
+const store = useStore();
 const wavifyEl = ref();
 const officers = [
   { name: "Jewel Cedrick Gesim", position: "President", thumb: Jewel },
@@ -202,12 +190,21 @@ const officers = [
 
 register();
 
+let wavifyInstance: Wavify;
+
+watch(() => store.isDark, v => {
+  if (!wavifyInstance) return;
+  wavifyInstance.updateColor({
+    color: v ? "#1e1b1e" : "#fffbff"
+  });
+})
+
 onMounted(() => {
-  wavify(wavifyEl.value, {
+  wavifyInstance = wavify(wavifyEl.value, {
     height: 50,
     bones: 6,
     amplitude: 30,
-    color: "rgb(237, 233, 238)",
+    color: store.isDark ? "#1e1b1e" : "#fffbff",
     speed: .25,
   });
 
@@ -277,42 +274,10 @@ onMounted(() => {
     },
   });
 
-  const swiper1: SwiperContainer | null = document.querySelector('.swiper-1');
-  if (swiper1 === null) return;
+  const swiper: SwiperContainer | null = document.querySelector('.officers-swiper');
+  if (swiper === null) return;
 
-  Object.assign(swiper1, {
-    slidesPerView: 1,
-    spaceBetween: 100,
-    breakpoints: {
-      0: {
-        slidesPerView: 1,
-      },
-      1536: {
-        slidesPerView: 3,
-      },
-    },
-  });
-
-  const swiper2: SwiperContainer | null = document.querySelector('.swiper-2');
-  if (swiper2 === null) return;
-
-  Object.assign(swiper2, {
-    slidesPerView: 1,
-    spaceBetween: 100,
-    breakpoints: {
-      0: {
-        slidesPerView: 1,
-      },
-      1536: {
-        slidesPerView: 3,
-      },
-    },
-  });
-
-  const swiper3: SwiperContainer | null = document.querySelector('.swiper-3');
-  if (swiper3 === null) return;
-
-  Object.assign(swiper3, {
+  Object.assign(swiper, {
     slidesPerView: 1,
     breakpoints: {
       0: {
@@ -324,92 +289,47 @@ onMounted(() => {
     },
   });
 
-  swiper1.initialize();
-  swiper2.initialize();
-  swiper3.initialize();
+  swiper.initialize();
 });
 </script>
 
 .<style lang="scss" scoped>
-#top{
-  margin-top: -40px;
-  margin-left: 50px;
-  width: 300px;
-  height: 300px;
-  position: absolute;
-}
-
-.lin_grad {
-  width: 400px;
-  height: 400px;            
-  position: absolute;
-  top: 0;
-  left: 0;
-  background-image: linear-gradient(#06203F,white);
-  border-radius: 32px;
-  box-shadow: 0px 5px 10px 0px;
-}
-
-#position{
-  margin-top: 20px;
-  color: #D4A923;
-  font-size: 20px;
-  font-weight: bold;
-}
-
-.title{
-  @apply text-primary mb-7 font-bold text-3xl;
+.title {
+  @apply text-csps-primary dark:text-on-background mb-8 font-bold text-2xl lg:text-3xl;
 }
 
 .welcome {
-  @apply text-primary-dark-90 text-sm leading-7 lg:text-lg text-justify lg:leading-8 px-6;
+  @apply text-sm leading-7 md:text-base 2xl:text-lg text-justify md:leading-8 2xl:leading-9 px-6;
 }
 
 ul {
   @apply list-disc mt-3;
 
   li {
-    @apply ml-6 pb-5 text-start leading-7 text-primary lg:leading-[30px];
+    @apply ml-6 pb-5 text-start leading-7 lg:leading-[30px];
   }
 }
 
-.line{
-  margin: auto;
-  padding-top: 50px;
-}
-
-.ccs{
-  font-size: 20px;
-  font-weight: bold;
-  padding-bottom: 50px;
-  
-  @apply text-primary;
-}
-
 .background {
-  height: 500px;
+  @apply h-[450px] sm:h-[500px];
+
   background-image: url("~/assets/img/background.png");
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;
 
   .layer {
-    @apply absolute top-0 left-0 w-full h-full bg-primary/90;
+    @apply absolute top-0 left-0 w-full h-full bg-csps-primary/90 dark:bg-surface-variant dark:opacity-90;
   }
-}
-
-.slides {
-  @apply pointer-events-none;
-  background-image: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0) 75%, theme("colors.primary-light-90"));
 }
 
 .officers {
   @apply pointer-events-none;
-  background-image: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0) 30%, theme("colors.primary-light-90"));
+  background-image: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0) 30%, theme("colors.surface"));
 }
 
 .officers-swiper {
-  --swiper-pagination-color: theme("colors.primary");
+  --swiper-pagination-color: theme("colors.csps-primary");
 }
 
 swiper-slide {

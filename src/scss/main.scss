@@ -2,13 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
-@import "variables.scss";
+@import url("./theme/theme.scss");
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap');
 
 :root {
   ::selection {
-    background-color: $purple-container;
-    color: $purple;
+    @apply bg-primary-90 text-csps-primary;
   }
   
   @apply overflow-x-hidden h-full min-h-full;
@@ -33,7 +32,7 @@ html, body, #app {
 }
 
 body {
-  @apply bg-primary h-full min-h-full;
+  @apply bg-csps-primary dark:bg-background text-primary-95 dark:text-on-background  h-full min-h-full;
 }
 
 *::-webkit-scrollbar {
@@ -41,11 +40,11 @@ body {
 }
 
 *::-webkit-scrollbar-track {
-  @apply bg-gray-50 dark:bg-primary;
+  @apply bg-csps-primary dark:bg-surface;
 }
 
 *::-webkit-scrollbar-thumb {
-  @apply bg-secondary dark:bg-secondary;
+  @apply bg-csps-secondary dark:bg-primary;
   border-radius: 20px;
 }
 
@@ -56,3 +55,39 @@ img {
 .swiper {
   overflow: visible !important;
 }
+
+.surface {
+  @apply bg-surface-variant text-on-surface-variant p-7 rounded-[28px]
+    transition-shadow duration-200 hover:shadow-lg;
+
+  h2 {
+    @apply relative w-min whitespace-nowrap z-10;
+
+    &::before {
+      content: '';
+      z-index: -1;
+      @apply absolute bg-neutral-600 dark:bg-neutral-400 w-full h-1/2 opacity-25 rounded-md translate-y-full;
+    }
+  }
+
+  p {
+    @apply leading-7;
+  }
+}
+
+.surface.tertiary {
+  @apply bg-tertiary-container text-on-tertiary-container;
+
+  h2::before {
+    @apply bg-tertiary-50 dark:bg-tertiary-70;
+  }
+}
+
+.surface.primary {
+  @apply bg-primary-container text-on-primary-container;
+}
+
+.surface.secondary {
+  @apply bg-secondary-container text-on-secondary-container;
+}
+

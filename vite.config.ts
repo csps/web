@@ -9,7 +9,7 @@ export default defineConfig({
     vue({
       template: {
         compilerOptions: {
-          isCustomElement: tag => tag.startsWith('swiper-')
+          isCustomElement: tag => tag.startsWith('swiper-') || tag.startsWith('md-')
         }
       }
     })

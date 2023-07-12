@@ -1,5 +1,5 @@
 <template>
-  <footer class="w-screen px-6 py-12 bg-primary flex flex-col justify-center z-[1000]">
+  <footer class="w-screen px-6 py-12 flex flex-col justify-center z-[1000]">
     <div class="flex flex-col md:flex-row justify-center items-center gap-x-10 gap-y-5">
       <div class="flex items-center gap-5">
         <img :src="CSPSLogo" alt="logo" class="w-14 h-14 sm:w-16 sm:h-16">
@@ -62,7 +62,7 @@ a {
   background-size: cover;
 
   .layer {
-    @apply absolute top-0 left-0 w-full h-full bg-primary/90;
+    @apply absolute top-0 left-0 w-full h-full bg-csps-primary/90;
   }
 }
 </style>

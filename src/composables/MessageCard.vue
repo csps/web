@@ -42,15 +42,15 @@ defineProps({
 
 <style lang="scss" scoped>
 .profile {
-  @apply w-[200px] h-[200px] absolute overflow-hidden rounded-full top-28 left-1/2 -translate-x-1/2 -translate-y-1/2 border-[8px] z-[500] border-white/50;
+  @apply w-[200px] h-[200px] absolute overflow-hidden rounded-full top-28 left-1/2 -translate-x-1/2 -translate-y-1/2 border-[8px] z-[500] border-white/50 dark:border-neutral-100/10;
 }
 
 h2 {
-  @apply text-xl font-bold mt-12 mb-1.5 text-primary-dark-10;
+  @apply text-xl font-bold mt-12 mb-1.5 text-csps-primary dark:text-on-primary-container;
 }
 
 h5 {
-  @apply text-sm mb-3 text-neutral-700;
+  @apply text-sm mb-3 text-neutral-700 dark:text-neutral-90;
 }
 
 p {
@@ -67,11 +67,11 @@ p {
 }
 
 .outer {
-  @apply mx-4 w-full md:w-3/4 lg:w-4/5 xl:w-2/3 2xl:w-3/4 3xl:w-1/2 flex flex-col items-center p-[6px] rounded-[32px] bg-white/50;
+  @apply mx-4 w-full md:w-3/4 lg:w-4/5 xl:w-2/3 2xl:w-3/4 3xl:w-1/2 flex flex-col items-center p-[6px] rounded-[32px] bg-white/50 dark:bg-neutral-100/10;
 }
 
 .inner {
-  @apply rounded-[32px] p-6 pt-14 sm:p-14 bg-white/95;
+  @apply rounded-[32px] p-6 pt-14 sm:p-14 bg-surface text-on-surface;
 }
 
 p {

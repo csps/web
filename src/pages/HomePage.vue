@@ -3,10 +3,10 @@
     <!-- Call To Action -->
     <div class="rounded-br-3xl rounded-bl-3xl -z-[1]">
       <div class="container mx-auto text-center pt-16 pb-10 2xl:pt-28 2xl:pb-20 px-4">
-        <h2 class="text-3xl 2xl:text-4xl font-bold text-primary-light-90 mb-3" ref="title">
+        <h2 class="text-3xl 2xl:text-4xl font-bold mb-3 dark:text-primary-90" ref="title">
           Dive into the world of Computer Science
         </h2>
-        <h5 class="text-base 2xl:text-xl font-medium text-primary-light-60" ref="subtitle">
+        <h5 class="text-base 2xl:text-xl font-medium text-neutral-80 dark:text-neutral-70" ref="subtitle">
           Connect, collaborate, and Grow Together
         </h5>
         <div class="pt-9 space-x-3" ref="buttons">
@@ -27,7 +27,7 @@
       </svg>
     </div>
 
-    <div class="bg-secondary pb-24 -translate-y-1 overflow-x-hidden">
+    <div class="bg-csps-secondary dark:bg-surface-variant pb-24 -translate-y-1 overflow-x-hidden">
       <swiper-container
         ref="message"
         effect="coverflow"
@@ -57,8 +57,9 @@
 <script lang="ts" setup>
 import { register } from 'swiper/element/bundle';
 import { wavify } from "~/utils/wavify";
+import { useStore } from "~/store";
 import { mdiArrowRight } from '@mdi/js';
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, watch } from 'vue';
 import gsap from "gsap";
 
 import VButton from '~/components/VButton.vue';
@@ -88,18 +89,28 @@ const messages = [
   },
 ];
 
+const store = useStore();
 const wavifyEl = ref();
 const title = ref();
 const subtitle = ref();
 const buttons = ref();
 const message = ref();
 
+let wavifyInstance: Wavify;
+
+watch(() => store.isDark, v => {
+  if (!wavifyInstance) return;
+  wavifyInstance.updateColor({
+    color: v ? "#4c444d" : "#D4A923"
+  });
+})
+
 onMounted(() => {
-  wavify(wavifyEl.value, {
+  wavifyInstance = wavify(wavifyEl.value, {
     height: 50,
     bones: 5,
     amplitude: 50,
-    color: "#D4A923",
+    color: store.isDark ? "#4c444d" : "#D4A923",
     speed: .25,
   });
 

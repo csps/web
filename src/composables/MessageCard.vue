@@ -7,7 +7,7 @@
     <div class="inner w-full">
       <h2 class="text-center">{{ name }}</h2>
       <h5 class="text-center pb-4 sm:pb-8">{{ position }}</h5>
-      <div class="text-sm leading-6 text-justify message">
+      <div class="text-justify message">
         <p v-for="(p, i) in message" :key="i">
           <div v-if="Array.isArray(p)" class="closing">
             <p v-for="(c, j) in p" :key="j">{{ c }}</p>
@@ -46,16 +46,19 @@ defineProps({
 }
 
 h2 {
-  @apply text-xl font-bold mt-12 mb-1.5 text-csps-primary dark:text-on-primary-container;
+  @apply text-xl font-bold mt-12 mb-1.5 text-primary-30 dark:text-on-surface-variant;
 }
 
 h5 {
-  @apply text-sm mb-3 text-neutral-700 dark:text-neutral-90;
+  @apply text-xs sm:text-sm mb-3 text-neutral-700 dark:text-neutral-90;
 }
 
 p {
-  @apply text-sm leading-6 sm:text-base sm:leading-7;
   font-family: Arial, Helvetica, sans-serif;
+}
+
+.message {
+  @apply text-sm tracking-[0.25px] sm:text-base;
 }
 
 .message > p {
@@ -71,7 +74,7 @@ p {
 }
 
 .inner {
-  @apply rounded-[32px] p-6 pt-14 sm:p-14 bg-surface text-on-surface;
+  @apply rounded-[32px] p-6 pt-14 sm:p-14 bg-surface text-on-surface dark:text-on-surface-variant;
 }
 
 p {

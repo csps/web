@@ -29,11 +29,9 @@
 
         <div class="xl:flex justify-end space-x-5 hidden">
           <v-button
-            :class="{ 'dark:!text-on-surface': route.name === 'About' }"
             v-for="link in NAV_LINKS"
+            :color="route.name === 'Home' && !store.isDark ? 'transparent' : 'primary'"
             :key="link.path"
-            :transparent="transparent"
-            color="transparent"
             :to="link.path"
           >
             {{ link.name }}
@@ -108,6 +106,7 @@ function back() {
 }
 
 h3 {
-  @apply text-lg font-bold;
+  @apply text-base font-bold;
 }
 </style>
+

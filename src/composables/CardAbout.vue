@@ -17,15 +17,15 @@ defineProps({
 
 <style lang="scss" scoped>
 .card {
-  @apply bg-tertiary-95 dark:bg-surface-variant p-8 lg:p-14 rounded-[28px] relative shadow-xl;
+  @apply bg-tertiary-95 dark:bg-tertiary dark:border-2 border-outline p-8 lg:p-14 rounded-[28px] relative shadow-xl;
 }
 
 h4 {
-  @apply text-tertiary-20 dark:text-on-surface-variant text-center text-2xl font-bold mb-5;
+  @apply text-tertiary-20 dark:text-on-tertiary text-center text-2xl font-bold mb-5;
 }
 
 p { 
-  @apply text-tertiary-30 dark:text-on-surface-variant font-medium text-sm leading-7 lg:text-base text-center lg:leading-[30px];
+  @apply text-tertiary-30 dark:text-on-tertiary font-medium text-sm leading-7 lg:text-base text-center lg:leading-[30px];
 }
 
 .b {

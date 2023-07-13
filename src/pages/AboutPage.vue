@@ -43,7 +43,7 @@
 
       <div class="container mx-auto px-6">
         <div class="flex justify-center">
-          <div class="grid grid-cols-1 lg:grid-cols-3 justify-center relative anim-8 gap-5 lg:gap-10 mt-16 w-full xl:w-3/4">
+          <div class="grid grid-cols-1 lg:grid-cols-3 justify-center relative anim-8 gap-5 lg:gap-10 mt-12 w-full xl:w-3/4">
             <div class="surface">
               <h2 class="headline-small mb-3">Goals</h2>
               <p class="mb-5">We aim to cultivate a teaching-learning environment that:</p>
@@ -89,7 +89,9 @@
       
         <div class="flex flex-col items-center justify-center my-16 lg:my-24">
           <img class="anim-9 w-24 sm:w-32 mb-7" :src="UCLogo" alt="UC Logo" />
-          <h1 class="anim-10 text-xl lg:text-2xl font-bold text-tertiary-20 dark:text-on-surface-variant" style="text-align: center;">University of Cebu</h1>
+          <h1 class="anim-10 text-xl lg:text-2xl font-bold text-tertiary-20 dark:text-on-surface-variant text-center">
+            University of Cebu
+          </h1>
         </div>
         <div class="flex flex-col md:flex-row justify-center gap-5 lg:gap-10 anim-11">
           <div class="surface tertiary md:w-1/2 xl:w-1/4">
@@ -109,8 +111,8 @@
 
       <div class="pb-8">
         <div class="introduction">
-          <h1 class="title pt-[100px] text-center anim-12">
-            MEET THE <span class="text-csps-secondary">CSPS OFFICERS!</span>
+          <h1 class="title mt-[150px] text-center anim-12">
+            MEET THE <span class="text-csps-secondary dark:text-tertiary-80">CSPS OFFICERS!</span>
           </h1>
 
           <div class="flex justify-center relative anim-13">
@@ -130,11 +132,11 @@
                 v-for="officer in officers"
                 :key="officer.name"
               >
-                <CardAbout class="mx-8 w-full sm:w-1/2 2xl:w-full" :title="officer.position">
+                <CardAbout class="mx-8 w-full md:w-1/3 xl:w-full" :title="officer.position">
                   <div class="flex flex-col items-center justify-center">
-                    <img :src="officer.thumb" class="rounded-full w-64 mb-7 dark:filter dark:saturate-[0.9]" loading="lazy" />
-                    <h3 class="text-xl font-bold text-tertiary-20 dark:text-on-surface-variant mb-2">{{ officer.name }}</h3>
-                    <p class="text-lg text-ceter">{{ officer.position }}</p>
+                    <img :src="officer.thumb" class="rounded-full w-64 mb-7 dark:filter dark:saturate-[0.9] shadow-sm shadow-tertiary-60" loading="lazy" />
+                    <h3 class="text-xl font-bold text-tertiary-20 dark:text-on-tertiary mb-2">{{ officer.name }}</h3>
+                    <p class="text-lg text-center">{{ officer.position }}</p>
                   </div>
                 </CardAbout>
               </swiper-slide>
@@ -279,11 +281,18 @@ onMounted(() => {
 
   Object.assign(swiper, {
     slidesPerView: 1,
+    spaceBetween: 0 ,
     breakpoints: {
       0: {
+        spaceBetween: 0,
         slidesPerView: 1,
       },
+      1280: {
+        spaceBetween: 0,
+        slidesPerView: 3,
+      },
       1536: {
+        spaceBetween: 0,
         slidesPerView: 4,
       },
     },
@@ -319,7 +328,7 @@ ul {
   background-size: cover;
 
   .layer {
-    @apply absolute top-0 left-0 w-full h-full bg-csps-primary/90 dark:bg-surface-variant dark:opacity-90;
+    @apply absolute top-0 left-0 w-full h-full bg-csps-primary/90 dark:bg-surface-variant;
   }
 }
 

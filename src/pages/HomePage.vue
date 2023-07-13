@@ -2,20 +2,19 @@
   <div class="relative">
     <!-- Call To Action -->
     <div class="rounded-br-3xl rounded-bl-3xl -z-[1]">
-      <div class="container mx-auto text-center pt-16 pb-10 2xl:pt-28 2xl:pb-20 px-4">
-        <h2 class="text-3xl 2xl:text-4xl font-bold mb-3 dark:text-primary-90" ref="title">
+      <div class="container mx-auto text-center pt-16 pb-10 2xl:pt-20 2xl:pb-16 px-6">
+        <h2 class="text-2xl md:text-3xl font-bold" ref="title">
           Dive into the world of Computer Science
         </h2>
-        <h5 class="text-base 2xl:text-xl font-medium text-neutral-80 dark:text-neutral-70" ref="subtitle">
+        <h5 class="text-sm md:text-base xl:text-lg font-medium text-neutral-80 dark:text-neutral-70 mt-3 mb-6" ref="subtitle">
           Connect, collaborate, and Grow Together
         </h5>
-        <div class="pt-9 space-x-3" ref="buttons">
-          <v-button to="/login" color="secondary" large>
+        <div class="flex justify-center space-x-3" ref="buttons">
+          <v-button to="/login" :color="store.isDark ? 'primary' : 'secondary'" variant="filled">
             Login
           </v-button>
-          <v-button to="/about" large>
+          <v-button to="/about" :color="store.isDark ? 'primary' : 'secondary'" :trailing-icon="mdiArrowRight">
             Explore
-            <v-icon :path="mdiArrowRight" />
           </v-button>
         </div>
       </div>
@@ -63,7 +62,6 @@ import { ref, onMounted, watch } from 'vue';
 import gsap from "gsap";
 
 import VButton from '~/components/VButton.vue';
-import VIcon from '~/components/VIcon.vue';
 import MessageCard from '~/composables/MessageCard.vue';
 
 import Dean from "~/assets/img/profile/Dean.jpg";
@@ -129,3 +127,4 @@ onMounted(() => {
   );
 });
 </script>
+

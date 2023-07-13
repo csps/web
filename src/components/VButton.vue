@@ -1,65 +1,82 @@
 <template>
-  <component
-    class="btn"
-    :is="to ? 'router-link' : 'button'"
-    :class="[large ? 'large' : '', icon ? 'btn-icon' : 'btn-' + color, transparent ? 'btn-transparent' : '']"
-    :to="to"
-    v-wave="noRipple ? false : rippleColor ? { color: rippleColor } : true" 
-  >
-    <v-icon v-if="icon" :path="icon" />
-    <slot v-else />
-  </component>
+  <router-link v-if="to" :to="to">
+    <component
+      :is="getComponentByVariant(variant)" :trailingIcon="trailingIcon"
+      class="md3-button"
+      :class="{
+        'transparent': color === 'transparent',
+        'primary': color === 'primary',
+        'secondary': color === 'secondary',
+        'tertiary': color === 'tertiary',
+      }"
+    >
+      <slot />
+
+      <svg v-if="trailingIcon || leadingIcon" slot="icon" viewBox="0 0 24 24">
+        <path :d="trailingIcon || leadingIcon" />
+      </svg>
+    </component>
+  </router-link>
 </template>
 
 <script lang="ts" setup>
-import VIcon from './VIcon.vue';
+import "@material/web/button/filled-button";
+import "@material/web/button/tonal-button";
+import "@material/web/button/outlined-button";
+import "@material/web/button/elevated-button";
+import "@material/web/button/text-button";
+
+type ButtonVariant = "elevated" | "filled" | "outlined" | "tonal" | "text";
+type ButtonColor = "primary" | "secondary" | "tertiary" | "transparent";
 
 withDefaults(defineProps<{
-  variant?: "default" | "outlined" | "tonal" | "text",
-  icon?: string,
-  color?: string,
-  noRipple?: boolean,
+  variant?: ButtonVariant,
+  color?: ButtonColor,
   to?: string,
-  large?: boolean,
-  transparent?: boolean,
-  rippleColor?: string,
+  trailingIcon?: string,
+  leadingIcon?: string,
 }>(), {
-  variant: 'default',
-  color: "transparent",
-  noRipple: false,
-  transparent: false,
+  variant: 'text',
+  color: "primary",
 });
 
+/**
+ * Get component by variant
+ * @param variant Button variant
+ */
+function getComponentByVariant(variant?: ButtonVariant) {
+  switch (variant) {
+    case "elevated":
+      return "md-elevated-button";
+    case "filled":
+      return "md-filled-button";
+    case "outlined":
+      return "md-outlined-button";
+    case "tonal":
+      return "md-tonal-button";
+    case "text":
+      return "md-text-button";
+    default:
+      return "md-elevated-button";
+  }
+}
 </script>
 
 <style lang="scss" scoped>
-.btn {
-  @apply cursor-none sm:cursor-pointer dark:text-neutral-70;
-}
+.md3-button {
+  &.secondary {
+    --md-sys-color-primary: theme("colors.csps-secondary");
+    --md-sys-color-on-primary: theme("colors.secondary-20");
+  }
 
-.btn:not(.btn-icon) {
-  @apply min-w-min px-4 py-1.5 rounded-lg whitespace-nowrap font-medium;
-}
+  &.tertiary {
+    --md-sys-color-primary: theme("colors.csps-tertiary");
+    --md-sys-color-on-primary: theme("colors.tertiary-20");
+  }
 
-.btn.large {
-  @apply px-5 py-3 #{!important};
-}
-
-.btn-icon {
-  @apply p-2 bg-primary text-primary-90 hover:bg-primary-10 rounded-full;
-}
-
-.btn-primary {
-  @apply bg-csps-primary hover:bg-purple-200/10;
-}
-
-.btn-transparent {
-  @extend .btn-primary;
-  @apply bg-transparent hover:bg-purple-200/10;
-}
-
-.btn-secondary {
-  @apply bg-csps-secondary text-secondary-10 hover:bg-secondary-80
-    dark:bg-primary dark:hover:bg-primary-30 dark:text-on-primary;
+  &.transparent {
+    --md-sys-color-primary: theme("colors.primary-90");
+    --md-sys-color-on-primary: theme("colors.primary-20");
+  }
 }
 </style>

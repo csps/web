@@ -30,7 +30,7 @@
         <div class="xl:flex justify-end space-x-5 hidden">
           <v-button
             v-for="link in NAV_LINKS"
-            :color="route.name === 'Home' && !store.isDark ? 'transparent' : 'primary'"
+            color="transparent"
             :key="link.path"
             :to="link.path"
           >
@@ -52,7 +52,7 @@ import CCSLogo from '~/assets/img/ccs_logo.png';
 import CSPSLogo from '~/assets/img/csps_logo.png';
 import UCLogo from '~/assets/img/uc_logo.png';
 
-import { useRouter, useRoute } from 'vue-router';
+import { useRouter } from 'vue-router';
 import { mdiMenu, mdiArrowLeft } from "@mdi/js";
 import { Env, NAV_LINKS } from "~/config";
 import { useStore } from "~/store";
@@ -78,7 +78,6 @@ onMounted(() => {
 });
 
 const store = useStore();
-const route = useRoute();
 const router = useRouter();
 
 function onThemeChange() {

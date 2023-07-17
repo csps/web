@@ -91,3 +91,8 @@ img {
   @apply bg-secondary-container text-on-secondary-container;
 }
 
+md-filled-button, md-text-button,
+md-outlined-button, md-tonal-button,
+md-elevated-button {
+  --_label-text-type: var(--md-text-button-label-text-type, var(--md-sys-typescale-label-large, 500 0.875rem / 1.25rem var(--md-ref-typeface-plain, 'Poppins')));
+}

@@ -2,7 +2,7 @@
   <div class="relative">
     <!-- Call To Action -->
     <div class="rounded-br-3xl rounded-bl-3xl -z-[1]">
-      <div class="container mx-auto text-center pt-16 pb-10 2xl:pt-20 2xl:pb-16 px-6">
+      <div class="container mx-auto text-center pt-16 pb-10 2xl:pt-20 2xl:pb-8 px-6">
         <h2 class="text-2xl md:text-3xl font-bold" ref="title">
           Dive into the world of Computer Science
         </h2>

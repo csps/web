@@ -58,7 +58,7 @@ p {
 }
 
 .message {
-  @apply text-sm tracking-[0.25px] sm:text-base;
+  @apply text-sm tracking-[0.1px] sm:text-base;
 }
 
 .message > p {

@@ -308,7 +308,7 @@ onMounted(() => {
 }
 
 .welcome {
-  @apply text-sm leading-7 md:text-base 2xl:text-lg text-justify md:leading-8 2xl:leading-9 px-6;
+  @apply text-sm leading-7 md:text-base 2xl:text-lg text-justify md:leading-8 2xl:leading-[34px] px-6;
 }
 
 ul {

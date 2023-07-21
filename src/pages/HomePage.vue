@@ -18,12 +18,9 @@
           </v-button>
         </div>
       </div>
-
-      <!-- Wavify -->
-      <svg width="100%" height="100%" version="1.1" xmlns="http://www.w3.org/2000/svg">
-        <defs></defs>
-        <path ref="wavifyEl" d="" />
-      </svg>
+      <div class="w-full overflow-hidden">
+        <canvas ref="waveEl"></canvas>
+      </div>
     </div>
 
     <div class="bg-csps-secondary dark:bg-surface-variant pb-24 -translate-y-1 overflow-x-hidden">
@@ -55,11 +52,10 @@
 
 <script lang="ts" setup>
 import { register } from 'swiper/element/bundle';
-import { wavify } from "~/utils/wavify";
 import { useStore } from "~/store";
 import { mdiArrowRight } from '@mdi/js';
 import { ref, onMounted, watch } from 'vue';
-import gsap from "gsap";
+import wave from "~/utils/wave";
 
 import VButton from '~/components/VButton.vue';
 import MessageCard from '~/composables/MessageCard.vue';
@@ -88,43 +84,23 @@ const messages = [
 ];
 
 const store = useStore();
-const wavifyEl = ref();
+const waveEl = ref();
 const title = ref();
 const subtitle = ref();
 const buttons = ref();
 const message = ref();
 
-let wavifyInstance: Wavify;
+let wavifyInstance: {
+  setColor: (color: string) => void;
+};
 
 watch(() => store.isDark, v => {
   if (!wavifyInstance) return;
-  wavifyInstance.updateColor({
-    color: v ? "#4c444d" : "#D4A923"
-  });
+  wavifyInstance.setColor(v ? "#4c444d" : "#D4A923");
 })
 
 onMounted(() => {
-  wavifyInstance = wavify(wavifyEl.value, {
-    height: 50,
-    bones: 5,
-    amplitude: 50,
-    color: store.isDark ? "#4c444d" : "#D4A923",
-    speed: .25,
-  });
-
-  gsap.fromTo([title.value, subtitle.value, buttons.value, message.value],
-    {
-      x: -100,
-      opacity: 0,
-    },
-    {
-      duration: 0.5,
-      x: 0,
-      opacity: 1,
-      stagger: 0.1,
-      ease: "power2.out",
-    }
-  );
+  wavifyInstance = wave(waveEl.value, store.isDark ? "#4c444d" : "#D4A923");
 });
 </script>
 

@@ -9,10 +9,9 @@
         <h4 class="anim-2 mt-10 text-lg px-8 sm:text-2xl lg:text-3xl font-bold text-primary-95 dark:text-on-surface text-center">
           Computing Society of the Philippines - Students
         </h4>
-        <svg class="absolute -bottom-1 z-10" height="100" width="100%" version="1.1" xmlns="http://www.w3.org/2000/svg">
-          <defs></defs>
-          <path ref="wavifyEl" d=""/>
-        </svg>
+        <div class="w-full overflow-hidden absolute bottom-0 translate-y-1">
+          <canvas ref="waveEl"></canvas>
+        </div>
       </div>
     </div>
 
@@ -166,18 +165,14 @@ import Andrian from '~/assets/img/profile/Andrian.jpg';
 
 import type { SwiperContainer } from 'swiper/element';
 import { ref, onMounted, watch } from 'vue';
-import { wavify } from '~/utils/wavify';
-import { useStore } from '~/store';
 import { register } from 'swiper/element/bundle';
-import ScrollTrigger from "gsap/ScrollTrigger";
-import gsap from "gsap";
+import { useStore } from "~/store"; 
+import wave from "~/utils/wave";
 
 import CardAbout from '~/composables/CardAbout.vue';
 
-gsap.registerPlugin(ScrollTrigger);
-
 const store = useStore();
-const wavifyEl = ref();
+const waveEl = ref();
 const officers = [
   { name: "Jewel Cedrick Gesim", position: "President", thumb: Jewel },
   { name: "Brian Keith Lisondra", position: "VP - Internal", thumb: Brian },
@@ -190,91 +185,19 @@ const officers = [
   { name: "Andrian Paul Sedigo", position: "P.I.O", thumb: Andrian },
 ];
 
-register();
+let wavifyInstance: {
+  setColor: (color: string) => void;
+};
 
-let wavifyInstance: Wavify;
+register();
 
 watch(() => store.isDark, v => {
   if (!wavifyInstance) return;
-  wavifyInstance.updateColor({
-    color: v ? "#1e1b1e" : "#fffbff"
-  });
+  wavifyInstance.setColor(v ? "#1e1b1e" : "#fffbff");
 })
 
 onMounted(() => {
-  wavifyInstance = wavify(wavifyEl.value, {
-    height: 50,
-    bones: 6,
-    amplitude: 30,
-    color: store.isDark ? "#1e1b1e" : "#fffbff",
-    speed: .25,
-  });
-
-  const fromAnim = {
-    x: -100,
-    opacity: 0,
-  };
-
-  const toAnim = {
-    x: 0,
-    stagger: 0.2,
-    opacity: 1,
-  };
-
-  gsap.fromTo([".anim-1", ".anim-2", ".anim-3", ".anim-4", ".anim-5"], fromAnim, toAnim);
-  gsap.fromTo([".anim-6", ".anim-7"], fromAnim, {
-    ...toAnim,
-    scrollTrigger: {
-      trigger: ".anim-6",
-      start: "top 60%",
-      end: "bottom center",
-    },
-  });
-  
-  gsap.fromTo(".anim-8", fromAnim, {
-    ...toAnim,
-    scrollTrigger: {
-      trigger: ".anim-8",
-      start: "top center",
-      end: "bottom center",
-    },
-  });
-  
-  gsap.fromTo([".anim-9", ".anim-10"], fromAnim, {
-    ...toAnim,
-    scrollTrigger: {
-      trigger: ".anim-9",
-      start: "top 60%",
-      end: "bottom center",
-    },
-  });
-
-  gsap.fromTo(".anim-11", fromAnim, {
-    ...toAnim,
-    scrollTrigger: {
-      trigger: ".anim-11",
-      start: "top center",
-      end: "bottom center",
-    },
-  });
-
-  gsap.fromTo(".anim-12", fromAnim, {
-    ...toAnim,
-    scrollTrigger: {
-      trigger: ".anim-12",
-      start: "top 50%",
-      end: "bottom center",
-    },
-  });
-
-  gsap.fromTo(".anim-13", fromAnim, {
-    ...toAnim,
-    scrollTrigger: {
-      trigger: ".anim-13",
-      start: "top center",
-      end: "bottom center",
-    },
-  });
+  wavifyInstance = wave(waveEl.value, store.isDark ? "#1e1b1e" : "#fffbff");
 
   const swiper: SwiperContainer | null = document.querySelector('.officers-swiper');
   if (swiper === null) return;

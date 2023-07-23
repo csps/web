@@ -33,6 +33,7 @@ html, body, #app {
 
 body {
   @apply h-full min-h-full bg-background text-on-background;
+  --sal-duration: 500ms;
 }
 
 *::-webkit-scrollbar {
@@ -57,8 +58,7 @@ img {
 }
 
 .surface {
-  @apply bg-surface-variant text-on-surface-variant p-7 rounded-[28px]
-    transition-shadow duration-200 hover:shadow-lg;
+  @apply bg-surface-variant text-on-surface-variant p-7 rounded-[28px]  hover:shadow-lg;
 
   h2 {
     @apply relative w-min whitespace-nowrap z-10;

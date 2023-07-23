@@ -3,13 +3,13 @@
     <!-- Call To Action -->
     <div class="rounded-br-3xl rounded-bl-3xl -z-[1]">
       <div class="container mx-auto text-center pt-16 pb-10 2xl:pt-20 2xl:pb-20 px-6">
-        <h2 class="text-2xl md:text-3xl font-bold text-on-surface-variant" ref="title">
+        <h2 class="text-2xl md:text-3xl font-bold text-on-surface-variant" data-sal="zoom-in" data-sal-repeat>
           Dive into the world of Computer Science
         </h2>
-        <h5 class="text-sm md:text-base xl:text-lg text-on-surface-variant mt-3 mb-6" ref="subtitle">
+        <h5 class="text-sm md:text-base xl:text-lg text-on-surface-variant mt-3 mb-6" data-sal="zoom-in" data-sal-delay="100" data-sal-repeat>
           Connect, collaborate, and Grow Together
         </h5>
-        <div class="flex justify-center space-x-3" ref="buttons">
+        <div class="flex justify-center space-x-3" data-sal="zoom-in" data-sal-repeat data-sal-delay="200">
           <v-button to="/login" color="primary" variant="filled">
             Login
           </v-button>
@@ -56,6 +56,7 @@ import { useStore } from "~/store";
 import { mdiArrowRight } from '@mdi/js';
 import { ref, onMounted, watch } from 'vue';
 import wave from "~/utils/wave";
+import sal from "sal.js";
 
 import VButton from '~/components/VButton.vue';
 import MessageCard from '~/composables/MessageCard.vue';
@@ -85,9 +86,6 @@ const messages = [
 
 const store = useStore();
 const waveEl = ref();
-const title = ref();
-const subtitle = ref();
-const buttons = ref();
 const message = ref();
 
 let wavifyInstance: {
@@ -101,6 +99,7 @@ watch(() => store.isDark, v => {
 
 onMounted(() => {
   wavifyInstance = wave(waveEl.value, store.isDark ? "#4c444d" : "#ebdfe9");
+  sal();
 });
 </script>
 

@@ -5,6 +5,7 @@ import App from './App.vue'
 import router from './router'
 
 import '~/scss/main.scss'
+import 'sal.js/dist/sal.css'
 
 const app = createApp(App);
 const pinia = createPinia();

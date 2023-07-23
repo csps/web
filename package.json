@@ -7,7 +7,6 @@
     "dev": "vite",
     "build": "vue-tsc && vite build",
     "preview": "vite preview",
-
     "bun-dev": "bun run ./node_modules/vite/bin/vite.js",
     "bun-build": "vue-tsc && bun run ./node_modules/vite/bin/vite.js build",
     "bun-preview": "bun run ./node_modules/vite/bin/vite.js preview"
@@ -23,6 +22,7 @@
     "@mdi/js": "^7.2.96",
     "axios": "^1.4.0",
     "pinia": "^2.1.4",
+    "sal.js": "^0.8.5",
     "swiper": "^10.0.4",
     "vue": "^3.3.4",
     "vue-router": "^4.2.4"

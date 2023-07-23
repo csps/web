@@ -13,7 +13,7 @@ export function setDarkMode(isDark: boolean) {
   }
 
   document.documentElement.setAttribute("data-color-scheme", isDark ? "dark" : "light");
-  document.documentElement.querySelector('meta[name="theme-color"]')?.setAttribute('content', isDark ? "#1e1b1e" : "#4A2558");
+  document.documentElement.querySelector('meta[name="theme-color"]')?.setAttribute('content', isDark ? "#1e1b1e" : "#fffbff");
 
   setItem("dark", isDark ? "1" : "0");
 }

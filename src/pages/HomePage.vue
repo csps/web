@@ -2,28 +2,28 @@
   <div class="relative">
     <!-- Call To Action -->
     <div class="rounded-br-3xl rounded-bl-3xl -z-[1]">
-      <div class="container mx-auto text-center pt-16 pb-10 2xl:pt-20 2xl:pb-8 px-6">
-        <h2 class="text-2xl md:text-3xl font-bold" ref="title">
+      <div class="container mx-auto text-center pt-16 pb-10 2xl:pt-20 2xl:pb-20 px-6">
+        <h2 class="text-2xl md:text-3xl font-bold text-on-surface-variant" ref="title">
           Dive into the world of Computer Science
         </h2>
-        <h5 class="text-sm md:text-base xl:text-lg font-medium text-neutral-80 dark:text-neutral-70 mt-3 mb-6" ref="subtitle">
+        <h5 class="text-sm md:text-base xl:text-lg text-on-surface-variant mt-3 mb-6" ref="subtitle">
           Connect, collaborate, and Grow Together
         </h5>
         <div class="flex justify-center space-x-3" ref="buttons">
-          <v-button to="/login" :color="store.isDark ? 'primary' : 'secondary'" variant="filled">
+          <v-button to="/login" color="primary" variant="filled">
             Login
           </v-button>
-          <v-button to="/about" :color="store.isDark ? 'primary' : 'secondary'" :trailing-icon="mdiArrowRight">
+          <v-button to="/about" color="primary" :trailing-icon="mdiArrowRight">
             Explore
           </v-button>
         </div>
       </div>
       <div class="w-full overflow-hidden">
-        <canvas ref="waveEl"></canvas>
+        <canvas ref="waveEl" />
       </div>
     </div>
 
-    <div class="bg-csps-secondary dark:bg-surface-variant pb-24 -translate-y-1 overflow-x-hidden">
+    <div class="bg-surface-variant pb-24 -translate-y-1 overflow-x-hidden">
       <swiper-container
         ref="message"
         effect="coverflow"
@@ -71,7 +71,7 @@ register();
 const messages = [
   {
     image: Adviser,
-    name: "Mr. Huebert Ferolino",
+    name: "Mr. Heubert Ferolino",
     position: "Adviser / Chairperson for Computer Science",
     message: adviserMessage
   },
@@ -96,11 +96,11 @@ let wavifyInstance: {
 
 watch(() => store.isDark, v => {
   if (!wavifyInstance) return;
-  wavifyInstance.setColor(v ? "#4c444d" : "#D4A923");
+  wavifyInstance.setColor(v ? "#4c444d" : "#ebdfe9");
 })
 
 onMounted(() => {
-  wavifyInstance = wave(waveEl.value, store.isDark ? "#4c444d" : "#D4A923");
+  wavifyInstance = wave(waveEl.value, store.isDark ? "#4c444d" : "#ebdfe9");
 });
 </script>
 

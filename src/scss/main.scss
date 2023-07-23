@@ -7,7 +7,7 @@
 
 :root {
   ::selection {
-    @apply bg-primary-90 text-csps-primary;
+    @apply bg-primary text-on-primary;
   }
   
   @apply overflow-x-hidden h-full min-h-full;
@@ -32,7 +32,7 @@ html, body, #app {
 }
 
 body {
-  @apply bg-csps-primary dark:bg-background text-primary-95 dark:text-on-background  h-full min-h-full;
+  @apply h-full min-h-full bg-background text-on-background;
 }
 
 *::-webkit-scrollbar {
@@ -40,11 +40,11 @@ body {
 }
 
 *::-webkit-scrollbar-track {
-  @apply bg-csps-primary dark:bg-surface;
+  @apply bg-surface;
 }
 
 *::-webkit-scrollbar-thumb {
-  @apply bg-csps-secondary dark:bg-primary;
+  @apply bg-primary;
   border-radius: 20px;
 }
 
@@ -77,10 +77,6 @@ img {
 
 .surface.tertiary {
   @apply bg-tertiary-container text-on-tertiary-container;
-
-  h2::before {
-    @apply bg-tertiary-50 dark:bg-tertiary-70;
-  }
 }
 
 .surface.primary {

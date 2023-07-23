@@ -8,6 +8,7 @@
         'primary': color === 'primary',
         'secondary': color === 'secondary',
         'tertiary': color === 'tertiary',
+        'inverse': color === 'inverse',
       }"
     >
       <slot />
@@ -27,7 +28,7 @@ import "@material/web/button/elevated-button";
 import "@material/web/button/text-button";
 
 type ButtonVariant = "elevated" | "filled" | "outlined" | "tonal" | "text";
-type ButtonColor = "primary" | "secondary" | "tertiary" | "transparent";
+type ButtonColor = "primary" | "secondary" | "tertiary" | "transparent" | "inverse";
 
 withDefaults(defineProps<{
   variant?: ButtonVariant,
@@ -65,18 +66,23 @@ function getComponentByVariant(variant?: ButtonVariant) {
 <style lang="scss" scoped>
 .md3-button {
   &.secondary {
-    --md-sys-color-primary: theme("colors.csps-secondary");
-    --md-sys-color-on-primary: theme("colors.secondary-20");
+    --md-sys-color-primary: theme("colors.secondary");
+    --md-sys-color-on-primary: theme("colors.on-secondary");
   }
 
   &.tertiary {
     --md-sys-color-primary: theme("colors.csps-tertiary");
-    --md-sys-color-on-primary: theme("colors.tertiary-20");
+    --md-sys-color-on-primary: theme("colors.on-tertiary");
   }
 
   &.transparent {
-    --md-sys-color-primary: theme("colors.primary-90");
-    --md-sys-color-on-primary: theme("colors.primary-20");
+    --md-sys-color-primary: theme("colors.surface");
+    --md-sys-color-on-primary: theme("colors.on-surface");
+  }
+
+  &.inverse {
+    --md-sys-color-primary: theme("colors.on-surface");
+    --md-sys-color-on-primary: theme("colors.surface");
   }
 }
 </style>

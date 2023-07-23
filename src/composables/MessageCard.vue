@@ -46,11 +46,11 @@ defineProps({
 }
 
 h2 {
-  @apply text-xl font-bold mt-12 mb-1.5 text-primary-30 dark:text-on-surface-variant;
+  @apply text-xl font-bold mt-12 mb-1.5 text-primary dark:text-on-surface-variant;
 }
 
 h5 {
-  @apply text-xs sm:text-sm mb-3 text-neutral-700 dark:text-neutral-90;
+  @apply text-xs sm:text-sm mb-3;
 }
 
 p {
@@ -74,7 +74,7 @@ p {
 }
 
 .inner {
-  @apply rounded-[32px] p-6 pt-14 sm:p-14 bg-surface text-on-surface dark:text-on-surface-variant;
+  @apply rounded-[32px] p-6 pt-14 sm:p-14 bg-surface text-on-surface;
 }
 
 p {

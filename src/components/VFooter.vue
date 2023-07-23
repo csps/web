@@ -4,21 +4,21 @@
       <div class="flex items-center gap-5">
         <img :src="CSPSLogo" alt="logo" class="w-14 h-14 sm:w-16 sm:h-16">
         <div>
-          <p class="text-sm sm:text-base md:text-lg mb-1 text-gray-200 font-medium">
+          <p class="text-sm sm:text-base md:text-lg mb-1 font-medium">
             Computing Society of the Philippines - Students
           </p>
-          <p class="text-xs text-primary-light-70">
+          <p class="text-xs">
             University of Cebu - Main Campus
           </p>
         </div>
       </div>
   
-      <div class="block md:hidden text-xs text-primary-light-70">
+      <div class="block md:hidden text-xs">
         Copyright &copy; {{ year }}. All rights reserved.
       </div>
       
       <div class="flex flex-col">
-        <div class="hidden md:block text-xs text-primary-light-70 text-center mt-4 mb-2">
+        <div class="hidden md:block text-xs text-center mt-4 mb-2">
           Copyright &copy; {{ year }}. All rights reserved.
         </div>
 

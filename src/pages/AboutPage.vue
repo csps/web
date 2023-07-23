@@ -4,11 +4,16 @@
       <div class="relative w-full background">
         <div class="layer" />
       </div>
-      <div class="absolute flex flex-col justify-center items-center top-0 w-full h-full pb-5">
-        <img class="anim-1 w-[150px] sm:w-[200px]" :src="CSPSLogo" alt="CSPS Logo" />
-        <h4 class="anim-2 mt-10 text-lg px-8 sm:text-2xl lg:text-3xl font-bold text-primary-95 dark:text-on-surface text-center">
-          Computing Society of the Philippines - Students
-        </h4>
+      <div class="absolute flex flex-col md:flex-row justify-center items-center top-0 w-full h-full">
+        <img class="anim-1 w-[100px] sm:w-[150px]" :src="CSPSLogo" alt="CSPS Logo" />
+        <div class="px-8 text-center md:text-left">
+          <h4 class="anim-2 mt-5 text-sm sm:text-lg md:text-2xl font-medium text-on-secondary-container mb-2">
+            Computing Society of the Philippines - Students
+          </h4>
+          <h5 class="text-sm sm:text-base text-on-surface">
+            University of Cebu - Main Campus
+          </h5>
+        </div>
         <div class="w-full overflow-hidden absolute bottom-0 translate-y-1">
           <canvas ref="waveEl"></canvas>
         </div>
@@ -43,7 +48,7 @@
       <div class="container mx-auto px-6">
         <div class="flex justify-center">
           <div class="grid grid-cols-1 lg:grid-cols-3 justify-center relative anim-8 gap-5 lg:gap-10 mt-12 w-full xl:w-3/4">
-            <div class="surface">
+            <div class="surface secondary">
               <h2 class="headline-small mb-3">Goals</h2>
               <p class="mb-5">We aim to cultivate a teaching-learning environment that:</p>
               <ul>
@@ -55,13 +60,13 @@
               </ul>
             </div>
             <div class="grid gap-5 lg:gap-10">
-              <div class="surface">
+              <div class="surface secondary">
                 <h2 class="headline-small mb-3">Mission</h2>
                 <p>
                   We envision being the hub of quality, globally-competitive and socially-responsive information technology education.
                 </p>
               </div>
-              <div class="surface">
+              <div class="surface secondary">
                 <h2 class="headline-small mb-3">Vision</h2>
                 <p class="mb-5">We commit to continuously:</p>
                 <ul>
@@ -71,7 +76,7 @@
                 </ul>
               </div>
             </div>
-            <div class="surface">
+            <div class="surface secondary">
               <h2 class="headline-small mb-3">Core Values</h2>
               <p class="mb-5">These are the core values that CCS believes in:</p>
               <ul>
@@ -93,13 +98,13 @@
           </h1>
         </div>
         <div class="flex flex-col md:flex-row justify-center gap-5 lg:gap-10 anim-11">
-          <div class="surface tertiary md:w-1/2 xl:w-1/4">
+          <div class="surface secondary md:w-1/2 xl:w-1/4">
             <h2 class="headline-small mb-3">Mission</h2>
             <p>
               The University offers affordable and quality education responsive to the demands of local and international communities.
             </p>
           </div>
-          <div class="surface tertiary md:w-1/2 xl:w-1/4">
+          <div class="surface secondary md:w-1/2 xl:w-1/4">
             <h2 class="headline-small mb-3">Vision</h2>
             <p>
               Democratize quality education. Be the visionary and industry leader. Give hope and transform lives.
@@ -133,9 +138,9 @@
               >
                 <CardAbout class="mx-8 w-full md:w-1/3 xl:w-full" :title="officer.position">
                   <div class="flex flex-col items-center justify-center">
-                    <img :src="officer.thumb" class="rounded-full w-64 mb-7 dark:filter dark:saturate-[0.9] shadow-sm shadow-tertiary-60" loading="lazy" />
-                    <h3 class="text-xl font-bold text-tertiary-20 dark:text-on-tertiary mb-2">{{ officer.name }}</h3>
-                    <p class="text-lg text-center">{{ officer.position }}</p>
+                    <img :src="officer.thumb" class="rounded-full w-64 mb-7 shadow-sm" loading="lazy" />
+                    <h3 class="text-xl font-bold mb-1">{{ officer.name }}</h3>
+                    <p class="text-lg text-center text-on-surface-variant font-normal">{{ officer.position }}</p>
                   </div>
                 </CardAbout>
               </swiper-slide>
@@ -193,11 +198,11 @@ register();
 
 watch(() => store.isDark, v => {
   if (!wavifyInstance) return;
-  wavifyInstance.setColor(v ? "#1e1b1e" : "#fffbff");
+  wavifyInstance.setColor(v ? "#151216" : "#fff7fb");
 })
 
 onMounted(() => {
-  wavifyInstance = wave(waveEl.value, store.isDark ? "#1e1b1e" : "#fffbff");
+  wavifyInstance = wave(waveEl.value, store.isDark ? "#151216" : "#fff7fb");
 
   const swiper: SwiperContainer | null = document.querySelector('.officers-swiper');
   if (swiper === null) return;
@@ -243,15 +248,10 @@ ul {
 }
 
 .background {
-  @apply h-[450px] sm:h-[500px];
-
-  background-image: url("~/assets/img/background.png");
-  background-repeat: no-repeat;
-  background-position: center center;
-  background-size: cover;
+  @apply h-[375px] sm:h-[475px];
 
   .layer {
-    @apply absolute top-0 left-0 w-full h-full bg-csps-primary/90 dark:bg-surface-variant;
+    @apply absolute top-0 left-0 w-full h-full bg-secondary-container opacity-100;
   }
 }
 

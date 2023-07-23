@@ -1,5 +1,5 @@
 <template>
-  <div class="appbar" :class="[ transparent ? 'bg-transparent' : 'bg-primary' ]">
+  <div class="appbar">
     <div class="container mx-auto px-4 flex items-center space-x-5 h-full">
       <!-- Back button -->
       <Transition>
@@ -30,8 +30,8 @@
         <div class="xl:flex justify-end space-x-5 hidden">
           <v-button
             v-for="link in NAV_LINKS"
-            color="transparent"
             :key="link.path"
+            :color="route.name === 'About' ? 'inverse' : 'primary'"
             :to="link.path"
           >
             {{ link.name }}
@@ -52,7 +52,7 @@ import CCSLogo from '~/assets/img/ccs_logo.png';
 import CSPSLogo from '~/assets/img/csps_logo.png';
 import UCLogo from '~/assets/img/uc_logo.png';
 
-import { useRouter } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
 import { mdiMenu, mdiArrowLeft } from "@mdi/js";
 import { Env, NAV_LINKS } from "~/config";
 import { useStore } from "~/store";
@@ -78,6 +78,7 @@ onMounted(() => {
 });
 
 const store = useStore();
+const route = useRoute();
 const router = useRouter();
 
 function onThemeChange() {
@@ -105,7 +106,7 @@ function back() {
 }
 
 h3 {
-  @apply text-base font-bold;
+  @apply text-base font-medium;
 }
 </style>
 

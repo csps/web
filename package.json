@@ -18,8 +18,8 @@
     }
   },
   "dependencies": {
+    "@material-symbols/svg-700": "^0.10.1",
     "@material/web": "^1.0.0-pre.13",
-    "@mdi/js": "^7.2.96",
     "axios": "^1.4.0",
     "pinia": "^2.1.4",
     "sal.js": "^0.8.5",

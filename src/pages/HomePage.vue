@@ -13,7 +13,7 @@
           <v-button to="/login" color="primary" variant="filled">
             Login
           </v-button>
-          <v-button to="/about" color="primary" :trailing-icon="mdiArrowRight">
+          <v-button to="/about" color="primary" :trailing-icon="icon('arrow_forward') || ''">
             Explore
           </v-button>
         </div>
@@ -25,7 +25,6 @@
 
     <div class="bg-surface-variant pb-24 -translate-y-1 overflow-x-hidden">
       <swiper-container
-        ref="message"
         effect="coverflow"
         keyboard-enabled="true"
         round-lengths="true"
@@ -53,8 +52,8 @@
 <script lang="ts" setup>
 import { register } from 'swiper/element/bundle';
 import { useStore } from "~/store";
-import { mdiArrowRight } from '@mdi/js';
 import { ref, onMounted, watch } from 'vue';
+import { icon } from "~/utils/icon";
 import wave from "~/utils/wave";
 import sal from "sal.js";
 
@@ -86,7 +85,6 @@ const messages = [
 
 const store = useStore();
 const waveEl = ref();
-const message = ref();
 
 let wavifyInstance: {
   setColor: (color: string) => void;

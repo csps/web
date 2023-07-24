@@ -1,7 +1,8 @@
 <template>
   <router-link v-if="to" :to="to">
     <component
-      :is="getComponentByVariant(variant)" :trailingIcon="trailingIcon"
+      :is="getComponentByVariant(variant)"
+      :trailingIcon="trailingIcon"
       class="md3-button"
       :class="{
         'transparent': color === 'transparent',
@@ -13,9 +14,8 @@
     >
       <slot />
 
-      <svg v-if="trailingIcon || leadingIcon" slot="icon" viewBox="0 0 24 24">
-        <path :d="trailingIcon || leadingIcon" />
-      </svg>
+      <md-icon slot="icon" v-if="trailingIcon" v-html="trailingIcon" />
+      <md-icon slot="icon" v-if="leadingIcon" v-html="leadingIcon" />
     </component>
   </router-link>
 </template>
@@ -26,6 +26,7 @@ import "@material/web/button/tonal-button";
 import "@material/web/button/outlined-button";
 import "@material/web/button/elevated-button";
 import "@material/web/button/text-button";
+import "@material/web/icon/icon";
 
 type ButtonVariant = "elevated" | "filled" | "outlined" | "tonal" | "text";
 type ButtonColor = "primary" | "secondary" | "tertiary" | "transparent" | "inverse";
@@ -83,6 +84,10 @@ function getComponentByVariant(variant?: ButtonVariant) {
   &.inverse {
     --md-sys-color-primary: theme("colors.on-surface");
     --md-sys-color-on-primary: theme("colors.surface");
+  }
+
+  md-icon {
+    --md-icon-size: 18px;
   }
 }
 </style>

@@ -2,14 +2,9 @@
   <div class="appbar">
     <div class="container mx-auto px-4 flex items-center space-x-5 h-full">
       <!-- Back button -->
-      <Transition>
-        <v-button
-          v-if="store.isShowBackButton"
-          :transparent="transparent"
-          @click="back"
-          :icon="mdiArrowLeft"
-        />
-      </Transition>
+      <md-standard-icon-button v-if="store.isShowBackButton" @click="back">
+        <md-icon v-html="icon('arrow_back')" />
+      </md-standard-icon-button>
 
       <!-- Logos -->
       <div class="logos">
@@ -40,7 +35,7 @@
 
         <!-- Drawer Button -->
         <div class="flex justify-end xl:hidden">
-          <v-button :icon="mdiMenu" :transparent="transparent" />
+          <v-button :icon="icon('menu')" :transparent="transparent" />
         </div>
       </div>
     </div>
@@ -52,18 +47,20 @@ import CCSLogo from '~/assets/img/ccs_logo.png';
 import CSPSLogo from '~/assets/img/csps_logo.png';
 import UCLogo from '~/assets/img/uc_logo.png';
 
+import { onMounted } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
-import { mdiMenu, mdiArrowLeft } from "@mdi/js";
 import { Env, NAV_LINKS } from "~/config";
 import { useStore } from "~/store";
+import "@material/web/switch/switch";
+import "@material/web/icon/icon";
+import "@material/web/iconbutton/standard-icon-button"
 
-import VButton from "~/components/VButton.vue";
 import { getHistoryLength } from '~/utils/page';
 import { setDarkMode } from '~/utils/theme';
 import { getItem } from '~/utils/string';
+import { icon } from '~/utils/icon';
 
-import "@material/web/switch/switch";
-import { onMounted } from 'vue';
+import VButton from "~/components/VButton.vue";
 
 defineProps({
   transparent: {

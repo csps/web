@@ -1,14 +1,14 @@
 {
   "name": "csps-web",
   "private": true,
-  "version": "1.0.0-pre.22",
+  "version": "1.0.0-pre.23",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc && vite build",
     "preview": "vite preview",
     "bun-dev": "bun run ./node_modules/vite/bin/vite.js",
-    "bun-build": "vue-tsc && bun run ./node_modules/vite/bin/vite.js build",
+    "bun-build": "bun run ./node_modules/vue-tsc/bin/vue-tsc.js && bun run ./node_modules/vite/bin/vite.js build",
     "bun-preview": "bun run ./node_modules/vite/bin/vite.js preview"
   },
   "postcss": {
@@ -19,7 +19,7 @@
   },
   "dependencies": {
     "@material-symbols/svg-700": "^0.10.1",
-    "@material/web": "^1.0.0-pre.13",
+    "@material/web": "^1.0.0-pre.14",
     "axios": "^1.4.0",
     "pinia": "^2.1.4",
     "sal.js": "^0.8.5",
@@ -35,7 +35,7 @@
     "sass": "^1.64.1",
     "tailwindcss": "^3.3.3",
     "typescript": "^5.1.6",
-    "vite": "^4.4.6",
+    "vite": "^4.4.7",
     "vite-bundle-visualizer": "^0.8.1",
     "vue-tsc": "^1.8.6"
   }

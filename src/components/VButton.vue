@@ -1,5 +1,5 @@
 <template>
-  <router-link v-if="to" :to="to">
+  <router-link v-if="to" :to="to" tabindex="-1">
     <component
       :is="getComponentByVariant(variant)"
       :trailingIcon="trailingIcon"

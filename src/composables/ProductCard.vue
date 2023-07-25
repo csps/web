@@ -1,5 +1,6 @@
 <template>
   <div class="product">
+    <md-focus-ring />
     <ImageTemplate />
 
     <div class="absolute right-2 top-2 flex flex-col justify-center items-center gap-1">
@@ -9,14 +10,17 @@
       </md-standard-icon-button>
     </div>
 
-    <div class="content py-4" role="button">
+    <div class="content py-4">
+
       <div class="flex">
         <div class="w-full">
           <h4>{{ product.name }}</h4>
           <h3>&#8369;{{ product.price }}</h3>
         </div>
-        <div class="flex justify-end">
-          
+        <div class="flex justify-end view">
+          <md-tonal-button trailingIcon>
+            View
+          </md-tonal-button>
         </div>
       </div>
     </div>
@@ -28,6 +32,9 @@ import type { ProductType } from '~/types/models';
 import ImageTemplate from './ImageTemplate.vue';
 import { icon } from "~/utils/icon";
 
+import "@material/web/icon/icon";
+import "@material/web/button/tonal-button";
+import "@material/web/focus/md-focus-ring";
 import "@material/web/iconbutton/standard-icon-button";
 
 defineProps<{
@@ -53,6 +60,10 @@ defineProps<{
 
   md-standard-icon-button {
     --md-icon-button-icon-size: 20px;
+  }
+
+  .view md-icon {
+    --md-icon-size: 18px;
   }
 }
 </style>

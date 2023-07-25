@@ -22,9 +22,10 @@
           Copyright &copy; {{ year }}. All rights reserved.
         </div>
 
-        <div class="flex items-center justify-center space-x-5 mt-2">
-          <a v-for="(link, i) in links" :href="link.href" :key="i" target="_blank">
-            <img :src="link.src" :alt="link.alt" class="w-5 sm:w-6" />
+        <div class="flex items-center justify-center space-x-5 mt-2" tabindex="-1">
+          <a class="relative" v-for="(link, i) in links" :href="link.href" :key="i" target="_blank">
+            <md-focus-ring />
+            <img :src="link.src" :alt="link.alt" class="w-5 sm:w-6" tabindex="-1" />
           </a>
         </div>
       </div>
@@ -38,6 +39,8 @@ import FacebookSvg from "~/assets/svg/facebook.svg";
 import MailSvg from "~/assets/svg/mail.svg";
 import DiscordSvg from "~/assets/svg/discord.svg";
 import GithubSvg from "~/assets/svg/github.svg";
+
+import "@material/web/focus/md-focus-ring";
 
 const year = new Date().getFullYear();
 

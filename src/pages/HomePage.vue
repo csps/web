@@ -72,7 +72,7 @@ const messages = [
   {
     image: Adviser,
     name: "Mr. Heubert Ferolino",
-    position: "Adviser / Chairperson for Computer Science",
+    position: "Adviser",
     message: adviserMessage
   },
   {

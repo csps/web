@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="grid grid-cols-1 h-full">
     <VAppBar transparent />
 
     <router-view v-slot="{ Component }">
@@ -7,9 +7,9 @@
         <component :is="Component" />
       </Transition>
     </router-view>
+    
+    <VFooter />
   </div>
-
-  <VFooter />
 </template>
 
 <script lang="ts" setup>

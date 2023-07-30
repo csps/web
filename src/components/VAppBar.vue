@@ -14,8 +14,8 @@
       </div>
 
       <!-- Title -->
-      <h3 class="hidden lg:block xl:hidden 2xl:block">UC Main Computing Society of the Philippines - Students</h3>
-      <h3 class="block lg:hidden xl:block 2xl:hidden">UC Main CSP-S</h3>
+      <h3 class="hidden lg:block xl:hidden 2xl:block text-on-surface-variant">UC Main Computing Society of the Philippines - Students</h3>
+      <h3 class="block lg:hidden xl:block 2xl:hidden text-on-surface-variant">UC Main CSP-S</h3>
 
       <!-- Navigation Links -->
       <div class="flex items-center gap-5 flex-grow justify-end">

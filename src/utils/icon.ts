@@ -13,8 +13,14 @@ import PhotoCameraOutlined from "@material-symbols/svg-700/rounded/photo_camera.
 import Favorite from "@material-symbols/svg-700/rounded/favorite-fill.svg?raw";
 import FavoriteOutlined from "@material-symbols/svg-700/rounded/favorite.svg?raw";
 
+import Verified from "@material-symbols/svg-700/outlined/verified-fill.svg?raw";
+import VerifiedOutlined from "@material-symbols/svg-700/outlined/verified.svg?raw";
+
+import Lock from "@material-symbols/svg-700/rounded/lock-fill.svg?raw";
+import LockOutlined from "@material-symbols/svg-700/rounded/lock.svg?raw";
+
 // Icon type
-type Icon = "arrow_back" | "menu" | "photo_camera" | "favorite" | "arrow_forward";
+type Icon = "arrow_back" | "menu" | "photo_camera" | "favorite" | "arrow_forward" | "verified" | "lock";
 
 /**
  * Material Icon
@@ -32,6 +38,10 @@ export function icon(name: Icon, outlined: boolean = false) {
   if (name === "favorite") return outlined ? FavoriteOutlined : Favorite;
   // Arrow Forward icon
   if (name === "arrow_forward") return outlined ? ArrowForwardOutlined : ArrowForward;
+  // Verified icon
+  if (name === "verified") return outlined ? VerifiedOutlined : Verified;
+  // Lock icon
+  if (name === "lock") return outlined ? LockOutlined : Lock;
 
   // Default
   return null;

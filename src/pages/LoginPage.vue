@@ -1,5 +1,5 @@
 <template>
-  <div class="container mx-auto px-6">
+  <div class="container mx-auto px-6 py-12">
     <div class="flex items-center justify-center w-full h-full">
       <div class="">
         <h2 class="text-2xl md:text-3xl font-bold mb-1 text-on-surface-variant">Welcome back, <span class="text-primary">ka-CSPS!</span></h2>

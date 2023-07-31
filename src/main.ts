@@ -14,11 +14,10 @@ const pinia = createPinia();
 
 app.use(router);
 app.use(pinia);
-
 app.use(Vue3Toastify, {
-  limit: 5,
   position: 'bottom-right',
-  transition: 'flip',
+  limit: 5,
+  newestOnTop: true,
 } as ToastContainerOptions);
 
 app.mount('#app')

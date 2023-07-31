@@ -19,8 +19,15 @@ import VerifiedOutlined from "@material-symbols/svg-700/outlined/verified.svg?ra
 import Lock from "@material-symbols/svg-700/rounded/lock-fill.svg?raw";
 import LockOutlined from "@material-symbols/svg-700/rounded/lock.svg?raw";
 
+import Visibility from "@material-symbols/svg-700/rounded/visibility-fill.svg?raw";
+import VisibilityOutlined from "@material-symbols/svg-700/rounded/visibility.svg?raw";
+
+import VisibilityOff from "@material-symbols/svg-700/rounded/visibility_off-fill.svg?raw";
+import VisibilityOffOutlined from "@material-symbols/svg-700/rounded/visibility_off.svg?raw";
+
 // Icon type
-type Icon = "arrow_back" | "menu" | "photo_camera" | "favorite" | "arrow_forward" | "verified" | "lock";
+type Icon = "arrow_back" | "menu" | "photo_camera" | "favorite" |
+  "arrow_forward" | "verified" | "lock" | "visibility" | "visibility_off";
 
 /**
  * Material Icon
@@ -42,6 +49,10 @@ export function icon(name: Icon, outlined: boolean = false) {
   if (name === "verified") return outlined ? VerifiedOutlined : Verified;
   // Lock icon
   if (name === "lock") return outlined ? LockOutlined : Lock;
+  // Visibility icon
+  if (name === "visibility") return outlined ? VisibilityOutlined : Visibility;
+  // Visibility Off icon
+  if (name === "visibility_off") return outlined ? VisibilityOffOutlined : VisibilityOff;
 
   // Default
   return null;

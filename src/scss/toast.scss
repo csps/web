@@ -1,0 +1,25 @@
+:root {
+  --toastify-color-light: var(--md-sys-color-surface-container-high);
+  --toastify-color-dark: var(--md-sys-color-surface-container-high);
+  --toastify-color-info: var(--md-sys-color-secondary);
+  --toastify-color-warning: var(--md-sys-color-tertiary);
+  --toastify-color-error: var(--md-sys-color-error);
+
+  --toastify-icon-color-info: var(--toastify-color-info);
+  --toastify-icon-color-success: var(--toastify-color-success);
+  --toastify-icon-color-warning: var(--toastify-color-warning);
+  --toastify-icon-color-error: var(--toastify-color-error); 
+
+  --toastify-text-color-light: var(--md-sys-color-on-surface-variant);
+  --toastify-text-color-dark: var(--md-sys-color-on-surface-variant);
+  --toastify-color-success: #006D43;
+}
+
+:root.dark {
+  --toastify-color-success: #76DAA2;
+}
+
+.Toastify__close-button--light, .Toastify__close-button--dark {
+  color: var(--md-sys-color-outline);
+  opacity: 0.6;
+}

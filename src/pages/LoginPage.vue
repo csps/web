@@ -11,6 +11,7 @@
             type="text"
             maxLength="8"
             hasLeadingIcon="true"
+            :disabled="isLoggingIn"
             required
           >
             <md-icon slot="leadingicon" v-html="icon('verified', true)" />
@@ -20,6 +21,7 @@
             label="Password"
             type="password"
             maxLength="24"
+            :disabled="isLoggingIn"
             required
           >
             <md-icon slot="leadingicon" v-html="icon('lock', true)" />
@@ -28,24 +30,24 @@
 
         <div class="flex justify-between items-center">
           <label class="flex items-center text-sm">
-            <md-checkbox />
+            <md-checkbox :disabled="isLoggingIn" />
             Remember Me
           </label>
-          <md-text-button variant="dense">
+          <md-text-button variant="dense" :disabled="isLoggingIn">
             Forgot Password?  
           </md-text-button>
         </div>
 
         <div class="flex justify-center mt-3">
-          <md-filled-button class="w-full">
-            Login
+          <md-filled-button @click="login" class="w-full" :disabled="isLoggingIn">
+            {{ isLoggingIn ? 'Logging in...' : 'Login' }}
           </md-filled-button>
         </div>
 
         <md-divider class="mt-6 mb-2" />
 
         <div class="flex justify-center">
-          <md-text-button class="secondary">
+          <md-text-button class="secondary" :disabled="isLoggingIn">
             Don't have an account? Register here.
           </md-text-button>
         </div>
@@ -61,5 +63,30 @@ import "@material/web/button/text-button";
 import "@material/web/checkbox/checkbox";
 import "@material/web/divider/divider";
 
+import { ref } from "vue";
 import { icon } from "~/utils/icon";
+import { toast } from "vue3-toastify";
+
+const isLoggingIn = ref(false);
+
+function login() {
+  if (isLoggingIn.value) return;
+  isLoggingIn.value = true;
+  
+  const id = toast.loading("Logging in...");
+
+  setTimeout(() => {
+    toast.update(id, {
+      render: "Login successful!",
+      isLoading: false,
+      type: "success",
+    });
+
+    setTimeout(() => {
+      toast.remove(id);
+    }, 1000);
+
+    isLoggingIn.value = false;
+  }, 1000);
+}
 </script>

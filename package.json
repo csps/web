@@ -1,7 +1,7 @@
 {
   "name": "csps-web",
   "private": true,
-  "version": "1.0.0-pre.25",
+  "version": "1.0.0-pre.26",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -25,7 +25,8 @@
     "sal.js": "^0.8.5",
     "swiper": "^10.0.4",
     "vue": "^3.3.4",
-    "vue-router": "^4.2.4"
+    "vue-router": "^4.2.4",
+    "vue3-toastify": "^0.1.11"
   },
   "devDependencies": {
     "@types/node": "^20.4.5",

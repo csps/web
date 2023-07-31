@@ -38,7 +38,7 @@
 
         <div class="flex justify-between items-center">
           <label class="flex items-center text-sm">
-            <md-checkbox :disabled="isLoggingIn" />
+            <md-checkbox @change="isRememberMe = !isRememberMe" :checked="isRememberMe" :disabled="isLoggingIn" />
             Remember Me
           </label>
           <md-text-button variant="dense" :disabled="isLoggingIn">
@@ -76,11 +76,13 @@ import { ref } from "vue";
 import { icon } from "~/utils/icon";
 import { Endpoints, makeRequest } from "~/network/request";
 import { toast } from "vue3-toastify";
+import { getLocal, removeLocal, setLocal } from "~/utils/page";
 
-const id = ref("");
+const id = ref(getLocal("id"));
 const password = ref("");
 
 const isLoggingIn = ref(false);
+const isRememberMe = ref(getLocal("id").length > 0);
 const isPasswordVisible = ref(false);
 
 /**
@@ -112,6 +114,17 @@ function login() {
 
     // if success
     if (response.success) {
+      // If remember me is checked, save to local storage
+      if (isRememberMe.value) {
+        setLocal("id", id.value);
+      }
+      
+      // If not, remove from local storage
+      else {
+        removeLocal("id");
+      }
+
+      // Show success message
       toast.success("Login successful!");
     }
   });

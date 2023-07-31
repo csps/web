@@ -41,8 +41,8 @@
             <md-checkbox @change="isRememberMe = !isRememberMe" :checked="isRememberMe" :disabled="isLoggingIn" />
             Remember Me
           </label>
-          <md-text-button variant="dense" :disabled="isLoggingIn">
-            Forgot Password?  
+          <md-text-button variant="dense" :disabled="isLoggingIn" @click="isForgotDialogtOpen = !isForgotDialogtOpen">
+            Forgot Password?
           </md-text-button>
         </div>
 
@@ -52,25 +52,38 @@
           </md-filled-button>
         </div>
 
-        <md-divider class="mt-6 mb-2" />
-
-        <div class="flex flex-col justify-center gap-10">
-          <md-text-button class="secondary" :disabled="isLoggingIn">
-            Don't have an account? Register here.
-          </md-text-button>
-        </div>
       </div>
     </div>
+
+    <!-- Forgot passowrd dialog -->
+    <md-dialog :open="isForgotDialogtOpen">
+      <!-- Title -->
+      <h4 slot="headline" class="w-full">Forgot your password?</h4>
+      <!-- Content-->
+      <p class="mb-3">Enter your student ID and we'll send you an email to reset your password.</p>
+      <!-- Student ID -->
+      <md-filled-text-field class="w-full" label="Student ID" maxLength="8" required>
+        <md-icon slot="leadingicon" v-html="icon('verified', true)" />
+      </md-filled-text-field>
+
+      <!-- Footer -->
+      <div class="space-x-1" slot="footer">
+        <md-text-button @click="isForgotDialogtOpen = false">Cancel</md-text-button>
+        <md-text-button>Send</md-text-button>
+      </div>
+    </md-dialog>
   </div>
 </template>
 
 <script lang="ts" setup>
+import "@material/web/textfield/filled-text-field";
 import "@material/web/textfield/outlined-text-field";
 import "@material/web/iconbutton/standard-icon-button";
 import "@material/web/button/filled-button";
 import "@material/web/button/text-button";
 import "@material/web/checkbox/checkbox";
 import "@material/web/divider/divider";
+import "@material/web/dialog/dialog";
 
 import { ref } from "vue";
 import { icon } from "~/utils/icon";
@@ -82,8 +95,9 @@ const id = ref(getLocal("id"));
 const password = ref("");
 
 const isLoggingIn = ref(false);
-const isRememberMe = ref(getLocal("id").length > 0);
 const isPasswordVisible = ref(false);
+const isForgotDialogtOpen = ref(false);
+const isRememberMe = ref(getLocal("id").length > 0);
 
 /**
  * Login to the system

@@ -16,6 +16,7 @@
       v-model.trim="studentID"
       maxLength="8"
       :disabled="isLoading"
+      @keydown.enter="submit"
       required
     >
       <md-icon slot="leadingicon" v-html="icon('verified', true)" />
@@ -23,7 +24,7 @@
     <!-- Footer -->
     <div class="space-x-1" slot="footer">
       <md-text-button @click="close" :disabled="isLoading">Cancel</md-text-button>
-      <md-text-button @click="send" :disabled="studentID.length !== 8 || isLoading">
+      <md-text-button @click="submit" :disabled="studentID.length !== 8 || isLoading">
         {{ isLoading ? "Sending..." : "Send" }}
       </md-text-button>
     </div>
@@ -53,7 +54,7 @@ const isDialogOpen = computed(() => props.modelValue);
 /**
  * Send the email
  */
-function send() {
+function submit() {
   // If already loading, return
   if (isLoading.value) return;
   isLoading.value = true;

@@ -26,8 +26,8 @@
           <v-button
             v-for="link in NAV_LINKS"
             :key="link.path"
-            :color="route.name === 'About' ? 'inverse' : 'primary'"
             :to="link.path"
+            color="primary"
           >
             {{ link.name }}
           </v-button>
@@ -48,7 +48,7 @@ import CSPSLogo from '~/assets/img/csps_logo.png';
 import UCLogo from '~/assets/img/uc_logo.png';
 
 import { onMounted } from 'vue';
-import { useRouter, useRoute } from 'vue-router';
+import { useRouter } from 'vue-router';
 import { Env, NAV_LINKS } from "~/config";
 import { useStore } from "~/store";
 import "@material/web/switch/switch";
@@ -75,7 +75,6 @@ onMounted(() => {
 });
 
 const store = useStore();
-const route = useRoute();
 const router = useRouter();
 
 function onThemeChange() {

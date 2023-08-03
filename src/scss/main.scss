@@ -71,7 +71,7 @@ img {
 }
 
 .surface {
-  @apply bg-surface-variant text-on-surface-variant p-7 rounded-[28px]  hover:shadow-lg;
+  @apply bg-surface-variant text-on-surface-variant p-7 rounded-[28px];
 
   h2 {
     @apply relative w-min whitespace-nowrap z-10;
@@ -98,6 +98,10 @@ img {
 
 .surface.secondary {
   @apply bg-secondary-container text-on-secondary-container;
+}
+
+.surface.error {
+  @apply bg-error-container text-on-error-container;
 }
 
 md-filled-button, md-text-button,

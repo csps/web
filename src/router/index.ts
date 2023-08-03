@@ -34,6 +34,11 @@ const routes: RouteRecordRaw[] = [
     component: () => import("../pages/AboutPage.vue")
   },
   {
+    path: "/reset-password/:token",
+    name: "Reset Password",
+    component: () => import("../pages/ResetPage.vue")
+  },
+  {
     path: "/:pathMatch(.*)",
     name: "404 Not Found",
     component: () => import("../pages/NotFound.vue")

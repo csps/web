@@ -3,7 +3,7 @@
     <footer class="w-screen px-6 py-12 flex flex-col justify-center z-[1000] text-on-surface-variant">
       <div class="flex flex-col sm:flex-row justify-center items-center gap-x-10 gap-y-5">
         <div class="flex flex-col sm:flex-row items-center gap-5">
-          <img :src="CSPSLogo" alt="logo" class="w-14 h-14 sm:w-16 sm:h-16">
+          <img :src="CSPSLogo" alt="logo" class="hidden sm:block w-14 h-14 sm:w-16 sm:h-16">
           <div class="text-center sm:text-left">
             <p class="text-sm sm:text-base mb-1 font-medium">
               Computing Society of the Philippines - Students
@@ -13,15 +13,17 @@
             </p>
           </div>
         </div>
+
+        <!-- TODO: Hide copyright for now -->
     
-        <div class="block sm:hidden text-xs">
+        <!-- <div class="block sm:hidden text-xs">
           Copyright &copy; {{ year }}. All rights reserved.
-        </div>
+        </div> -->
         
         <div class="flex flex-col">
-          <div class="hidden sm:block text-xs text-center mt-4 mb-2">
+          <!-- <div class="hidden sm:block text-xs text-center mt-4 mb-2">
             Copyright &copy; {{ year }}. All rights reserved.
-          </div>
+          </div> -->
   
           <div class="flex items-center justify-center space-x-5 mt-2" tabindex="-1">
             <a class="relative" v-for="(link, i) in links" :href="link.href" :key="i" target="_blank">
@@ -44,7 +46,7 @@ import GithubSvg from "~/assets/svg/github.svg";
 
 import "@material/web/focus/md-focus-ring";
 
-const year = new Date().getFullYear();
+// const year = new Date().getFullYear();
 
 const links = [
   { href: "https://web.facebook.com/UCMainCSPS", src: FacebookSvg, alt: "CSP-S UC Main Facebook Page" },

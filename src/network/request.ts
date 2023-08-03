@@ -2,7 +2,6 @@ import axios from "axios";
 import Endpoints from "./endpoints";
 
 import type { AxiosRequestConfig } from "axios";
-import { toast } from "vue3-toastify";
 
 /**
  * Create axios instance
@@ -22,19 +21,33 @@ const instance = axios.create({
  * @param callback The callback to call when the request is done. 
  */
 function makeRequest(method: HttpMethod, endpoint: Endpoints, data: object | null, callback: (response: ServerResponse) => void) {
+  // URL
+  let url: string = endpoint;
+
+  // If method is GET and endpoint has param
+  if (method === "GET" && endpoint.includes(":")) {
+    // Get param
+    const params = endpoint.split(":").slice(1).map(s => s.replace(/\//g, ""));
+    
+    // For every params
+    for (const param of params) {
+      // Replace param with data
+      url = endpoint.replace(`:${param}`, (data as any)[param] || "");
+    }
+  }
+
   // Create config 
   const config: AxiosRequestConfig = {
-    method,
-    url: endpoint,
+    method, url
   };
 
-  // If method is GET
-  if (method === "GET") {
+  // If method is GET and endpoint has no param
+  if (method === "GET" && !endpoint.includes(":")) {
     config.params = data;
   }
   
   // If method is not GET
-  else {
+  if (method !== "GET") {
     // Add data to config
     config.data = data;
   }
@@ -49,11 +62,6 @@ function makeRequest(method: HttpMethod, endpoint: Endpoints, data: object | nul
       error.message = ((error.response?.data) as any).message;
     }
 
-    // Show error toast
-    if (error.message) {
-      toast.error(error.message);
-    }
-    
     // TODO: Handle unauthorized error
 
     // Call the callback function

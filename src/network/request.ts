@@ -8,7 +8,7 @@ import { toast } from "vue3-toastify";
  * Create axios instance
  */
 const instance = axios.create({
-  baseURL: "http://127.0.0.1:4000/",
+  baseURL: `${location.protocol}//${location.hostname}:4000/`,
   headers: {
     "Content-Type": "application/x-www-form-urlencoded",
   }

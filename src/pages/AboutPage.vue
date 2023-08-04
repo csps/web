@@ -1,14 +1,14 @@
 <template>
-  <div class="h-full bg-surface text-on-surface">
+  <div class="h-full relative bg-surface text-on-surface">
     <div class="relative -translate-y-20 w-full">
       <div class="relative w-full background">
         <div class="layer" />
       </div>
       <div class="absolute top-0 w-full h-full">
-        <div class="flex flex-col md:flex-row justify-center items-center h-full" data-sal="zoom-in" data-sal-repeat >
-          <img class="anim-1 w-[100px] sm:w-[125px]" :src="CSPSLogo" alt="CSPS Logo"/>
+        <div class="flex flex-col md:flex-row justify-center items-center h-full" data-sal="slide-left" data-sal-repeat>
+          <img class="w-[100px] sm:w-[125px]" :src="CSPSLogo" alt="CSPS Logo"/>
           <div class="px-8 text-center md:text-left">
-            <h4 class="anim-2 mt-5 text-sm sm:text-lg md:text-xl text-on-surface-variant mb-2 font-bold">
+            <h4 class="mt-5 text-sm sm:text-lg md:text-xl text-on-surface-variant mb-2 font-bold">
               Computing Society of the Philippines - Students
             </h4>
             <h5 class="text-sm sm:text-base text-on-surface-variant">
@@ -26,8 +26,8 @@
       <div class="container mx-auto pt-10 sm:pt-24">
         <div class="flex items-center justify-center gap-10" data-sal="slide-right" data-sal-delay="100" data-sal-repeat>
           <div class="w-full lg:w-2/3 xl:w-1/2">
-            <h1 class="title text-center lg:text-left anim-3 px-6">About us</h1>
-            <p class="anim-4 welcome">
+            <h1 class="title text-center lg:text-left px-6">About us</h1>
+            <p class="welcome">
               Welcome to the  Computing Society of the Philippines - Students!
               We are a student body organization that aims to create a welcoming and inclusive community for all computer science students at the University of Cebu - Main Campus.
               Our goal is to promote inclusivity and diversity within the field of computing, ensuring that every student has the opportunity to explore their interests and succeed in their academic and professional pursuits.
@@ -35,13 +35,13 @@
             </p>
           </div>
           <div class="hidden lg:flex justify-center w-1/4">
-            <img class="anim-5 shadow-primary-light-70 shadow-lg rounded-[28px]" :src="Image" alt="CSPS" />
+            <img class="shadow-primary-light-70 shadow-lg rounded-[28px]" :src="Image" alt="CSPS" />
           </div>
         </div>
         
         <div class="flex flex-col items-center justify-center mb-16 mt-48" data-sal="zoom-in" data-sal-repeat>
-          <img class="anim-6 w-24 sm:w-32 mb-5" :src="CCSLogo" alt="CCS Logo" />
-          <h1 class="anim-7 text-xl lg:text-2xl font-bold text-csps-primary text-center dark:text-on-surface-variant">
+          <img class="w-24 sm:w-32 mb-5" :src="CCSLogo" alt="CCS Logo" />
+          <h1 class="text-xl lg:text-2xl font-bold text-csps-primary text-center dark:text-on-surface-variant">
             College of Computer Studies
           </h1>
         </div>
@@ -49,7 +49,7 @@
 
       <div class="container mx-auto px-6 overflow-x-hidden">
         <div class="flex justify-center">
-          <div class="grid grid-cols-1 lg:grid-cols-3 justify-center relative anim-8 gap-5 lg:gap-10 mt-12 w-full xl:w-3/4">
+          <div class="grid grid-cols-1 lg:grid-cols-3 justify-center relative gap-5 lg:gap-10 mt-12 w-full xl:w-3/4">
             <div class="surface secondary" data-sal="slide-right" data-sal-repeat>
               <h2 class="headline-small mb-3">Goals</h2>
               <p class="mb-5">We aim to cultivate a teaching-learning environment that:</p>
@@ -94,12 +94,12 @@
         </div>
       
         <div class="flex flex-col items-center justify-center my-16 lg:my-24" data-sal="zoom-in" data-sal-repeat>
-          <img class="anim-9 w-24 sm:w-32 mb-7" :src="UCLogo" alt="UC Logo" />
-          <h1 class="anim-10 text-xl lg:text-2xl font-bold text-center text-csps-primary dark:text-on-surface-variant">
+          <img class="w-24 sm:w-32 mb-7" :src="UCLogo" alt="UC Logo" />
+          <h1 class="text-xl lg:text-2xl font-bold text-center text-csps-primary dark:text-on-surface-variant">
             University of Cebu
           </h1>
         </div>
-        <div class="flex flex-col md:flex-row justify-center gap-5 lg:gap-10 anim-11">
+        <div class="flex flex-col md:flex-row justify-center gap-5 lg:gap-10 ">
           <div class="surface secondary md:w-1/2 xl:w-1/4" data-sal="slide-right" data-sal-repeat>
             <h2 class="headline-small mb-3">Mission</h2>
             <p>
@@ -117,11 +117,11 @@
 
       <div class="pb-8">
         <div class="introduction">
-          <h1 class="text-2xl text-csps-primary dark:text-secondary font-bold mt-[150px] text-center anim-12" data-sal="zoom-in" data-sal-repeat>
+          <h1 class="text-2xl text-csps-primary dark:text-secondary font-bold mt-[150px] text-center" data-sal="zoom-in" data-sal-repeat>
             MEET THE <span class="text-csps-secondary dark:text-tertiary-80">CSPS OFFICERS!</span>
           </h1>
 
-          <div class="flex justify-center relative anim-13">
+          <div class="flex justify-center relative">
             <div class="absolute top-0 left-0 right-0 bottom-0 officers h-full w-full z-[500]" />
             <swiper-container
               effect="coverflow"
@@ -256,7 +256,7 @@ ul {
   @apply h-[375px] sm:h-[450px];
 
   .layer {
-    @apply absolute top-0 left-0 w-full h-full bg-surface-variant opacity-100;
+    @apply absolute top-0 left-0 w-full h-full bg-surface-variant dark:bg-background opacity-100;
   }
 }
 

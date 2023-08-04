@@ -35,7 +35,7 @@ const routes: RouteRecordRaw[] = [
   },
   {
     path: "/reset-password/:token",
-    name: "Reset Password",
+    name: "Reset password",
     component: () => import("../pages/ResetPage.vue")
   },
   {

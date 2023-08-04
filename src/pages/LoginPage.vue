@@ -126,7 +126,10 @@ function login() {
 
       // Show success message
       toast.success("Login successful!");
+      return;
     }
+
+    toast.error(response.message);
   });
 }
 </script>

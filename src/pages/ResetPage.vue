@@ -58,7 +58,7 @@
         </md-filled-button>
       </div>
 
-      <p class="text-primary text-center mt-5" v-if="isSuccess">
+      <p class="text-secondary text-center mt-7" v-if="isSuccess">
         {{ message }}
       </p>
     </div>

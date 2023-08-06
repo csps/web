@@ -10,7 +10,7 @@
       <h4>We're launching soon!</h4>
   
       <p>
-        Welcome to the UC Main CSP-S official website!
+        Welcome to the official Website of UC Main CSP-S!
         We appreciate your patience and understanding as we develop our website.
 
         <br><br>
@@ -57,9 +57,11 @@ const links = [
 onMounted(() => {
   anime({
     targets: "#parent > *",
-    scale: [0, 1],
+    translateX: [-270, 0],
     opacity: [0, 1],
-    delay: anime.stagger(75, { start: 500 }),
+    delay: anime.stagger(50, {
+      easing: 'linear'
+    }),
   });
 });
 </script>

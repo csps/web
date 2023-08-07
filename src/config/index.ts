@@ -10,7 +10,7 @@ export const NAV_LINKS = [
   { name: 'About Us', path: '/about' },
   { name: 'Bulletin Board', path: '/bulletin' },
   { name: 'Shop', path: '/shop' },
-  { name: 'Login', path: '/login' },
+  { name: '...', path: '/login' },
 ];
 
 export const SOCIAL_LINKS = [

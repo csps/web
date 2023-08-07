@@ -20,18 +20,18 @@
       <!-- Navigation Links -->
       <div class="flex items-center gap-5 flex-grow justify-end">
 
-        <md-switch @change="onThemeChange" :selected="store.isDark" icons />
-
         <div class="xl:flex justify-end space-x-5 hidden">
           <v-button
             v-for="link in NAV_LINKS"
             :key="link.path"
-            :to="link.path"
+            :to="link.path === '/login' && store.isLoggedIn ? undefined : link.path"
             color="primary"
           >
-            {{ link.name }}
+            {{ link.path === "/login" ? (store.isLoggedIn ? 'Logout' : 'Login') : link.name }}
           </v-button>
         </div>
+
+        <md-switch @change="onThemeChange" :selected="store.isDark" icons />
 
         <!-- Drawer Button -->
         <div class="flex justify-end xl:hidden">

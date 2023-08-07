@@ -6,6 +6,16 @@ declare global {
     data: any,
     message: any,
   }
+
+  type DialogButton = {
+    text: string,
+    click: () => void,
+  }
+
+  type StudentData = {
+    id: number;
+    name: string;
+  }
 }
 
 export {};

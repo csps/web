@@ -124,9 +124,10 @@ function login() {
         removeLocal("id");
       }
 
+      // Save token to local storage
+      setLocal("token", response.data.token);
       // Show success message
-      toast.success("Login successful!");
-      return;
+      return toast.success(response.message);;
     }
 
     toast.error(response.message);

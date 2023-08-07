@@ -1,6 +1,7 @@
 import type { RouteRecordRaw } from "vue-router";
 import { createRouter, createWebHistory } from "vue-router";
 import { setPageTitle, getHistoryLength } from "~/utils/page";
+import { isLoginValid } from "~/utils/network";
 import { useStore } from "~/store";
 import { Env } from "~/config";
 
@@ -60,8 +61,31 @@ const router = createRouter({
 /**
  * Executes after each route change.
  */
-router.beforeEach((_to, _from, next) => {
-  // Continue to the page
+router.beforeEach((to, from, next) => {
+  // If not first page load
+  if (!from.name) return next();
+
+  // If going to login
+  if (to.name === "Login") {
+    // Check if login is valid
+    isLoginValid(valid => {
+      // If is valid
+      if (valid) {
+        // Get store
+        const store = useStore();
+        // Set logged in
+        store.isLoggedIn = true;
+        // return
+        return next({ name: "Home" });
+      }
+
+      // If not valid
+      next();
+    });
+
+    return;
+  }
+
   next();
 });
 

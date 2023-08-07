@@ -4,7 +4,7 @@
     <div class="rounded-br-3xl rounded-bl-3xl -z-[1]">
       <div class="container mx-auto text-center pt-16 pb-10 2xl:pt-20 2xl:pb-20 px-6">
         <h2 class="text-2xl md:text-3xl font-bold text-on-surface-variant" data-sal="zoom-in" data-sal-repeat>
-          Dive into the world of Computer Science
+          {{ store.isLoggedIn ? `Hello, ${store.student.name}` : "Dive into the world of Computer Science" }}
         </h2>
         <h5 class="text-sm md:text-base xl:text-lg text-on-surface-variant mt-3 mb-6" data-sal="zoom-in" data-sal-delay="100" data-sal-repeat>
           Connect, collaborate, and Grow Together
@@ -14,7 +14,7 @@
             Login
           </v-button>
           <v-button to="/about" color="primary" :trailing-icon="icon('arrow_forward') || ''">
-            Explore
+            Home
           </v-button>
         </div>
       </div>

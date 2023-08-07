@@ -1,5 +1,5 @@
 <template>
-  <router-link v-if="to" :to="to" tabindex="-1">
+  <component :is="to ? 'router-link' : 'div'" :to="to" tabindex="-1">
     <component
       :is="getComponentByVariant(variant)"
       :trailingIcon="trailingIcon"
@@ -17,7 +17,7 @@
       <md-icon slot="icon" v-if="trailingIcon" v-html="trailingIcon" />
       <md-icon slot="icon" v-if="leadingIcon" v-html="leadingIcon" />
     </component>
-  </router-link>
+  </component>
 </template>
 
 <script lang="ts" setup>

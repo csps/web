@@ -12,8 +12,8 @@ import '~/scss/main.scss'
 const app = createApp(App);
 const pinia = createPinia();
 
-app.use(router);
 app.use(pinia);
+app.use(router);
 app.use(Vue3Toastify, {
   position: 'bottom-right',
   limit: 5,

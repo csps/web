@@ -65,7 +65,7 @@ function makeRequest(method: HttpMethod, endpoint: Endpoints, data: object | nul
     // TODO: Handle unauthorized error
 
     // Call the callback function
-    callback(error.response?.data || { success: false });
+    callback(error.response?.data || { success: false, message: error.message });
   });
 }
 

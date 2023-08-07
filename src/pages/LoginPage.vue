@@ -71,11 +71,16 @@ import "@material/web/divider/divider";
 
 import { ref } from "vue";
 import { icon } from "~/utils/icon";
-import { Endpoints, makeRequest } from "~/network/request";
 import { toast } from "vue3-toastify";
+import { useStore } from "~/store";
+import { useRouter } from "vue-router";
+import { Endpoints, makeRequest } from "~/network/request";
 import { getLocal, removeLocal, setLocal } from "~/utils/page";
 
 import DialogForgotPasswordVue from "~/dialogs/DialogForgotPassword.vue";
+
+const store = useStore();
+const router = useRouter();
 
 const id = ref(getLocal("id"));
 const password = ref("");
@@ -117,7 +122,7 @@ function login() {
       // If remember me is checked, save to local storage
       if (isRememberMe.value) {
         setLocal("id", id.value);
-      }
+      } 
       
       // If not, remove from local storage
       else {
@@ -127,7 +132,12 @@ function login() {
       // Save token to local storage
       setLocal("token", response.data.token);
       // Show success message
-      return toast.success(response.message);;
+      toast.success(response.message);
+      // Set is logged in to true
+      store.isLoggedIn = true;
+      // Redirect to home page
+      router.push({ name: "Home" });
+      return;
     }
 
     toast.error(response.message);

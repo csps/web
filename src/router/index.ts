@@ -12,12 +12,14 @@ const routes: RouteRecordRaw[] = [
   {
     path: "/",
     name: "Home",
-    component: () => import("../pages/HomePage.vue")
+    component: () => import("../pages/HomePage.vue"),
+    meta: { requiresAuth: true }
   },
   {
     path: "/login",
     name: "Login",
-    component: () => import("../pages/LoginPage.vue")
+    component: () => import("../pages/LoginPage.vue"),
+    meta: { requiresAuth: true }
   },
   {
     path: "/shop",
@@ -65,8 +67,8 @@ router.beforeEach((to, from, next) => {
   // If not first page load
   if (!from.name) return next();
 
-  // If going to login
-  if (to.name === "Login") {
+  // If going to route that requres auth
+  if (to.meta.requiresAuth) {
     // Check if login is valid
     isLoginValid(valid => {
       // If is valid
@@ -75,6 +77,13 @@ router.beforeEach((to, from, next) => {
         const store = useStore();
         // Set logged in
         store.isLoggedIn = true;
+
+        // If going to home page
+        if (to.name === "Home") {
+          // Just next
+          return next();
+        }
+
         // return
         return next({ name: "Home" });
       }

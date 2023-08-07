@@ -7,7 +7,10 @@ import { getLocal } from "./page";
  */
 export function isLoginValid(callback: (valid: boolean) => void) {
   // If has no token, return false
-  if (!getLocal("token")) return false;
+  if (!getLocal("token")) {
+    callback(false);
+    return;
+  }
 
   // If has token, check if valid
   makeRequest("GET", Endpoints.LoginToken, { token: getLocal("token") }, response => {

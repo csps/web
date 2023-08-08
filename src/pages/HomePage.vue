@@ -6,14 +6,14 @@
         <h2 class="text-2xl md:text-3xl font-bold text-on-surface-variant" data-sal="zoom-in" data-sal-repeat>
           {{ store.isLoggedIn ? `Hello, ${store.student.name}` : "Dive into the world of Computer Science" }}
         </h2>
-        <h5 class="text-sm md:text-base xl:text-lg text-on-surface-variant mt-3 mb-6" data-sal="zoom-in" data-sal-delay="100" data-sal-repeat>
+        <h5 v-if="!store.isLoggedIn" class="text-sm md:text-base xl:text-lg text-on-surface-variant mt-3 mb-6" data-sal="zoom-in" data-sal-delay="100" data-sal-repeat>
           Connect, collaborate, and Grow Together
         </h5>
-        <div class="flex justify-center space-x-3" data-sal="zoom-in" data-sal-repeat data-sal-delay="200">
+        <div class="flex justify-center space-x-3" :class="{ 'mt-5': store.isLoggedIn }" data-sal="zoom-in" data-sal-repeat data-sal-delay="200">
           <v-button :to="store.isLoggedIn ? '/shop' : '/login'" color="primary" variant="filled">
-            {{ store.isLoggedIn ? 'View shop' : 'Login' }}
+            {{ store.isLoggedIn ? 'Go to shop' : 'Login' }}
           </v-button>
-          <v-button to="/about" color="primary" :trailing-icon="icon('arrow_forward') || ''">
+          <v-button :to="store.isLoggedIn ? '/bulletin' : '/about'" color="primary" :trailing-icon="icon('arrow_forward') || ''">
             {{ store.isLoggedIn ? 'Bulletin Board' : 'About Us' }}
           </v-button>
         </div>

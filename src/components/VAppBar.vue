@@ -14,8 +14,8 @@
       </div>
 
       <!-- Title -->
-      <h3 class="hidden lg:block xl:hidden 2xl:block text-on-surface-variant">UC Main Computing Society of the Philippines - Students</h3>
-      <h3 class="block lg:hidden xl:block 2xl:hidden text-on-surface-variant">UC Main CSP-S</h3>
+      <h3 class="hidden lg:block xl:block text-on-surface-variant">UC Main Computing Society of the Philippines - Students</h3>
+      <h3 class="block lg:hidden xl:hidden text-on-surface-variant">UC Main CSP-S</h3>
 
       <!-- Navigation Links -->
       <div class="flex items-center gap-5 flex-grow justify-end">
@@ -27,9 +27,11 @@
             </md-standard-icon-button>
           </router-link>
 
-          <md-standard-icon-button v-if="store.isLoggedIn" title="Logout" @click="openLogoutDialog">
-            <md-icon v-html="icon('logout')" />
-          </md-standard-icon-button>
+          <router-link v-if="store.isLoggedIn" to="/profile">
+            <md-standard-icon-button title="Profile">
+              <md-icon v-html="icon('account_circle')" />
+            </md-standard-icon-button>
+          </router-link>
 
           <router-link to="/login" v-else>
             <md-standard-icon-button title="Login">
@@ -74,7 +76,7 @@ import UCLogo from '~/assets/img/uc_logo.png';
 import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { Env, NAV_LINKS } from "~/config";
-import { useStore, useDialog } from "~/store";
+import { useStore } from "~/store";
 
 import "@material/web/switch/switch";
 import "@material/web/icon/icon";
@@ -82,12 +84,10 @@ import "@material/web/menu/menu";
 import "@material/web/menu/menu-item";
 import "@material/web/iconbutton/standard-icon-button"
 
-import { getHistoryLength, removeLocal } from '~/utils/page';
+import { getHistoryLength } from '~/utils/page';
 import { setDarkMode } from '~/utils/theme';
 import { getItem } from '~/utils/string';
 import { icon } from '~/utils/icon';
-
-import Strings from '~/config/strings';
 
 defineProps({
   transparent: {
@@ -101,7 +101,6 @@ onMounted(() => {
   setDarkMode(store.isDark);
 });
 
-const dialog = useDialog();
 const store = useStore();
 const router = useRouter();
 const menu = ref();
@@ -112,26 +111,26 @@ function onThemeChange() {
   setDarkMode(store.isDark);
 }
 
-function openLogoutDialog() {
-  // User-friendly logout message
-  dialog.open(Strings.LOGOUT_DIALOG_TITLE, Strings.LOGOUT_DIALOG_MESSAGE, {
-    text: "Logout",
-    click: () => {
-      // Set loading to true
-      store.isLoading = true;
-      // Clear local storage
-      removeLocal("token");
-      // Set logged out
-      store.isLoggedIn = false;
-      // Redirect to login
-      router.push({ name: "Login" });
-      // Set loading to false
-      store.isLoading = false;
-      // Close dialog
-      dialog.hide();
-    }
-  });
-}
+// function openLogoutDialog() {
+//   // User-friendly logout message
+//   dialog.open(Strings.LOGOUT_DIALOG_TITLE, Strings.LOGOUT_DIALOG_MESSAGE, {
+//     text: "Logout",
+//     click: () => {
+//       // Set loading to true
+//       store.isLoading = true;
+//       // Clear local storage
+//       removeLocal("token");
+//       // Set logged out
+//       store.isLoggedIn = false;
+//       // Redirect to login
+//       router.push({ name: "Login" });
+//       // Set loading to false
+//       store.isLoading = false;
+//       // Close dialog
+//       dialog.hide();
+//     }
+//   });
+// }
 
 function back() {
   router.back();

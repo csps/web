@@ -37,6 +37,12 @@ const routes: RouteRecordRaw[] = [
     component: () => import("../pages/AboutPage.vue")
   },
   {
+    path: "/profile",
+    name: "Profile",
+    component: () => import("../pages/ProfilePage.vue"),
+    meta: { requiresAuth: true }
+  },
+  {
     path: "/reset-password/:token",
     name: "Reset password",
     component: () => import("../pages/ResetPage.vue")
@@ -62,11 +68,9 @@ const router = createRouter({
 /**
  * Executes after each route change.
  */
-router.beforeEach((to, from, next) => {
+router.beforeEach((to, _from, next) => {
   // Set loading to true
   useStore().isLoading = true;
-  // If not first page load
-  if (!from.name) return next();
 
   // If going to route that requres auth
   if (to.meta.requiresAuth) {
@@ -78,19 +82,14 @@ router.beforeEach((to, from, next) => {
         const store = useStore();
         // Set logged in
         store.isLoggedIn = true;
-
-        // If going to home page
-        if (to.name === "Home") {
-          // Just next
-          return next();
-        }
-
-        // return
-        return next({ name: "Home" });
+        // Go to route
+        return next();
       }
 
-      // If not valid
-      next();
+      // If going to login
+      if (to.name === "Login") return next();
+      // Otherwise, return to login
+      next({ name: "Login" });
     });
 
     return;
@@ -103,10 +102,12 @@ router.beforeEach((to, from, next) => {
  * Executes after each route change.
  */
 router.afterEach((to, from) => {
+  // Get store 
+  const store = useStore();
   // Set page title
-  setPageTitle(to.name as string);
+  setPageTitle(to.name === "Profile" ? store.student.name || to.name : to.name as string);
   // Set loading to false
-  useStore().isLoading = false;
+  store.isLoading = false;
 
   // If not on page load
   if (!from.name) return;
@@ -114,7 +115,7 @@ router.afterEach((to, from) => {
   if (to.path === from.path) return;
 
   // Set back button visibility
-  useStore().isShowBackButton = window.history.state.position - Env.initialHistoryLength > 0;
+  store.isShowBackButton = window.history.state.position - Env.initialHistoryLength > 0;
 });
 
 export default router;

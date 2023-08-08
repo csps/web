@@ -35,10 +35,28 @@
 
         <!-- Drawer Button -->
         <div class="flex justify-end xl:hidden">
-          <v-button :icon="icon('menu')" :transparent="transparent" />
+          <md-standard-icon-button ref="menu" @click="isMenuOpen = !isMenuOpen">
+            <md-icon v-html="icon('menu')" />
+          </md-standard-icon-button>
+
         </div>
       </div>
     </div>
+
+    <md-menu
+      fixed has-overflow quick
+      anchor-corner="END_START"
+      :open="isMenuOpen"
+      :anchor="menu"
+      @closed="isMenuOpen = false"
+    >
+      <md-menu-item
+        v-for="link in NAV_LINKS"
+        :key="link.path"
+        :to="link.path === '/login' && store.isLoggedIn ? undefined : link.path"
+        :headline="link.path === '/login' ? (store.isLoggedIn ? 'Logout' : 'Login') : link.name"
+      />
+    </md-menu>
   </div>
 </template>
 
@@ -47,12 +65,15 @@ import CCSLogo from '~/assets/img/ccs_logo.png';
 import CSPSLogo from '~/assets/img/csps_logo.png';
 import UCLogo from '~/assets/img/uc_logo.png';
 
-import { onMounted } from 'vue';
+import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { Env, NAV_LINKS } from "~/config";
 import { useStore } from "~/store";
+
 import "@material/web/switch/switch";
 import "@material/web/icon/icon";
+import "@material/web/menu/menu";
+import "@material/web/menu/menu-item";
 import "@material/web/iconbutton/standard-icon-button"
 
 import { getHistoryLength } from '~/utils/page';
@@ -76,6 +97,8 @@ onMounted(() => {
 
 const store = useStore();
 const router = useRouter();
+const menu = ref();
+const isMenuOpen = ref(false);
 
 function onThemeChange() {
   store.isDark = !store.isDark;

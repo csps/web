@@ -2,6 +2,7 @@ import { defineStore } from "pinia";
 
 export const useStore = defineStore("global", () => {
   const isLoggedIn = false;
+  const isLoading = true;
   const isShowBackButton = false;
   const isDark = false;
   const student: StudentData = {
@@ -9,6 +10,6 @@ export const useStore = defineStore("global", () => {
   };
 
   return {
-    isShowBackButton, isDark, isLoggedIn, student
+    isShowBackButton, isDark, isLoggedIn, student, isLoading
   }
 });

@@ -59,11 +59,12 @@ const router = createRouter({
   routes
 });
 
-
 /**
  * Executes after each route change.
  */
 router.beforeEach((to, from, next) => {
+  // Set loading to true
+  useStore().isLoading = true;
   // If not first page load
   if (!from.name) return next();
 
@@ -104,6 +105,8 @@ router.beforeEach((to, from, next) => {
 router.afterEach((to, from) => {
   // Set page title
   setPageTitle(to.name as string);
+  // Set loading to false
+  useStore().isLoading = false;
 
   // If not on page load
   if (!from.name) return;

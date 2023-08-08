@@ -1,5 +1,6 @@
 <template>
   <div class="grid grid-cols-1 h-full">
+    <md-linear-progress class="fixed right-0 left-0 top-0" :indeterminate="store.isLoading" />
     <VAppBar transparent />
 
     <router-view v-slot="{ Component }">
@@ -21,12 +22,17 @@ import { useRouter } from 'vue-router';
 import { isLoginValid } from './utils/network';
 import { removeLocal } from './utils/page';
 
+import "@material/web/progress/linear-progress";
+
 // Get store
 const store = useStore();
 const router = useRouter();
 
 // Check if login is valid
 isLoginValid(valid => {
+  // Set loading to false
+  store.isLoading = false;
+
   // If is valid
   if (valid) {
     // Set logged in

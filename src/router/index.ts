@@ -52,6 +52,18 @@ const routes: RouteRecordRaw[] = [
     name: "Reset password",
     component: () => import("../pages/ResetPage.vue")
   },
+
+  {
+    path: "/admin",
+    name: "Admin",
+    component: () => import("../pages/AdminPage.vue"),
+  },
+  {
+    path: "/admin/login",
+    name: "Admin Login",
+    component: () => import("../pages/AdminLogin.vue"),
+  },
+
   {
     path: "/:pathMatch(.*)",
     name: "404 Not Found",

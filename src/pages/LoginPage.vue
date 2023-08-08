@@ -109,6 +109,7 @@ function login() {
   // If already logging in
   if (isLoggingIn.value) return;
   isLoggingIn.value = true;
+  store.isLoading = true;
   
   // Make request to server
   makeRequest("POST", Endpoints.Login, {
@@ -116,6 +117,7 @@ function login() {
     password: password.value
   }, (response) => {
     isLoggingIn.value = false;
+    store.isLoading = false;
 
     // if success
     if (response.success) {

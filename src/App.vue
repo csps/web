@@ -20,7 +20,6 @@ import VFooter from './components/VFooter.vue';
 import DialogMain from './dialogs/DialogMain.vue';
 
 import { useStore } from './store';
-import { useRouter } from 'vue-router';
 import { isLoginValid } from './utils/network';
 import { removeLocal } from './utils/page';
 
@@ -28,7 +27,6 @@ import "@material/web/progress/linear-progress";
 
 // Get store
 const store = useStore();
-const router = useRouter();
 
 // Check if login is valid
 isLoginValid(valid => {
@@ -39,8 +37,6 @@ isLoginValid(valid => {
   if (valid) {
     // Set logged in
     store.isLoggedIn = true;
-    // Redirect to home
-    router.push({ name: "Home" });
     // return
     return;
   }

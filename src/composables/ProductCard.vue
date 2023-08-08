@@ -11,16 +11,17 @@
     </div>
 
     <div class="content py-4">
-
       <div class="flex">
         <div class="w-full">
           <h4>{{ product.name }}</h4>
           <h3>&#8369;{{ product.price }}</h3>
         </div>
         <div class="flex justify-end view">
-          <md-tonal-button trailingIcon>
-            View
-          </md-tonal-button>
+          <router-link :to="'/shop/' + product.id">
+            <md-tonal-button trailingIcon>
+              View
+            </md-tonal-button>
+          </router-link>
         </div>
       </div>
     </div>

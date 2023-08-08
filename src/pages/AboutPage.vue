@@ -5,13 +5,13 @@
         <div class="layer" />
       </div>
       <div class="absolute top-0 w-full h-full">
-        <div class="flex flex-col md:flex-row justify-center items-center h-full" data-sal="slide-left" data-sal-repeat>
-          <img class="w-[100px] sm:w-[125px]" :src="CSPSLogo" alt="CSPS Logo"/>
+        <div class="flex flex-col md:flex-row justify-center items-center h-full" data-sal="slide-right" data-sal-repeat>
+          <img class="w-[100px]" :src="CSPSLogo" alt="CSPS Logo"/>
           <div class="px-8 text-center md:text-left">
-            <h4 class="mt-5 text-sm sm:text-lg md:text-xl text-on-surface-variant mb-2 font-bold">
+            <h4 class="mt-2 text-sm sm:text-lg md:text-xl text-on-surface-variant mb-2 font-bold">
               Computing Society of the Philippines - Students
             </h4>
-            <h5 class="text-sm sm:text-base text-on-surface-variant">
+            <h5 class="text-sm text-on-surface-variant">
               University of Cebu - Main Campus
             </h5>
           </div>
@@ -24,7 +24,7 @@
 
     <div class="-translate-y-20">
       <div class="container mx-auto pt-10 sm:pt-24">
-        <div class="flex items-center justify-center gap-10" data-sal="slide-right" data-sal-delay="100" data-sal-repeat>
+        <div class="flex items-center justify-center gap-10" data-sal="zoom-out" data-sal-delay="100" data-sal-repeat>
           <div class="w-full lg:w-2/3 xl:w-1/2">
             <h1 class="title text-center lg:text-left px-6">About us</h1>
             <p class="welcome">

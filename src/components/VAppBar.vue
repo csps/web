@@ -21,15 +21,21 @@
       <div class="flex items-center gap-5 flex-grow justify-end">
 
         <div class="xl:flex justify-end space-x-5 hidden">
-          <v-button
-            v-for="link in NAV_LINKS"
-            :key="link.path"
-            :to="link.path === '/login' && store.isLoggedIn ? undefined : link.path"
-            color="primary"
-            @click="store.isLoggedIn ? openLogoutDialog() : undefined"
-          >
-            {{ link.path === "/login" ? (store.isLoggedIn ? 'Logout' : 'Login') : link.name }}
-          </v-button>
+          <router-link v-for="link in NAV_LINKS" :key="link.path" :to="link.path">
+            <md-standard-icon-button :title="link.name">
+              <md-icon v-html="icon(link.icon, true)" />
+            </md-standard-icon-button>
+          </router-link>
+
+          <md-standard-icon-button v-if="store.isLoggedIn" title="Logout" @click="openLogoutDialog">
+            <md-icon v-html="icon('logout')" />
+          </md-standard-icon-button>
+
+          <router-link to="/login" v-else>
+            <md-standard-icon-button title="Login">
+              <md-icon v-html="icon('login')" />
+            </md-standard-icon-button>
+          </router-link>
         </div>
 
         <md-switch @change="onThemeChange" :selected="store.isDark" icons />
@@ -81,7 +87,6 @@ import { setDarkMode } from '~/utils/theme';
 import { getItem } from '~/utils/string';
 import { icon } from '~/utils/icon';
 
-import VButton from "~/components/VButton.vue";
 import Strings from '~/config/strings';
 
 defineProps({

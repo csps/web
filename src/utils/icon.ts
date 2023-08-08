@@ -25,9 +25,31 @@ import VisibilityOutlined from "@material-symbols/svg-700/rounded/visibility.svg
 import VisibilityOff from "@material-symbols/svg-700/rounded/visibility_off-fill.svg?raw";
 import VisibilityOffOutlined from "@material-symbols/svg-700/rounded/visibility_off.svg?raw";
 
+import Home from "@material-symbols/svg-700/rounded/home-fill.svg?raw";
+import HomeOutlined from "@material-symbols/svg-700/rounded/home.svg?raw";
+
+import Diversity from "@material-symbols/svg-700/rounded/diversity_1-fill.svg?raw";
+import DiversityOutlined from "@material-symbols/svg-700/rounded/diversity_1.svg?raw";
+
+import Dashboard from "@material-symbols/svg-700/rounded/dashboard-fill.svg?raw";
+import DashboardOutlined from "@material-symbols/svg-700/rounded/dashboard.svg?raw";
+
+import Store from "@material-symbols/svg-700/rounded/store-fill.svg?raw";
+import StoreOutlined from "@material-symbols/svg-700/rounded/store.svg?raw";
+
+import Login from "@material-symbols/svg-700/rounded/login-fill.svg?raw";
+import LoginOutlined from "@material-symbols/svg-700/rounded/login.svg?raw";
+
+import Logout from "@material-symbols/svg-700/rounded/logout-fill.svg?raw";
+import LogoutOutlined from "@material-symbols/svg-700/rounded/logout.svg?raw";
+
+import AccountCircle from "@material-symbols/svg-700/rounded/account_circle-fill.svg?raw";
+import AccountCircleOutlined from "@material-symbols/svg-700/rounded/account_circle.svg?raw";
+
 // Icon type
-type Icon = "arrow_back" | "menu" | "photo_camera" | "favorite" |
-  "arrow_forward" | "verified" | "lock" | "visibility" | "visibility_off";
+export type Icon = "arrow_back" | "menu" | "photo_camera" | "favorite" |
+  "arrow_forward" | "verified" | "lock" | "visibility" | "visibility_off" | 
+  "home" | "diversity" | "dashboard" | "store" | "login" | "logout" | "account_circle";
 
 /**
  * Material Icon
@@ -53,6 +75,20 @@ export function icon(name: Icon, outlined: boolean = false) {
   if (name === "visibility") return outlined ? VisibilityOutlined : Visibility;
   // Visibility Off icon
   if (name === "visibility_off") return outlined ? VisibilityOffOutlined : VisibilityOff;
+  // Home icon
+  if (name === "home") return outlined ? HomeOutlined : Home;
+  // Diversity icon
+  if (name === "diversity") return outlined ? DiversityOutlined : Diversity;
+  // Dashboard icon
+  if (name === "dashboard") return outlined ? DashboardOutlined : Dashboard;
+  // Store icon
+  if (name === "store") return outlined ? StoreOutlined : Store;
+  // Login icon
+  if (name === "login") return outlined ? LoginOutlined : Login;
+  // Logout icon
+  if (name === "logout") return outlined ? LogoutOutlined : Logout;
+  // Account Circle
+  if (name === "account_circle") return outlined ? AccountCircleOutlined : AccountCircle;
 
   // Default
   return null;

@@ -4,13 +4,17 @@ import DiscordSvg from "~/assets/svg/discord.svg?raw";
 import GithubSvg from "~/assets/svg/github.svg?raw";
 
 import { getSvgData } from "~/utils/string";
+import { Icon } from "~/utils/icon";
 
-export const NAV_LINKS = [
-  { name: 'Home', path: '/' },
-  { name: 'About Us', path: '/about' },
-  { name: 'Bulletin Board', path: '/bulletin' },
-  { name: 'Shop', path: '/shop' },
-  { name: '...', path: '/login' },
+export const NAV_LINKS: {
+  name: string,
+  path: string,
+  icon: Icon
+}[] = [
+  { name: 'Home', path: '/', icon: "home" },
+  { name: 'About Us', path: '/about', icon: "diversity" },
+  { name: 'Bulletin Board', path: '/bulletin', icon: "dashboard" },
+  { name: 'Shop', path: '/shop', icon: "store" },
 ];
 
 export const SOCIAL_LINKS = [

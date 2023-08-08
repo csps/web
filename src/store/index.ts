@@ -1,5 +1,7 @@
 import { defineStore } from "pinia";
 
+export * from "./dialog"
+
 export const useStore = defineStore("global", () => {
   const isLoggedIn = false;
   const isLoading = true;

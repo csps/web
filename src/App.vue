@@ -9,6 +9,7 @@
       </Transition>
     </router-view>
     
+    <DialogMain />
     <VFooter />
   </div>
 </template>
@@ -16,6 +17,7 @@
 <script lang="ts" setup>
 import VAppBar from './components/VAppBar.vue';
 import VFooter from './components/VFooter.vue';
+import DialogMain from './dialogs/DialogMain.vue';
 
 import { useStore } from './store';
 import { useRouter } from 'vue-router';

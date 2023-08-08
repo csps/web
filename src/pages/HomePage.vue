@@ -10,11 +10,11 @@
           Connect, collaborate, and Grow Together
         </h5>
         <div class="flex justify-center space-x-3" data-sal="zoom-in" data-sal-repeat data-sal-delay="200">
-          <v-button to="/login" color="primary" variant="filled">
-            Login
+          <v-button :to="store.isLoggedIn ? '/shop' : '/login'" color="primary" variant="filled">
+            {{ store.isLoggedIn ? 'View shop' : 'Login' }}
           </v-button>
           <v-button to="/about" color="primary" :trailing-icon="icon('arrow_forward') || ''">
-            Home
+            {{ store.isLoggedIn ? 'Bulletin Board' : 'About Us' }}
           </v-button>
         </div>
       </div>

@@ -26,6 +26,7 @@
             :key="link.path"
             :to="link.path === '/login' && store.isLoggedIn ? undefined : link.path"
             color="primary"
+            @click="store.isLoggedIn ? openLogoutDialog() : undefined"
           >
             {{ link.path === "/login" ? (store.isLoggedIn ? 'Logout' : 'Login') : link.name }}
           </v-button>
@@ -38,7 +39,6 @@
           <md-standard-icon-button ref="menu" @click="isMenuOpen = !isMenuOpen">
             <md-icon v-html="icon('menu')" />
           </md-standard-icon-button>
-
         </div>
       </div>
     </div>
@@ -68,7 +68,7 @@ import UCLogo from '~/assets/img/uc_logo.png';
 import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { Env, NAV_LINKS } from "~/config";
-import { useStore } from "~/store";
+import { useStore, useDialog } from "~/store";
 
 import "@material/web/switch/switch";
 import "@material/web/icon/icon";
@@ -76,12 +76,13 @@ import "@material/web/menu/menu";
 import "@material/web/menu/menu-item";
 import "@material/web/iconbutton/standard-icon-button"
 
-import { getHistoryLength } from '~/utils/page';
+import { getHistoryLength, removeLocal } from '~/utils/page';
 import { setDarkMode } from '~/utils/theme';
 import { getItem } from '~/utils/string';
 import { icon } from '~/utils/icon';
 
 import VButton from "~/components/VButton.vue";
+import Strings from '~/config/strings';
 
 defineProps({
   transparent: {
@@ -95,6 +96,7 @@ onMounted(() => {
   setDarkMode(store.isDark);
 });
 
+const dialog = useDialog();
 const store = useStore();
 const router = useRouter();
 const menu = ref();
@@ -103,6 +105,27 @@ const isMenuOpen = ref(false);
 function onThemeChange() {
   store.isDark = !store.isDark;
   setDarkMode(store.isDark);
+}
+
+function openLogoutDialog() {
+  // User-friendly logout message
+  dialog.open(Strings.LOGOUT_DIALOG_TITLE, Strings.LOGOUT_DIALOG_MESSAGE, {
+    text: "Logout",
+    click: () => {
+      // Set loading to true
+      store.isLoading = true;
+      // Clear local storage
+      removeLocal("token");
+      // Set logged out
+      store.isLoggedIn = false;
+      // Redirect to login
+      router.push({ name: "Login" });
+      // Set loading to false
+      store.isLoading = false;
+      // Close dialog
+      dialog.hide();
+    }
+  });
 }
 
 function back() {

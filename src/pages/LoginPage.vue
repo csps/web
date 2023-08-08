@@ -131,8 +131,6 @@ function login() {
 
       // Save token to local storage
       setLocal("token", response.data.token);
-      // Show success message
-      toast.success(response.message);
       // Set is logged in to true
       store.isLoggedIn = true;
       // Redirect to home page

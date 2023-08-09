@@ -12,54 +12,54 @@ const routes: RouteRecordRaw[] = [
   {
     path: "/",
     name: "Home",
-    component: () => import("../pages/HomePage.vue"),
+    component: () => import("../pages/home/HomePage.vue"),
   },
   {
     path: "/login",
     name: "Login",
-    component: () => import("../pages/LoginPage.vue"),
+    component: () => import("../pages/login/LoginPage.vue"),
     meta: { requiresAuth: true }
   },
   {
     path: "/shop",
     name: "Shop",
-    component: () => import("../pages/ShopPage.vue")
+    component: () => import("../pages/shop/ShopPage.vue")
   },
   {
     path: "/shop/:id",
     name: "Product",
-    component: () => import("../pages/ProductPage.vue")
+    component: () => import("../pages/shop/ShopProductPage.vue")
   },
   {
     path: "/bulletin",
     name: "Bulletin",
-    component: () => import("../pages/BulletinPage.vue")
+    component: () => import("../pages/bulletin/BulletinPage.vue")
   },
   {
     path: "/about",
     name: "About",
-    component: () => import("../pages/AboutPage.vue")
+    component: () => import("../pages/about/AboutPage.vue")
   },
   {
     path: "/profile",
     name: "Profile",
-    component: () => import("../pages/ProfilePage.vue"),
+    component: () => import("../pages/profile/ProfilePage.vue"),
     meta: { requiresAuth: true }
   },
   {
     path: "/reset-password/:token",
     name: "Reset password",
-    component: () => import("../pages/ResetPage.vue")
+    component: () => import("../pages/reset/ResetPage.vue")
   },
   {
     path: "/admin",
     name: "Admin",
-    component: () => import("../pages/AdminPage.vue"),
+    component: () => import("../pages/admin/AdminPage.vue"),
   },
   {
     path: "/admin/login",
     name: "Admin Login",
-    component: () => import("../pages/AdminLogin.vue"),
+    component: () => import("../pages/admin/AdminLogin.vue"),
   },
 
   {

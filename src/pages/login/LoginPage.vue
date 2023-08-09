@@ -77,7 +77,7 @@ import { useRouter } from "vue-router";
 import { Endpoints, makeRequest } from "~/network/request";
 import { getLocal, removeLocal, setLocal } from "~/utils/page";
 
-import DialogForgotPasswordVue from "~/dialogs/DialogForgotPassword.vue";
+import DialogForgotPasswordVue from "~/components/dialogs/DialogForgotPassword.vue";
 
 const store = useStore();
 const router = useRouter();

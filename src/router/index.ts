@@ -120,7 +120,7 @@ router.afterEach((to, from) => {
   // Get store 
   const store = useStore();
   // Set page title
-  setPageTitle(to.name === "Profile" ? store.student.name || to.name : to.name as string);
+  setPageTitle(to.name === "Profile" ? (store.student.first_name + " " + store.student.last_name) : to.name as string);
   // Set loading to false
   store.isLoading = false;
 

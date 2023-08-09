@@ -1,15 +1,15 @@
 <template>
-  <div class="h-full">
+  <div class="min-h-screen h-full">
     <md-linear-progress class="fixed right-0 left-0 top-0" :indeterminate="store.isLoading" />
 
-    <div class="grid grid-cols-1 h-full">
-      <VAppBar transparent />
+    <div class="flex flex-col relative h-full min-h-screen">
+      <VAppBar class="flex-shrink-0" transparent />
       <router-view v-slot="{ Component }">
         <Transition name="slide-fade" mode="out-in">
-          <component :is="Component" />
+          <component class="flex-grow" :is="Component" />
         </Transition>
       </router-view>
-      <VFooter />
+      <VFooter class="flex-shrink-0" />
     </div>
 
     <DialogMain />

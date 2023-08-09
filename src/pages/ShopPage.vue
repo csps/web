@@ -2,7 +2,7 @@
   <div class="relative">
     <!-- Call To Action -->
     <div class="rounded-br-3xl rounded-bl-3xl -z-[1]">
-      <div class="container mx-auto text-center pt-12 pb-5 2xl:pt-16 2xl:pb-16 px-6">
+      <div class="container mx-auto text-center pt-12 pb-5 2xl:pt-16 2xl:pb-8 px-6">
         <h2 class="text-2xl md:text-3xl font-bold text-on-surface-variant">
           Style your own groove
         </h2>
@@ -16,7 +16,7 @@
     </div>
 
     <div class="bg-surface-variant text-on-surface-variant">
-      <div class="container mx-auto flex justify-center py-24">
+      <div class="container mx-auto flex justify-center py-20">
         <div class="-translate-y-1 px-6 w-full xl:w-4/5 3xl:w-3/5 !overflow-visible">
           <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
             <ProductCard

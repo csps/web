@@ -27,7 +27,7 @@ input[type=number] {
 }
 
 html, body, #app {
-  @apply h-full;
+  @apply min-h-screen;
 }
 
 .slide-fade-enter-active {
@@ -45,7 +45,7 @@ html, body, #app {
 }
 
 body {
-  @apply h-full min-h-full bg-background text-on-background;
+  @apply bg-background text-on-background;
   --sal-duration: 500ms;
 }
 

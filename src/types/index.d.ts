@@ -12,9 +12,15 @@ declare global {
     click: () => void,
   }
 
-  type StudentData = {
+  type Student = {
     id: number;
-    name: string;
+    student_id: string;
+    last_name: string;
+    first_name: string;
+    year_level: string;
+    email_address: string;
+    birth_date: string;
+    date_stamp: string;
   }
 }
 

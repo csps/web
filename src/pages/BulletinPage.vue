@@ -1,5 +1,5 @@
 <template>
-  <div class="h-full text-center">
+  <div class="flex justify-center items-center w-full h-full">
     Bulletin Page
   </div>
 </template>

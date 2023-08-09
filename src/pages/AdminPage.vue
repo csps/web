@@ -1,5 +1,5 @@
 <template>
-  <div class="flex justify-center">
+  <div class="flex justify-center items-center w-full h-full">
     Admin Page
   </div>  
 </template>

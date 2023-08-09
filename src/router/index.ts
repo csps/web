@@ -13,7 +13,6 @@ const routes: RouteRecordRaw[] = [
     path: "/",
     name: "Home",
     component: () => import("../pages/HomePage.vue"),
-    meta: { requiresAuth: true }
   },
   {
     path: "/login",
@@ -52,7 +51,6 @@ const routes: RouteRecordRaw[] = [
     name: "Reset password",
     component: () => import("../pages/ResetPage.vue")
   },
-
   {
     path: "/admin",
     name: "Admin",

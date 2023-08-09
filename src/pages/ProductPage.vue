@@ -1,7 +1,7 @@
 <template>
-  <div class="flex justify-center">
+  <div class="flex justify-center items-center w-full h-full">
     Product #{{ route.params.id }}
-  </div>  
+  </div>
 </template>
 
 <script lang="ts" setup>

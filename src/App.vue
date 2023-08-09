@@ -1,16 +1,18 @@
 <template>
-  <div class="grid grid-cols-1 h-full">
+  <div class="h-full">
     <md-linear-progress class="fixed right-0 left-0 top-0" :indeterminate="store.isLoading" />
-    <VAppBar transparent />
 
-    <router-view v-slot="{ Component }">
-      <Transition name="slide-fade" mode="out-in">
-        <component :is="Component" />
-      </Transition>
-    </router-view>
-    
+    <div class="grid grid-cols-1 h-full">
+      <VAppBar transparent />
+      <router-view v-slot="{ Component }">
+        <Transition name="slide-fade" mode="out-in">
+          <component :is="Component" />
+        </Transition>
+      </router-view>
+      <VFooter />
+    </div>
+
     <DialogMain />
-    <VFooter />
   </div>
 </template>
 

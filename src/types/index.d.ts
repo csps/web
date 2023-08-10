@@ -1,9 +1,9 @@
 declare global {
   type HttpMethod = "GET" | "POST" | "PUT" | "DELETE";
 
-  type ServerResponse = {
+  type ServerResponse<T> = {
     success: boolean,
-    data: any,
+    data: T,
     message: any,
   }
 
@@ -22,6 +22,26 @@ declare global {
     birth_date: string;
     date_stamp: string;
   }
+
+  type LoginResponse = {
+    token: string;
+    student: Student;
+  }
+
+  type ProductResponse = {
+    id: number;
+    name: string;
+    thumbnail: number;
+    short_description: string;
+    description: string;
+    likes: number;
+    stock: number;
+    price: number;
+    max_quantity: number;
+    date_stamp?: string;
+    variations: ProductVariation[];
+  }
+  
 }
 
 export {};

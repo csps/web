@@ -30,13 +30,14 @@
 
 <script lang="ts" setup>
 import type { ProductType } from '~/types/models';
-import ImageTemplate from './ImageTemplate.vue';
 import { icon } from "~/utils/icon";
 
 import "@material/web/icon/icon";
 import "@material/web/button/tonal-button";
 import "@material/web/focus/md-focus-ring";
 import "@material/web/iconbutton/standard-icon-button";
+
+import ImageTemplate from './ImageTemplate.vue';
 
 defineProps<{
   product: ProductType

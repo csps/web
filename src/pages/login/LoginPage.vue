@@ -112,7 +112,7 @@ function login() {
   store.isLoading = true;
   
   // Make request to server
-  makeRequest("POST", Endpoints.Login, {
+  makeRequest<LoginResponse>("POST", Endpoints.Login, {
     id: id.value,
     password: password.value
   }, (response) => {

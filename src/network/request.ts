@@ -20,7 +20,7 @@ const instance = axios.create({
  * @param data The data to send. 
  * @param callback The callback to call when the request is done. 
  */
-function makeRequest(method: HttpMethod, endpoint: Endpoints, data: object | null, callback: (response: ServerResponse) => void) {
+function makeRequest<T>(method: HttpMethod, endpoint: Endpoints, data: object | null, callback: (response: ServerResponse<T>) => void) {
   // URL
   let url: string = endpoint;
 

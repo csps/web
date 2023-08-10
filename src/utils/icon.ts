@@ -46,10 +46,14 @@ import LogoutOutlined from "@material-symbols/svg-700/rounded/logout.svg?raw";
 import AccountCircle from "@material-symbols/svg-700/rounded/account_circle-fill.svg?raw";
 import AccountCircleOutlined from "@material-symbols/svg-700/rounded/account_circle.svg?raw";
 
+import Link from "@material-symbols/svg-700/rounded/link-fill.svg?raw";
+import LinkOutlined from "@material-symbols/svg-700/rounded/link.svg?raw";
+
 // Icon type
 export type Icon = "arrow_back" | "menu" | "photo_camera" | "favorite" |
   "arrow_forward" | "verified" | "lock" | "visibility" | "visibility_off" | 
-  "home" | "diversity" | "dashboard" | "store" | "login" | "logout" | "account_circle";
+  "home" | "diversity" | "dashboard" | "store" | "login" | "logout" | "account_circle" |
+  "link";
 
 /**
  * Material Icon
@@ -89,6 +93,8 @@ export function icon(name: Icon, outlined: boolean = false) {
   if (name === "logout") return outlined ? LogoutOutlined : Logout;
   // Account Circle
   if (name === "account_circle") return outlined ? AccountCircleOutlined : AccountCircle;
+  // Link
+  if (name === "link") return outlined ? LinkOutlined : Link;
 
   // Default
   return null;

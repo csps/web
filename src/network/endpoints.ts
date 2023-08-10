@@ -6,7 +6,9 @@ enum Endpoints {
   LoginToken = "/login/:token",
   ForgotPassword = "/forgot-password",
   ResetPassword = "/reset-password",
-  ResetPasswordToken = "/reset-password/:token"
+  ResetPasswordToken = "/reset-password/:token",
+  ProductsId = "/products/:id",
+  Products = "/products",
 }
 
 export default Endpoints;

@@ -29,7 +29,6 @@
 </template>
 
 <script lang="ts" setup>
-import type { ProductType } from '~/types/models';
 import { icon } from "~/utils/icon";
 
 import "@material/web/icon/icon";
@@ -40,7 +39,7 @@ import "@material/web/iconbutton/standard-icon-button";
 import ImageTemplate from './ImageTemplate.vue';
 
 defineProps<{
-  product: ProductType
+  product: ProductResponse
 }>();
 </script>
 

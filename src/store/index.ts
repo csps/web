@@ -7,7 +7,7 @@ export const useStore = defineStore("global", () => {
   const isLoading = true;
   const isShowBackButton = false;
   const isDark = false;
-  const student: Student = {
+  const student: StudentResponse = {
     id: 0,
     student_id: "",
     birth_date: "",

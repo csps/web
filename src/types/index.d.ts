@@ -12,7 +12,7 @@ declare global {
     click: () => void,
   }
 
-  type Student = {
+  type StudentResponse = {
     id: number;
     student_id: string;
     last_name: string;
@@ -42,6 +42,13 @@ declare global {
     variations: ProductVariation[];
   }
   
+  export type ProductVariation = {
+    id: number;
+    product_id: number;
+    product_variation_types_id: number;
+    photos_id: number;
+    name: string;
+  }
 }
 
 export {};

@@ -13,7 +13,7 @@ export function isLoginValid(callback: (valid: boolean) => void) {
   }
 
   // If has token, check if valid
-  makeRequest<Student>("GET", Endpoints.LoginToken, { token: getLocal("token") }, response => {
+  makeRequest<StudentResponse>("GET", Endpoints.LoginToken, { token: getLocal("token") }, response => {
     // If logged in
     if (response.success) {
       // Get store 

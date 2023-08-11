@@ -22,7 +22,7 @@
 
 <script lang="ts" setup>
 import "@material/web/button/filled-button";
-import "@material/web/button/tonal-button";
+import "@material/web/button/filled-tonal-button";
 import "@material/web/button/outlined-button";
 import "@material/web/button/elevated-button";
 import "@material/web/button/text-button";
@@ -55,7 +55,7 @@ function getComponentByVariant(variant?: ButtonVariant) {
     case "outlined":
       return "md-outlined-button";
     case "tonal":
-      return "md-tonal-button";
+      return "md-filled-tonal-button";
     case "text":
       return "md-text-button";
     default:

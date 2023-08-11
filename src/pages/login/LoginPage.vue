@@ -29,15 +29,15 @@
             required
           >
             <md-icon slot="leadingicon" v-html="icon('lock', true)" />
-            <md-standard-icon-button slot="trailingicon" @click="isPasswordVisible = !isPasswordVisible" toggle>
+            <md-icon-button slot="trailingicon" @click="isPasswordVisible = !isPasswordVisible" toggle>
               <md-icon v-html="icon('visibility_off', true)" />
               <md-icon slot="selectedIcon" v-html="icon('visibility', true)" />
-            </md-standard-icon-button>
+            </md-icon-button>
           </md-outlined-text-field>
         </div>
 
         <div class="flex justify-between items-center">
-          <label class="flex items-center text-sm">
+          <label class="flex items-center gap-3 text-sm">
             <md-checkbox @change="isRememberMe = !isRememberMe" :checked="isRememberMe" :disabled="isLoggingIn" />
             Remember Me
           </label>
@@ -63,7 +63,7 @@
 <script lang="ts" setup>
 import "@material/web/textfield/filled-text-field";
 import "@material/web/textfield/outlined-text-field";
-import "@material/web/iconbutton/standard-icon-button";
+import "@material/web/iconbutton/icon-button";
 import "@material/web/button/filled-button";
 import "@material/web/button/text-button";
 import "@material/web/checkbox/checkbox";

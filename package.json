@@ -1,7 +1,7 @@
 {
   "name": "csps-web",
   "private": true,
-  "version": "1.0.0-pre.48",
+  "version": "1.0.0-pre.49",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -18,7 +18,7 @@
     }
   },
   "dependencies": {
-    "@material-symbols/svg-700": "^0.10.3",
+    "@material-symbols/svg-700": "^0.10.4",
     "@material/web": "^1.0.0-pre.14",
     "axios": "^1.4.0",
     "pinia": "^2.1.6",
@@ -29,7 +29,7 @@
     "vue3-toastify": "^0.1.12"
   },
   "devDependencies": {
-    "@types/node": "^20.4.9",
+    "@types/node": "^20.4.10",
     "@vitejs/plugin-vue": "^4.2.3",
     "autoprefixer": "^10.4.14",
     "postcss": "^8.4.27",

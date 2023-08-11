@@ -15,7 +15,8 @@ import "@material/web/icon/icon"
     justify-center items-center h-44 lg:h-52 2xl:h-64;
 
   md-icon {
-    --md-icon-size: 48px;
+    width: 48px;
+    height: 48px;
   }
 }
 </style>

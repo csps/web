@@ -2,9 +2,9 @@
   <div class="appbar">
     <div class="container mx-auto px-4 flex items-center space-x-5 h-full">
       <!-- Back button -->
-      <md-standard-icon-button v-if="store.isShowBackButton" @click="back">
+      <md-icon-button v-if="store.isShowBackButton" @click="back">
         <md-icon v-html="icon('arrow_back')" />
-      </md-standard-icon-button>
+      </md-icon-button>
 
       <!-- Logos -->
       <div class="logos">
@@ -22,21 +22,21 @@
 
         <div class="xl:flex justify-end space-x-5 hidden">
           <router-link v-for="link in NAV_LINKS" :key="link.path" :to="link.path">
-            <md-standard-icon-button :title="link.name">
+            <md-icon-button :title="link.name">
               <md-icon v-html="icon(link.icon, true)" />
-            </md-standard-icon-button>
+            </md-icon-button>
           </router-link>
 
           <router-link v-if="store.isLoggedIn" to="/profile">
-            <md-standard-icon-button title="Profile">
+            <md-icon-button title="Profile">
               <md-icon v-html="icon('account_circle')" />
-            </md-standard-icon-button>
+            </md-icon-button>
           </router-link>
 
           <router-link to="/login" v-else>
-            <md-standard-icon-button title="Login">
+            <md-icon-button title="Login">
               <md-icon v-html="icon('login')" />
-            </md-standard-icon-button>
+            </md-icon-button>
           </router-link>
         </div>
 
@@ -44,9 +44,9 @@
 
         <!-- Drawer Button -->
         <div class="flex justify-end xl:hidden">
-          <md-standard-icon-button ref="menu" @click="isMenuOpen = !isMenuOpen">
+          <md-icon-button ref="menu" @click="isMenuOpen = !isMenuOpen">
             <md-icon v-html="icon('menu')" />
-          </md-standard-icon-button>
+          </md-icon-button>
         </div>
       </div>
     </div>
@@ -82,7 +82,7 @@ import "@material/web/switch/switch";
 import "@material/web/icon/icon";
 import "@material/web/menu/menu";
 import "@material/web/menu/menu-item";
-import "@material/web/iconbutton/standard-icon-button"
+import "@material/web/iconbutton/icon-button"
 
 import { getHistoryLength } from '~/utils/page';
 import { setDarkMode } from '~/utils/theme';

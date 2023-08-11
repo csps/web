@@ -1,8 +1,8 @@
 <template>
   <md-dialog :open="dialog.show" @close="close">
     <h4 slot="headline" class="w-full">{{ dialog.title }}</h4>
-    <p>{{ dialog.message }}</p>
-    <div class="space-x-1" slot="footer">
+    <p slot="content">{{ dialog.message }}</p>
+    <div class="space-x-1" slot="actions">
       <md-text-button @click="dialog.cancel?.click">{{ dialog.cancel?.text }}</md-text-button>
       <md-text-button @click="dialog.ok?.click" v-if="dialog.ok">{{ dialog.ok?.text }}</md-text-button>
     </div>

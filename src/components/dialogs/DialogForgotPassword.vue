@@ -6,25 +6,27 @@
     :escape-key-action="isLoading ? '' : 'close'"
   >
     <!-- Title -->
-    <h4 slot="headline" class="w-full">Forgot your password?</h4>
+    <h4 slot="headline" class="mx-6 mt-6">Forgot your password?</h4>
     <!-- Content-->
-    <p class="mb-3">Enter your student ID and we'll send you an email to reset your password.</p>
-    <!-- Student ID -->
-    <md-filled-text-field
-      class="w-full"
-      label="Student ID"
-      v-model.trim="studentID"
-      maxLength="8"
-      :disabled="isLoading"
-      @keydown.enter="submit"
-      required
-    >
-      <md-icon slot="leadingicon" v-html="icon('verified', true)" />
-    </md-filled-text-field>
+    <div slot="content">
+      <p class="mb-3">Enter your student ID and we'll send you an email to reset your password.</p>
+      <!-- Student ID -->
+      <md-filled-text-field
+        class="w-full"
+        label="Student ID"
+        v-model.trim="studentID"
+        maxLength="8"
+        :disabled="isLoading"
+        @keydown.enter="submit"
+        required
+      >
+        <md-icon slot="leadingicon" v-html="icon('verified', true)" />
+      </md-filled-text-field>
+    </div>
     <!-- Footer -->
-    <div class="space-x-1" slot="footer">
+    <div class="space-x-1" slot="actions">
       <md-text-button @click="close" :disabled="isLoading">Cancel</md-text-button>
-      <md-text-button @click="submit" :disabled="studentID.length !== 8 || isLoading">
+      <md-text-button @click="submit" :disabled="studentID.length !== 8 || isLoading" autofocus>
         {{ isLoading ? "Sending..." : "Send" }}
       </md-text-button>
     </div>

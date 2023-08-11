@@ -24,10 +24,10 @@
             </h4>
           </div>
           <div>
-            <md-standard-icon-button toggle>
+            <md-icon-button toggle>
               <md-icon v-html="icon('favorite', true)" />
               <md-icon slot="selectedIcon" v-html="icon('favorite')" />
-            </md-standard-icon-button>
+            </md-icon-button>
           </div>
         </div>
         <p class="mb-3 body-medium">
@@ -52,9 +52,9 @@
             {{ product?.stock && product.stock > 0 ? "Order" : "Out of stock" }}
           </md-filled-button>
           <router-link to="/shop">
-            <md-tonal-button>
+            <md-filled-tonal-button>
               Go back to shop
-            </md-tonal-button>
+            </md-filled-tonal-button>
           </router-link>
         </div>
 
@@ -77,10 +77,10 @@ import { icon } from "~/utils/icon";
 import "@material/web/icon/icon";
 import "@material/web/divider/divider";
 import "@material/web/button/filled-button";
-import "@material/web/button/tonal-button";
+import "@material/web/button/filled-tonal-button";
 import "@material/web/button/text-button";
 import "@material/web/progress/linear-progress";
-import "@material/web/iconbutton/standard-icon-button";
+import "@material/web/iconbutton/icon-button";
 
 import ImageTemplate from '~/composables/ImageTemplate.vue';
 

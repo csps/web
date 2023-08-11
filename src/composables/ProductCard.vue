@@ -4,10 +4,10 @@
     <ImageTemplate />
 
     <div class="absolute right-2 top-2 flex flex-col justify-center items-center gap-1">
-      <md-standard-icon-button toggle>
+      <md-icon-button toggle>
         <md-icon v-html="icon('favorite', true)" />
         <md-icon slot="selectedIcon" v-html="icon('favorite')" />
-      </md-standard-icon-button>
+      </md-icon-button>
     </div>
 
     <div class="content py-4">
@@ -18,9 +18,9 @@
         </div>
         <div class="flex justify-end view">
           <router-link :to="'/shop/' + product.id">
-            <md-tonal-button trailingIcon>
+            <md-filled-tonal-button trailingIcon>
               View
-            </md-tonal-button>
+            </md-filled-tonal-button>
           </router-link>
         </div>
       </div>
@@ -32,9 +32,9 @@
 import { icon } from "~/utils/icon";
 
 import "@material/web/icon/icon";
-import "@material/web/button/tonal-button";
+import "@material/web/button/filled-tonal-button";
 import "@material/web/focus/md-focus-ring";
-import "@material/web/iconbutton/standard-icon-button";
+import "@material/web/iconbutton/icon-button";
 
 import ImageTemplate from './ImageTemplate.vue';
 
@@ -59,7 +59,7 @@ defineProps<{
     }
   }
 
-  md-standard-icon-button {
+  md-icon-button {
     --md-icon-button-icon-size: 20px;
   }
 

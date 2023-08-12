@@ -5,13 +5,12 @@
         <div class="layer" />
       </div>
       <div class="absolute top-0 w-full h-full">
-        <div class="flex flex-col md:flex-row justify-center items-center h-full" data-sal="slide-right" data-sal-repeat>
-          <img class="w-[100px]" :src="CSPSLogo" alt="CSPS Logo"/>
-          <div class="px-8 text-center md:text-left">
-            <h4 class="mt-2 text-sm sm:text-lg md:text-xl text-on-surface-variant mb-2 font-bold">
+        <div class="flex flex-col justify-center items-center h-full" data-sal="slide-right" data-sal-repeat>
+          <div class="px-8 text-center mt-2">
+            <h4 class="mt-2 text-base md:text-2xl lg:text-3xl text-on-surface-variant mb-2 md:mb-5 font-bold">
               Computing Society of the Philippines - Students
             </h4>
-            <h5 class="text-sm text-on-surface-variant">
+            <h5 class="text-sm md:text-base xl:text-lg text-on-surface-variant">
               University of Cebu - Main Campus
             </h5>
           </div>
@@ -33,9 +32,6 @@
               Our goal is to promote inclusivity and diversity within the field of computing, ensuring that every student has the opportunity to explore their interests and succeed in their academic and professional pursuits.
               Join us at CSP-S and become part of a community that celebrates diversity and fosters growth and development for all students in the field of computer science. We welcome you with open arms!
             </p>
-          </div>
-          <div class="hidden lg:flex justify-center w-1/4">
-            <img class="shadow-primary-light-70 shadow-lg rounded-[28px]" :src="Image" alt="CSPS" />
           </div>
         </div>
         
@@ -156,8 +152,6 @@
 </template>
 
 <script lang="ts" setup>
-import Image from '~/assets/img/csps.png';
-import CSPSLogo from '~/assets/img/csps_logo.png';
 import CCSLogo from '~/assets/img/ccs_logo.png';
 import UCLogo from '~/assets/img/uc_logo.png';
 
@@ -237,7 +231,7 @@ onMounted(() => {
 
 .<style lang="scss" scoped>
 .title {
-  @apply text-secondary mb-8 font-bold text-2xl lg:text-3xl;
+  @apply mb-8 font-bold text-2xl lg:text-3xl;
 }
 
 .welcome {
@@ -256,7 +250,7 @@ ul {
   @apply h-[375px] sm:h-[450px];
 
   .layer {
-    @apply absolute top-0 left-0 w-full h-full bg-surface-variant dark:bg-background opacity-100;
+    @apply absolute top-0 left-0 w-full h-full bg-surface-container-low opacity-100;
   }
 }
 

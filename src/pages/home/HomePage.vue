@@ -1,29 +1,34 @@
 <template>
   <div class="relative">
     <!-- Call To Action -->
-    <div class="rounded-br-3xl rounded-bl-3xl -z-[1]">
-      <div class="container mx-auto text-center pt-16 pb-10 2xl:pt-20 2xl:pb-20 px-6">
-        <h2 class="text-2xl md:text-3xl font-bold text-on-surface-variant" data-sal="zoom-in" data-sal-repeat>
-          {{ store.isLoggedIn ? `Hello, ${store.student.first_name} ${store.student.last_name}` : "Dive into the world of Computer Science" }}
-        </h2>
-        <h5 v-if="!store.isLoggedIn" class="text-sm md:text-base xl:text-lg text-on-surface-variant mt-3 mb-6" data-sal="zoom-in" data-sal-delay="100" data-sal-repeat>
-          Connect, collaborate, and Grow Together
-        </h5>
-        <div class="flex justify-center space-x-3" :class="{ 'mt-5': store.isLoggedIn }" data-sal="zoom-in" data-sal-repeat data-sal-delay="200">
-          <v-button :to="store.isLoggedIn ? '/bulletin' : '/login'" color="primary" variant="filled">
-            {{ store.isLoggedIn ? 'Bulletin Board' : 'Login' }}
-          </v-button>
-          <v-button :to="store.isLoggedIn ? '/shop' : '/about'" color="primary" :trailing-icon="icon('arrow_forward') || ''">
-            {{ store.isLoggedIn ? 'Go to shop' : 'About Us' }}
-          </v-button>
-        </div>
+    <div class="relative -translate-y-20 w-full">
+      <div class="relative w-full background">
+        <div class="layer" />
       </div>
-      <div class="w-full overflow-hidden">
-        <canvas ref="waveEl" />
+      <div class="absolute top-0 w-full h-full">
+        <div class="flex flex-col justify-center items-center h-full">
+          <h2 class="text-2xl md:text-3xl font-bold text-on-surface-variant" data-sal="zoom-in" data-sal-repeat>
+            {{ store.isLoggedIn ? `Hello, ${store.student.first_name} ${store.student.last_name}` : "Dive into the world of Computer Science" }}
+          </h2>
+          <h5 v-if="!store.isLoggedIn" class="text-sm md:text-base xl:text-lg text-on-surface-variant mt-3 mb-6" data-sal="zoom-in" data-sal-delay="100" data-sal-repeat>
+            Connect, collaborate, and Grow Together
+          </h5>
+          <div class="flex justify-center space-x-3" :class="{ 'mt-5': store.isLoggedIn }" data-sal="zoom-in" data-sal-repeat data-sal-delay="200">
+            <v-button :to="store.isLoggedIn ? '/bulletin' : '/login'" color="primary" variant="filled">
+              {{ store.isLoggedIn ? 'Bulletin Board' : 'Login' }}
+            </v-button>
+            <v-button :to="store.isLoggedIn ? '/shop' : '/about'" color="primary" :trailing-icon="icon('arrow_forward') || ''">
+              {{ store.isLoggedIn ? 'Go to shop' : 'About Us' }}
+            </v-button>
+          </div>
+        </div>
+        <div class="w-full overflow-hidden absolute bottom-0 translate-y-1">
+          <canvas ref="waveEl"></canvas>
+        </div>
       </div>
     </div>
 
-    <div class="bg-surface-variant pb-24 -translate-y-1 overflow-x-hidden flex-grow">
+    <div class="bg-surface pb-24 overflow-x-hidden flex-grow -translate-y-20">
       <swiper-container
         effect="coverflow"
         keyboard-enabled="true"
@@ -92,12 +97,21 @@ let wavifyInstance: {
 
 watch(() => store.isDark, v => {
   if (!wavifyInstance) return;
-  wavifyInstance.setColor(v ? "#4c444d" : "#ebdfe9");
+  wavifyInstance.setColor(v ? "#151216" : "#fff7fb");
 })
 
 onMounted(() => {
-  wavifyInstance = wave(waveEl.value, store.isDark ? "#4c444d" : "#ebdfe9");
+  wavifyInstance = wave(waveEl.value, store.isDark ? "#151216" : "#fff7fb");
   sal();
 });
 </script>
 
+<style lang="scss" scoped>
+.background {
+  @apply h-[375px] sm:h-[450px];
+
+  .layer {
+    @apply absolute top-0 left-0 w-full h-full bg-surface-container-low opacity-100;
+  }
+}
+</style>

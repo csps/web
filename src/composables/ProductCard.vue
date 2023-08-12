@@ -45,7 +45,7 @@ defineProps<{
 
 <style lang="scss" scoped>
 .product {
-  @apply relative bg-surface dark:bg-surface-container-low rounded-xl;
+  @apply relative bg-surface-container rounded-xl;
 
   .content {
     @apply px-4;

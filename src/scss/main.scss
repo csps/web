@@ -45,7 +45,7 @@ html, body, #app {
 }
 
 body {
-  @apply bg-background text-on-background;
+  @apply bg-surface text-on-surface;
   --sal-duration: 500ms;
 }
 

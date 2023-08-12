@@ -16,14 +16,13 @@
             v-model.trim="id"
             required
           >
-            <md-icon slot="leadingicon" v-html="icon('verified', true)" />
+            <md-icon slot="leadingicon" v-html="icon('badge', true)" />
           </md-outlined-text-field>
 
           <md-outlined-text-field
             :disabled="isLoggingIn"
             label="Password"
             :type="isPasswordVisible ? 'text' : 'password'"
-            maxLength="24"
             v-model.trim="password"
             @keydown.enter="login"
             required
@@ -36,7 +35,7 @@
           </md-outlined-text-field>
         </div>
 
-        <div class="flex justify-between items-center">
+        <div class="flex justify-between items-center my-3">
           <label class="flex items-center gap-3 text-sm">
             <md-checkbox @change="isRememberMe = !isRememberMe" :checked="isRememberMe" :disabled="isLoggingIn" />
             Remember Me
@@ -46,7 +45,7 @@
           </md-text-button>
         </div>
 
-        <div class="flex justify-center mt-3">
+        <div class="flex justify-center">
           <md-filled-button @click="login" class="w-full" :disabled="isLoggingIn">
             {{ isLoggingIn ? 'Logging in...' : 'Login' }}
           </md-filled-button>

@@ -52,7 +52,7 @@
     </div>
 
     <md-menu
-      fixed 
+      fixed quick
       :open="isMenuOpen"
       :anchor="menu"
       @closed="isMenuOpen = false"
@@ -114,27 +114,6 @@ function onThemeChange() {
   store.isDark = !store.isDark;
   setDarkMode(store.isDark);
 }
-
-// function openLogoutDialog() {
-//   // User-friendly logout message
-//   dialog.open(Strings.LOGOUT_DIALOG_TITLE, Strings.LOGOUT_DIALOG_MESSAGE, {
-//     text: "Logout",
-//     click: () => {
-//       // Set loading to true
-//       store.isLoading = true;
-//       // Clear local storage
-//       removeLocal("token");
-//       // Set logged out
-//       store.isLoggedIn = false;
-//       // Redirect to login
-//       router.push({ name: "Login" });
-//       // Set loading to false
-//       store.isLoading = false;
-//       // Close dialog
-//       dialog.hide();
-//     }
-//   });
-// }
 
 function back() {
   router.back();

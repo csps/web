@@ -1,3 +1,8 @@
+/**
+ * Might find a better way to use icons effeciently in the future
+ * @author mavyfaby (Maverick Fabroa)
+ */
+
 import ArrowBack from "@material-symbols/svg-700/rounded/arrow_back-fill.svg?raw";
 import ArrowBackOutlined from "@material-symbols/svg-700/rounded/arrow_back.svg?raw";
 
@@ -52,11 +57,20 @@ import LinkOutlined from "@material-symbols/svg-700/rounded/link.svg?raw";
 import ShoppingCart from "@material-symbols/svg-700/rounded/shopping_cart-fill.svg?raw";
 import ShoppingCartOutlined from "@material-symbols/svg-700/rounded/shopping_cart.svg?raw";
 
+import Badge from "@material-symbols/svg-700/rounded/badge-fill.svg?raw";
+import BadgeOutlined from "@material-symbols/svg-700/rounded/badge.svg?raw";
+
+import School from "@material-symbols/svg-700/rounded/school-fill.svg?raw";
+import SchoolOutlined from "@material-symbols/svg-700/rounded/school.svg?raw";
+
+import Mail from "@material-symbols/svg-700/rounded/mail-fill.svg?raw";
+import MailOutlined from "@material-symbols/svg-700/rounded/mail.svg?raw";
+
 // Icon type
 export type Icon = "arrow_back" | "menu" | "photo_camera" | "favorite" |
   "arrow_forward" | "verified" | "lock" | "visibility" | "visibility_off" | 
   "home" | "diversity" | "dashboard" | "store" | "login" | "logout" | "account_circle" |
-  "link" | "shopping_cart";
+  "link" | "shopping_cart" | "badge" | "school" | "mail";
 
 /**
  * Material Icon
@@ -100,6 +114,12 @@ export function icon(name: Icon, outlined: boolean = false) {
   if (name === "link") return outlined ? LinkOutlined : Link;
   // Shopping Cart
   if (name === "shopping_cart") return outlined ? ShoppingCartOutlined : ShoppingCart;
+  // Badge
+  if (name === "badge") return outlined ? BadgeOutlined : Badge;
+  // School
+  if (name === "school") return outlined ? SchoolOutlined : School;
+  // Mail
+  if (name === "mail") return outlined ? MailOutlined : Mail;
 
   // Default
   return null;

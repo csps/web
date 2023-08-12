@@ -6,7 +6,7 @@
     :escape-key-action="isLoading ? '' : 'close'"
   >
     <!-- Title -->
-    <h4 slot="headline" class="mx-6 mt-6">Forgot your password?</h4>
+    <div slot="headline">Forgot your password?</div>
     <!-- Content-->
     <div slot="content">
       <p class="mb-3">Enter your student ID and we'll send you an email to reset your password.</p>
@@ -20,7 +20,7 @@
         @keydown.enter="submit"
         required
       >
-        <md-icon slot="leadingicon" v-html="icon('verified', true)" />
+        <md-icon slot="leadingicon" v-html="icon('badge', true)" />
       </md-filled-text-field>
     </div>
     <!-- Footer -->

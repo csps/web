@@ -52,18 +52,22 @@
     </div>
 
     <md-menu
-      fixed has-overflow quick
-      anchor-corner="END_START"
+      fixed 
       :open="isMenuOpen"
       :anchor="menu"
       @closed="isMenuOpen = false"
+      class="min-w-min"
+      y-offset="8"
+      anchor-corner="END_END"
+      menu-corner="START_END"
     >
-      <md-menu-item
+      <router-link
         v-for="link in NAV_LINKS"
         :key="link.path"
-        :to="link.path === '/login' && store.isLoggedIn ? undefined : link.path"
-        :headline="link.path === '/login' ? (store.isLoggedIn ? 'Logout' : 'Login') : link.name"
-      />
+        :to="link.path"
+      >
+        <md-menu-item :headline="link.name" />
+      </router-link>
     </md-menu>
   </div>
 </template>

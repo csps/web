@@ -24,7 +24,7 @@
           </div>
   
           <div class="flex items-center justify-center space-x-5 mt-2" tabindex="-1">
-            <a class="relative" v-for="(link, i) in links" :href="link.href" :key="i" target="_blank">
+            <a class="relative outline-none" v-for="(link, i) in links" :href="link.href" :key="i" target="_blank">
               <md-focus-ring />
               <img :src="link.src" :alt="link.alt" class="w-5 sm:w-6" tabindex="-1" />
             </a>

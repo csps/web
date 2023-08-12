@@ -1,5 +1,5 @@
 <template>
-  <div class="container mx-auto p-6 w-full h-full flex items-center justify-center text-on-surface-variant">
+  <div class="container mx-auto p-6 w-full 2xl:w-2/3 h-full flex items-center justify-center text-on-surface-variant">
     <div class="flex flex-col justify-center items-center h-full" v-if="product === null || isLoading">
       <div v-if="isLoading">
         <md-linear-progress indeterminate />

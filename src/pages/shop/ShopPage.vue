@@ -1,5 +1,5 @@
 <template>
-  <div class="relative flex flex-col text-on-surface-variant">
+  <div class="relative text-on-surface-variant">
     <!-- Call To Action -->
     <div class="rounded-br-3xl rounded-bl-3xl -z-[1]">
       <div class="container mx-auto text-center pt-12 pb-5 xl:pt-16 2xl:pb-8 px-6">
@@ -9,6 +9,13 @@
         <h5 class="text-sm sm:text-base px-0 md:px-32 mt-4 mb-6">
           Experience the pride and passion with our university merch.
         </h5>
+
+        <router-link to="/orders">
+          <md-filled-button title="See my orders">
+            <md-icon slot="icon" v-html="icon('shopping_cart', true)" />
+            My orders
+          </md-filled-button>
+        </router-link>
       </div>
     </div>
 
@@ -43,13 +50,16 @@
 
 <script lang="ts" setup>
 import { ref, onMounted } from "vue";
+import { Endpoints, makeRequest } from "~/network/request";
+import { toast } from "vue3-toastify";
+import { icon } from "~/utils/icon";
 import sal from "sal.js";
 
+import "@material/web/icon/icon";
+import "@material/web/button/filled-button";
 import "@material/web/progress/linear-progress";
 
 import ProductCard from "~/composables/ProductCard.vue";
-import { Endpoints, makeRequest } from "~/network/request";
-import { toast } from "vue3-toastify";
 
 const isLoading = ref(true);
 const message = ref("");

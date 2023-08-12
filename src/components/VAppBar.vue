@@ -21,19 +21,19 @@
       <div class="flex items-center gap-5 flex-grow justify-end">
 
         <div class="xl:flex justify-end space-x-5 hidden">
-          <router-link v-for="link in NAV_LINKS" :key="link.path" :to="link.path">
+          <router-link v-for="link in NAV_LINKS" :key="link.path" :to="link.path" tabindex="-1">
             <md-icon-button :title="link.name">
               <md-icon v-html="icon(link.icon, true)" />
             </md-icon-button>
           </router-link>
 
-          <router-link v-if="store.isLoggedIn" to="/profile">
+          <router-link v-if="store.isLoggedIn" to="/profile" tabindex="-1">
             <md-icon-button title="Profile">
               <md-icon v-html="icon('account_circle')" />
             </md-icon-button>
           </router-link>
 
-          <router-link to="/login" v-else>
+          <router-link to="/login" tabindex="-1" v-else>
             <md-icon-button title="Login">
               <md-icon v-html="icon('login')" />
             </md-icon-button>

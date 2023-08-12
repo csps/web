@@ -49,11 +49,14 @@ import AccountCircleOutlined from "@material-symbols/svg-700/rounded/account_cir
 import Link from "@material-symbols/svg-700/rounded/link-fill.svg?raw";
 import LinkOutlined from "@material-symbols/svg-700/rounded/link.svg?raw";
 
+import ShoppingCart from "@material-symbols/svg-700/rounded/shopping_cart-fill.svg?raw";
+import ShoppingCartOutlined from "@material-symbols/svg-700/rounded/shopping_cart.svg?raw";
+
 // Icon type
 export type Icon = "arrow_back" | "menu" | "photo_camera" | "favorite" |
   "arrow_forward" | "verified" | "lock" | "visibility" | "visibility_off" | 
   "home" | "diversity" | "dashboard" | "store" | "login" | "logout" | "account_circle" |
-  "link";
+  "link" | "shopping_cart";
 
 /**
  * Material Icon
@@ -95,6 +98,8 @@ export function icon(name: Icon, outlined: boolean = false) {
   if (name === "account_circle") return outlined ? AccountCircleOutlined : AccountCircle;
   // Link
   if (name === "link") return outlined ? LinkOutlined : Link;
+  // Shopping Cart
+  if (name === "shopping_cart") return outlined ? ShoppingCartOutlined : ShoppingCart;
 
   // Default
   return null;

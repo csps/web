@@ -6,7 +6,6 @@
       <md-outlined-text-field
         label="Student ID"
         :value="store.student.student_id"
-        supporting-text="Your student ID is used to identify you in the system."
         readonly disabled
       >
         <md-icon slot="leadingicon" v-html="icon('badge', true)" />

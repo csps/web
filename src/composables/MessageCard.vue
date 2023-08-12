@@ -40,7 +40,8 @@ defineProps({
 
 <style lang="scss" scoped>
 .profile {
-  @apply w-[200px] h-[200px] absolute overflow-hidden rounded-full top-28 left-1/2 -translate-x-1/2 -translate-y-1/2 border-[6px] z-[500] border-surface-container-high;
+  @apply w-[200px] h-[200px] absolute overflow-hidden rounded-full top-28 left-1/2
+    -translate-x-1/2 -translate-y-1/2 border-[6px] z-[500] border-surface-container-high;
 }
 
 h2 {
@@ -68,9 +69,9 @@ p {
 }
 
 .card {
-  @apply rounded-[32px] p-6 pt-14 sm:p-14 mx-4 w-full bg-surface text-on-surface
+  @apply rounded-[32px] p-6 pt-14 sm:p-14 mx-4 w-full bg-surface-container text-on-surface
     md:w-3/4 lg:w-4/5 xl:w-2/3 2xl:w-3/4 3xl:w-2/3 flex flex-col items-center border-[6px]
-    border-surface-container
+    border-surface-container-low;
 }
 
 p {

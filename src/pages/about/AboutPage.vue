@@ -1,31 +1,24 @@
 <template>
   <div class="h-full relative bg-surface text-on-surface">
-    <div class="relative -translate-y-20 w-full">
-      <div class="relative w-full background">
-        <div class="layer" />
-      </div>
-      <div class="absolute top-0 w-full h-full">
-        <div class="flex flex-col justify-center items-center h-full" data-sal="slide-right" data-sal-repeat>
-          <div class="px-8 text-center mt-2">
-            <h4 class="mt-2 text-base md:text-2xl lg:text-3xl text-on-surface-variant mb-2 md:mb-5 font-bold">
-              Computing Society of the Philippines - Students
-            </h4>
-            <h5 class="text-sm md:text-base xl:text-lg text-on-surface-variant">
-              University of Cebu - Main Campus
-            </h5>
-          </div>
-        </div>
-        <div class="w-full overflow-hidden absolute bottom-0 translate-y-1">
-          <canvas ref="waveEl"></canvas>
+    
+    <div class="rounded-br-3xl rounded-bl-3xl -z-[1]">
+      <div class="container mx-auto text-center pt-16 pb-10 2xl:pt-20 2xl:pb-20 px-6">
+        <div class="flex flex-col items-center px-8 text-center mt-2">
+          <img :src="CSPSLogo" class="w-[150px] mb-4" alt="CSPS Logo" data-sal="zoom-in" data-sal-repeat />
+          <h4 class="mt-2 text-base md:text-2xl text-on-surface mb-2 md:mb-3 font-bold" data-sal="zoom-in" data-sal-repeat>
+            Computing Society of the Philippines - Students
+          </h4>
+          <h5 class="text-sm md:text-base xl:text-lg text-on-surface-variant" data-sal="zoom-in" data-sal-repeat>
+            University of Cebu - Main Campus
+          </h5>
         </div>
       </div>
     </div>
 
-    <div class="-translate-y-20">
-      <div class="container mx-auto pt-10 sm:pt-24">
-        <div class="flex items-center justify-center gap-10" data-sal="zoom-out" data-sal-delay="100" data-sal-repeat>
+    <div>
+      <div class="container mx-auto">
+        <div class="flex items-center justify-center gap-10" data-sal="zoom-in" data-sal-repeat>
           <div class="w-full lg:w-2/3 xl:w-1/2">
-            <h1 class="title text-center lg:text-left px-6">About us</h1>
             <p class="welcome">
               Welcome to the  Computing Society of the Philippines - Students!
               We are a student body organization that aims to create a welcoming and inclusive community for all computer science students at the University of Cebu - Main Campus.
@@ -153,6 +146,7 @@
 
 <script lang="ts" setup>
 import CCSLogo from '~/assets/img/ccs_logo.png';
+import CSPSLogo from '~/assets/img/csps_logo.png';
 import UCLogo from '~/assets/img/uc_logo.png';
 
 import Jewel from '~/assets/img/profile/Jewel.jpg';
@@ -166,16 +160,12 @@ import Rybryb from '~/assets/img/profile/Rybryb.jpg';
 import Andrian from '~/assets/img/profile/Andrian.jpg';
 
 import type { SwiperContainer } from 'swiper/element';
-import { ref, onMounted, watch } from 'vue';
 import { register } from 'swiper/element/bundle';
-import { useStore } from "~/store"; 
-import wave from "~/utils/wave";
+import { onMounted } from 'vue';
 import sal from "sal.js";
 
 import CardAbout from '~/composables/CardAbout.vue';
 
-const store = useStore();
-const waveEl = ref();
 const officers = [
   { name: "Jewel Cedrick Gesim", position: "President", thumb: Jewel },
   { name: "Brian Keith Lisondra", position: "VP - Internal", thumb: Brian },
@@ -188,20 +178,9 @@ const officers = [
   { name: "Andrian Paul Sedigo", position: "P.I.O", thumb: Andrian },
 ];
 
-let wavifyInstance: {
-  setColor: (color: string) => void;
-};
-
 register();
 
-watch(() => store.isDark, v => {
-  if (!wavifyInstance) return;
-  wavifyInstance.setColor(v ? "#151216" : "#fff7fb");
-})
-
 onMounted(() => {
-  wavifyInstance = wave(waveEl.value, store.isDark ? "#151216" : "#fff7fb");
-
   const swiper: SwiperContainer | null = document.querySelector('.officers-swiper');
   if (swiper === null) return;
 
@@ -235,7 +214,7 @@ onMounted(() => {
 }
 
 .welcome {
-  @apply text-sm leading-7 md:text-base 2xl:text-lg text-justify md:leading-8 2xl:leading-[34px] px-6;
+  @apply text-sm leading-7 md:text-base text-justify md:leading-8 2xl:leading-[34px] px-6;
 }
 
 ul {

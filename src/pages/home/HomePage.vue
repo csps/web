@@ -1,5 +1,5 @@
 <template>
-  <div class="relative flex flex-col">
+  <div class="relative">
     <!-- Call To Action -->
     <div class="rounded-br-3xl rounded-bl-3xl -z-[1]">
       <div class="container mx-auto text-center pt-16 pb-10 2xl:pt-20 2xl:pb-20 px-6">

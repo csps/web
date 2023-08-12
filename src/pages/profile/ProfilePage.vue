@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-col text-on-surface-variant items-center gap-5 w-full h-full px-6">
-    <div class="grid grid-cols-1 gap-5 justify-center w-full sm:w-3/4 md:w-2/3 lg:w-1/2 2xl:w-1/3 3xl:w-1/4">
+    <div class="grid grid-cols-1 gap-6 justify-center w-full sm:w-3/4 md:w-2/3 lg:w-1/2 2xl:w-1/3 3xl:w-1/4">
       <h3 class="title-large font-medium text-center py-4">Profile</h3>
       <!-- Student ID -->
       <md-outlined-text-field

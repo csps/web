@@ -1,5 +1,6 @@
 <template>
-  <div class="container mx-auto p-6 w-full 2xl:w-2/3 h-full flex items-center justify-center text-on-surface-variant">
+  <div class="container mx-auto p-6 w-full 2xl:w-2/3 h-full flex-col flex justify-center text-on-surface-variant">
+
     <div class="flex flex-col justify-center items-center h-full" v-if="product === null || isLoading">
       <div v-if="isLoading">
         <md-linear-progress indeterminate />
@@ -11,7 +12,7 @@
       </div>
     </div>
 
-    <div v-else class="grid grid-cols-1 md:grid-cols-2 gap-8 justify-center h-full w-full">
+    <div v-else class="grid grid-cols-1 md:grid-cols-2 gap-8 justify-center h-full w-full mt-5">
       <div>
         <ImageTemplate class="md:!h-full" />
       </div>
@@ -51,11 +52,6 @@
           <md-filled-button :disabled="!product?.stock || product.stock <= 0">
             {{ product?.stock && product.stock > 0 ? "Order" : "Out of stock" }}
           </md-filled-button>
-          <router-link to="/shop">
-            <md-filled-tonal-button>
-              Go back to shop
-            </md-filled-tonal-button>
-          </router-link>
         </div>
 
         <p v-if="!product?.stock || product.stock <= 0" class="text-error text-sm mt-5">
@@ -77,7 +73,6 @@ import { icon } from "~/utils/icon";
 import "@material/web/icon/icon";
 import "@material/web/divider/divider";
 import "@material/web/button/filled-button";
-import "@material/web/button/filled-tonal-button";
 import "@material/web/button/text-button";
 import "@material/web/progress/linear-progress";
 import "@material/web/iconbutton/icon-button";

@@ -11,7 +11,7 @@ import "@material/web/icon/icon"
 
 <style lang="scss">
 .template {
-  @apply bg-surface-container-low dark:bg-surface-container-low rounded-xl px-4 flex
+  @apply bg-surface-container rounded-xl px-4 flex
     justify-center items-center h-44 lg:h-52 2xl:h-64;
 
   md-icon {

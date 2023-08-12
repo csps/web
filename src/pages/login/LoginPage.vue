@@ -2,8 +2,12 @@
   <div class="container mx-auto px-6 py-12 flex items-center">
     <div class="flex items-center justify-center w-full h-full">
       <div class="">
-        <h2 class="text-2xl md:text-3xl font-bold mb-1 text-on-surface-variant">Welcome back, <span class="text-primary">ComSciPeepS</span></h2>
-        <h6 class="text-sm">To login, please enter your details.</h6>
+        <h2 class="text-2xl md:text-3xl font-bold mb-1 text-on-surface-variant" data-sal="zoom-in">
+          Welcome back, <span class="text-primary">ComSciPeepS</span>
+        </h2>
+        <h6 class="text-sm" data-sal="zoom-in" data-sal-delay="100">
+          To login, please enter your details.
+        </h6>
 
         <div class="flex flex-col gap-1 mt-8">
           <md-outlined-text-field
@@ -14,6 +18,8 @@
             hasLeadingIcon="true"
             @keydown.enter="login"
             v-model.trim="id"
+            data-sal="zoom-in"
+            data-sal-delay="200"
             required
           >
             <md-icon slot="leadingicon" v-html="icon('badge', true)" />
@@ -25,6 +31,8 @@
             :type="isPasswordVisible ? 'text' : 'password'"
             v-model.trim="password"
             @keydown.enter="login"
+            data-sal="zoom-in"
+            data-sal-delay="200"
             required
           >
             <md-icon slot="leadingicon" v-html="icon('lock', true)" />
@@ -35,7 +43,7 @@
           </md-outlined-text-field>
         </div>
 
-        <div class="flex justify-between items-center my-3">
+        <div class="flex justify-between items-center my-3" data-sal="zoom-in" data-sal-delay="300">
           <label class="flex items-center gap-3 text-sm">
             <md-checkbox @change="isRememberMe = !isRememberMe" :checked="isRememberMe" :disabled="isLoggingIn" />
             Remember Me
@@ -45,7 +53,7 @@
           </md-text-button>
         </div>
 
-        <div class="flex justify-center">
+        <div class="flex justify-center" data-sal="zoom-in" data-sal-delay="400">
           <md-filled-button @click="login" class="w-full" :disabled="isLoggingIn">
             {{ isLoggingIn ? 'Logging in...' : 'Login' }}
           </md-filled-button>
@@ -68,13 +76,14 @@ import "@material/web/button/text-button";
 import "@material/web/checkbox/checkbox";
 import "@material/web/divider/divider";
 
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import { icon } from "~/utils/icon";
 import { toast } from "vue3-toastify";
 import { useStore } from "~/store";
 import { useRouter } from "vue-router";
 import { Endpoints, makeRequest } from "~/network/request";
 import { getLocal, removeLocal, setLocal } from "~/utils/page";
+import sal from "sal.js";
 
 import DialogForgotPasswordVue from "~/components/dialogs/DialogForgotPassword.vue";
 
@@ -88,6 +97,10 @@ const isLoggingIn = ref(false);
 const isPasswordVisible = ref(false);
 const isForgotDialogOpen = ref(false);
 const isRememberMe = ref(getLocal("id").length > 0);
+
+onMounted(() => {
+  sal();
+});
 
 /**
  * Login to the system

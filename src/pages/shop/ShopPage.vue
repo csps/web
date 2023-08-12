@@ -3,15 +3,15 @@
     <!-- Call To Action -->
     <div class="rounded-br-3xl rounded-bl-3xl -z-[1]">
       <div class="container mx-auto text-center pt-12 pb-5 xl:pt-16 2xl:pb-8 px-6">
-        <h2 class="text-2xl md:text-3xl font-bold">
+        <h2 class="text-2xl md:text-3xl font-bold" data-sal="zoom-in" data-sal-repeat>
           Style your own groove
         </h2>
-        <h5 class="text-sm sm:text-base px-0 md:px-32 mt-4 mb-6">
+        <h5 class="text-sm sm:text-base px-0 md:px-32 mt-4 mb-6" data-sal="zoom-in" data-sal-repeat>
           Experience the pride and passion with our university merch.
         </h5>
 
         <router-link to="/orders">
-          <md-filled-button title="See my orders">
+          <md-filled-button title="See my orders" data-sal="zoom-in" data-sal-repeat>
             <md-icon slot="icon" v-html="icon('shopping_cart', true)" />
             My orders
           </md-filled-button>

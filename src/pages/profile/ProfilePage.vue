@@ -1,7 +1,13 @@
 <template>
   <div class="flex flex-col text-on-surface-variant items-center gap-5 w-full h-full px-6">
     <div class="grid grid-cols-1 gap-6 justify-center w-full sm:w-3/4 md:w-2/3 lg:w-1/2 2xl:w-1/3 3xl:w-1/4">
-      <h3 class="title-large font-medium text-center py-4">Profile</h3>
+      <div class="py-4">
+        <h3 class="title-large font-medium text-center mb-1">Profile</h3>
+        <p class="label-medium text-center text-on-surface-variant">
+          Note: If you feel the information provided below is incorrect please contact us or visit our office.
+        </p>
+      </div>
+
       <!-- Student ID -->
       <md-outlined-text-field
         label="Student ID"
@@ -39,7 +45,7 @@
       >
         <md-icon slot="leadingicon" v-html="icon('mail', true)" />
       </md-outlined-text-field>
-  
+
       <!-- Year level -->
       <md-outlined-select label="Year level" v-model="year" quick>
         <md-icon slot="leadingicon" v-html="icon('school', true)" />
@@ -52,18 +58,23 @@
       <!-- Logout -->
       <div class="flex justify-end gap-2">
         <md-filled-button @click="openLogoutDialog">Logout</md-filled-button>
-        <md-text-button>Change password</md-text-button>
+        <md-text-button @click="isDialogOpen = true">Change password</md-text-button>
       </div>
     </div>
+
+    <DialogChangePassword v-model="isDialogOpen" />
   </div>  
 </template>
 
 <script lang="ts" setup>
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import { icon } from '~/utils/icon';
 import { useRouter } from 'vue-router';
 import { useStore, useDialog } from '~/store';
 import { removeLocal } from '~/utils/page';
+import { makeRequest, Endpoints } from "~/network/request";
+import { StudentType } from "~/types/models";
+import { toast } from "vue3-toastify";
 import Strings from '~/config/strings';
 
 import "@material/web/textfield/outlined-text-field";
@@ -72,10 +83,33 @@ import "@material/web/select/outlined-select";
 import "@material/web/button/filled-button";
 import "@material/web/select/select-option"
 
+import DialogChangePassword from "~/components/dialogs/DialogChangePassword.vue";
+
 const store = useStore();
 const dialog = useDialog();
 const router = useRouter();
+
+const isDialogOpen = ref(false);
 const year = ref(store.student.year_level);
+
+watch(year, v => {
+  store.isLoading = true;
+
+  makeRequest("PUT", Endpoints.StudentsKey, {
+    key: StudentType.year_level,
+    value: v
+  }, response => {
+    store.isLoading = false;
+
+    toast(response.message, {
+      type: response.success ? "success" : "error"
+    });
+
+    if (response.success) {
+      store.student.year_level = v;
+    }
+  });
+});
 
 /**
  * Open logout dialog

@@ -2,6 +2,7 @@ import axios from "axios";
 import Endpoints from "./endpoints";
 
 import type { AxiosRequestConfig } from "axios";
+import { getLocal } from "~/utils/page";
 
 /**
  * Create axios instance
@@ -24,8 +25,8 @@ function makeRequest<T>(method: HttpMethod, endpoint: Endpoints, data: object | 
   // URL
   let url: string = endpoint;
 
-  // If method is GET and endpoint has param
-  if (method === "GET" && endpoint.includes(":")) {
+  // If endpoint has param
+  if (endpoint.includes(":")) {
     // Get param
     const params = endpoint.split(":").slice(1).map(s => s.replace(/\//g, ""));
     
@@ -33,6 +34,8 @@ function makeRequest<T>(method: HttpMethod, endpoint: Endpoints, data: object | 
     for (const param of params) {
       // Replace param with data
       url = endpoint.replace(`:${param}`, (data as any)[param] || "");
+      // Delete param from data
+      delete (data as any)[param];
     }
   }
 
@@ -50,6 +53,14 @@ function makeRequest<T>(method: HttpMethod, endpoint: Endpoints, data: object | 
   if (method !== "GET") {
     // Add data to config
     config.data = data;
+  }
+
+  // If has token
+  if (getLocal("token").length > 0) {
+    // Add token to config
+    config.headers = {
+      Authorization: `Bearer ${getLocal("token")}`
+    }
   }
 
   // Make request

@@ -5,12 +5,9 @@
     :scrim-click-action="isLoading ? '' : 'close'"
     :escape-key-action="isLoading ? '' : 'close'"
   >
-    <!-- Title -->
     <div slot="headline">Forgot your password?</div>
-    <!-- Content-->
     <div slot="content">
       <p class="mb-3">Enter your student ID and we'll send you an email to reset your password.</p>
-      <!-- Student ID -->
       <md-filled-text-field
         class="w-full"
         label="Student ID"
@@ -23,7 +20,6 @@
         <md-icon slot="leadingicon" v-html="icon('badge', true)" />
       </md-filled-text-field>
     </div>
-    <!-- Footer -->
     <div class="space-x-1" slot="actions">
       <md-text-button @click="close" :disabled="isLoading">Cancel</md-text-button>
       <md-text-button @click="submit" :disabled="studentID.length !== 8 || isLoading" autofocus>

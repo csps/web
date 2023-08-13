@@ -42,7 +42,7 @@ declare global {
     variations: ProductVariation[];
   }
   
-  export type ProductVariation = {
+  type ProductVariation = {
     id: number;
     product_id: number;
     product_variation_types_id: number;

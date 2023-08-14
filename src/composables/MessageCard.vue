@@ -69,9 +69,8 @@ p {
 }
 
 .card {
-  @apply rounded-[32px] p-6 pt-14 sm:p-14 mx-4 w-full bg-surface-container text-on-surface
-    md:w-3/4 lg:w-4/5 xl:w-2/3 2xl:w-3/4 3xl:w-2/3 flex flex-col items-center border-[6px]
-    border-surface-container-low;
+  @apply p-6 pt-14 sm:p-14 mx-4 w-full text-on-surface-variant
+    md:w-3/4 lg:w-4/5 xl:w-2/3 2xl:w-3/4 3xl:w-2/3 flex flex-col items-center;  
 }
 
 p {

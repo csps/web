@@ -2,24 +2,23 @@
   <div class="relative">
     <!-- Call To Action -->
     <div class="rounded-br-3xl rounded-bl-3xl -z-[1]">
-      <div class="container mx-auto text-center pt-8 pb-10 2xl:pb-12 px-6">
-
+      <div class="container mx-auto text-center pt-8 pb-5 px-6">
         <div class="flex justify-center gap-3 mb-6">
-          <md-assist-chip label="Adviser" v-tippy="'View message'">
+          <md-filter-chip :selected="role === 'adviser'" @click="showMessage('adviser')" label="Adviser" title="View Message">
             <div slot="icon" class="rounded-full overflow-hidden">
-              <img :src="Adviser" alt="Adviser's message" />
+              <img :src="Adviser" alt="Adviser" />
             </div>
-          </md-assist-chip>
-          <md-assist-chip label="Dean" v-tippy="'View message'">
-            <img slot="icon" class="rounded-full" :src="Dean" alt="Dean's message" />
-          </md-assist-chip>
+          </md-filter-chip>
+          <md-filter-chip :selected="role ==='dean'" @click="showMessage('dean')" label="Dean" title="View Message">
+            <img slot="icon" class="rounded-full" :src="Dean" alt="Dean" />
+          </md-filter-chip>
         </div>
         
         <h2 class="text-2xl md:text-3xl font-bold text-on-surface-variant" data-sal="zoom-in" data-sal-repeat>
           {{ store.isLoggedIn ? `Hello, ${store.student.first_name} ${store.student.last_name}` : "Dive into the world of Computer Science" }}
         </h2>
 
-        <h5 v-if="!store.isLoggedIn" class="text-sm md:text-base xl:text-lg text-on-surface-variant my-5" data-sal="zoom-in" data-sal-delay="100" data-sal-repeat>
+        <h5 v-if="!store.isLoggedIn" class="text-sm md:text-base xl:text-lg text-on-surface-variant my-4" data-sal="zoom-in" data-sal-delay="100" data-sal-repeat>
           Connect, collaborate, and Grow Together
         </h5>
 
@@ -31,47 +30,111 @@
             {{ store.isLoggedIn ? 'Go to shop' : 'About Us' }}
           </v-button>
         </div>
-
       </div>
     </div>
+
+    <!-- Message -->
+    <Transition name="slide-fade" mode="out-in">
+      <div v-show="role" class="h-full">
+        <swiper-container
+          ref="swiper"
+          effect="coverflow"
+          keyboard-enabled="true"
+          round-lengths="true"
+          class="overflow-visible"
+          coverflow-effect-slide-shadows="false"
+          grab-cursor="true"
+        >
+          <swiper-slide
+            v-for="message in messages"
+            :key="message.name"
+            class="flex pt-28 pb-10 justify-center overflow-visible"
+          >
+            <MessageCard
+              :image="message.image"
+              :name="message.name"
+              :position="message.position"
+              :message="message.message"
+            />  
+          </swiper-slide>
+        </swiper-container>
+      </div>
+    </Transition>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { register } from 'swiper/element/bundle';
+import { ref, onMounted } from 'vue';
 import { useStore } from "~/store";
-import { onMounted } from 'vue';
 import { icon } from "~/utils/icon";
+import { register } from 'swiper/element/bundle';
 import sal from "sal.js";
 
 import VButton from '~/components/VButton.vue';
+import MessageCard from '~/composables/MessageCard.vue';
 
 import Dean from "~/assets/img/profile/Dean.jpg";
 import Adviser from "~/assets/img/profile/Adviser.jpg";
-
-// import deanMessage from "~/assets/json/dean.json";
-// import adviserMessage from "~/assets/json/adviser.json";
+import deanMessage from "~/assets/json/dean.json";
+import adviserMessage from "~/assets/json/adviser.json";
 
 import "@material/web/iconbutton/icon-button";
-import "@material/web/chips/assist-chip";
+import "@material/web/chips/filter-chip";
 
 register();
 
-// const messages = [
-//   {
-//     image: Adviser,
-//     name: "Mr. Heubert Ferolino",
-//     position: "Adviser",
-//     message: adviserMessage
-//   },
-//   {
-//     image: Dean,
-//     name: "Mr. Neil Basabe",
-//     position: "Dean - UC Main CCS",
-//     message: deanMessage
-//   },
-// ];
+const swiper = ref();
+const role = ref<Role | null>();
+const isShowMessage = ref(false);
 
 const store = useStore();
-onMounted(sal);
+const messages = [
+  {
+    image: Adviser,
+    name: "Mr. Heubert Ferolino",
+    position: "Adviser",
+    message: adviserMessage
+  },
+  {
+    image: Dean,
+    name: "Mr. Neil Basabe",
+    position: "Dean - UC Main CCS",
+    message: deanMessage
+  },
+];
+
+onMounted(() => {
+  swiper.value.addEventListener('slidechange', (event: any) => {
+    if (event.detail[0].realIndex === 0) {
+      role.value = "adviser";
+      return;
+    }
+
+    if (event.detail[0].realIndex === 1) {
+      role.value = "dean";
+      return;
+    }
+
+    role.value = null;
+  });
+
+  sal();
+});
+
+/**
+ * Show message
+ * @param r - Role
+ */
+function showMessage(r: Role) {
+  isShowMessage.value = true;
+  role.value = role.value === r ? null : r;
+
+  if (r === "adviser") {
+    swiper.value.swiper.slideTo(0);
+  }
+  
+  if (r === "dean") {
+    swiper.value.swiper.slideTo(1);
+  }
+}
 </script>

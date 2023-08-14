@@ -5,7 +5,7 @@
         <h2 class="text-2xl md:text-3xl font-bold mb-1 text-on-surface-variant" data-sal="zoom-in">
           Welcome back, <span class="text-primary">ComSciPeepS</span>
         </h2>
-        <h6 class="text-sm" data-sal="zoom-in" data-sal-delay="100">
+        <h6 class="text-sm" data-sal="zoom-in" data-sal-delay="50">
           To login, please enter your details.
         </h6>
 
@@ -19,7 +19,7 @@
             @keydown.enter="login"
             v-model.trim="id"
             data-sal="zoom-in"
-            data-sal-delay="200"
+            data-sal-delay="100"
             required
           >
             <md-icon slot="leadingicon" v-html="icon('badge', true)" />
@@ -32,7 +32,7 @@
             v-model.trim="password"
             @keydown.enter="login"
             data-sal="zoom-in"
-            data-sal-delay="200"
+            data-sal-delay="150"
             required
           >
             <md-icon slot="leadingicon" v-html="icon('lock', true)" />
@@ -43,7 +43,7 @@
           </md-outlined-text-field>
         </div>
 
-        <div class="flex justify-between items-center my-3" data-sal="zoom-in" data-sal-delay="300">
+        <div class="flex justify-between items-center my-3" data-sal="zoom-in" data-sal-delay="200">
           <label class="flex items-center gap-3 text-sm">
             <md-checkbox @change="isRememberMe = !isRememberMe" :checked="isRememberMe" :disabled="isLoggingIn" />
             Remember Me
@@ -53,7 +53,7 @@
           </md-text-button>
         </div>
 
-        <div class="flex justify-center" data-sal="zoom-in" data-sal-delay="400">
+        <div class="flex justify-center" data-sal="zoom-in" data-sal-delay="250">
           <md-filled-button @click="login" class="w-full" :disabled="isLoggingIn">
             {{ isLoggingIn ? 'Logging in...' : 'Login' }}
           </md-filled-button>

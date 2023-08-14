@@ -52,12 +52,8 @@ h5 {
   @apply text-xs sm:text-sm mb-3;
 }
 
-p {
-  font-family: Arial, Helvetica, sans-serif;
-}
-
 .message {
-  @apply text-sm tracking-[0.1px] sm:text-base;
+  @apply text-sm leading-7;
 }
 
 .message > p {
@@ -69,8 +65,9 @@ p {
 }
 
 .card {
-  @apply p-6 pt-14 sm:p-14 mx-4 w-full text-on-surface-variant
-    md:w-3/4 lg:w-4/5 xl:w-2/3 2xl:w-3/4 3xl:w-2/3 flex flex-col items-center;  
+  @apply rounded-[32px] p-6 pt-14 sm:p-14 mx-4 w-full bg-background text-on-background
+    md:w-3/4 lg:w-4/5 xl:w-2/3 2xl:w-3/4 3xl:w-2/3 flex flex-col items-center border-[6px]
+    border-surface-container
 }
 
 p {

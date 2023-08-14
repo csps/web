@@ -27,7 +27,7 @@ input[type=number] {
 }
 
 html, body, #app {
-  @apply min-h-screen;
+  @apply min-h-screen w-screen;
 }
 
 .slide-fade-enter-active {
@@ -45,8 +45,8 @@ html, body, #app {
 }
 
 body {
-  @apply bg-surface text-on-surface;
   --sal-duration: 500ms;
+  @apply bg-surface text-on-surface;
 }
 
 *::-webkit-scrollbar {

@@ -1,5 +1,6 @@
 declare global {
   type HttpMethod = "GET" | "POST" | "PUT" | "DELETE";
+  type Role = "dean" | "adviser" | "admin";
 
   type ServerResponse<T> = {
     success: boolean,

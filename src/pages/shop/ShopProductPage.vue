@@ -1,5 +1,5 @@
 <template>
-  <div class="container mx-auto p-6 w-full 2xl:w-2/3 h-full flex-col flex justify-center text-on-surface-variant">
+  <div class="container mx-auto p-6 w-full lg:w-3/4 xl:w-3/5 2xl:w-1/2 3xl:w-2/5 h-full flex-col flex justify-center text-on-surface-variant">
 
     <div class="flex flex-col justify-center items-center h-full" v-if="product === null || isLoading">
       <div v-if="isLoading">
@@ -12,52 +12,40 @@
       </div>
     </div>
 
-    <div v-else class="grid grid-cols-1 md:grid-cols-2 gap-8 justify-center h-full w-full mt-5">
-      <div>
-        <ImageTemplate class="md:!h-full" />
-      </div>
-      <div>
-        <div class="flex justify-between mb-3">
-          <div>
-            <h2 class="headline-medium font-bold mb-1 text-primary">{{ product?.name }}</h2>
-            <h4 class="title-large font-medium">
-              &#8369; {{ product?.price }}.00
-            </h4>
-          </div>
-          <div>
-            <md-icon-button toggle>
-              <md-icon v-html="icon('favorite', true)" />
-              <md-icon slot="selectedIcon" v-html="icon('favorite')" />
-            </md-icon-button>
-          </div>
+    <div v-else class="grid grid-cols-1 justify-center h-full w-full mt-5">
+
+      <div class="flex justify-between items-center">
+        <div>
+          <h2 class="headline-small mb-1 font-medium">{{ product?.name }}</h2>
+          <h4 class="title-large">
+            &#8369; {{ product?.price }}.00
+          </h4>
         </div>
-        <p class="mb-3 body-medium">
+        <div>
+          <md-icon-button toggle>
+            <md-icon v-html="icon('favorite', true)" />
+            <md-icon slot="selectedIcon" v-html="icon('favorite')" />
+          </md-icon-button>
+        </div>
+      </div>
+
+      <div class="my-5">
+        <ImageTemplate />
+      </div> 
+
+      <p class="title-medium text-center mb-5">
+        <span v-if="product?.stock !== undefined && product?.stock > 0">
+          There are <span class="text-primary font-bold">{{ product?.stock }}</span> stocks available.
+        </span>
+      </p>
+
+      <div class="mb-6">
+        <h5 class="title-medium mb-1 font-medium">Description</h5>
+        <p class="body-medium">
           {{ product?.description }}
         </p>
-  
-        <div class="italic my-6 text-sm">
-          <div v-if="product?.variations?.length">
-            Show variations here
-          </div>
-          <span class="text-sm" v-else>
-            No variations available
-          </span>
-        </div>
-        
-        <div class="mb-6 text-sm" :class="{ 'text-error': !product?.stock || product.stock <= 0 }">
-          Stocks: {{ product?.stock }}
-        </div>
-        
-        <div class="flex gap-3">
-          <md-filled-button :disabled="!product?.stock || product.stock <= 0">
-            {{ product?.stock && product.stock > 0 ? "Order" : "Out of stock" }}
-          </md-filled-button>
-        </div>
-
-        <p v-if="!product?.stock || product.stock <= 0" class="text-error text-sm mt-5">
-          This product is out of stock. Please check back later.
-        </p>
       </div>
+      
     </div>
   </div>
 </template>
@@ -83,8 +71,9 @@ const store = useStore();
 const route = useRoute();
 
 const product = ref<ProductResponse | null>();
-const isLoading = ref(false);
+
 const message = ref("");
+const isLoading = ref(false);
 
 onMounted(() => {
   // Set loading to true

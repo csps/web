@@ -66,11 +66,17 @@ import SchoolOutlined from "@material-symbols/svg-700/rounded/school.svg?raw";
 import Mail from "@material-symbols/svg-700/rounded/mail-fill.svg?raw";
 import MailOutlined from "@material-symbols/svg-700/rounded/mail.svg?raw";
 
+import Add from "@material-symbols/svg-700/rounded/add-fill.svg?raw";
+import AddOutlined from "@material-symbols/svg-700/rounded/add.svg?raw";
+
+import Remove from "@material-symbols/svg-700/rounded/remove-fill.svg?raw";
+import RemoveOutlined from "@material-symbols/svg-700/rounded/remove.svg?raw";
+
 // Icon type
 export type Icon = "arrow_back" | "menu" | "photo_camera" | "favorite" |
   "arrow_forward" | "verified" | "lock" | "visibility" | "visibility_off" | 
   "home" | "diversity" | "dashboard" | "store" | "login" | "logout" | "account_circle" |
-  "link" | "shopping_cart" | "badge" | "school" | "mail";
+  "link" | "shopping_cart" | "badge" | "school" | "mail" | "add" | "remove";
 
 /**
  * Material Icon
@@ -120,6 +126,10 @@ export function icon(name: Icon, outlined: boolean = false) {
   if (name === "school") return outlined ? SchoolOutlined : School;
   // Mail
   if (name === "mail") return outlined ? MailOutlined : Mail;
+  // Add
+  if (name === "add") return outlined ? AddOutlined : Add;
+  // Remove
+  if (name === "remove") return outlined ? RemoveOutlined : Remove;
 
   // Default
   return null;

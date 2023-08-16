@@ -9,6 +9,8 @@ enum Endpoints {
   ResetPasswordToken = "/reset-password/:token",
   ProductsId = "/products/:id",
   Products = "/products",
+  PhotosId = "/photos/:id",
+  PhotosIdRaw = "/photos/:id/raw",
   StudentsKey = "/students/:key",
 }
 

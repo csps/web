@@ -1,13 +1,22 @@
 <template>
-  <div class="product">
-    <ImageTemplate />
+  <div class="product overflow-hidden">
+    <div class="flex-grow">
+      <VImage
+        class="rounded-xl overflow-hidden h-full"
+        v-if="product?.thumbnail && product.thumbnail > 0"
+        :src="getPhotoLink(product.thumbnail)"
+        :alt="product.name"
+      />
+  
+      <ImageTemplate class="!h-full" v-else />
+    </div>
 
-    <div class="absolute right-2 top-2 flex flex-col justify-center items-center gap-1">
+    <!-- <div class="absolute right-2 top-2 flex flex-col justify-center items-center gap-1">
       <md-icon-button title="Like" toggle>
         <md-icon v-html="icon('favorite', true)" />
         <md-icon slot="selectedIcon" v-html="icon('favorite')" />
       </md-icon-button>
-    </div>
+    </div> -->
 
     <div class="content py-4">
       <div class="flex">
@@ -28,12 +37,13 @@
 </template>
 
 <script lang="ts" setup>
-import { icon } from "~/utils/icon";
+import { getPhotoLink } from "~/utils/network";
 
 import "@material/web/icon/icon";
 import "@material/web/button/filled-tonal-button";
 import "@material/web/iconbutton/icon-button";
 
+import VImage from '../components/VImage.vue';
 import ImageTemplate from './ImageTemplate.vue';
 
 defineProps<{
@@ -43,7 +53,7 @@ defineProps<{
 
 <style lang="scss" scoped>
 .product {
-  @apply relative bg-surface-container-low rounded-xl;
+  @apply flex flex-col relative bg-surface-container-low rounded-xl;
 
   .content {
     @apply px-4 font-medium;

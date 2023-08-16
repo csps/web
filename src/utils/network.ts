@@ -25,3 +25,11 @@ export function isLoginValid(callback: (valid: boolean) => void) {
     callback(response.success);
   });
 }
+
+/**
+ * Get the photo link
+ * @param id Photo ID
+ */
+export function getPhotoLink(id: number) {
+  return `${location.protocol}//${location.hostname}:4000` + Endpoints.PhotosIdRaw.replace(":id", id.toString());
+}

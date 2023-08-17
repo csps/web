@@ -21,9 +21,9 @@ const routes: RouteRecordRaw[] = [
     meta: { requiresAuth: true }
   },
   {
-    path: "/shop",
-    name: "Shop",
-    component: () => import("../pages/shop/ShopPage.vue")
+    path: "/merch",
+    name: "Merch",
+    component: () => import("../pages/merch/MerchPage.vue")
   },
   {
     path: "/orders",
@@ -32,9 +32,9 @@ const routes: RouteRecordRaw[] = [
     meta: { requiresAuth: true }
   },
   {
-    path: "/shop/:id",
+    path: "/merch/:id",
     name: "Product",
-    component: () => import("../pages/shop/ShopProductPage.vue")
+    component: () => import("../pages/merch/MerchProductPage.vue")
   },
   {
     path: "/bulletin",

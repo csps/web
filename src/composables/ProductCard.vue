@@ -25,7 +25,7 @@
           <h3>&#8369;{{ product.price }}</h3>
         </div>
         <div class="flex justify-end items-center">
-          <router-link :to="'/shop/' + product.id" tabindex="-1" title="View product">
+          <router-link :to="'/merch/' + product.id" tabindex="-1" title="View merch">
             <md-filled-tonal-button trailingIcon>
               View
             </md-filled-tonal-button>

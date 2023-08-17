@@ -26,8 +26,8 @@
           <v-button :to="store.isLoggedIn ? '/bulletin' : '/login'" color="primary" variant="filled">
             {{ store.isLoggedIn ? 'Bulletin Board' : 'Login' }}
           </v-button>
-          <v-button :to="store.isLoggedIn ? '/shop' : '/about'" color="primary" :trailing-icon="icon('arrow_forward') || ''">
-            {{ store.isLoggedIn ? 'Go to shop' : 'About Us' }}
+          <v-button :to="store.isLoggedIn ? '/merch' : '/about'" color="primary" :trailing-icon="icon('arrow_forward') || ''">
+            {{ store.isLoggedIn ? 'Go to merch' : 'About Us' }}
           </v-button>
         </div>
       </div>

@@ -36,7 +36,6 @@ export enum ProductType {
 export enum ProductVariation {
   id = "id",
   product_id = "product_id",
-  product_variation_types_id = "product_variation_types_id",
   photos_id = "photos_id",
   name = "name"
 };

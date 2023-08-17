@@ -3,8 +3,8 @@
 
     <Transition name="slide-fade" mode="out-in">
       <div class="flex flex-col justify-center items-center h-full" v-if="product === null || isLoading">
-        <div v-if="isLoading">
-          <md-linear-progress indeterminate />
+        <div class="flex justify-center gap-5" v-if="isLoading">
+          <md-circular-progress indeterminate />
           <p class="mt-3">Fetching product data...</p>
         </div>
   
@@ -13,7 +13,7 @@
         </div>
       </div>
   
-      <div v-else class="grid grid-cols-1 lg:grid-cols-2 gap-10 justify-center h-full w-full mt-5">
+      <div v-else class="grid grid-cols-1 lg:grid-cols-2 gap-10 justify-center h-full w-full">
         
         <div class="bg-surface-container-low rounded-2xl px-6 flex justify-center items-center h-full">
           <VImage v-if="product?.thumbnail && product?.thumbnail > 0" :src="getPhotoLink(product.thumbnail)" :alt="product.name" />
@@ -43,35 +43,22 @@
           </div>
 
           <div class="mb-6">
-            <div v-if="product?.variations && product.variations.length > 0">
-              <p class="body-medium">
-                Put variant options here
-              </p>
+            <div class="flex gap-2">
+              <md-filter-chip label="Standard" selected />
+              <div v-if="product?.variations && product.variations.length > 0" class="body-medium font-medium flex gap-2">
+                <md-filter-chip
+                  v-for="variant in product.variations"
+                  :key="variant.id"
+                  :label="variant.name"
+                  disabled
+                />
+              </div>
             </div>
-            <span class="body-medium" v-else>
-              No variants available
-            </span>
           </div>
 
-          <div class="mb-6 flex flex-end gap-3">
-            <md-filter-chip
-              :selected="mop === ModeOfPayment.WALK_IN"
-              @click="mop = ModeOfPayment.WALK_IN"
-              label="Walk-in"
-            >
-              <md-icon slot="icon" v-html="icon('footprint', true)" />
-            </md-filter-chip>
-            <md-filter-chip
-              :selected="mop === ModeOfPayment.GCASH"
-              @click="mop = ModeOfPayment.GCASH"
-              label="GCash"
-            >
-              <md-icon slot="icon" v-html="icon('qr_code', true)" />
-            </md-filter-chip>
-          </div>
-
-          <div class="mb-6 mt-6 body-medium">
-            <md-outlined-select v-model="quantity" :disabled="!hasStock" label="Quantity" quick>
+          <div class="my-6 flex flex-col gap-2">
+            <md-outlined-select v-model="quantity" :disabled="!hasStock" label="Quantity" class="w-min" quick>
+              <md-icon slot="leadingicon" v-html="icon('deployed_code', true)" />
               <md-select-option
                 v-for="i in (hasStock ? product?.max_quantity : 1)"
                 :key="i"
@@ -79,11 +66,34 @@
                 :headline="i"
               />
             </md-outlined-select>
+
+            <p v-if="!hasStock" class="body-medium text-error">
+              Product is out of stock. It's expected to be back in stock soon.
+            </p>
+          </div>
+
+          <div class="mb-6 flex flex-end gap-3">
+            <md-filter-chip
+              :disabled="!hasStock"
+              :selected="mop === ModeOfPayment.WALK_IN"
+              @click="hasStock ? mop = ModeOfPayment.WALK_IN : null"
+              label="Walk-in"
+            >
+              <md-icon slot="icon" v-html="icon('footprint', true)" />
+            </md-filter-chip>
+            <md-filter-chip
+              :disabled="!hasStock"
+              :selected="mop === ModeOfPayment.GCASH"
+              @click="hasStock ? mop = ModeOfPayment.GCASH : null"
+              label="GCash"
+            >
+              <md-icon slot="icon" v-html="icon('qr_code', true)" />
+            </md-filter-chip>
           </div>
 
           <div>
-            <md-filled-button @click="order">
-              Order
+            <md-filled-button :disabled="!hasStock" @click="order">
+              {{ hasStock ? "Order" : "Out of stock" }}
             </md-filled-button>
           </div>
         </div>
@@ -108,7 +118,7 @@ import "@material/web/icon/icon";
 import "@material/web/divider/divider";
 import "@material/web/button/filled-button";
 import "@material/web/button/text-button";
-import "@material/web/progress/linear-progress";
+import "@material/web/progress/circular-progress";
 import "@material/web/iconbutton/icon-button";
 import "@material/web/select/outlined-select";
 import "@material/web/select/select-option";
@@ -120,10 +130,10 @@ import ImageTemplate from '~/composables/ImageTemplate.vue';
 const store = useStore();
 const route = useRoute();
 
-const mop = ref(ModeOfPayment.WALK_IN);
 const product = ref<ProductResponse | null>();
 const hasStock = computed(() => product.value?.stock !== undefined && product.value?.stock > 0);
-const quantity = ref(1);
+const quantity = ref();
+const mop = ref();
 
 const message = ref("");
 const isLoading = ref(true);
@@ -145,10 +155,19 @@ onMounted(() => {
     message.value = response.message;
     // Set page title
     setPageTitle(response.data?.name || "Product");
+    // Set quantity
+    quantity.value = response.data?.max_quantity || 1;
+    // Set mop
+    mop.value = product.value.stock > 0 ? ModeOfPayment.WALK_IN : -1;
   });
 });
 
 function order() {
+  if (!hasStock.value) {
+    toast.error("Product is out of stock!");
+    return;
+  }
+
   // If not logged in
   if (!store.isLoggedIn) {
     // Open dialog for acquiring user information

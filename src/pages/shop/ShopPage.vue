@@ -22,8 +22,8 @@
     <div class="h-full flex-grow">
       <div class="container mx-auto flex flex-col justify-center items-center py-5 h-full w-full">
 
-        <div v-if="isLoading">
-          <md-linear-progress indeterminate />
+        <div class="flex justify-center gap-5" v-if="isLoading">
+          <md-circular-progress indeterminate />
           <p class="mt-3">Fetching products...</p>
         </div>
         
@@ -57,7 +57,7 @@ import sal from "sal.js";
 
 import "@material/web/icon/icon";
 import "@material/web/button/filled-button";
-import "@material/web/progress/linear-progress";
+import "@material/web/progress/circular-progress";
 
 import ProductCard from "~/composables/ProductCard.vue";
 

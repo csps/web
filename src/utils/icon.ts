@@ -81,12 +81,18 @@ import FootprintOutlined from "@material-symbols/svg-700/rounded/footprint.svg?r
 import ShoppingCartCheckout from "@material-symbols/svg-700/rounded/shopping_cart_checkout-fill.svg?raw";
 import ShoppingCartCheckoutOutlined from "@material-symbols/svg-700/rounded/shopping_cart_checkout.svg?raw";
 
+import Ballot from "@material-symbols/svg-700/rounded/ballot-fill.svg?raw";
+import BallotOutlined from "@material-symbols/svg-700/rounded/ballot.svg?raw";
+
+import DeployedCode from "@material-symbols/svg-700/rounded/deployed_code-fill.svg?raw";
+import DeployedCodeOutlined from "@material-symbols/svg-700/rounded/deployed_code.svg?raw";
+
 // Icon type
 export type Icon = "arrow_back" | "menu" | "photo_camera" | "favorite" |
   "arrow_forward" | "verified" | "lock" | "visibility" | "visibility_off" | 
   "home" | "diversity" | "dashboard" | "store" | "login" | "logout" | "account_circle" |
   "link" | "shopping_cart" | "badge" | "school" | "mail" | "add" | "remove" | "qr_code" |
-  "footprint" | "shopping_cart_checkout";
+  "footprint" | "shopping_cart_checkout" | "ballot" | "deployed_code";
 
 /**
  * Material Icon
@@ -146,6 +152,10 @@ export function icon(name: Icon, outlined: boolean = false) {
   if (name === "footprint") return outlined ? FootprintOutlined : Footprint;
   // Shopping Cart Checkout
   if (name === "shopping_cart_checkout") return outlined ? ShoppingCartCheckoutOutlined : ShoppingCartCheckout;
+  // Ballot
+  if (name === "ballot") return outlined ? BallotOutlined : Ballot;
+  // Deployed Code
+  if (name === "deployed_code") return outlined ? DeployedCodeOutlined : DeployedCode;
 
   // Default
   return null;

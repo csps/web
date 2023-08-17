@@ -13,7 +13,7 @@ export const NAV_LINKS: {
 }[] = [
   { name: 'Home', path: '/', icon: "home" },
   { name: 'About Us', path: '/about', icon: "diversity" },
-  { name: 'Bulletin Board', path: '/bulletin', icon: "dashboard" },
+  { name: 'Bulletin Board', path: '/bulletin', icon: "ballot" },
   { name: 'Shop', path: '/shop', icon: "store" },
 ];
 

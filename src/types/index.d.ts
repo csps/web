@@ -46,7 +46,6 @@ declare global {
   type ProductVariation = {
     id: number;
     product_id: number;
-    product_variation_types_id: number;
     photos_id: number;
     name: string;
   }

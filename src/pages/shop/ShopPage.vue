@@ -32,7 +32,7 @@
         </div>
 
         <div v-show="!isLoading" class="-translate-y-1 px-6 w-full xl:w-4/5 3xl:w-3/5 !overflow-visible">
-          <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+          <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
             <ProductCard
               v-for="(product, i) in products"
               :key="product.id"

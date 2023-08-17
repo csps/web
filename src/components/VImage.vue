@@ -1,5 +1,5 @@
 <template>
-  <div class="flex justify-center items-center">
+  <div class="flex justify-center items-center h-[275px]">
     <img width="275" v-show="isLoaded" @load="loaded" :src="src" :alt="alt" />
     <md-circular-progress v-show="!isLoaded" indeterminate />
   </div>

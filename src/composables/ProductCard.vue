@@ -8,7 +8,7 @@
         :alt="product.name"
       />
   
-      <ImageTemplate class="!h-full" v-else />
+      <ImageTemplate v-else />
     </div>
 
     <!-- <div class="absolute right-2 top-2 flex flex-col justify-center items-center gap-1">

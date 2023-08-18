@@ -49,6 +49,15 @@ declare global {
     photos_id: number;
     name: string;
   }
+
+  type Announcement = {
+    id: number,
+    admin_student_id: string,
+    title: string,
+    content: string,
+    photo_id?: number,
+    date_stamp: string
+  }
 }
 
 export {};

@@ -12,6 +12,7 @@ enum Endpoints {
   PhotosId = "/photos/:id",
   PhotosIdRaw = "/photos/:id/raw",
   StudentsKey = "/students/:key",
+  Announcements = "/announcements",
 }
 
 export default Endpoints;

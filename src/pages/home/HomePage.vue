@@ -60,6 +60,25 @@
         </swiper-container>
       </div>
     </Transition>
+
+    <!-- Announcements -->
+    <div class="container mx-auto px-6 flex justify-center mt-8 h-full">
+      <Transition name="slide-fade" mode="out-in">
+        <div v-if="isLoading">
+          <md-circular-progress indeterminate />
+        </div>
+        <div v-else-if="message.length > 0" class="text-sm text-error">
+          {{ message }}
+        </div>
+        <div v-else class="w-full lg:w-3/4 2xl:w-3/5 3xl:w-1/2 flex flex-col gap-6">
+          <AnnouncementCard
+            v-for="announcement in announcements"
+            :key="announcement.id"
+            :data="announcement"
+          />
+        </div>
+      </Transition>
+    </div>
   </div>
 </template>
 
@@ -68,10 +87,12 @@ import { ref, onMounted } from 'vue';
 import { useStore } from "~/store";
 import { icon } from "~/utils/icon";
 import { register } from 'swiper/element/bundle';
+import { Endpoints, makeRequest } from '~/network/request';
 import sal from "sal.js";
 
 import VButton from '~/components/VButton.vue';
 import MessageCard from '~/composables/MessageCard.vue';
+import AnnouncementCard from '~/composables/AnnouncementCard.vue';
 
 import Dean from "~/assets/img/profile/Dean.jpg";
 import Adviser from "~/assets/img/profile/Adviser.jpg";
@@ -79,6 +100,7 @@ import deanMessage from "~/assets/json/dean.json";
 import adviserMessage from "~/assets/json/adviser.json";
 
 import "@material/web/iconbutton/icon-button";
+import "@material/web/progress/circular-progress";
 import "@material/web/chips/filter-chip";
 
 register();
@@ -86,6 +108,9 @@ register();
 const swiper = ref();
 const role = ref<Role | null>();
 const isShowMessage = ref(false);
+const announcements = ref<Announcement[]>([]);
+const isLoading = ref(true);
+const message = ref("");
 
 const store = useStore();
 const messages = [
@@ -104,6 +129,22 @@ const messages = [
 ];
 
 onMounted(() => {
+  // Get announcements
+  makeRequest<Announcement[]>("GET", Endpoints.Announcements, null, response => {
+    // Hide loading
+    isLoading.value = false;
+
+    // if success
+    if (response.success) {
+      announcements.value = response.data;
+      return;
+    }
+
+    // Otherwise, show error message
+    message.value = response.message;
+  });
+
+  // Add slide change event listener to swiper
   swiper.value.addEventListener('slidechange', (event: any) => {
     if (event.detail[0].realIndex === 0) {
       role.value = "adviser";
@@ -118,6 +159,7 @@ onMounted(() => {
     role.value = null;
   });
 
+  // Initialize sal
   sal();
 });
 
@@ -138,3 +180,10 @@ function showMessage(r: Role) {
   }
 }
 </script>
+
+<syle lang="scss" scoped>
+md-circular-progress {
+  --md-circular-progress-size: 48px;
+  --md-circular-progress-active-indicator-width: 10;
+}
+</syle>

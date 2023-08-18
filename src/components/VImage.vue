@@ -1,6 +1,6 @@
 <template>
-  <div class="flex justify-center items-center h-[275px]">
-    <img width="275" v-show="isLoaded" @load="loaded" :src="src" :alt="alt" />
+  <div class="flex justify-center items-center" :class="{ 'h-[275px]': !dynamic }">
+    <img v-bind="dynamic ? null : { 'width': 275 }" v-show="isLoaded" @load="loaded" :src="src" :alt="alt" />
     <md-circular-progress v-show="!isLoaded" indeterminate />
   </div>
 </template>
@@ -17,6 +17,10 @@ defineProps({
   alt: {
     type: String,
     required: true
+  },
+  dynamic: {
+    type: Boolean,
+    default: false
   }
 });
 

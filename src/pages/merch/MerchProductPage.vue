@@ -7,25 +7,34 @@
           <md-circular-progress indeterminate />
           <p class="mt-3">Fetching product data...</p>
         </div>
-  
-        <div class="surface error" v-else>
-          {{ message }}
+        
+        <div class="flex justify-center flex-col items-center gap-5" v-else>
+          <div class="surface error">
+            {{ message }}
+          </div>
+          
+          <md-text-button @click="router.back()">
+            <md-icon slot="icon" v-html="icon('arrow_back')" />
+            Go back
+          </md-text-button>
         </div>
       </div>
   
       <div v-else class="grid grid-cols-1 lg:grid-cols-2 gap-10 justify-center h-full w-full">
         
-        <div class="bg-surface-container-low rounded-2xl px-6 flex justify-center items-center h-full">
-          <VImage v-if="product?.thumbnail && product?.thumbnail > 0" :src="getPhotoLink(product.thumbnail)" :alt="product.name" />
-          <ImageTemplate class="w-full" v-else />
+        <div class="rounded-2xl px-6 flex justify-center items-center h-full">
+          <div class="h-[400px] w-[400px]">
+            <VImage v-if="product?.thumbnail && product?.thumbnail > 0" :src="getPhotoLink(product.thumbnail)" :alt="product.name" />
+            <ImageTemplate class="h-full w-full" v-else />
+          </div>
         </div>
 
-        <div>
-          <div class="flex justify-between mb-6">
+        <div class="flex flex-col gap-6">
+          <div class="flex justify-between gap-6">
             <div>
               <h2 class="headline-small mb-1 font-medium">{{ product?.name }}</h2>
               <h4 class="title-large">
-                &#8369; {{ product?.price }}.00
+                &#8369; {{ product?.price }}
               </h4>
             </div>
             <div>
@@ -36,27 +45,20 @@
             </div>
           </div>
 
-          <div class="mb-6">
-            <p class="body-medium bg-surface-container-low p-6 rounded-xl">
-              {{ product?.description }}
-            </p>
+          <p class="body-medium bg-surface-container-low p-6 rounded-xl">
+            {{ product?.description }}
+          </p>
+
+          <div v-if="product?.variations && product.variations.length > 0" class="body-medium font-medium flex gap-2">
+            <md-filter-chip
+              v-for="variant in product.variations"
+              :key="variant.id"
+              :label="variant.name"
+              disabled
+            />
           </div>
 
-          <div class="mb-6">
-            <div class="flex gap-2">
-              <md-filter-chip label="Standard" selected />
-              <div v-if="product?.variations && product.variations.length > 0" class="body-medium font-medium flex gap-2">
-                <md-filter-chip
-                  v-for="variant in product.variations"
-                  :key="variant.id"
-                  :label="variant.name"
-                  disabled
-                />
-              </div>
-            </div>
-          </div>
-
-          <div class="my-6 flex flex-col gap-2">
+          <div class="flex gap-4 items-center mt-3"> 
             <md-outlined-select v-model="quantity" :disabled="!hasStock" label="Quantity" class="w-min" quick>
               <md-icon slot="leadingicon" v-html="icon('deployed_code', true)" />
               <md-select-option
@@ -66,13 +68,17 @@
                 :headline="i"
               />
             </md-outlined-select>
-
-            <p v-if="!hasStock" class="body-medium text-error">
-              Product is out of stock. It's expected to be back in stock soon.
+            <p class="text-sm">
+              <span v-if="product?.stock && product?.stock > 0">
+                <span class="title-medium text-primary font-medium">{{ product?.stock }}</span> stocks left
+              </span>
+              <span class="text-error font-medium" v-else>
+                We're out of stock! :(
+              </span>
             </p>
           </div>
 
-          <div class="mb-6 flex flex-end gap-3">
+          <!-- <div class="flex flex-end gap-3">
             <md-filter-chip
               :disabled="!hasStock"
               :selected="mop === ModeOfPayment.WALK_IN"
@@ -89,15 +95,14 @@
             >
               <md-icon slot="icon" v-html="icon('qr_code', true)" />
             </md-filter-chip>
-          </div>
+          </div> -->
 
-          <div>
+          <div class="flex flex-col items-end justify-center gap-5">
             <md-filled-button :disabled="!hasStock" @click="order">
               {{ hasStock ? "Order" : "Out of stock" }}
             </md-filled-button>
           </div>
         </div>
-        
       </div>
     </Transition>
   </div>
@@ -113,6 +118,7 @@ import { Endpoints, makeRequest } from '~/network/request';
 import { getPhotoLink } from '~/utils/network';
 import { toast } from 'vue3-toastify';
 import { ModeOfPayment } from "~/types/enums";
+import { useRouter } from 'vue-router';
 
 import "@material/web/icon/icon";
 import "@material/web/divider/divider";
@@ -129,6 +135,7 @@ import ImageTemplate from '~/composables/ImageTemplate.vue';
 
 const store = useStore();
 const route = useRoute();
+const router = useRouter();
 
 const product = ref<ProductResponse | null>();
 const hasStock = computed(() => product.value?.stock !== undefined && product.value?.stock > 0);
@@ -178,3 +185,9 @@ function order() {
   toast.success("Will order");
 }
 </script>
+
+<style lang="scss" scoped>
+md-text-button {
+  --md-sys-color-primary: var(--md-sys-color-error);
+}
+</style>

@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-surface-container rounded-xl p-6">
+  <div class="bg-surface-container rounded-xl p-7">
     <div class="flex justify-between items-center mb-5">
       <div class="flex items-center gap-3">
         <div>
@@ -7,14 +7,17 @@
         </div>
         <div>
           <h4 class="title-medium flex items-center gap-1.5 mb-0.5">
-            <span>Admin</span>
+            <span>CSPS</span>
             <md-icon class="verified" v-html="icon('verified')" title="Verified" />
           </h4>
           <h6 class="label-medium">{{ getReadableDate(data.date_stamp) }}</h6>
         </div>
       </div>
       <div class="label-large font-medium">
-        # {{ data.id }}
+        <md-icon-button toggle>
+          <md-icon v-html="icon('favorite', true)" />
+          <md-icon slot="selectedIcon" v-html="icon('favorite', false)" />
+        </md-icon-button>
       </div>
     </div>
 
@@ -23,7 +26,7 @@
       {{ data.content }}
     </div>
 
-    <div v-if="data.photo_id" class="flex justify-center items-center mt-5 mb-2">
+    <div v-if="data.photo_id" class="flex justify-center items-center mt-5">
       <VImage class="rounded-xl w-full" :src="getPhotoLink(data.photo_id)" :alt="data.title" dynamic />
     </div>
   </div>
@@ -34,6 +37,8 @@ import favicon from '/favicon.png';
 import { icon } from '~/utils/icon';
 import { getReadableDate } from '~/utils/date';
 import { getPhotoLink } from '~/utils/network';
+
+import "@material/web/iconbutton/icon-button"
 
 import VImage from "~/components/VImage.vue"
 

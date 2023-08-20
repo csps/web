@@ -1,5 +1,5 @@
 <template>
-  <div class="h-full relative bg-surface text-on-surface">
+  <div class="h-full relative w-full">
     
     <div class="rounded-br-3xl rounded-bl-3xl -z-[1]">
       <div class="container mx-auto text-center pt-16 pb-10 2xl:pt-20 2xl:p-12 px-6">
@@ -110,7 +110,7 @@
             MEET THE <span class="text-csps-secondary dark:text-tertiary-80">CSPS OFFICERS!</span>
           </h1>
 
-          <div class="flex justify-center relative">
+          <div class="relative">
             <div class="absolute top-0 left-0 right-0 bottom-0 officers h-full w-full z-[500]" />
             <swiper-container
               effect="coverflow"
@@ -120,11 +120,11 @@
               autoplay-delay="3000"
               coverflow-effect-slide-shadows="false"
               data-sal="zoom-in" data-sal-repeat
-              class="officers-swiper py-4 lg:py-8 w-full overflow-hidden lg:overflow-visible"
+              class="officers-swiper w-full py-4 lg:py-8 overflow-hidden lg:overflow-visible"
               autoplay-disable-on-interaction="false"
             >
               <swiper-slide
-                class="py-8"
+                class="py-8 w-fit h-auto"
                 v-for="officer in officers"
                 :key="officer.name"
               >
@@ -181,6 +181,8 @@ const officers = [
 register();
 
 onMounted(() => {
+  sal();
+
   const swiper: SwiperContainer | null = document.querySelector('.officers-swiper');
   if (swiper === null) return;
 
@@ -204,7 +206,6 @@ onMounted(() => {
   });
 
   swiper.initialize();
-  sal();
 });
 </script>
 

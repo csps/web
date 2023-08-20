@@ -1,14 +1,14 @@
 <template>
   <div class="product overflow-hidden">
-    <div class="flex-grow">
+    <div class="w-56 h-56">
       <VImage
-        class="rounded-xl overflow-hidden h-full"
+        class="rounded-xl overflow-hidden"
         v-if="product?.thumbnail && product.thumbnail > 0"
         :src="getPhotoLink(product.thumbnail)"
         :alt="product.name"
       />
   
-      <ImageTemplate v-else />
+      <ImageTemplate class="h-full" v-else />
     </div>
 
     <!-- <div class="absolute right-2 top-2 flex flex-col justify-center items-center gap-1">
@@ -19,6 +19,7 @@
     </div> -->
 
     <div class="content py-4">
+      <p class="text-sm text-error mb-3" v-if="!product.stock || product.stock <= 0">Out of stock</p>
       <div class="flex">
         <div class="w-full">
           <h4>{{ product.name }}</h4>
@@ -37,6 +38,7 @@
 </template>
 
 <script lang="ts" setup>
+// import { icon } from "~/utils/icon";
 import { getPhotoLink } from "~/utils/network";
 
 import "@material/web/icon/icon";
@@ -53,7 +55,7 @@ defineProps<{
 
 <style lang="scss" scoped>
 .product {
-  @apply flex flex-col relative bg-surface-container-low rounded-xl;
+  @apply flex flex-col justify-between relative bg-surface-container-low rounded-xl;
 
   .content {
     @apply px-4 font-medium;

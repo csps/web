@@ -1,8 +1,8 @@
 <template>
   <div class="relative text-on-surface-variant">
     <!-- Call To Action -->
-    <div class="rounded-br-3xl rounded-bl-3xl -z-[1]">
-      <div class="container mx-auto text-center pt-12 pb-5 xl:pt-16 2xl:pb-8 px-6">
+    <div class="rounded-br-3xl rounded-bl-3xl -z-[1]" v-show="!isLoading && message.length === 0">
+      <div class="container mx-auto text-center pb-5 pt-12 xl:pt-16 2xl:pb-8 px-6">
         <h2 class="text-2xl md:text-3xl font-bold" data-sal="zoom-in" data-sal-repeat>
           Style your own groove
         </h2>
@@ -19,34 +19,32 @@
       </div>
     </div>
 
-    <div class="h-full flex-grow">
-      <div class="container mx-auto flex flex-col justify-center items-center py-5 h-full w-full">
+    <div class="flex justify-center container mx-auto py-5">
+      <div v-if="isLoading" class="flex flex-col justify-center items-center gap-5 h-full">
+        <md-linear-progress indeterminate />
+        <p>Fetching products...</p>
+      </div>
 
-        <div class="flex justify-center gap-5" v-if="isLoading">
-          <md-circular-progress indeterminate />
-          <p class="mt-3">Fetching products...</p>
-        </div>
-        
-        <div class="text-error" v-else-if="products === null || products.length === 0">
-          {{ message }}
-        </div>
+      <div class="text-error flex justify-center items-center gap-5 h-full" v-else-if="products === null || products.length === 0">
+        {{ message }}
+      </div>
 
-        <div v-show="!isLoading" class="-translate-y-1 px-6 w-full xl:w-4/5 3xl:w-3/5 !overflow-visible">
-          <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
-            <ProductCard
-              v-for="(product, i) in products"
-              :key="product.id"
-              :product="product"
-              data-sal-duration="300"
-              data-sal="slide-up"
-              :data-sal-delay="100 * i"
-            />
-          </div>
+      <div v-show="!isLoading && message.length === 0" class="-translate-y-1 px-6 w-full 3xl:w-3/5 !overflow-visible">
+        <div class="flex justify-center flex-wrap gap-5">
+          <ProductCard
+            v-for="(product, i) in products"
+            :key="product.id"
+            :product="product"
+            data-sal-duration="300"
+            data-sal="slide-up"
+            :data-sal-delay="100 * i"
+          />
         </div>
       </div>
     </div>
   </div>
 </template>
+
 
 <script lang="ts" setup>
 import { ref, onMounted } from "vue";
@@ -57,7 +55,7 @@ import sal from "sal.js";
 
 import "@material/web/icon/icon";
 import "@material/web/button/filled-button";
-import "@material/web/progress/circular-progress";
+import "@material/web/progress/linear-progress";
 
 import ProductCard from "~/composables/ProductCard.vue";
 

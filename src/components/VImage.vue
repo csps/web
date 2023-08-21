@@ -1,6 +1,6 @@
 <template>
   <div class="flex justify-center items-center w-full h-full">
-    <img class="w-full" v-show="isLoaded" @load="loaded" :src="src" :alt="alt" />
+    <img class="w-full" v-show="isLoaded" @load="loaded" @error="loaded" :src="src" :alt="alt" />
     <md-circular-progress v-show="!isLoaded" indeterminate />
   </div>
 </template>
@@ -17,10 +17,6 @@ defineProps({
   alt: {
     type: String,
     required: true
-  },
-  dynamic: {
-    type: Boolean,
-    default: false
   }
 });
 

@@ -47,6 +47,7 @@ export enum ProductVariationEnum {
   id = "id",
   products_id = "products_id",
   variations_id = "variations_id",
+  stock = "stock",
   photos_id = "photos_id",
 
   // Extra

@@ -2,8 +2,7 @@
   <md-dialog :open="dialog.show" @close="close">
     <div slot="headline" class="w-full">{{ dialog.title }}</div>
     <div slot="content">
-      <span v-if="dialog.message">{{ dialog.message }}</span>
-      <slot v-else />
+      {{ dialog.message }}
     </div>
     <div class="space-x-1" slot="actions">
       <md-text-button @click="dialog.cancel?.click">{{ dialog.cancel?.text }}</md-text-button>

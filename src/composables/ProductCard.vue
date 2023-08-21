@@ -1,6 +1,6 @@
 <template>
   <div class="product overflow-hidden">
-    <div class="w-56 h-56">
+    <div class="w-60 h-60">
       <VImage
         class="rounded-xl overflow-hidden"
         v-if="product?.thumbnail && product.thumbnail > 0"
@@ -18,7 +18,7 @@
       </md-icon-button>
     </div> -->
 
-    <div class="content py-4">
+    <div class="content py-5">
       <p class="text-sm text-error mb-3" v-if="!product.stock || product.stock <= 0">Out of stock</p>
       <div class="flex">
         <div class="w-full">
@@ -58,7 +58,7 @@ defineProps<{
   @apply flex flex-col justify-between relative bg-surface-container-low rounded-xl;
 
   .content {
-    @apply px-4 font-medium;
+    @apply px-5 font-medium;
 
     h4 {
       @apply text-on-surface-variant text-sm mb-2;

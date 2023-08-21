@@ -30,7 +30,7 @@
       </div>
 
       <div v-show="!isLoading && message.length === 0" class="-translate-y-1 px-6 w-full 3xl:w-3/5 !overflow-visible">
-        <div class="flex justify-center flex-wrap gap-5">
+        <div class="flex justify-center flex-wrap gap-6">
           <ProductCard
             v-for="(product, i) in products"
             :key="product.id"
@@ -44,7 +44,6 @@
     </div>
   </div>
 </template>
-
 
 <script lang="ts" setup>
 import { ref, onMounted } from "vue";

@@ -3,9 +3,9 @@
 
     <Transition name="slide-fade" mode="out-in">
       <div class="flex flex-col justify-center items-center h-full" v-if="product === null || isLoading">
-        <div class="flex justify-center gap-5" v-if="isLoading">
-          <md-circular-progress indeterminate />
-          <p class="mt-3">Fetching product data...</p>
+        <div class="flex flex-col items-center justify-center gap-5" v-if="isLoading">
+          <md-linear-progress indeterminate />
+          <p>Fetching product...</p>
         </div>
         
         <div class="flex justify-center flex-col items-center gap-5" v-else>
@@ -45,7 +45,7 @@
             </div>
           </div>
 
-          <p class="body-medium bg-surface-container-low p-6 rounded-xl">
+          <p class="body-medium bg-surface-container p-6 rounded-xl">
             {{ product?.description }}
           </p>
 
@@ -54,23 +54,24 @@
               v-for="variant in product.variations"
               :key="variant.id"
               :label="variant.name"
-              disabled
+              :selected="variant.id === variation?.id"
+              @click="variation?.id === variant.id ? variation = undefined : variation = variant"
+              :disabled="variant.stock <= 0"
             />
           </div>
 
-          <div class="flex gap-4 items-center mt-3"> 
-            <md-outlined-select v-model="quantity" :disabled="!hasStock" label="Quantity" class="w-min" quick>
-              <md-icon slot="leadingicon" v-html="icon('deployed_code', true)" />
+          <div class="flex gap-4 items-center"> 
+            <!-- <md-outlined-select v-model="quantity" :disabled="!hasStock" label="Quantity" class="w-min" quick>
               <md-select-option
                 v-for="i in (hasStock ? product?.max_quantity : 1)"
                 :key="i"
                 :value="i"
                 :headline="i"
               />
-            </md-outlined-select>
+            </md-outlined-select> -->
             <p class="text-sm">
-              <span v-if="product?.stock && product?.stock > 0">
-                <span class="title-medium text-primary font-medium">{{ product?.stock }}</span> stocks left
+              <span v-if="variation ? variation.stock > 0 : (product?.stock && product.stock > 0)">
+                <span class="title-medium text-primary font-medium">{{ variation ? variation.stock : product?.stock }}</span> stocks left
               </span>
               <span class="text-error font-medium" v-else>
                 We're out of stock! :(
@@ -78,24 +79,7 @@
             </p>
           </div>
 
-          <!-- <div class="flex flex-end gap-3">
-            <md-filter-chip
-              :disabled="!hasStock"
-              :selected="mop === ModeOfPayment.WALK_IN"
-              @click="hasStock ? mop = ModeOfPayment.WALK_IN : null"
-              label="Walk-in"
-            >
-              <md-icon slot="icon" v-html="icon('footprint', true)" />
-            </md-filter-chip>
-            <md-filter-chip
-              :disabled="!hasStock"
-              :selected="mop === ModeOfPayment.GCASH"
-              @click="hasStock ? mop = ModeOfPayment.GCASH : null"
-              label="GCash"
-            >
-              <md-icon slot="icon" v-html="icon('qr_code', true)" />
-            </md-filter-chip>
-          </div> -->
+          
 
           <div class="flex flex-col items-end justify-center gap-5">
             <md-filled-button :disabled="!hasStock" @click="order">
@@ -105,6 +89,8 @@
         </div>
       </div>
     </Transition>
+
+    <DialogCheckoutOrder v-model="isOpenMop" />
   </div>
 </template>
 
@@ -124,7 +110,7 @@ import "@material/web/icon/icon";
 import "@material/web/divider/divider";
 import "@material/web/button/filled-button";
 import "@material/web/button/text-button";
-import "@material/web/progress/circular-progress";
+import "@material/web/progress/linear-progress";
 import "@material/web/iconbutton/icon-button";
 import "@material/web/select/outlined-select";
 import "@material/web/select/select-option";
@@ -132,18 +118,22 @@ import "@material/web/chips/filter-chip";
 
 import VImage from '~/components/VImage.vue';
 import ImageTemplate from '~/composables/ImageTemplate.vue';
+import DialogCheckoutOrder from '~/components/dialogs/DialogCheckoutOrder.vue';
 
 const store = useStore();
 const route = useRoute();
 const router = useRouter();
 
-const product = ref<ProductResponse | null>();
 const hasStock = computed(() => product.value?.stock !== undefined && product.value?.stock > 0);
+
+const product = ref<ProductResponse | null>();
+const variation = ref<ProductVariationModel>();
 const quantity = ref();
 const mop = ref();
 
 const message = ref("");
 const isLoading = ref(true);
+const isOpenMop = ref(false);
 
 onMounted(() => {
   // Set loading to true
@@ -160,10 +150,14 @@ onMounted(() => {
     product.value = response.data || null;
     // Set message
     message.value = response.message;
+
+    // Stop if product is null
+    if (product.value === null) return;
+
     // Set page title
-    setPageTitle(response.data?.name || "Product");
+    setPageTitle(product.value.name || "Product");
     // Set quantity
-    quantity.value = response.data?.max_quantity || 1;
+    quantity.value = product.value.max_quantity || 1;
     // Set mop
     mop.value = product.value.stock > 0 ? ModeOfPayment.WALK_IN : -1;
   });
@@ -182,7 +176,7 @@ function order() {
     return;
   }
 
-  toast.success("Will order");
+  isOpenMop.value = true;
 }
 </script>
 

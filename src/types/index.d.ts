@@ -93,6 +93,7 @@ declare global {
     id: number;
     products_id: number;
     variations_id: number;
+    stock: number;
     photos_id: number;
   
     // Extra

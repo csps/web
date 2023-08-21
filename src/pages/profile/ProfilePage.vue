@@ -73,7 +73,7 @@ import { useRouter } from 'vue-router';
 import { useStore, useDialog } from '~/store';
 import { removeLocal } from '~/utils/page';
 import { makeRequest, Endpoints } from "~/network/request";
-import { StudentType } from "~/types/models";
+import { StudentEnum } from "~/types/models";
 import { toast } from "vue3-toastify";
 import Strings from '~/config/strings';
 
@@ -96,7 +96,7 @@ watch(year, v => {
   store.isLoading = true;
 
   makeRequest("PUT", Endpoints.StudentsKey, {
-    key: StudentType.year_level,
+    key: StudentEnum.year_level,
     value: v
   }, response => {
     store.isLoading = false;

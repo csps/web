@@ -61,7 +61,7 @@ import { ref, computed } from "vue";
 import { toast } from "vue3-toastify";
 import { icon } from "~/utils/icon";
 import { Endpoints, makeRequest } from "~/network/request";
-import { StudentType } from "~/types/models";
+import { StudentEnum } from "~/types/models";
 
 const emit = defineEmits(["update:modelValue"]);
 const props = defineProps({
@@ -95,7 +95,7 @@ function submit() {
 
   // Send the request
   makeRequest("PUT", Endpoints.StudentsKey, { 
-    key: StudentType.password,
+    key: StudentEnum.password,
     oldpass: password.value,
     newpass: newPassword.value,
     cnfpass: confirmPassword.value

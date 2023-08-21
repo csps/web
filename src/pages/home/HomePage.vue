@@ -106,9 +106,9 @@ import "@material/web/chips/filter-chip";
 register();
 
 const swiper = ref();
-const role = ref<Role | null>();
+const role = ref<Role | null>('adviser');
 const isShowMessage = ref(false);
-const announcements = ref<Announcement[]>([]);
+const announcements = ref<AnnouncementModel[]>([]);
 const isLoading = ref(true);
 const message = ref("");
 
@@ -130,7 +130,7 @@ const messages = [
 
 onMounted(() => {
   // Get announcements
-  makeRequest<Announcement[]>("GET", Endpoints.Announcements, null, response => {
+  makeRequest<AnnouncementModel[]>("GET", Endpoints.Announcements, null, response => {
     // Hide loading
     isLoading.value = false;
 

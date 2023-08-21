@@ -26,8 +26,8 @@
       {{ data.content }}
     </div>
 
-    <div v-if="data.photo_id" class="flex justify-center items-center mt-5">
-      <VImage class="rounded-xl w-full" :src="getPhotoLink(data.photo_id)" :alt="data.title" dynamic />
+    <div v-if="data.photos_id" class="flex justify-center items-center mt-5">
+      <VImage class="rounded-xl w-full" :src="getPhotoLink(data.photos_id)" :alt="data.title" dynamic />
     </div>
   </div>
 </template>
@@ -43,7 +43,7 @@ import "@material/web/iconbutton/icon-button"
 import VImage from "~/components/VImage.vue"
 
 defineProps<{
-  data: Announcement
+  data: AnnouncementModel
 }>();
 </script>
 

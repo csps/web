@@ -8,9 +8,15 @@
 
       <!-- Logos -->
       <div class="logos">
-        <img class="hidden sm:inline" :src="CCSLogo" alt="CCS Logo" />
-        <img :src="CSPSLogo" alt="CSPS Logo" />
-        <img class="hidden sm:inline" :src="UCLogo" alt="UC Logo" />
+        <a href="http://ccs.uc.edu.ph/" target="_blank">
+          <img class="hidden sm:inline" :src="CCSLogo" alt="CCS Logo" />
+        </a>
+        <a href="/" target="_self">
+          <img :src="CSPSLogo" alt="CSPS Logo" />
+        </a>
+        <a href="https://uc.edu.ph" target="_blank">
+          <img class="hidden sm:inline" :src="UCLogo" alt="UC Logo" />
+        </a>
       </div>
 
       <!-- Title -->
@@ -131,7 +137,7 @@ function back() {
 }
 
 .appbar {
-  @apply relative h-20 z-10;
+  @apply relative h-20;
 }
 
 h3 {

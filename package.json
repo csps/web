@@ -19,7 +19,7 @@
   },
   "dependencies": {
     "@material-symbols/svg-700": "^0.11.0",
-    "@material/web": "^1.0.0-pre.15",
+    "@material/web": "^1.0.0-pre.16",
     "axios": "^1.4.0",
     "pinia": "^2.1.6",
     "sal.js": "^0.8.5",
@@ -29,8 +29,8 @@
     "vue3-toastify": "^0.1.12"
   },
   "devDependencies": {
-    "@types/node": "^20.5.1",
-    "@vitejs/plugin-vue": "^4.3.2",
+    "@types/node": "^20.5.3",
+    "@vitejs/plugin-vue": "^4.3.3",
     "autoprefixer": "^10.4.15",
     "postcss": "^8.4.28",
     "sass": "^1.66.1",

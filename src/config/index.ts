@@ -6,6 +6,10 @@ import GithubSvg from "~/assets/svg/github.svg?raw";
 import { getSvgData } from "~/utils/string";
 import { Icon } from "~/utils/icon";
 
+interface Map {
+  [key: string]: string | number
+}
+
 export const NAV_LINKS: {
   name: string,
   path: string,
@@ -24,6 +28,6 @@ export const SOCIAL_LINKS = [
   { href: "https://github.com/csps", src: getSvgData(GithubSvg), alt: "CSP-S UC Main Github Organization" },
 ];
 
-export const Env = {
+export const Env: Map = {
   initialHistoryLength: 0
 };

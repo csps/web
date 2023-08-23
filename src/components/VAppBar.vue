@@ -1,6 +1,6 @@
 <template>
   <div class="appbar">
-    <div class="container mx-auto px-4 flex items-center space-x-5 h-full">
+    <div class="container mx-auto px-4 flex items-center space-x-1 md:space-x-5 h-full">
       <!-- Back button -->
       <md-icon-button v-if="store.isShowBackButton" @click="back">
         <md-icon v-html="icon('arrow_back')" />
@@ -35,7 +35,7 @@
 
           <router-link v-if="store.isLoggedIn" to="/profile" tabindex="-1">
             <md-icon-button title="Profile">
-              <md-icon v-html="icon('account_circle')" />
+              <md-icon v-html="icon('person', true)" />
             </md-icon-button>
           </router-link>
 
@@ -123,7 +123,7 @@ function onThemeChange() {
 
 function back() {
   router.back();
-  store.isShowBackButton = getHistoryLength() - Env.initialHistoryLength > 0;
+  store.isShowBackButton = getHistoryLength() - (Env.initialHistoryLength as number) > 0;
 }
 </script>
 

@@ -2,22 +2,17 @@
   <div class="h-full relative w-full">
     
     <div class="rounded-br-3xl rounded-bl-3xl -z-[1]">
-      <div class="container mx-auto text-center pt-16 pb-10 2xl:pt-20 2xl:p-12 px-6">
+      <div class="container mx-auto text-center pt-16 pb-10 2xl:pt-20 2xl:p-12 px-6" data-sal="zoom-in" data-sal-repeat>
         <div class="flex flex-col items-center px-8 text-center mt-2">
-          <h4 class="mt-2 text-base md:text-2xl text-on-surface-variant mb-2 md:mb-3 font-bold" data-sal="zoom-in" data-sal-repeat>
+          <h4 class="mt-2 text-base md:text-2xl text-on-surface-variant mb-2 md:mb-3 font-bold">
             Computing Society of the Philippines - Students
           </h4>
-          <h5 class="text-sm md:text-base text-on-surface-variant" data-sal="zoom-in" data-sal-delay="100" data-sal-repeat>
+          <h5 class="text-sm md:text-base text-outline">
             University of Cebu - Main Campus
           </h5>
-          <img :src="CSPSLogo" class="w-[150px] my-5" alt="CSPS Logo" data-sal="zoom-in" data-sal-delay="200" data-sal-repeat />
+          <img :src="CSPSLogo" class="w-[150px] my-5" alt="CSPS Logo" />
         </div>
-      </div>
-    </div>
-
-    <div>
-      <div class="container mx-auto">
-        <div class="flex items-center justify-center gap-10" data-sal="zoom-in" data-sal-delay="300" data-sal-repeat>
+        <div class="flex items-center justify-center gap-10 mt-10">
           <div class="w-full lg:w-2/3 xl:w-1/2">
             <p class="welcome">
               Welcome to the  Computing Society of the Philippines - Students!
@@ -27,6 +22,11 @@
             </p>
           </div>
         </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="container mx-auto">
         
         <div class="flex flex-col items-center justify-center mb-16 mt-48" data-sal="zoom-in" data-sal-repeat>
           <img class="w-24 sm:w-32 mb-5" :src="CCSLogo" alt="CCS Logo" />

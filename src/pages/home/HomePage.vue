@@ -4,25 +4,25 @@
     <div class="rounded-br-3xl rounded-bl-3xl -z-[1]">
       <div class="container mx-auto text-center pt-8 pb-5 px-6">
         <div class="flex justify-center gap-3 mb-6">
-          <md-filter-chip :selected="role === 'adviser'" @click="showMessage('adviser')" label="Adviser" title="View Message">
+          <md-filter-chip :selected="role === 'adviser'" @click="showMessage('adviser')" label="Adviser" title="View Message" data-sal="slide-right" data-sal-repeat>
             <div slot="icon" class="rounded-full overflow-hidden">
               <img :src="Adviser" alt="Adviser" />
             </div>
           </md-filter-chip>
-          <md-filter-chip :selected="role ==='dean'" @click="showMessage('dean')" label="Dean" title="View Message">
+          <md-filter-chip :selected="role ==='dean'" @click="showMessage('dean')" label="Dean" title="View Message" data-sal="slide-right" data-sal-repeat>
             <img slot="icon" class="rounded-full" :src="Dean" alt="Dean" />
           </md-filter-chip>
         </div>
         
-        <h2 class="text-2xl md:text-3xl font-bold text-on-surface-variant" data-sal="zoom-in" data-sal-repeat>
+        <h2 class="text-2xl md:text-3xl font-bold text-on-surface-variant" data-sal="slide-right" data-sal-repeat>
           {{ store.isLoggedIn ? `Hello, ${store.student.first_name} ${store.student.last_name}` : "Dive into the world of Computer Science" }}
         </h2>
 
-        <h5 v-if="!store.isLoggedIn" class="text-sm md:text-base xl:text-lg text-on-surface-variant my-4" data-sal="zoom-in" data-sal-delay="100" data-sal-repeat>
+        <h5 v-if="!store.isLoggedIn" class="text-sm md:text-base xl:text-lg text-on-surface-variant my-4" data-sal="slide-right" data-sal-delay="100" data-sal-repeat>
           Connect, collaborate, and Grow Together
         </h5>
 
-        <div class="flex justify-center space-x-3" :class="{ 'mt-5': store.isLoggedIn }" data-sal="zoom-in" data-sal-repeat data-sal-delay="200">
+        <div class="flex justify-center space-x-3" :class="{ 'mt-5': store.isLoggedIn }" data-sal="slide-right" data-sal-repeat data-sal-delay="200">
           <v-button :to="store.isLoggedIn ? '/bulletin' : '/login'" color="primary" variant="filled">
             {{ store.isLoggedIn ? 'Bulletin Board' : 'Login' }}
           </v-button>

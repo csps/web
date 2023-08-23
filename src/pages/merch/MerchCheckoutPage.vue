@@ -46,32 +46,34 @@
 
           <div>
             <h3 class="title-large font-medium text-on-surface-variant mb-0.5">Student information</h3>
-            <p class="label-medium text-on-surface-variant">{{ Env.checkout_student_details_info }}</p>
+            <p class="label-medium text-on-surface-variant">
+              {{ store.isLoggedIn ? Env.checkout_student_details_logged_info : Env.checkout_student_details_info }}
+            </p>
           </div>
 
           <div class="bg-surface-container-low p-10 rounded-xl">
             <div class="flex flex-col gap-5 flex-grow">
               <div class="flex flex-col md:flex-row gap-5">
-                <md-filled-text-field v-model="firstName" label="First name">
+                <md-filled-text-field v-model="firstName" :readonly="store.isLoggedIn" label="First name">
                   <md-icon slot="leadingicon" v-html="icon('person', true)"  />
                 </md-filled-text-field>
-                <md-filled-text-field v-model="lastName" label="Last name">
+                <md-filled-text-field v-model="lastName" :readonly="store.isLoggedIn" label="Last name">
                   <md-icon slot="leadingicon" v-html="icon('person', true)"  />
                 </md-filled-text-field>
               </div>
               <div class="flex flex-col md:flex-row gap-5">
-                <md-filled-text-field v-model="studentId" type="number" min="0" label="Student ID">
+                <md-filled-text-field v-model="studentId" :readonly="store.isLoggedIn" type="number" min="0" label="Student ID">
                   <md-icon slot="leadingicon" v-html="icon('badge', true)"  />
                 </md-filled-text-field>
-                <md-filled-text-field v-model="email" type="email" label="Email">
+                <md-filled-text-field v-model="email" :readonly="store.isLoggedIn" type="email" label="Email">
                   <md-icon slot="leadingicon" v-html="icon('mail', true)"  />
                 </md-filled-text-field>
               </div>
-              <md-filled-select v-model="course" label="Course" quick>
+              <md-filled-select v-if="!store.isLoggedIn" v-model="course" label="Course" quick>
                 <md-icon slot="leadingicon" v-html="icon('school', true)"  />
                 <md-select-option v-for="(course, id) in courses" :key="id" :value="id" :headline="course" />
               </md-filled-select>
-              <div class="flex justify-end items-center text-on-surface-variant text-sm mt-3">
+              <div v-if="!store.isLoggedIn" class="flex justify-end items-center text-on-surface-variant text-sm mt-3">
                 <label title="Your info will be saved locally in your browser" class="cursor-help">
                   <md-checkbox />
                   <span class="ml-3 border-b border-dashed border-outline-variant">Save info for future transactions</span>
@@ -115,10 +117,6 @@
                   <div class="max-w-[300px] mb-5">
                     <VImage :src="CSPSGcash" alt="CSPS GCash QR Code" />
                   </div>
-
-                  <!-- <h3 class="title-medium font-medium text-primary"></h3>
-                    <h4 class="title-small">09123456789</h4> -->
-
                   <input @change="onFilePut" type="file" class="file-input" pattern="image/*" accept="image/*" />
                 </div>
               </div>
@@ -177,6 +175,14 @@ const canPlaceOrder = computed(() => {
 
 onMounted(() => {
   quantity.value = store.checkoutDetails?.product.max_quantity || 1;
+
+  if (store.isLoggedIn) {
+    firstName.value = store.student.first_name;
+    lastName.value = store.student.last_name;
+    studentId.value = store.student.student_id;
+    course.value = 1;
+    email.value = store.student.email_address;
+  }
 
   makeRequest("GET", Endpoints.Courses, null, response => {
     if (response.success) {

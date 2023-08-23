@@ -23,7 +23,7 @@
       <div class="flex">
         <div class="w-full">
           <h4>{{ product.name }}</h4>
-          <h3>&#8369;{{ product.price }}</h3>
+          <h3>&#8369; {{ product.price }}</h3>
         </div>
         <div class="flex justify-end items-center">
           <router-link :to="'/merch/' + product.id" tabindex="-1" title="View merch">
@@ -49,13 +49,13 @@ import VImage from '../components/VImage.vue';
 import ImageTemplate from './ImageTemplate.vue';
 
 defineProps<{
-  product: ProductResponse
+  product: ProductModel
 }>();
 </script>
 
 <style lang="scss" scoped>
 .product {
-  @apply flex flex-col justify-between relative bg-surface-container-low rounded-xl;
+  @apply flex flex-col justify-between relative bg-surface-container rounded-xl;
 
   .content {
     @apply px-5 font-medium;

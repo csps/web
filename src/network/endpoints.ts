@@ -13,6 +13,9 @@ enum Endpoints {
   PhotosIdRaw = "/photos/:id/raw",
   StudentsKey = "/students/:key",
   Announcements = "/announcements",
+  Config = "/config",
+  Courses = "/courses",
+  Orders = "/orders",
 }
 
 export default Endpoints;

@@ -7,6 +7,9 @@ export const useStore = defineStore("global", () => {
   const isLoading = true;
   const isShowBackButton = false;
   const isDark = false;
+  const errorMessage = "";
+
+  let checkoutDetails: CheckoutDetails | undefined;
   const student: StudentResponse = {
     id: 0,
     student_id: "",
@@ -19,6 +22,7 @@ export const useStore = defineStore("global", () => {
   };
 
   return {
-    isShowBackButton, isDark, isLoggedIn, student, isLoading
+    isShowBackButton, isDark, isLoggedIn, student, isLoading, errorMessage,
+    checkoutDetails
   }
 });

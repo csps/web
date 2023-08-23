@@ -41,11 +41,11 @@ defineProps({
 <style lang="scss" scoped>
 .profile {
   @apply w-[200px] h-[200px] absolute overflow-hidden rounded-full top-28 left-1/2
-    -translate-x-1/2 -translate-y-1/2 border-[6px] z-[500] border-surface-container-high;
+    -translate-x-1/2 -translate-y-1/2 border-[6px] z-[500] border-surface-container;
 }
 
 h2 {
-  @apply text-xl font-bold mt-12 mb-1.5 text-primary dark:text-on-surface-variant;
+  @apply text-xl font-bold mt-12 mb-1.5 text-on-surface-variant;
 }
 
 h5 {
@@ -65,9 +65,9 @@ h5 {
 }
 
 .card {
-  @apply rounded-[32px] p-6 pt-14 sm:p-14 mx-4 w-full bg-background text-on-background
-    md:w-3/4 lg:w-4/5 xl:w-2/3 2xl:w-3/4 3xl:w-2/3 flex flex-col items-center border-[6px]
-    border-surface-container
+  @apply rounded-[32px] p-6 pt-14 sm:p-14 mx-4 w-full bg-surface text-on-surface
+    dark:bg-background dark:text-on-background border-surface-container
+    md:w-3/4 lg:w-4/5 xl:w-2/3 2xl:w-3/4 3xl:w-2/3 flex flex-col items-center border-[6px];
 }
 
 p {

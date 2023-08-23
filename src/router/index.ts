@@ -37,6 +37,11 @@ const routes: RouteRecordRaw[] = [
     component: () => import("../pages/merch/MerchProductPage.vue")
   },
   {
+    path: "/merch/:id/checkout",
+    name: "Checkout",
+    component: () => import("../pages/merch/MerchCheckoutPage.vue")
+  },
+  {
     path: "/bulletin",
     name: "Bulletin",
     component: () => import("../pages/bulletin/BulletinPage.vue")
@@ -116,6 +121,18 @@ router.beforeEach((to, _from, next) => {
     return;
   }
 
+  // If checking out and no checkout details
+  if (to.name === "Checkout" && !useStore().checkoutDetails) {
+    // if has previous page
+    if (_from.name) {
+      // Go to previous page
+      return next({ name: _from.name as string });
+    }
+
+    // Otherwise, go to merch
+    return next({ name: "Merch" });
+  }
+
   next();
 });
 
@@ -136,7 +153,7 @@ router.afterEach((to, from) => {
   if (to.path === from.path) return;
 
   // Set back button visibility
-  store.isShowBackButton = window.history.state.position - Env.initialHistoryLength > 0;
+  store.isShowBackButton = window.history.state.position - (Env.initialHistoryLength ? (Env.initialHistoryLength as number) : 0) > 0;
 });
 
 export default router;

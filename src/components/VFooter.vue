@@ -3,7 +3,7 @@
     <footer class="w-screen px-6 py-12 flex flex-col justify-center z-[1000] text-on-surface-variant">
       <div class="flex flex-col justify-center items-center gap-x-10 gap-y-5">
         <div class="flex flex-col items-center gap-5">
-          <img :src="CSPSLogo" alt="logo" class="w-16 h-16">
+          <img  :src="CSPSLogo" alt="logo" class="w-16 h-16 hidden md:block">
           <div class="text-center">
             <p class="text-sm sm:text-base mb-1 font-medium">
               Computing Society of the Philippines - Students
@@ -61,10 +61,6 @@ a {
 
 .footer {
   height: 500px;
-  background-image: url("~/assets/img/background.png");
-  background-repeat: no-repeat;
-  background-position: center center;
-  background-size: cover;
 
   .layer {
     @apply absolute top-0 left-0 w-full h-full bg-csps-primary/90;

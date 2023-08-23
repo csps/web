@@ -60,10 +60,10 @@ import ProductCard from "~/composables/ProductCard.vue";
 
 const isLoading = ref(true);
 const message = ref("");
-const products = ref<ProductResponse[]>([]);
+const products = ref<ProductModel[]>([]);
 
 onMounted(() => {
-  makeRequest<ProductResponse[]>("GET", Endpoints.Products, null, response => {
+  makeRequest<ProductModel[]>("GET", Endpoints.Products, null, response => {
     isLoading.value = false;
 
     if (response.success) {

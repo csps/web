@@ -13,6 +13,15 @@ declare global {
     click: () => void,
   }
 
+  type CheckoutDetails = {
+    variant?: ProductVariationModel,
+    product: ProductModel
+  }
+  
+  /**
+   * Response Types
+   */
+
   type StudentResponse = {
     id: number;
     student_id: string;
@@ -27,20 +36,6 @@ declare global {
   type LoginResponse = {
     token: string;
     student: Student;
-  }
-
-  type ProductResponse = {
-    id: number;
-    name: string;
-    thumbnail: number;
-    short_description: string;
-    description: string;
-    likes: number;
-    stock: number;
-    price: number;
-    max_quantity: number;
-    date_stamp?: string;
-    variations: ProductVariationModel[];
   }
   
   /**

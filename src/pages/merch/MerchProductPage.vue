@@ -24,7 +24,7 @@
         
         <div class="rounded-2xl px-6 flex justify-center items-center h-full">
           <div class="h-[400px] w-[400px]">
-            <VImage v-if="product?.thumbnail && product?.thumbnail > 0" :src="getPhotoLink(product.thumbnail)" :alt="product.name" />
+            <VImage v-if="photo > 0" :src="getPhotoLink(photo)" :alt="variation ? variation.name : (product?.name || '')" />
             <ImageTemplate class="h-full w-full" v-else />
           </div>
         </div>
@@ -49,26 +49,7 @@
             {{ product?.description }}
           </p>
 
-          <div v-if="product?.variations && product.variations.length > 0" class="body-medium font-medium flex gap-2">
-            <md-filter-chip
-              v-for="variant in product.variations"
-              :key="variant.id"
-              :label="variant.name"
-              :selected="variant.id === variation?.id"
-              @click="variation?.id === variant.id ? variation = undefined : variation = variant"
-              :disabled="variant.stock <= 0"
-            />
-          </div>
-
-          <div class="flex gap-4 items-center"> 
-            <!-- <md-outlined-select v-model="quantity" :disabled="!hasStock" label="Quantity" class="w-min" quick>
-              <md-select-option
-                v-for="i in (hasStock ? product?.max_quantity : 1)"
-                :key="i"
-                :value="i"
-                :headline="i"
-              />
-            </md-outlined-select> -->
+          <div class="flex gap-4 items-center justify-center md:justify-start"> 
             <p class="text-sm">
               <span v-if="variation ? variation.stock > 0 : (product?.stock && product.stock > 0)">
                 <span class="title-medium text-primary font-medium">{{ variation ? variation.stock : product?.stock }}</span> stocks left
@@ -79,18 +60,26 @@
             </p>
           </div>
 
-          
+          <div v-if="product?.variations && product.variations.length > 0" class="body-medium font-medium flex justify-center md:justify-start gap-2">
+            <md-filter-chip
+              v-for="variant in product.variations"
+              :key="variant.id"
+              :label="variant.name + (variant.stock <= 0 ? ' (Out of stock)' : '')"
+              :selected="variant.id === variation?.id"
+              @click="variant.stock <= 0 ? '' : variation?.id === variant.id ? variation = undefined : variation = variant"
+              :disabled="variant.stock <= 0"
+            />
+          </div>
 
-          <div class="flex flex-col items-end justify-center gap-5">
-            <md-filled-button :disabled="!hasStock" @click="order">
-              {{ hasStock ? "Order" : "Out of stock" }}
+          <div class="flex flex-col md:items-end justify-center gap-5">
+            <md-filled-button :disabled="!hasStock" @click="checkout">
+              <md-icon v-if="hasStock" slot="icon" v-html="icon('shopping_cart_checkout')" />
+              {{ hasStock ? "Checkout" : "Out of stock" }}
             </md-filled-button>
           </div>
         </div>
       </div>
     </Transition>
-
-    <DialogCheckoutOrder v-model="isOpenMop" />
   </div>
 </template>
 
@@ -99,7 +88,7 @@ import { useStore } from '~/store';
 import { icon } from "~/utils/icon";
 import { useRoute } from 'vue-router';
 import { setPageTitle } from '~/utils/page';
-import { ref, onMounted, computed } from 'vue';
+import { ref, onMounted, computed, watch } from 'vue';
 import { Endpoints, makeRequest } from '~/network/request';
 import { getPhotoLink } from '~/utils/network';
 import { toast } from 'vue3-toastify';
@@ -107,18 +96,13 @@ import { ModeOfPayment } from "~/types/enums";
 import { useRouter } from 'vue-router';
 
 import "@material/web/icon/icon";
-import "@material/web/divider/divider";
 import "@material/web/button/filled-button";
-import "@material/web/button/text-button";
 import "@material/web/progress/linear-progress";
 import "@material/web/iconbutton/icon-button";
-import "@material/web/select/outlined-select";
-import "@material/web/select/select-option";
 import "@material/web/chips/filter-chip";
 
 import VImage from '~/components/VImage.vue';
 import ImageTemplate from '~/composables/ImageTemplate.vue';
-import DialogCheckoutOrder from '~/components/dialogs/DialogCheckoutOrder.vue';
 
 const store = useStore();
 const route = useRoute();
@@ -126,21 +110,29 @@ const router = useRouter();
 
 const hasStock = computed(() => product.value?.stock !== undefined && product.value?.stock > 0);
 
-const product = ref<ProductResponse | null>();
-const variation = ref<ProductVariationModel>();
-const quantity = ref();
+const product = ref<ProductModel | null>();
+const variation = ref<ProductVariationModel | undefined>();
 const mop = ref();
 
+const photo = ref();
 const message = ref("");
 const isLoading = ref(true);
-const isOpenMop = ref(false);
+
+watch(variation, v => {
+  if (v === undefined) {
+    photo.value = product.value?.thumbnail || 0;
+    return;
+  }
+
+  photo.value = v.photos_id || 0;
+});
 
 onMounted(() => {
   // Set loading to true
   store.isLoading = true;
 
   // Get product by id
-  makeRequest<ProductResponse>("GET", Endpoints.ProductsId, {
+  makeRequest<ProductModel>("GET", Endpoints.ProductsId, {
     id: route.params.id,
   }, response => {
     // Set loading to false
@@ -156,27 +148,41 @@ onMounted(() => {
 
     // Set page title
     setPageTitle(product.value.name || "Product");
-    // Set quantity
-    quantity.value = product.value.max_quantity || 1;
     // Set mop
     mop.value = product.value.stock > 0 ? ModeOfPayment.WALK_IN : -1;
+
+    // If has thumbnail
+    if (product.value.thumbnail && product.value.thumbnail > 0) {
+      // Set photo
+      photo.value = product.value.thumbnail;
+    }
   });
 });
 
-function order() {
+function checkout() {
   if (!hasStock.value) {
     toast.error("Product is out of stock!");
     return;
   }
 
-  // If not logged in
-  if (!store.isLoggedIn) {
-    // Open dialog for acquiring user information
-    toast.info("TODO: Open dialog for acquiring user information");
+  if (!product.value) {
+    toast.info("Oops! There's something went wrong while checkout this product.");
     return;
   }
 
-  isOpenMop.value = true;
+  // Set checkout details
+  store.checkoutDetails = {
+    product: product.value
+  };
+
+  // If has variation
+  if (variation.value) {
+    // Set variation
+    store.checkoutDetails.variant = variation.value;
+  }
+
+  // Redirect to checkout page
+  router.push({ name: "Checkout" });
 }
 </script>
 

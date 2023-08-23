@@ -17,6 +17,8 @@ import "@material/web/icon/icon"
   md-icon {
     width: 48px;
     height: 48px;
+    
+    @apply text-on-surface-variant;
   }
 }
 </style>

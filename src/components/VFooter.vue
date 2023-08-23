@@ -1,5 +1,5 @@
 <template>
-  <div class="flex items-end -z-[1]">
+  <div class="flex items-end z-10">
     <footer class="w-screen px-6 py-12 flex flex-col justify-center z-[1000] text-on-surface-variant">
       <div class="flex flex-col justify-center items-center gap-x-10 gap-y-5">
         <div class="flex flex-col">

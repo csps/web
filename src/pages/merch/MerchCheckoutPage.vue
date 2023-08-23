@@ -177,10 +177,10 @@ onMounted(() => {
   quantity.value = store.checkoutDetails?.product.max_quantity || 1;
 
   if (store.isLoggedIn) {
+    course.value = 1;
     firstName.value = store.student.first_name;
     lastName.value = store.student.last_name;
     studentId.value = store.student.student_id;
-    course.value = 1;
     email.value = store.student.email_address;
   }
 

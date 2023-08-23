@@ -2,7 +2,7 @@
   <div class="h-full relative w-full">
     
     <div class="rounded-br-3xl rounded-bl-3xl -z-[1]">
-      <div class="container mx-auto text-center pt-16 pb-10 2xl:pt-20 2xl:p-12 px-6" data-sal="zoom-in" data-sal-repeat>
+      <div class="container mx-auto text-center pb-10 2xl:p-12 px-6" data-sal="zoom-in" data-sal-repeat>
         <div class="flex flex-col items-center px-8 text-center mt-2">
           <h4 class="mt-2 text-base md:text-2xl text-on-surface-variant mb-2 md:mb-3 font-bold">
             Computing Society of the Philippines - Students

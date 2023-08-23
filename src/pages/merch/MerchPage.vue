@@ -2,7 +2,7 @@
   <div class="relative text-on-surface-variant">
     <!-- Call To Action -->
     <div class="rounded-br-3xl rounded-bl-3xl -z-[1]" v-show="!isLoading && message.length === 0">
-      <div class="container mx-auto text-center pb-5 pt-12 xl:pt-16 2xl:pb-8 px-6">
+      <div class="container mx-auto text-center pb-5 2xl:pb-8 px-6">
         <h2 class="text-2xl md:text-3xl font-bold" data-sal="zoom-in" data-sal-repeat>
           Style your own groove
         </h2>

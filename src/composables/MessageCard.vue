@@ -5,13 +5,13 @@
   </div>
   <div class="card w-full">
     <h2 class="text-center">{{ name }}</h2>
-    <h5 class="text-center pb-4 sm:pb-8">{{ position }}</h5>
+    <h5 class="text-center">{{ position }}</h5>
     <div class="text-justify message">
       <p v-for="(p, i) in message" :key="i">
         <div v-if="Array.isArray(p)" class="closing">
           <p v-for="(c, j) in p" :key="j">{{ c }}</p>
         </div>
-        <span v-else>{{ p }}</span>
+        <span class="paragraph" v-else>{{ p }}</span>
       </p>
     </div>
   </div>
@@ -40,12 +40,12 @@ defineProps({
 
 <style lang="scss" scoped>
 .profile {
-  @apply w-[200px] h-[200px] absolute overflow-hidden rounded-full top-28 left-1/2
+  @apply w-[175px] h-[175px] absolute overflow-hidden rounded-full top-28 left-1/2
     -translate-x-1/2 -translate-y-1/2 border-[6px] z-[500] border-surface-container;
 }
 
 h2 {
-  @apply text-xl font-bold mt-12 mb-1.5 text-on-surface-variant;
+  @apply text-xl font-bold mt-14 mb-1.5 text-on-surface-variant;
 }
 
 h5 {
@@ -53,12 +53,16 @@ h5 {
 }
 
 .message {
-  @apply text-sm leading-6 md:leading-7;
+  @apply text-sm leading-6;
   font-family: Roboto;
 }
 
 .message > p {
   @apply text-justify;
+}
+
+.paragraph {
+  @apply first-letter:text-xl;
 }
 
 .closing p {

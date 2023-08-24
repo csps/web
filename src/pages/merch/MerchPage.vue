@@ -6,7 +6,7 @@
         <h2 class="text-2xl md:text-3xl font-bold" data-sal="zoom-in" data-sal-repeat>
           Style your own groove
         </h2>
-        <h5 class="text-sm sm:text-base px-0 md:px-32 mt-4 mb-6" data-sal="zoom-in" data-sal-repeat>
+        <h5 class="text-sm sm:text-base px-0 md:px-32 mt-2 mb-6" data-sal="zoom-in" data-sal-repeat>
           Experience the pride and passion with our university merch.
         </h5>
 

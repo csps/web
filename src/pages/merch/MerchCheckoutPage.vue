@@ -5,8 +5,44 @@
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
         <div class="flex flex-col gap-5 flex-grow">
           <div>
-            <h2 class="title-large font-medium text-on-surface-variant mb-0.5">Product details</h2>
-            <p class="label-medium text-on-surface-variant">You are purchasing the following item</p>
+            <h3 class="title-large font-medium text-on-surface-variant mb-0.5">Student information</h3>
+            <p class="label-medium text-on-surface-variant">
+              {{ store.isLoggedIn ? Env.checkout_student_details_logged_info : Env.checkout_student_details_info }}
+            </p>
+          </div>
+  
+          <div class="bg-surface-container-low p-10 rounded-xl">
+            <div class="flex flex-col gap-6 flex-grow">
+              <md-filled-text-field v-model="firstName" :readonly="store.isLoggedIn" label="First name">
+                <md-icon slot="leadingicon" v-html="icon('person', true)"  />
+              </md-filled-text-field>
+              <md-filled-text-field v-model="lastName" :readonly="store.isLoggedIn" label="Last name">
+                <md-icon slot="leadingicon" v-html="icon('person', true)"  />
+              </md-filled-text-field>
+              <md-filled-text-field v-model="studentId" :readonly="store.isLoggedIn" type="number" min="0" label="Student ID">
+                <md-icon slot="leadingicon" v-html="icon('badge', true)"  />
+              </md-filled-text-field>
+              <md-filled-text-field v-model="email" :readonly="store.isLoggedIn" type="email" label="Email">
+                <md-icon slot="leadingicon" v-html="icon('mail', true)"  />
+              </md-filled-text-field>
+              <md-filled-select v-if="!store.isLoggedIn" v-model="course" label="Course" quick>
+                <md-icon slot="leadingicon" v-html="icon('school', true)"  />
+                <md-select-option v-for="(course, id) in courses" :key="id" :value="id" :headline="course" />
+              </md-filled-select>
+              <div v-if="!store.isLoggedIn" class="flex justify-end items-center text-on-surface-variant text-sm mt-3">
+                <label title="Your info will be saved locally in your browser" class="cursor-help">
+                  <md-checkbox />
+                  <span class="ml-3 border-b border-dashed border-outline-variant">Save info for future transactions</span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <h3 class="title-large font-medium text-on-surface-variant mb-0.5">Product</h3>
+            <p class="label-medium text-on-surface-variant">
+              Please review your order before proceeding to checkout.
+            </p>
           </div>
 
           <div class="bg-surface-container-low justify-between p-10 rounded-2xl flex gap-10 flex-col sm:flex-row items-center">
@@ -43,54 +79,10 @@
             </div>
 
           </div>
-
-          <div>
-            <h3 class="title-large font-medium text-on-surface-variant mb-0.5">Student information</h3>
-            <p class="label-medium text-on-surface-variant">
-              {{ store.isLoggedIn ? Env.checkout_student_details_logged_info : Env.checkout_student_details_info }}
-            </p>
-          </div>
-
-          <div class="bg-surface-container-low p-10 rounded-xl">
-            <div class="flex flex-col gap-5 flex-grow">
-              <div class="flex flex-col md:flex-row gap-5">
-                <md-filled-text-field v-model="firstName" :readonly="store.isLoggedIn" label="First name">
-                  <md-icon slot="leadingicon" v-html="icon('person', true)"  />
-                </md-filled-text-field>
-                <md-filled-text-field v-model="lastName" :readonly="store.isLoggedIn" label="Last name">
-                  <md-icon slot="leadingicon" v-html="icon('person', true)"  />
-                </md-filled-text-field>
-              </div>
-              <div class="flex flex-col md:flex-row gap-5">
-                <md-filled-text-field v-model="studentId" :readonly="store.isLoggedIn" type="number" min="0" label="Student ID">
-                  <md-icon slot="leadingicon" v-html="icon('badge', true)"  />
-                </md-filled-text-field>
-                <md-filled-text-field v-model="email" :readonly="store.isLoggedIn" type="email" label="Email">
-                  <md-icon slot="leadingicon" v-html="icon('mail', true)"  />
-                </md-filled-text-field>
-              </div>
-              <md-filled-select v-if="!store.isLoggedIn" v-model="course" label="Course" quick>
-                <md-icon slot="leadingicon" v-html="icon('school', true)"  />
-                <md-select-option v-for="(course, id) in courses" :key="id" :value="id" :headline="course" />
-              </md-filled-select>
-              <div v-if="!store.isLoggedIn" class="flex justify-end items-center text-on-surface-variant text-sm mt-3">
-                <label title="Your info will be saved locally in your browser" class="cursor-help">
-                  <md-checkbox />
-                  <span class="ml-3 border-b border-dashed border-outline-variant">Save info for future transactions</span>
-                </label>
-              </div>
-            </div>
-          </div>
         </div>
 
         <div class="flex flex-col gap-5">
-          <div>
-            <h3 class="title-large font-medium text-on-surface-variant mb-0.5">Checkout details</h3>
-            <p class="label-medium text-on-surface-variant">
-              Select your mode of payment and place your order!
-            </p>
-          </div>
-      
+          <h3 class="title-large font-medium text-on-surface-variant">Checkout</h3>
           <div class="bg-surface-container-low p-10 rounded-2xl flex flex-col gap-6">
             <div class="flex justify-center gap-5 text-on-surface-variant label-large">
               <label>
@@ -123,7 +115,7 @@
             </Transition>
 
             <div class="flex flex-col items-center justify-center">
-              <md-filled-button :disabled="!canPlaceOrder">
+              <md-filled-button :disabled="!canPlaceOrder" @click="placeOrder">
                 Place order
               </md-filled-button>
             </div>
@@ -194,6 +186,34 @@ onMounted(() => {
   });
 });
 
+function placeOrder() {
+  if (!canPlaceOrder.value) return;
+  store.isLoading = true;
+
+  // makeRequest("POST", Endpoints.Orders, {
+  //   product_id: store.checkoutDetails.product.id,
+  //   variant_id: store.checkoutDetails.variant?.id,
+  //   quantity: quantity.value,
+  //   first_name: firstName.value,
+  //   last_name: lastName.value,
+  //   student_id: studentId.value,
+  //   email_address: email.value,
+  //   course_id: course.value,
+  //   mode_of_payment: mop.value,
+  //   screenshot: screenshot.value
+  // }, response => {
+  //   store.isLoading = false;
+
+  //   if (response.success) {
+  //     toast.success(response.message);
+  //     store.checkoutDetails = null;
+  //     return;
+  //   }
+
+  //   toast.error(response.message);
+  // });
+}
+
 function onFilePut(event: Event) {
   let file = (event.target as HTMLInputElement).files?.[0];
   
@@ -212,7 +232,7 @@ md-filled-text-field {
 }
 
 .file-input {
-  @apply bg-surface-container-low w-full text-sm rounded-md
+  @apply bg-surface-container-high w-full text-sm rounded-md
     placeholder:text-on-surface-variant file:bg-surface-container-high file:rounded-md
     file:border-none file:mr-2 file:px-4 file:py-2 file:cursor-pointer
     file:text-on-surface-variant ;

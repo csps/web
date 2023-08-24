@@ -1,7 +1,7 @@
 {
   "name": "csps-web",
   "private": true,
-  "version": "1.0.0-pre.68",
+  "version": "1.0.0-pre.69",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -29,7 +29,7 @@
     "vue3-toastify": "^0.1.12"
   },
   "devDependencies": {
-    "@types/node": "^20.5.3",
+    "@types/node": "^20.5.4",
     "@vitejs/plugin-vue": "^4.3.3",
     "autoprefixer": "^10.4.15",
     "postcss": "^8.4.28",

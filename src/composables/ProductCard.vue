@@ -61,7 +61,7 @@ defineProps<{
     @apply px-5 font-medium;
 
     h4 {
-      @apply text-on-surface-variant text-sm mb-2;
+      @apply text-on-surface-variant mb-2;
     }
 
     h3 {

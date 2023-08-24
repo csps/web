@@ -6,12 +6,11 @@
     :escape-key-action="isLoading ? '' : 'close'"
   >
     <div slot="headline">Change password</div>
-    <div class="grid gap-1" slot="content">
+    <div class="grid gap-6" slot="content">
       <md-filled-text-field
         class="w-full"
         label="Old Password"
         v-model.trim="password"
-        maxLength="24"
         type="password"
         :disabled="isLoading"
         @keydown.enter="submit"
@@ -23,7 +22,6 @@
         class="w-full"
         label="New Password"
         v-model.trim="newPassword"
-        maxLength="24"
         type="password"
         :disabled="isLoading"
         @keydown.enter="submit"
@@ -35,7 +33,6 @@
         class="w-full"
         label="Confirm Password"
         v-model.trim="confirmPassword"
-        maxLength="24"
         type="password"
         :disabled="isLoading"
         @keydown.enter="submit"
@@ -46,7 +43,7 @@
     </div>
     <div class="space-x-1" slot="actions">
       <md-text-button @click="close" :disabled="isLoading">Cancel</md-text-button>
-      <md-text-button @click="submit" :disabled="newPassword.length < 8 || newPassword !== confirmPassword || isLoading" autofocus>
+      <md-text-button @click="submit" :disabled="isLoading" autofocus>
         {{ isLoading ? "Changing password..." : "Change password" }}
       </md-text-button>
     </div>
@@ -82,17 +79,22 @@ const isDialogOpen = computed(() => props.modelValue);
  * Send the email
  */
 function submit() {
-  // If already loading, return
-  if (newPassword.value.length < 8 || newPassword.value !== confirmPassword.value || isLoading.value) return;
-  isLoading.value = true;
-
   // If all fields are empty
   if (!password.value || !newPassword.value || !confirmPassword.value) {
     toast.info("Empty fields.");
-    isLoading.value = false;
     return;
   }
 
+  // If new password and confirm password are not the same
+  if (newPassword.value !== confirmPassword.value) {
+    toast.info("Oops! Passwords doesn't match.");
+    return;
+  }
+
+  // If already loading, return
+  if (isLoading.value) return;
+  isLoading.value = true;
+  
   // Send the request
   makeRequest("PUT", Endpoints.StudentsKey, { 
     key: StudentEnum.password,
@@ -119,6 +121,11 @@ function submit() {
  * Close the dialog
  */
 function close() {
+  // Reset the fields
+  password.value = "";
+  newPassword.value = "";
+  confirmPassword.value = "";
+
   emit("update:modelValue", false);
 }
 </script>

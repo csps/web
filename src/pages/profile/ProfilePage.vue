@@ -1,59 +1,59 @@
 <template>
   <div class="flex flex-col text-on-surface-variant items-center gap-5 w-full h-full px-6">
-    <div class="grid grid-cols-1 gap-6 justify-center w-full sm:w-3/4 md:w-2/3 lg:w-1/2 2xl:w-1/3 3xl:w-1/4">
+    <div class="grid grid-cols-1 gap-6 justify-center w-full sm:w-3/4 md:w-2/3 lg:w-1/2 2xl:w-1/3 3xl:w-1/4 bg-surface-container-low p-10 rounded-2xl">
       <h3 class="headline-small font-medium mb-1">Profile</h3>
   
       <div class="grid grid-cols-2 gap-5">
         <!-- First name -->
-        <md-outlined-text-field
+        <md-filled-text-field
           label="First name"
           :value="store.student.first_name"
           readonly disabled
         >
           <md-icon slot="leadingicon" v-html="icon('person', true)" />
-        </md-outlined-text-field>
+        </md-filled-text-field>
     
         <!-- Last name -->
-        <md-outlined-text-field
+        <md-filled-text-field
           label="Last name"
           :value="store.student.last_name"
           readonly disabled
         >
           <md-icon slot="leadingicon" v-html="icon('person', true)" />
-        </md-outlined-text-field>
+        </md-filled-text-field>
       </div>
 
       <!-- Student ID -->
-      <md-outlined-text-field
+      <md-filled-text-field
         label="Student ID"
         :value="store.student.student_id"
         readonly disabled
       >
         <md-icon slot="leadingicon" v-html="icon('badge', true)" />
-      </md-outlined-text-field>
+      </md-filled-text-field>
   
       <!-- Email -->
-      <md-outlined-text-field
+      <md-filled-text-field
         label="Email"
         :value="store.student.email_address"
         readonly disabled
       >
         <md-icon slot="leadingicon" v-html="icon('mail', true)" />
-      </md-outlined-text-field>
+      </md-filled-text-field>
 
       <!-- Year level -->
-      <md-outlined-select label="Year level" v-model="year" quick>
+      <md-filled-select label="Year level" v-model="year" quick>
         <md-icon slot="leadingicon" v-html="icon('school', true)" />
         <md-select-option :value="1" headline="1st year" />
         <md-select-option :value="2" headline="2nd year" />
         <md-select-option :value="3" headline="3rd year" />
         <md-select-option :value="4" headline="4th year" />
-      </md-outlined-select>
+      </md-filled-select>
 
       <!-- Logout -->
-      <div class="flex justify-end gap-2">
-        <md-filled-button @click="openLogoutDialog">Logout</md-filled-button>
+      <div class="flex justify-between gap-2">
         <md-text-button @click="isDialogOpen = true">Change password</md-text-button>
+        <md-filled-button @click="openLogoutDialog">Logout</md-filled-button>
       </div>
     </div>
 
@@ -72,9 +72,9 @@ import { StudentEnum } from "~/types/models";
 import { toast } from "vue3-toastify";
 import Strings from '~/config/strings';
 
-import "@material/web/textfield/outlined-text-field";
+import "@material/web/textfield/filled-text-field";
 import "@material/web/button/text-button";
-import "@material/web/select/outlined-select";
+import "@material/web/select/filled-select";
 import "@material/web/button/filled-button";
 import "@material/web/select/select-option"
 

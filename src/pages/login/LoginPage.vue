@@ -6,10 +6,10 @@
           Welcome back, <span class="text-primary">ComSciPeepS</span>
         </h2>
         <h6 class="text-sm" data-sal="zoom-in" data-sal-delay="50">
-          To login, please enter your details.
+          To login, please enter your credentials.
         </h6>
 
-        <div class="flex flex-col gap-1 mt-8">
+        <div class="flex flex-col gap-1 mt-10 mb-6">
           <md-outlined-text-field
             :disabled="isLoggingIn"
             label="Student ID"

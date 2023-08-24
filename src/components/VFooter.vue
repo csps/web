@@ -1,5 +1,5 @@
 <template>
-  <div class="flex items-end z-10">
+  <div class="flex items-end z-0">
     <footer class="w-screen px-6 py-12 flex flex-col justify-center z-[1000] text-on-surface-variant">
       <div class="flex flex-col justify-center items-center gap-x-10 gap-y-5">
         <div class="flex flex-col">
@@ -54,14 +54,10 @@ const links = [
 
 <style lang="scss" scoped>
 a {
-  @apply hover:scale-[1.30] hover:rotate-[360deg] transition-transform duration-500 ;
-}
+  @apply hover:scale-[1.30] hover:rotate-[360deg] transition-transform duration-500;
 
-.footer {
-  height: 400px;
-
-  .layer {
-    @apply absolute top-0 left-0 w-full h-full bg-csps-primary/90;
+  img {
+    @apply rounded-none;
   }
 }
 </style>

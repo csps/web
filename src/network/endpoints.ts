@@ -2,8 +2,10 @@
  * Contains all the endpoints used in the application.
  */
 enum Endpoints {
-  Login = "/login",
-  LoginToken = "/login/:token",
+  AdminLogin = "/admins/login",
+  AdminLoginToken = "/admins/login/:token",
+  Login = "/students/login",
+  LoginToken = "/students/login/:token",
   ForgotPassword = "/forgot-password",
   ResetPassword = "/reset-password",
   ResetPasswordToken = "/reset-password/:token",

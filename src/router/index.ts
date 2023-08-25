@@ -1,7 +1,7 @@
 import type { RouteRecordRaw } from "vue-router";
 import { createRouter, createWebHistory } from "vue-router";
-import { setPageTitle, getHistoryLength } from "~/utils/page";
-import { isLoginValid } from "~/utils/network";
+import { setPageTitle, getHistoryLength, getLocal } from "~/utils/page";
+import { isAdminLoginValid, isLoginValid } from "~/utils/network";
 import { useStore } from "~/store";
 import { Env } from "~/config";
 
@@ -66,11 +66,13 @@ const routes: RouteRecordRaw[] = [
     path: "/admin",
     name: "Admin",
     component: () => import("../pages/admin/AdminPage.vue"),
+    meta: { requiresAuth: true }
   },
   {
     path: "/admin/login",
     name: "Admin Login",
     component: () => import("../pages/admin/AdminLogin.vue"),
+    meta: { requiresAuth: true }
   },
 
   {
@@ -100,6 +102,38 @@ router.beforeEach((to, _from, next) => {
 
   // If going to route that requres auth
   if (to.meta.requiresAuth) {
+    // CHeck for admin token
+    const token = getLocal("csps_token");
+
+    // If going to admin login
+    if (to.name === "Admin Login" && !token) {
+      // Go to login
+      return next();
+    }
+
+    // If has token
+    if (!!token) {
+
+      isAdminLoginValid(isAdminLoginValid => {
+        // If is valid
+        if (isAdminLoginValid) {
+          // Get store
+          const store = useStore();
+          // Set logged in
+          store.isAdminLoggedIn = true;
+          // Go to route
+          return next();
+        }
+
+        // If going to login
+        if (to.name === "Admin Login") return next();
+        // Otherwise, return to login
+        next({ name: "Admin Login" });
+      });
+
+      return;
+    }
+
     // Check if login is valid
     isLoginValid(valid => {
       // If is valid

@@ -93,13 +93,16 @@ import SteppersOutlined from "@material-symbols/svg-700/rounded/steppers.svg?raw
 import Person from "@material-symbols/svg-700/rounded/person-fill.svg?raw";
 import PersonOutlined from "@material-symbols/svg-700/rounded/person.svg?raw";
 
+import Security from "@material-symbols/svg-700/rounded/security-fill.svg?raw";
+import SecurityOutlined from "@material-symbols/svg-700/rounded/security.svg?raw";
+
 // Icon type
 export type Icon = "arrow_back" | "menu" | "photo_camera" | "favorite" |
   "arrow_forward" | "verified" | "lock" | "visibility" | "visibility_off" | 
   "home" | "diversity" | "dashboard" | "store" | "login" | "logout" | "account_circle" |
   "link" | "shopping_cart" | "badge" | "school" | "mail" | "add" | "remove" | "qr_code" |
   "footprint" | "shopping_cart_checkout" | "ballot" | "deployed_code" | "steppers" |
-  "person";
+  "person" | "security";
 
 /**
  * Material Icon
@@ -167,6 +170,8 @@ export function icon(name: Icon, outlined: boolean = false) {
   if (name === "steppers") return outlined ? SteppersOutlined : Steppers;
   // Person
   if (name === "person") return outlined ? PersonOutlined : Person;
+  // Security
+  if (name === "security") return outlined ? SecurityOutlined : Security;
 
   // Default
   return null;

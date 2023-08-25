@@ -118,7 +118,7 @@ function login() {
       // Set student
       store.admin = response.data.student;
       // Set is logged in to true
-      store.isLoggedIn = true;
+      store.isAdminLoggedIn = true;
       // Redirect to home page
       router.push({ name: "Admin" });
       return;

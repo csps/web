@@ -20,8 +20,13 @@
       </div>
 
       <!-- Title -->
-      <h3 class="hidden lg:block xl:block text-on-surface-variant">UC Main Computing Society of the Philippines - Students</h3>
-      <h3 class="block lg:hidden xl:hidden text-on-surface-variant">UC Main CSP-S</h3>
+      <h3 v-if="store.isAdminLoggedIn">
+        CSPS Admin
+      </h3>
+      <div v-else>
+        <h3 class="hidden lg:block xl:block text-on-surface-variant">UC Main Computing Society of the Philippines - Students</h3>
+        <h3 class="block lg:hidden xl:hidden text-on-surface-variant">UC Main CSP-S</h3>
+      </div>
 
       <!-- Navigation Links -->
       <div class="flex items-center gap-5 flex-grow justify-end">
@@ -39,7 +44,7 @@
             </md-icon-button>
           </router-link>
 
-          <router-link to="/login" tabindex="-1" v-else>
+          <router-link v-else-if="!store.isAdminLoggedIn" to="/login" tabindex="-1">
             <md-icon-button title="Login">
               <md-icon v-html="icon('login')" />
             </md-icon-button>

@@ -2,14 +2,14 @@
   <div class="min-h-screen">
     <md-linear-progress class="fixed right-0 left-0 top-0 min-w-full" :indeterminate="store.isLoading" />
 
-    <div class="flex flex-col justify-between min-h-screen" v-if="store.errorMessage.length === 0">
+    <div class="flex flex-col min-h-screen" v-if="store.errorMessage.length === 0" :class="{ 'justify-between': route.name !== 'Admin'  }">
       <VAppBar transparent />
       <router-view v-slot="{ Component }">
         <Transition name="slide-fade" mode="out-in">
           <component :is="Component" />
         </Transition>
       </router-view>
-      <VFooter />
+      <VFooter :class="{ 'flex-grow': route.name === 'Admin' }" />
     </div>
 
     <div class="flex justify-center items-center min-h-screen" v-else>
@@ -28,6 +28,7 @@ import VFooter from './components/VFooter.vue';
 import DialogMain from './components/dialogs/DialogMain.vue';
 import { Endpoints, makeRequest } from './network/request';
 import { Env } from './config';
+import { useRoute } from "vue-router";
 
 import { useStore } from './store';
 import { isLoginValid } from './utils/network';
@@ -37,6 +38,7 @@ import "@material/web/progress/linear-progress";
 
 // Get store
 const store = useStore();
+const route = useRoute();
 
 store.isLoading = true;
 

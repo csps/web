@@ -75,9 +75,6 @@ import RemoveOutlined from "@material-symbols/svg-700/rounded/remove.svg?raw";
 import QRCode from "@material-symbols/svg-700/rounded/qr_code-fill.svg?raw";
 import QRCodeOutlined from "@material-symbols/svg-700/rounded/qr_code.svg?raw";
 
-import Footprint from "@material-symbols/svg-700/rounded/footprint-fill.svg?raw";
-import FootprintOutlined from "@material-symbols/svg-700/rounded/footprint.svg?raw";
-
 import ShoppingCartCheckout from "@material-symbols/svg-700/rounded/shopping_cart_checkout-fill.svg?raw";
 import ShoppingCartCheckoutOutlined from "@material-symbols/svg-700/rounded/shopping_cart_checkout.svg?raw";
 
@@ -96,13 +93,19 @@ import PersonOutlined from "@material-symbols/svg-700/rounded/person.svg?raw";
 import Security from "@material-symbols/svg-700/rounded/security-fill.svg?raw";
 import SecurityOutlined from "@material-symbols/svg-700/rounded/security.svg?raw";
 
+import Settings from "@material-symbols/svg-700/rounded/settings-fill.svg?raw";
+import SettingsOutlined from "@material-symbols/svg-700/rounded/settings.svg?raw";
+
+import Tune from "@material-symbols/svg-700/rounded/tune-fill.svg?raw";
+import TuneOutlined from "@material-symbols/svg-700/rounded/tune.svg?raw";
+
 // Icon type
 export type Icon = "arrow_back" | "menu" | "photo_camera" | "favorite" |
   "arrow_forward" | "verified" | "lock" | "visibility" | "visibility_off" | 
   "home" | "diversity" | "dashboard" | "store" | "login" | "logout" | "account_circle" |
   "link" | "shopping_cart" | "badge" | "school" | "mail" | "add" | "remove" | "qr_code" |
-  "footprint" | "shopping_cart_checkout" | "ballot" | "deployed_code" | "steppers" |
-  "person" | "security";
+  "shopping_cart_checkout" | "ballot" | "deployed_code" | "steppers" |
+  "person" | "security" | "settings" | "tune";
 
 /**
  * Material Icon
@@ -158,8 +161,6 @@ export function icon(name: Icon, outlined: boolean = false) {
   if (name === "remove") return outlined ? RemoveOutlined : Remove;
   // QR Code
   if (name === "qr_code") return outlined ? QRCodeOutlined : QRCode;
-  // Footprint Walk
-  if (name === "footprint") return outlined ? FootprintOutlined : Footprint;
   // Shopping Cart Checkout
   if (name === "shopping_cart_checkout") return outlined ? ShoppingCartCheckoutOutlined : ShoppingCartCheckout;
   // Ballot
@@ -172,6 +173,10 @@ export function icon(name: Icon, outlined: boolean = false) {
   if (name === "person") return outlined ? PersonOutlined : Person;
   // Security
   if (name === "security") return outlined ? SecurityOutlined : Security;
+  // Settings
+  if (name === "settings") return outlined ? SettingsOutlined : Settings;
+  // Tune
+  if (name === "tune") return outlined ? TuneOutlined : Tune;
 
   // Default
   return null;

@@ -105,6 +105,12 @@ router.beforeEach((to, _from, next) => {
     // CHeck for admin token
     const token = getLocal("csps_token");
 
+    // If goiing to admin page
+    if (to.name === "Admin" && !token) {
+      // Go to login
+      return next({ name: "Admin Login" });
+    }
+
     // If going to admin login
     if (to.name === "Admin Login" && !token) {
       // Go to login

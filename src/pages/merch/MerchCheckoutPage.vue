@@ -11,24 +11,42 @@
             </p>
           </div>
   
-          <div class="bg-surface-container-low p-10 rounded-xl">
+          <div class="bg-surface-container p-10 rounded-xl">
             <div class="flex flex-col gap-6 flex-grow">
-              <md-filled-text-field v-model="firstName" :readonly="store.isLoggedIn" label="First name">
-                <md-icon slot="leadingicon" v-html="icon('person', true)"  />
-              </md-filled-text-field>
-              <md-filled-text-field v-model="lastName" :readonly="store.isLoggedIn" label="Last name">
-                <md-icon slot="leadingicon" v-html="icon('person', true)"  />
-              </md-filled-text-field>
-              <md-filled-text-field v-model="studentId" :readonly="store.isLoggedIn" type="number" min="0" label="Student ID">
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <md-filled-text-field :disabled="isPlacingOrder" v-model="firstName" :readonly="store.isLoggedIn" label="First name">
+                  <md-icon slot="leadingicon" v-html="icon('person', true)"  />
+                </md-filled-text-field>
+                <md-filled-text-field :disabled="isPlacingOrder" v-model="lastName" :readonly="store.isLoggedIn" label="Last name">
+                  <md-icon slot="leadingicon" v-html="icon('person', true)"  />
+                </md-filled-text-field>
+              </div>
+              <md-filled-text-field :disabled="isPlacingOrder" v-model="studentId" :readonly="store.isLoggedIn" type="number" min="0" label="Student ID">
                 <md-icon slot="leadingicon" v-html="icon('badge', true)"  />
               </md-filled-text-field>
-              <md-filled-text-field v-model="email" :readonly="store.isLoggedIn" type="email" label="Email">
+              <md-filled-text-field :disabled="isPlacingOrder" v-model="email" :readonly="store.isLoggedIn" type="email" label="Email">
                 <md-icon slot="leadingicon" v-html="icon('mail', true)"  />
               </md-filled-text-field>
-              <md-filled-select v-if="!store.isLoggedIn" v-model="course" label="Course" quick>
-                <md-icon slot="leadingicon" v-html="icon('school', true)"  />
-                <md-select-option v-for="(course, id) in courses" :key="id" :value="id" :headline="course" />
-              </md-filled-select>
+
+              <div class="grid grid-cols-1 xl:grid-cols-2 gap-6">
+                <md-filled-select v-if="!store.isLoggedIn" v-model="course" :disabled="store.isLoggedIn || isPlacingOrder" label="Course" quick>
+                  <md-icon slot="leadingicon" v-html="icon('school', true)"  />
+                  <md-select-option v-for="(course, id) in courses" :key="id" :value="id" :headline="course" />
+                </md-filled-select>
+                <md-filled-select v-else v-model="course" label="Course" disabled quick>
+                  <md-icon slot="leadingicon" v-html="icon('school', true)"  />
+                  <md-select-option :value="1" headline="BSCS" />
+                </md-filled-select>
+
+                <md-filled-select label="Year level" :disabled="store.isLoggedIn || isPlacingOrder" v-model="year" quick>
+                  <md-icon slot="leadingicon" v-html="icon('school', true)" />
+                  <md-select-option :value="1" headline="1st year" />
+                  <md-select-option :value="2" headline="2nd year" />
+                  <md-select-option :value="3" headline="3rd year" />
+                  <md-select-option :value="4" headline="4th year" />
+                </md-filled-select>
+              </div>
+
               <div v-if="!store.isLoggedIn" class="flex justify-end items-center text-on-surface-variant text-sm mt-3">
                 <label title="Your info will be saved locally in your browser" class="cursor-help">
                   <md-checkbox />
@@ -45,7 +63,7 @@
             </p>
           </div>
 
-          <div class="bg-surface-container-low justify-between p-10 rounded-2xl flex gap-10 flex-col sm:flex-row items-center">
+          <div class="bg-surface-container justify-between p-10 rounded-2xl flex gap-10 flex-col sm:flex-row items-center">
 
             <div class="w-32 h-32">
               <VImage
@@ -63,11 +81,11 @@
                   <h4 class="title-small text-outline">{{ store.checkoutDetails.variant?.name || 'Standard' }}</h4>
                 </div>
                 <div class="text-primary font-medium title-medium">
-                  &#8369; {{ store.checkoutDetails.product.price }}
+                  {{ toCurrency(store.checkoutDetails.product.price) }}
                 </div>
               </div>
               <div class="flex justify-end">
-                <md-outlined-select v-model="quantity" label="Quantity" class="w-min" quick>
+                <md-outlined-select :disabled="isPlacingOrder" v-model="quantity" label="Quantity" class="w-min" quick>
                   <md-select-option
                     v-for="i in store.checkoutDetails.product.max_quantity"
                     :key="i"
@@ -82,11 +100,18 @@
         </div>
 
         <div class="flex flex-col gap-5">
-          <h3 class="title-large font-medium text-on-surface-variant">Checkout</h3>
-          <div class="bg-surface-container-low p-10 rounded-2xl flex flex-col gap-6">
+          <div>
+            <h3 class="title-large font-medium text-on-surface-variant mb-0.5">Checkout</h3>
+            <p class="label-medium text-on-surface-variant">
+              Select your preferred mode of payment
+            </p>
+          </div>
+
+          <div class="bg-surface-container p-10 rounded-2xl flex flex-col gap-6">
             <div class="flex justify-center gap-5 text-on-surface-variant label-large">
               <label>
                 <md-radio
+                  :disabled="isPlacingOrder"
                   :checked="mop === ModeOfPayment.WALK_IN"
                   @click="mop = ModeOfPayment.WALK_IN"
                 />
@@ -94,6 +119,7 @@
               </label>
               <label>
                 <md-radio
+                  :disabled="isPlacingOrder"
                   :checked="mop === ModeOfPayment.GCASH"
                   @click="mop = ModeOfPayment.GCASH"
                 />
@@ -115,8 +141,8 @@
             </Transition>
 
             <div class="flex flex-col items-center justify-center">
-              <md-filled-button :disabled="!canPlaceOrder" @click="placeOrder">
-                Place order
+              <md-filled-button :disabled="!canPlaceOrder || isPlacingOrder" @click="placeOrder">
+                {{ isPlacingOrder ? 'Placing order...' : 'Place order' }}
               </md-filled-button>
             </div>
           </div>
@@ -147,6 +173,7 @@ import "@material/web/select/select-option";
 import "@material/web/button/filled-button";
 import "@material/web/checkbox/checkbox";
 import "@material/web/radio/radio";
+import { toCurrency } from "~/utils/string";
 
 const store = useStore();
 const courses = ref();
@@ -155,15 +182,32 @@ const firstName = ref();
 const lastName = ref();
 const studentId = ref();
 const course = ref();
+const year = ref();
 const email = ref();
 const quantity = ref(1);
 const screenshot = ref();
 const mop = ref(ModeOfPayment.WALK_IN);
 
+const isPlacingOrder = ref(false);
+
 const canPlaceOrder = computed(() => {
-  return firstName.value && lastName.value && studentId.value && email.value && email.value.includes("@") && course.value && 
+  return firstName.value && lastName.value && studentId.value && email.value && email.value.includes("@") && course.value && year.value &&
     (mop.value === ModeOfPayment.WALK_IN || (mop.value === ModeOfPayment.GCASH && screenshot.value && screenshot.value instanceof File));
 });
+
+type OrderRequest = {
+  products_id: number,
+  variations_id?: number,
+  mode_of_payment: ModeOfPayment,
+  quantity: number,
+  students_id?: string,
+  students_first_name?: string,
+  students_last_name?: string,
+  students_email?: string,
+  students_course?: number,
+  students_year?: number;
+  proof?: File;
+};
 
 onMounted(() => {
   quantity.value = store.checkoutDetails?.product.max_quantity || 1;
@@ -174,6 +218,7 @@ onMounted(() => {
     lastName.value = store.student.last_name;
     studentId.value = store.student.student_id;
     email.value = store.student.email_address;
+    year.value = store.student.year_level;
   }
 
   makeRequest("GET", Endpoints.Courses, null, response => {
@@ -187,31 +232,49 @@ onMounted(() => {
 });
 
 function placeOrder() {
-  if (!canPlaceOrder.value) return;
+  if (!store.checkoutDetails) {
+    toast.error("No product to checkout!");
+    return;
+  }
+
+  // if (!canPlaceOrder.value) return;
   store.isLoading = true;
+  isPlacingOrder.value = true;
 
-  // makeRequest("POST", Endpoints.Orders, {
-  //   product_id: store.checkoutDetails.product.id,
-  //   variant_id: store.checkoutDetails.variant?.id,
-  //   quantity: quantity.value,
-  //   first_name: firstName.value,
-  //   last_name: lastName.value,
-  //   student_id: studentId.value,
-  //   email_address: email.value,
-  //   course_id: course.value,
-  //   mode_of_payment: mop.value,
-  //   screenshot: screenshot.value
-  // }, response => {
-  //   store.isLoading = false;
+  const data: OrderRequest = {
+    products_id: store.checkoutDetails.product.id,
+    mode_of_payment: mop.value,
+    quantity: quantity.value,
+  };
 
-  //   if (response.success) {
-  //     toast.success(response.message);
-  //     store.checkoutDetails = null;
-  //     return;
-  //   }
+  if (store.checkoutDetails.variant) {
+    data.variations_id = store.checkoutDetails.variant.id;
+  }
 
-  //   toast.error(response.message);
-  // });
+  if (!store.isLoggedIn) {
+    data.students_id = studentId.value;
+    data.students_first_name = firstName.value;
+    data.students_last_name = lastName.value;
+    data.students_email = email.value;
+    data.students_course = course.value;
+    data.students_year = year.value;
+  }
+
+  if (mop.value === ModeOfPayment.GCASH) {
+    data.proof = screenshot.value;
+  }
+
+  makeRequest<string>("POST", Endpoints.Orders, data, response => {  
+    store.isLoading = false;
+    isPlacingOrder.value = false;
+
+    if (response.success) {
+      toast.success(response.message);
+      return;
+    }
+
+    toast.error(response.message);
+  });
 }
 
 function onFilePut(event: Event) {

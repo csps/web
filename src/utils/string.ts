@@ -23,3 +23,10 @@ export function getItem(key: string) {
 export function setItem(key: string, value: string) {
   return localStorage.setItem(key, value);
 }
+
+/**
+ * Convert value to currency
+ */
+export function toCurrency(value: string | number) {
+  return value.toLocaleString('en-US', { style: 'currency', currency: 'PHP' });
+}

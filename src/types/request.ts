@@ -16,6 +16,4 @@ export type AnnouncementRequest = {
 export type PhotoRequest = {
   data: Buffer;
   type: string;
-  width: number;
-  height: number;
 }

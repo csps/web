@@ -10,7 +10,7 @@ import { getLocal } from "~/utils/page";
 const instance = axios.create({
   baseURL: `${location.protocol}//${location.hostname}:4000/`,
   headers: {
-    "Content-Type": "application/x-www-form-urlencoded",
+    "Content-Type": "multipart/form-data",
   }
 });
 
@@ -51,6 +51,14 @@ function makeRequest<T>(method: HttpMethod, endpoint: Endpoints, data: object | 
   
   // If method is not GET
   if (method !== "GET") {
+    // Create form data
+    const formData = new FormData();
+
+    // For every data
+    for (const key in data) {
+      // Append data to form data
+      formData.append(key, (data as any)[key]);
+    }
     // Add data to config
     config.data = data;
   }

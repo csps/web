@@ -34,7 +34,7 @@
             <div>
               <h2 class="headline-small mb-1 font-medium">{{ product?.name }}</h2>
               <h4 class="title-large">
-                &#8369; {{ product?.price }}
+                {{ product ? toCurrency(product.price) : 'Invalid price' }}
               </h4>
             </div>
             <div>
@@ -103,6 +103,7 @@ import "@material/web/chips/filter-chip";
 
 import VImage from '~/components/VImage.vue';
 import ImageTemplate from '~/composables/ImageTemplate.vue';
+import { toCurrency } from '~/utils/string';
 
 const store = useStore();
 const route = useRoute();

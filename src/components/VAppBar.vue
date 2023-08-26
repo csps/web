@@ -20,13 +20,8 @@
       </div>
 
       <!-- Title -->
-      <h3 v-if="store.isAdminLoggedIn">
-        CSPS Admin
-      </h3>
-      <div v-else>
-        <h3 class="hidden lg:block xl:block text-on-surface-variant">UC Main Computing Society of the Philippines - Students</h3>
-        <h3 class="block lg:hidden xl:hidden text-on-surface-variant">UC Main CSP-S</h3>
-      </div>
+      <h3 class="hidden lg:block xl:block text-on-surface-variant">UC Main Computing Society of the Philippines - Students</h3>
+      <h3 class="block lg:hidden xl:hidden text-on-surface-variant">UC Main CSP-S</h3>
 
       <!-- Navigation Links -->
       <div class="flex items-center gap-5 flex-grow justify-end">
@@ -44,9 +39,15 @@
             </md-icon-button>
           </router-link>
 
-          <router-link v-else-if="!store.isAdminLoggedIn" to="/login" tabindex="-1">
+          <router-link v-else to="/login" tabindex="-1">
             <md-icon-button title="Login">
               <md-icon v-html="icon('login')" />
+            </md-icon-button>
+          </router-link>
+
+          <router-link v-if="store.isAdminLoggedIn" to="/admin" tabindex="-1">
+            <md-icon-button title="Admin">
+              <md-icon v-html="icon('security')" />
             </md-icon-button>
           </router-link>
         </div>

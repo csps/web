@@ -119,7 +119,6 @@ router.beforeEach((to, _from, next) => {
 
     // If has token
     if (!!token) {
-
       isAdminLoginValid(isAdminLoginValid => {
         // If is valid
         if (isAdminLoginValid) {

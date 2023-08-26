@@ -63,8 +63,16 @@ function makeRequest<T>(method: HttpMethod, endpoint: Endpoints, data: object | 
     config.data = data;
   }
 
-  // If has token
-  if (getLocal("token").length > 0) {
+  // If has admin token
+  if (getLocal("csps_token").length > 0) {
+    // Add token to config
+    config.headers = {
+      Authorization: `Bearer ${getLocal("csps_token")}`
+    }
+  }
+
+  // If has student token
+  else if (getLocal("token").length > 0) {
     // Add token to config
     config.headers = {
       Authorization: `Bearer ${getLocal("token")}`

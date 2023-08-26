@@ -13,7 +13,7 @@
     </div>
 
     <div class="flex justify-center items-center min-h-screen" v-else>
-      <div class="surface error">
+      <div class="surface error text-center">
         {{ store.errorMessage }}
       </div>
     </div>
@@ -31,7 +31,7 @@ import { Env } from './config';
 import { useRoute } from "vue-router";
 
 import { useStore } from './store';
-import { isLoginValid } from './utils/network';
+import { isAdminLoginValid, isLoginValid } from './utils/network';
 import { removeLocal } from './utils/page';
 
 import "@material/web/progress/linear-progress";
@@ -41,6 +41,7 @@ const store = useStore();
 const route = useRoute();
 
 store.isLoading = true;
+
 
 makeRequest<any>("GET", Endpoints.Config, null, response => {
   store.isLoading = false;
@@ -67,6 +68,24 @@ makeRequest<any>("GET", Endpoints.Config, null, response => {
       removeLocal("token");
       // Set logged out
       store.isLoggedIn = false;
+    });
+
+    isAdminLoginValid(isAdminLoginValid => {
+      /// Set loading to false
+      store.isLoading = false;
+
+      // If is valid
+      if (isAdminLoginValid) {
+        // Set admin logged in
+        store.isAdminLoggedIn = true;
+        // return
+        return;
+      }
+
+      // If not valid, clear local storage
+      removeLocal("csps_token");
+      // Set logged out
+      store.isAdminLoggedIn = false;
     });
 
     return;

@@ -39,7 +39,7 @@
             </md-icon-button>
           </router-link>
 
-          <router-link v-else to="/login" tabindex="-1">
+          <router-link v-else-if="!store.isAdminLoggedIn" to="/login" tabindex="-1">
             <md-icon-button title="Login">
               <md-icon v-html="icon('login')" />
             </md-icon-button>

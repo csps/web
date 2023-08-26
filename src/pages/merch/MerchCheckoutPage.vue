@@ -200,12 +200,12 @@ type OrderRequest = {
   variations_id?: number,
   mode_of_payment: ModeOfPayment,
   quantity: number,
-  students_id?: string,
-  students_first_name?: string,
-  students_last_name?: string,
-  students_email?: string,
-  students_course?: number,
-  students_year?: number;
+  student_id?: string,
+  student_first_name?: string,
+  student_last_name?: string,
+  student_email?: string,
+  student_course?: number,
+  student_year?: number;
   proof?: File;
 };
 
@@ -252,12 +252,12 @@ function placeOrder() {
   }
 
   if (!store.isLoggedIn) {
-    data.students_id = studentId.value;
-    data.students_first_name = firstName.value;
-    data.students_last_name = lastName.value;
-    data.students_email = email.value;
-    data.students_course = course.value;
-    data.students_year = year.value;
+    data.student_id = studentId.value;
+    data.student_first_name = firstName.value;
+    data.student_last_name = lastName.value;
+    data.student_email = email.value;
+    data.student_course = course.value;
+    data.student_year = year.value;
   }
 
   if (mop.value === ModeOfPayment.GCASH) {

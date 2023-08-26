@@ -1,3 +1,5 @@
+import { OrderStatus } from "~/types/enums";
+
 /**
  * Set page title
  * @param title Page title
@@ -36,4 +38,22 @@ export function getLocal(key: string): string {
  */
 export function removeLocal(key: string) {
   localStorage.removeItem(key);
+}
+
+/**
+ * Map order status
+ */
+export function mapOrderStatus(status: OrderStatus) {
+  switch (status) {
+    case OrderStatus.PENDING_PAYMENT:
+      return "Pending";
+    case OrderStatus.COMPLETED:
+      return "Completed";
+    case OrderStatus.REJECTED:
+      return "Rejected";
+    case OrderStatus.CANCELLED_BY_USER:
+      return "Cancelled by user";
+    case OrderStatus.CANCELLED_BY_ADMIN:
+      return "Cancelled by admin";
+  }
 }

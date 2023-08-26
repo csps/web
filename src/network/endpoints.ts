@@ -20,6 +20,7 @@ enum Endpoints {
   Orders = "/orders",
   QRCode = "/qrcode/:q",
   QRCodeDark = "/qrcode/:q/dark",
+  OrdersReceipt = "/orders/receipt/:receipt",
 }
 
 export default Endpoints;

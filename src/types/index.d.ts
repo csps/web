@@ -41,6 +41,7 @@ declare global {
   /**
    * Models
    */
+
   type AnnouncementModel = {
     id: number,
     admin_student_id: string,
@@ -48,6 +49,13 @@ declare global {
     content: string,
     photos_id?: number,
     date_stamp: string
+  }
+  
+  type ConfigModel = {
+    id: number;
+    key: string;
+    value: string;
+    date_stamp: string;
   }
   
   type EventModel = {
@@ -64,7 +72,7 @@ declare global {
   
   type OrderModel = {
     id: number;
-    students_id: string;
+    student_id: string;
     products_id: number;
     variations_id: number;
     quantity: number;
@@ -77,8 +85,62 @@ declare global {
     date_stamp: string;
   }
   
+  type NonBscsOrderModel = {
+    id: number;
+    receipt_id: string;
+    products_id: number;
+    variations_id: number;
+    quantity: number;
+    mode_of_payment: ModeOfPayment;
+    student_id: string;
+    first_name: string;
+    last_name: string;
+    email_address: string;
+    course: number;
+    year_level: number;
+    status: OrderStatus;
+    user_remarks: string;
+    admin_remarks: string;
+    status_updated: string;
+    edit_date: string;
+    date_stamp: string;
+  }
+  
+  type FullOrderModel = {
+    id: string;
+    thumbnail: number;
+    receipt_id: string;
+    products_id: number;
+    product_name: string;
+    product_price: number;
+    variations_id: number;
+    quantity: number;
+    mode_of_payment: ModeOfPayment;
+    student_id: string;
+    first_name: string;
+    last_name: string;
+    email_address: string;
+    course: number;
+    year_level: number;
+    status: OrderStatus;
+    user_remarks: string;
+    admin_remarks: string;
+    status_updated: string;
+    edit_date: string;
+    date_stamp: string;
+  }
+  
   type PhotoModel = {
     id: number;
+    name?: string;
+    type: string;
+    data: Buffer;
+    date_stamp: string;
+  }
+  
+  type ReceiptModel = {
+    id: number;
+    name?: string;
     type: string;
     data: Buffer;
     date_stamp: string;

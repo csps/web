@@ -18,6 +18,8 @@ enum Endpoints {
   Config = "/config",
   Courses = "/courses",
   Orders = "/orders",
+  QRCode = "/qrcode/:q",
+  QRCodeDark = "/qrcode/:q/dark",
 }
 
 export default Endpoints;

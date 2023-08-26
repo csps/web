@@ -57,3 +57,12 @@ export function isAdminLoginValid(callback: (valid: boolean) => void) {
 export function getPhotoLink(id: number) {
   return `${location.protocol}//${location.hostname}:4000` + Endpoints.PhotosIdRaw.replace(":id", id.toString());
 }
+
+/**
+ * Get the QR Code link
+ * @param q QR Code data
+ * @param isDark If the QR Code is dark
+ */
+export function getQRCodeLink(q: string, isDark = false) {
+  return `${location.protocol}//${location.hostname}:4000` + (isDark ? Endpoints.QRCodeDark : Endpoints.QRCode).replace(":q", q);
+}

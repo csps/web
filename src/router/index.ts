@@ -117,6 +117,12 @@ router.beforeEach((to, _from, next) => {
       return next();
     }
 
+    // If going to student login or profile and has admin token
+    if (["Login", "Profile"].includes(to.name as string) && !!token) {
+      // Go to admin
+      return next({ name: "Admin" });
+    }
+
     // If has token
     if (!!token) {
       isAdminLoginValid(isAdminLoginValid => {

@@ -1,32 +1,26 @@
 <template>
   <div class="product overflow-hidden">
-    <div class="w-64 h-64">
-      <VImage
-        class="rounded-xl overflow-hidden"
-        v-if="product?.thumbnail && product.thumbnail > 0"
-        :src="getPhotoLink(product.thumbnail)"
-        :alt="product.name"
-      />
+    <md-ripple />
+    <router-link :to="'/merch/' + product.id" tabindex="-1" :title="'View ' + product.name">
+      <div class="w-56 min-h-[14rem] flex items-center justify-center">
+        <VImage
+          class="rounded-xl overflow-hidden"
+          v-if="product?.thumbnail && product.thumbnail > 0"
+          :src="getPhotoLink(product.thumbnail)"
+          :alt="product.name"
+        />
+    
+        <ImageTemplate class="h-full" v-else />
+      </div>
   
-      <ImageTemplate class="h-full" v-else />
-    </div>
-
-    <div class="content py-5">
-      <p class="text-sm text-error mb-3" v-if="!product.stock || product.stock <= 0">Out of stock</p>
-      <div class="flex gap-6">
+      <div class="content py-5">
+        <p class="text-sm text-error mb-3" v-if="!product.stock || product.stock <= 0">Out of stock</p>
         <div class="w-full">
           <h4>{{ product.name }}</h4>
           <h3>{{ toCurrency(product.price) }}</h3>
         </div>
-        <div class="flex justify-end items-center">
-          <router-link :to="'/merch/' + product.id" tabindex="-1" title="View merch">
-            <md-filled-tonal-button trailingIcon>
-              View
-            </md-filled-tonal-button>
-          </router-link>
-        </div>
       </div>
-    </div>
+    </router-link>
   </div>
 </template>
 
@@ -35,6 +29,7 @@ import { getPhotoLink } from "~/utils/network";
 import { toCurrency } from "~/utils/string";
 
 import "@material/web/icon/icon";
+import "@material/web/ripple/ripple";
 import "@material/web/button/filled-tonal-button";
 import "@material/web/iconbutton/icon-button";
 
@@ -54,7 +49,7 @@ defineProps<{
     @apply px-5 font-medium;
 
     h4 {
-      @apply text-on-surface-variant mb-2;
+      @apply text-on-surface-variant mb-1;
     }
 
     h3 {

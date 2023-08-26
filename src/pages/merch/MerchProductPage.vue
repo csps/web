@@ -1,5 +1,5 @@
 <template>
-  <div class="container mx-auto p-6 w-full lg:w-full xl:w-3/4 h-full flex-col flex justify-center text-on-surface-variant">
+  <div class="container mx-auto p-6 w-full lg:w-full xl:w-3/4 3xl:w-3/5 h-full flex-col flex justify-center text-on-surface-variant">
 
     <Transition name="slide-fade" mode="out-in">
       <div class="flex flex-col justify-center items-center h-full" v-if="product === null || isLoading">
@@ -20,7 +20,7 @@
         </div>
       </div>
   
-      <div v-else class="grid grid-cols-1 lg:grid-cols-2 gap-10 justify-center h-full w-full">
+      <div v-else class="flex flex-col lg:flex-row gap-10 justify-center h-full w-full">
         
         <div class="rounded-2xl px-6 flex justify-center items-center h-full">
           <div class="h-[400px] w-[400px]">
@@ -50,9 +50,9 @@
           </p>
 
           <div class="flex gap-4 items-center justify-center md:justify-start"> 
-            <p class="text-sm">
+            <p class="title-medium">
               <span v-if="variation ? variation.stock > 0 : (product?.stock && product.stock > 0)">
-                <span class="title-medium text-primary font-medium">{{ variation ? variation.stock : product?.stock }}</span> stocks left
+                <span class="font-medium">{{ variation ? variation.stock : product?.stock }}</span> stocks left
               </span>
               <span class="text-error font-medium" v-else>
                 We're out of stock! :(
@@ -96,6 +96,7 @@ import { ModeOfPayment } from "~/types/enums";
 import { useRouter } from 'vue-router';
 
 import "@material/web/icon/icon";
+import "@material/web/divider/divider";
 import "@material/web/button/filled-button";
 import "@material/web/progress/linear-progress";
 import "@material/web/iconbutton/icon-button";

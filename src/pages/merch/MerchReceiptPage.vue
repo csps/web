@@ -8,9 +8,9 @@
 
     <div class="flex flex-col items-center" v-else-if="isValid">
       <h2 class="headline-small font-medium">Order success!</h2>
-      <p class="body-medium">Your order has been successfully placed.</p>
+      <p class="body-medium">{{ store.isLoggedIn ? Env.checkout_order_success : Env.checkout_order_success_not_logged_in }}</p>
   
-      <div class="mt-4">
+      <div v-if="store.isLoggedIn" class="mt-4">
         <router-link to="/orders">
           <md-filled-button class="whitespace-nowrap" title="See my orders">
             <md-icon slot="icon" v-html="icon('shopping_cart', true)" />
@@ -82,6 +82,7 @@ import "@material/web/progress/linear-progress";
 import { ModeOfPayment } from "~/types/enums";
 import { toCurrency } from "~/utils/string";
 import { mapOrderStatus } from "~/utils/page";
+import { Env } from "~/config";
 
 const store = useStore();
 const route = useRoute();

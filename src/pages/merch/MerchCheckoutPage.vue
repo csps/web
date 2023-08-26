@@ -153,8 +153,10 @@
 </template>
 
 <script lang="ts" setup>
+import { useRouter } from "vue-router";
 import { computed, onMounted, ref } from "vue";
 import { Endpoints, makeRequest } from "~/network/request";
+import { toCurrency } from "~/utils/string";
 import { getPhotoLink } from '~/utils/network';
 import { ModeOfPayment } from "~/types/enums";
 import { toast } from "vue3-toastify";
@@ -173,9 +175,9 @@ import "@material/web/select/select-option";
 import "@material/web/button/filled-button";
 import "@material/web/checkbox/checkbox";
 import "@material/web/radio/radio";
-import { toCurrency } from "~/utils/string";
 
 const store = useStore();
+const router = useRouter();
 const courses = ref();
 
 const firstName = ref();
@@ -270,6 +272,11 @@ function placeOrder() {
 
     if (response.success) {
       toast.success(response.message);
+
+      router.replace({ name: "Receipt", params: {
+        receipt: response.data
+      }});
+
       return;
     }
 

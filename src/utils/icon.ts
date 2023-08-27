@@ -114,6 +114,9 @@ import CheckOutlined from "@material-symbols/svg-700/rounded/check.svg?raw";
 import Groups from "@material-symbols/svg-700/rounded/groups-fill.svg?raw";
 import GroupsOutlined from "@material-symbols/svg-700/rounded/groups.svg?raw";
 
+import ChevronRight from "@material-symbols/svg-700/rounded/chevron_right-fill.svg?raw";
+import ChevronRightOutlined from "@material-symbols/svg-700/rounded/chevron_right.svg?raw";
+
 // Icon type
 export type Icon = "arrow_back" | "menu" | "photo_camera" | "favorite" |
   "arrow_forward" | "verified" | "lock" | "visibility" | "visibility_off" | 
@@ -121,7 +124,7 @@ export type Icon = "arrow_back" | "menu" | "photo_camera" | "favorite" |
   "link" | "shopping_cart" | "badge" | "school" | "mail" | "add" | "remove" | "qr_code" |
   "shopping_cart_checkout" | "ballot" | "deployed_code" | "steppers" | "search" |
   "person" | "security" | "settings" | "tune" | "receipt" | "more_vert" | "check" |
-  "groups";
+  "groups" | "chevron_right";
 
 /**
  * Material Icon
@@ -203,6 +206,8 @@ export function icon(name: Icon, outlined: boolean = false) {
   if (name === "check") return outlined ? CheckOutlined : Check;
   // Groups
   if (name === "groups") return outlined ? GroupsOutlined : Groups;
+  // Chevron Right
+  if (name === "chevron_right") return outlined ? ChevronRightOutlined : ChevronRight;
 
   // Default
   return null;

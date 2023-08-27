@@ -16,6 +16,14 @@ export enum OrderStatus {
   REJECTED = 6,
 }
 
+// Status
+export enum Status {
+  SUCCESS,
+  ERROR,
+  INFO,
+  WARNING
+}
+
 // Mode of payments
 export enum ModeOfPayment {
   WALK_IN = 1,

@@ -1,6 +1,6 @@
 <template>
-  <div class="flex justify-center items-center w-full h-full flex-col gap-6">
-    <div class="container mx-auto">
+  <div>
+    <div class="container mx-auto px-6">
       <div class="overflow-x-scroll">
         <md-tabs>
           <md-tab v-for="t in tabs" :key="t.name" @click="tab = t.id">
@@ -12,17 +12,22 @@
     </div>
 
     <div>
-      <Transition name="slide-fade" mode="out-in">
-        <TabDashboard v-if="tab === 'dashboard'" />
-        <TabOrders v-else-if="tab === 'orders'" />
-        <TabSettings v-else-if="tab === 'settings'" />
-        <TabEnvironment v-else-if="tab === 'env'" />
 
-        <div class="flex justify-center items-center" v-else>
-          Tab not found!
-        </div>
-      </Transition>
+      <div class="flex justify-center mt-5">
+        <Transition name="slide-fade" mode="out-in">
+          <TabDashboard v-if="tab === 'dashboard'" />
+          <TabDashboard v-else-if="tab === 'students'" />
+          <TabOrders v-else-if="tab === 'orders'" />
+          <TabSettings v-else-if="tab === 'settings'" />
+          <TabEnvironment v-else-if="tab === 'env'" />
+  
+          <div class="flex justify-center items-center" v-else>
+            Tab not found!
+          </div>
+        </Transition>
+      </div>
     </div>
+
   </div>  
 </template>
 
@@ -35,6 +40,7 @@ import "@material/web/tabs/tabs";
 import "@material/web/icon/icon";
 
 import TabOrders from "./tabs/TabOrders.vue";
+import TabStudents from "./tabs/TabsStudents.vue";
 import TabDashboard from "./tabs/TabDashboard.vue";
 import TabSettings from "./tabs/TabSettings.vue";
 import TabEnvironment from "./tabs/TabEnvironment.vue";
@@ -48,12 +54,13 @@ type Tab = {
 
 const tabs: Tab[] = [
   { id: "dashboard", name: "Dashboard", component: TabDashboard, icon: "dashboard" },
+  { id: "students",  name: "Students", component: TabStudents, icon: "groups" },
   { id: "orders",    name: "Orders", component: TabOrders, icon: "shopping_cart" },
   { id: "env",       name: "Environment Variables", component: TabOrders, icon: "tune" },
   { id: "settings",  name: "Settings", component: TabOrders, icon: "settings" },
 ];
 
-const tab = ref("dashboard");
+const tab = ref("orders");
 </script>
 
 <style lang="scss" scoped>

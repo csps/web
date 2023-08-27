@@ -99,13 +99,29 @@ import SettingsOutlined from "@material-symbols/svg-700/rounded/settings.svg?raw
 import Tune from "@material-symbols/svg-700/rounded/tune-fill.svg?raw";
 import TuneOutlined from "@material-symbols/svg-700/rounded/tune.svg?raw";
 
+import Search from "@material-symbols/svg-700/rounded/search-fill.svg?raw";
+import SearchOutlined from "@material-symbols/svg-700/rounded/search.svg?raw";
+
+import Receipt from "@material-symbols/svg-700/rounded/receipt-fill.svg?raw";
+import ReceiptOutlined from "@material-symbols/svg-700/rounded/receipt.svg?raw";
+
+import MoreVert from "@material-symbols/svg-700/rounded/more_vert-fill.svg?raw";
+import MoreVertOutlined from "@material-symbols/svg-700/rounded/more_vert.svg?raw";
+
+import Check from "@material-symbols/svg-700/rounded/check-fill.svg?raw";
+import CheckOutlined from "@material-symbols/svg-700/rounded/check.svg?raw";
+
+import Groups from "@material-symbols/svg-700/rounded/groups-fill.svg?raw";
+import GroupsOutlined from "@material-symbols/svg-700/rounded/groups.svg?raw";
+
 // Icon type
 export type Icon = "arrow_back" | "menu" | "photo_camera" | "favorite" |
   "arrow_forward" | "verified" | "lock" | "visibility" | "visibility_off" | 
   "home" | "diversity" | "dashboard" | "store" | "login" | "logout" | "account_circle" |
   "link" | "shopping_cart" | "badge" | "school" | "mail" | "add" | "remove" | "qr_code" |
-  "shopping_cart_checkout" | "ballot" | "deployed_code" | "steppers" |
-  "person" | "security" | "settings" | "tune";
+  "shopping_cart_checkout" | "ballot" | "deployed_code" | "steppers" | "search" |
+  "person" | "security" | "settings" | "tune" | "receipt" | "more_vert" | "check" |
+  "groups";
 
 /**
  * Material Icon
@@ -177,6 +193,16 @@ export function icon(name: Icon, outlined: boolean = false) {
   if (name === "settings") return outlined ? SettingsOutlined : Settings;
   // Tune
   if (name === "tune") return outlined ? TuneOutlined : Tune;
+  // Search
+  if (name === "search") return outlined ? SearchOutlined : Search;
+  // Receipt
+  if (name === "receipt") return outlined ? ReceiptOutlined : Receipt;
+  // More Vert
+  if (name === "more_vert") return outlined ? MoreVertOutlined : MoreVert;
+  // Check
+  if (name === "check") return outlined ? CheckOutlined : Check;
+  // Groups
+  if (name === "groups") return outlined ? GroupsOutlined : Groups;
 
   // Default
   return null;

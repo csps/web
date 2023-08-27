@@ -10,7 +10,9 @@
             </div>
           </md-filter-chip>
           <md-filter-chip :selected="role ==='dean'" @click="showMessage('dean')" label="Dean" title="View Message" data-sal="slide-right" data-sal-repeat>
-            <img slot="icon" class="rounded-full" :src="Dean" alt="Dean" />
+            <div slot="icon" class="rounded-full overflow-hidden">
+              <img :src="Dean" alt="Dean" />
+            </div>
           </md-filter-chip>
         </div>
         

@@ -1,7 +1,7 @@
 {
   "name": "csps-web",
   "private": true,
-  "version": "1.0.0-pre.77",
+  "version": "1.0.0-pre.78",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -20,7 +20,7 @@
   "dependencies": {
     "@material-symbols/svg-700": "^0.11.0",
     "@material/web": "^1.0.0-pre.16",
-    "axios": "^1.4.0",
+    "axios": "^1.5.0",
     "pinia": "^2.1.6",
     "sal.js": "^0.8.5",
     "swiper": "^10.2.0",

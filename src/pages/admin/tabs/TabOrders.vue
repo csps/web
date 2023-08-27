@@ -1,20 +1,29 @@
 <template>
   <div class="flex flex-col justify-center items-center w-full px-6">
-    
-    
-    <div class="flex items-center gap-6">
-      <md-outlined-text-field label="Search">
+    <div class="flex items-center gap-3">
+      <md-outlined-text-field v-model="data.search" label="Search">
         <md-icon slot="leadingicon" v-html="icon('search')" />
       </md-outlined-text-field>
+      <md-outlined-select v-model="data.column" label="Filter by">
+        <md-icon slot="leadingicon" v-html="icon('filter_alt', true)" />
+        <md-select-option
+          v-for="option in FullOrderEnum"
+          :key="option"
+          :value="option"
+          :headline="capitalize(option)"
+        />
+      </md-outlined-select>
     </div>
 
     <div class="flex justify-center items-center flex-wrap gap-2 mt-6">
-      <md-filter-chip elevated label="Pending" />
-      <md-filter-chip elevated label="Completed" />
-      <md-filter-chip elevated label="Cancelled by user" />
-      <md-filter-chip elevated label="Cancelled by admin" />
-      <md-filter-chip elevated label="Removed" />
-      <md-filter-chip elevated label="Rejected" />
+      <md-filter-chip
+        elevated
+        v-for="s in status"
+        :key="s.value"
+        :selected="data.filterStatus.includes(s.value)"
+        :label="s.label"
+        @click="onFilter(s.value)"
+      />
     </div>
 
     <!-- <p class="body-medium mt-3">{{ count }} results</p> -->
@@ -25,48 +34,103 @@
     </div>
 
     <div v-else class="flex justify-center mt-10 container mx-auto">
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-3">
-        <OrderCard v-for="order in orders" :key="order.id" :order="order" />
+      <div v-if="data.orders.length > 0" class="grid grid-cols-1 lg:grid-cols-2 gap-3">
+        <OrderCard v-for="order in data.orders" :key="order.id" :order="order" />
+      </div>
+      <div v-else>
+        {{ message }}
       </div>
     </div>
-
-    <!-- <div class="mt-10" v-else>
-      Hello
-    </div> -->
   </div>
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted } from "vue";
 import { icon } from "~/utils/icon";
-import { toast } from "vue3-toastify";
+import { ref, onMounted, watch } from "vue";
 import { Endpoints, makeRequest } from "~/network/request";
+import { FullOrderEnum } from "~/types/models";
+import { OrderStatus } from "~/types/enums";
+import { capitalize } from "~/utils/string";
+import { Env } from "~/config";
 
 import "@material/web/button/filled-button";
 import "@material/web/progress/linear-progress";
 import "@material/web/textfield/outlined-text-field";
+import "@material/web/select/outlined-select";
 import "@material/web/chips/filter-chip";
 import "@material/web/chips/chip-set";
-// import "@material/web/select/filled-select";
-// import "@material/web/select/select-option";
+import "@material/web/select/filled-select";
+import "@material/web/select/select-option";
 
 import OrderCard from "../components/OrderCard.vue";
 
-const count = ref(0);
-const orders = ref<FullOrderModel[]>([]);
+const data = ref({
+  count: 0,
+  orders: [] as FullOrderModel[],
+  page: 1,
+  search: "",
+  filterStatus: [OrderStatus.PENDING_PAYMENT],
+  column: FullOrderEnum.receipt_id,
+});
+
+const message = ref("");
 const isLoading = ref(true);
 
-onMounted(() => {
-  makeRequest<FullOrderModel[]>("GET", Endpoints.Orders, null, response => {
+const status = [
+  { value: OrderStatus.PENDING_PAYMENT, label: "Pending" },
+  { value: OrderStatus.COMPLETED, label: "Completed" },
+  { value: OrderStatus.CANCELLED_BY_USER, label: "Cancelled by user" },
+  { value: OrderStatus.CANCELLED_BY_ADMIN, label: "Cancelled by admin" },
+  { value: OrderStatus.REMOVED, label: "Removed" },
+  { value: OrderStatus.REJECTED, label: "Rejected" },
+];
+
+watch([
+  () => data.value.search,
+  () => data.value.column,
+  () => data.value.filterStatus,
+], v => {
+  fetchOrders(v[0]);
+});
+
+onMounted(fetchOrders);
+
+function fetchOrders(search = "") {
+  isLoading.value = true;
+  data.value.count = 0;
+  data.value.orders = [];
+
+  const request: any = {
+    search_value: JSON.stringify([search, ...data.value.filterStatus]),
+    search_column: JSON.stringify([data.value.column, ...Array(data.value.filterStatus.length).fill(FullOrderEnum.status)]),
+    page: data.value.page,
+    limit: Env.admin_orders_per_page
+  };
+
+  makeRequest<FullOrderModel[]>("GET", Endpoints.Orders, request, response => {
     isLoading.value = false;
+    data.value.orders = [];
 
     if (response.success) {
-      count.value = response.data.length;
-      orders.value = response.data;
+      data.value.count = response.data.length;
+      data.value.orders = response.data;
       return;
     }
 
-    toast.error(response.message);
+    message.value = response.message;
   });
-});
+}
+
+function onFilter(status: OrderStatus) {
+  const index = data.value.filterStatus.indexOf(status);
+
+  if (index === -1) {
+    data.value.filterStatus.push(status);
+    data.value.filterStatus = [...data.value.filterStatus];
+    return;
+  }
+
+  data.value.filterStatus.splice(index, 1);
+  data.value.filterStatus = [...data.value.filterStatus];
+}
 </script>

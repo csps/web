@@ -30,3 +30,10 @@ export function setItem(key: string, value: string) {
 export function toCurrency(value: string | number) {
   return value.toLocaleString('en-US', { style: 'currency', currency: 'PHP' });
 }
+
+/**
+ * Capitalize the first letter of each word
+ */
+export function capitalize(text: string) {
+  return text.replace(/_/g, " ").replace(/\w\S*/g, (w) => (w.replace(/^\w/, (c) => c.toUpperCase())));
+}

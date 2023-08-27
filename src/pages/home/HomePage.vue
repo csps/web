@@ -19,8 +19,8 @@
         <h2 class="headline-medium font-semibold text-on-surface-variant" data-sal="slide-right" data-sal-repeat>
           {{ store.isLoggedIn ? `Hello, ${store.student.first_name} ${store.student.last_name}` : "Dive into the world of Computer Science" }}
         </h2>
-        <!-- data-sal="slide-right" data-sal-delay="100" data-sal-repeat -->
-        <h5 v-if="!store.isLoggedIn" class="title-medium text-on-surface-variant mt-2 mb-4">
+
+        <h5 v-if="!store.isLoggedIn" class="title-medium text-on-surface-variant mt-2 mb-4" data-sal="slide-right" data-sal-delay="100" data-sal-repeat>
           Connect, collaborate, and Grow Together
         </h5>
 

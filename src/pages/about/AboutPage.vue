@@ -4,7 +4,7 @@
     <div class="rounded-br-3xl rounded-bl-3xl -z-[1]">
       <div class="container mx-auto text-center pb-10 2xl:p-12 px-6" data-sal="zoom-in" data-sal-repeat>
         <div class="flex flex-col items-center px-8 text-center mt-2">
-          <h4 class="mt-2 text-base md:text-2xl text-on-surface-variant mb-2 md:mb-3 font-bold">
+          <h4 class="mt-2 text-base md:text-2xl text-on-surface-variant mb-2 md:mb-3 font-semibold">
             Computing Society of the Philippines - Students
           </h4>
           <h5 class="text-sm md:text-base text-outline">
@@ -30,7 +30,7 @@
         
         <div class="flex flex-col items-center justify-center mb-16 mt-48" data-sal="zoom-in" data-sal-repeat>
           <img class="w-24 sm:w-32 mb-5" :src="CCSLogo" alt="CCS Logo" />
-          <h1 class="text-xl lg:text-2xl font-bold text-csps-primary text-center dark:text-on-surface-variant">
+          <h1 class="text-xl lg:text-2xl font-semibold text-csps-primary text-center dark:text-on-surface-variant">
             College of Computer Studies
           </h1>
         </div>
@@ -84,7 +84,7 @@
       
         <div class="flex flex-col items-center justify-center my-16 lg:my-24" data-sal="zoom-in" data-sal-repeat>
           <img class="w-24 sm:w-32 mb-7" :src="UCLogo" alt="UC Logo" />
-          <h1 class="text-xl lg:text-2xl font-bold text-center text-csps-primary dark:text-on-surface-variant">
+          <h1 class="text-xl lg:text-2xl font-semibold text-center text-csps-primary dark:text-on-surface-variant">
             University of Cebu
           </h1>
         </div>
@@ -106,7 +106,7 @@
 
       <div class="pb-8">
         <div class="introduction">
-          <h1 class="text-2xl text-csps-primary dark:text-secondary font-bold mt-[150px] text-center" data-sal="zoom-in" data-sal-repeat>
+          <h1 class="text-2xl text-csps-primary dark:text-secondary font-semibold mt-[150px] text-center" data-sal="zoom-in" data-sal-repeat>
             MEET THE <span class="text-csps-secondary dark:text-tertiary-80">CSPS OFFICERS!</span>
           </h1>
 
@@ -131,7 +131,7 @@
                 <CardAbout class="mx-8 w-full md:w-1/3 xl:w-full" :title="officer.position">
                   <div class="flex flex-col items-center justify-center">
                     <img :src="officer.thumb" class="rounded-full w-64 mb-7 shadow-sm filter saturate-[0.8]" loading="lazy" />
-                    <h3 class="text-xl mb-2 font-bold">{{ officer.name }}</h3>
+                    <h3 class="text-xl mb-2 font-semibold">{{ officer.name }}</h3>
                     <p class="text-base text-center text-on-surface-variant font-medium">{{ officer.position }}</p>
                   </div>
                 </CardAbout>
@@ -211,7 +211,7 @@ onMounted(() => {
 
 .<style lang="scss" scoped>
 .title {
-  @apply mb-8 font-bold text-2xl lg:text-3xl;
+  @apply mb-8 font-semibold text-2xl lg:text-3xl;
 }
 
 .welcome {

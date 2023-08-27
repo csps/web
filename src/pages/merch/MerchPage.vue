@@ -3,7 +3,7 @@
     <!-- Call To Action -->
     <div class="rounded-br-3xl rounded-bl-3xl -z-[1]" v-show="!isLoading && message.length === 0">
       <div class="container mx-auto text-center pb-5 2xl:pb-8 px-6">
-        <h2 class="text-2xl md:text-3xl font-bold" data-sal="zoom-in" data-sal-repeat>
+        <h2 class="text-2xl md:text-3xl font-semibold" data-sal="zoom-in" data-sal-repeat>
           Style your own groove
         </h2>
         <h5 class="text-sm sm:text-base px-0 md:px-32 mt-2 mb-6" data-sal="zoom-in" data-sal-repeat>

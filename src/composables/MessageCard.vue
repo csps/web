@@ -45,7 +45,7 @@ defineProps({
 }
 
 h2 {
-  @apply text-xl font-bold mt-14 mb-1.5 text-on-surface-variant;
+  @apply text-xl font-semibold mt-14 mb-1.5 text-on-surface-variant;
 }
 
 h5 {

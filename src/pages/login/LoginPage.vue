@@ -2,7 +2,7 @@
   <div class="container mx-auto px-6 py-12 flex items-center">
     <div class="flex items-center justify-center w-full h-full">
       <div class="">
-        <h2 class="text-2xl md:text-3xl font-bold mb-1 text-on-surface-variant" data-sal="zoom-in">
+        <h2 class="text-2xl md:text-3xl font-semibold mb-1 text-on-surface-variant" data-sal="zoom-in">
           Welcome back, <span class="text-primary">ComSciPeepS</span>
         </h2>
         <h6 class="text-sm" data-sal="zoom-in" data-sal-delay="50">

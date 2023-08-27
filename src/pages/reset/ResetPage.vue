@@ -14,7 +14,7 @@
 
     <!-- Is success -->
     <div v-else>
-      <h2 class="text-2xl md:text-3xl font-bold mb-1 text-on-surface-variant">Reset your password</h2>
+      <h2 class="text-2xl md:text-3xl font-semibold mb-1 text-on-surface-variant">Reset your password</h2>
       <h6 class="mb-8 text-sm">Create a new password that you'll remember.</h6>
 
       <div class="flex flex-col gap-3">

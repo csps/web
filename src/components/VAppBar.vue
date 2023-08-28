@@ -91,7 +91,7 @@ import UCLogo from '~/assets/img/uc_logo.png';
 
 import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
-import { Env, NAV_LINKS } from "~/config";
+import { Config, NAV_LINKS } from "~/config";
 import { useStore } from "~/store";
 
 import "@material/web/switch/switch";
@@ -129,7 +129,7 @@ function onThemeChange() {
 
 function back() {
   router.back();
-  store.isShowBackButton = getHistoryLength() - (Env.initialHistoryLength as number) > 0;
+  store.isShowBackButton = getHistoryLength() - (Config.initialHistoryLength as number) > 0;
 }
 </script>
 

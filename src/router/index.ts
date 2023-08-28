@@ -3,7 +3,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import { setPageTitle, getHistoryLength, getLocal } from "~/utils/page";
 import { isAdminLoginValid, isLoginValid } from "~/utils/network";
 import { useStore } from "~/store";
-import { Env } from "~/config";
+import { Config } from "~/config";
 
 /**
  * The routes of the application.
@@ -88,7 +88,7 @@ const routes: RouteRecordRaw[] = [
 ];
 
 // Set initial history length
-Env.initialHistoryLength = getHistoryLength();
+Config.initialHistoryLength = getHistoryLength();
 
 /**
  * Creates a new router instance.
@@ -203,7 +203,7 @@ router.afterEach((to, from) => {
   if (to.path === from.path) return;
 
   // Set back button visibility
-  store.isShowBackButton = window.history.state.position - (Env.initialHistoryLength ? (Env.initialHistoryLength as number) : 0) > 0;
+  store.isShowBackButton = window.history.state.position - (Config.initialHistoryLength ? (Config.initialHistoryLength as number) : 0) > 0;
 });
 
 export default router;

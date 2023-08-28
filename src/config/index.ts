@@ -28,6 +28,10 @@ export const SOCIAL_LINKS = [
   { href: "https://github.com/csps", src: getSvgData(GithubSvg), alt: "CSP-S UC Main Github Organization" },
 ];
 
-export const Env: Map = {
+export const Config: Map = {
   initialHistoryLength: 0
+};
+
+export const Env: Map = {
+
 };

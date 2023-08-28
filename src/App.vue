@@ -42,8 +42,7 @@ const route = useRoute();
 
 store.isLoading = true;
 
-
-makeRequest<any>("GET", Endpoints.Config, null, response => {
+makeRequest<any>("GET", Endpoints.Env, null, response => {
   store.isLoading = false;
 
   if (response.success) {

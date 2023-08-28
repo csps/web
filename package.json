@@ -1,7 +1,7 @@
 {
   "name": "csps-web",
   "private": true,
-  "version": "1.0.0-pre.81",
+  "version": "1.0.0-pre.82",
   "type": "module",
   "scripts": {
     "dev": "vite",

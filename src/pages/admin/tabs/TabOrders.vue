@@ -1,7 +1,11 @@
 <template>
   <div class="flex flex-col justify-center items-center w-full px-6">
     <div class="flex items-center gap-3">
-      <md-outlined-text-field v-model="data.search" label="Search">
+      <md-outlined-text-field
+        v-model="data.search"
+        :label="'Search ' + capitalize(data.column)"
+        :prefix-text="data.column === FullOrderEnum.receipt_id ? 'CSPS' : ''"
+      >
         <md-icon slot="leadingicon" v-html="icon('search')" />
       </md-outlined-text-field>
       <md-outlined-select v-model="data.column" label="Filter by" quick>
@@ -15,9 +19,8 @@
       </md-outlined-select>
     </div>
 
-    <div class="flex justify-center items-center flex-wrap gap-2 mt-6">
+    <div class="flex justify-center items-center flex-wrap gap-2 mt-4">
       <md-filter-chip
-        elevated
         v-for="s in status"
         :key="s.value"
         :selected="data.filterStatus.includes(s.value)"
@@ -33,7 +36,7 @@
       <p>Fetching orders...</p>
     </div>
 
-    <div v-else class="flex justify-center mt-10 container mx-auto">
+    <div v-else class="flex justify-center mt-8 container mx-auto">
       <div v-if="data.orders.length > 0" class="grid grid-cols-1 lg:grid-cols-2 gap-3">
         <OrderCard v-for="order in data.orders" :key="order.id" :order="order" />
       </div>
@@ -59,7 +62,7 @@ import "@material/web/textfield/outlined-text-field";
 import "@material/web/select/outlined-select";
 import "@material/web/chips/filter-chip";
 import "@material/web/chips/chip-set";
-import "@material/web/select/filled-select";
+import "@material/web/select/outlined-select";
 import "@material/web/select/select-option";
 
 import OrderCard from "../components/OrderCard.vue";
@@ -101,7 +104,7 @@ function fetchOrders(search = "") {
   data.value.orders = [];
 
   const request: any = {
-    search_value: [search, ...data.value.filterStatus],
+    search_value: [data.value.column === FullOrderEnum.receipt_id ? 'CSPS' + search : search, ...data.value.filterStatus],
     search_column: [data.value.column, ...Array(data.value.filterStatus.length).fill(FullOrderEnum.status)],
     page: data.value.page,
     limit: Env.admin_orders_per_page

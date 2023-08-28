@@ -118,6 +118,6 @@ md-outlined-field, md-filled-field {
   --_label-text-type: var(--md-outlined-field-label-text-type, 400 1rem / 1.5rem var(--md-ref-typeface-plain, 'Poppins'));
 }
 
-md-outlined-select::part(menu) {
+md-outlined-select::part(menu), md-filled-select::part(menu) {
   max-height: 300px;
 }

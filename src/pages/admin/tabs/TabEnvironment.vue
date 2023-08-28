@@ -25,7 +25,7 @@
       </div>
     </div>
 
-    <DialogUpdateEnv v-model="isDialogOpen" :name="name" :value="value" />
+    <DialogAdminEnv v-model="isDialogOpen" :name="name" :value="value" />
   </div>  
 </template>
 
@@ -39,7 +39,7 @@ import { Env } from "~/config";
 import { icon } from "~/utils/icon";
 import { capitalize } from "~/utils/string";
 
-import DialogUpdateEnv from "~/components/dialogs/DialogUpdateEnv.vue";
+import DialogAdminEnv from "~/components/dialogs/DialogAdminEnv.vue";
 
 const isDialogOpen = ref(false);
 const name = ref("");

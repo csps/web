@@ -2,7 +2,7 @@
   <div class="product overflow-hidden">
     <md-ripple />
     <router-link :to="'/merch/' + product.id" tabindex="-1" :title="'View ' + product.name">
-      <div class="w-56 min-h-[14rem] flex items-center justify-center">
+      <div class="w-56 min-h-[14rem] flex items-center justify-center foreground">
         <VImage
           class="rounded-xl overflow-hidden"
           v-if="product?.thumbnail && product.thumbnail > 0"
@@ -43,10 +43,16 @@ defineProps<{
 
 <style lang="scss" scoped>
 .product {
-  @apply flex flex-col justify-between relative bg-surface-container rounded-xl w-min;
+  @apply flex flex-col justify-between relative bg-surface-container-low rounded-xl w-min;
+
+  animation: glow 1.5s ease-in-out infinite alternate;
+
+  .foreground {
+    @apply bg-surface-container rounded-xl;
+  }
 
   .content {
-    @apply px-5 font-medium;
+    @apply px-5 font-medium rounded-2xl;
 
     h4 {
       @apply text-on-surface-variant mb-1;
@@ -55,6 +61,15 @@ defineProps<{
     h3 {
       @apply text-base;
     }
+  }
+}
+
+@keyframes glow {
+  0% {
+    box-shadow: 0 0 100px -10px var(--md-sys-color-primary);
+  }
+  100% {
+    box-shadow: 0 0 100px -50px var(--md-sys-color-primary);
   }
 }
 </style>

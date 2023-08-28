@@ -82,6 +82,6 @@ function onAddEnvClick() {
 
 <style lang="scss" scoped>
 .item {
-  @apply relative flex flex-col justify-between p-6 rounded-[28px] w-full bg-surface-container;
+  @apply relative flex flex-col justify-between p-6 rounded-3xl w-full bg-surface-container;
 }
 </style>

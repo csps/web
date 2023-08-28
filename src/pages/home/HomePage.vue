@@ -50,7 +50,7 @@
           <swiper-slide
             v-for="message in messages"
             :key="message.name"
-            class="flex pt-28 pb-10 justify-center overflow-visible"
+            class="flex pt-32 pb-32 justify-center overflow-visible"
           >
             <MessageCard
               :image="message.image"
@@ -64,7 +64,7 @@
     </Transition>
 
     <!-- Announcements -->
-    <div class="container mx-auto px-6 flex justify-center mt-8 h-full">
+    <div class="container mx-auto px-6 flex justify-center bg-transparent mt-8 h-full">
       <Transition name="slide-fade" mode="out-in">
         <div v-if="isLoading">
           <md-circular-progress indeterminate />

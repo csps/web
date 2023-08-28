@@ -45,7 +45,7 @@
             </div>
           </div>
 
-          <p class="body-medium bg-surface-container p-6 rounded-xl">
+          <p class="body-medium bg-surface-container p-6 rounded-xl description">
             {{ product?.description }}
           </p>
 
@@ -191,5 +191,9 @@ function checkout() {
 <style lang="scss" scoped>
 md-text-button {
   --md-sys-color-primary: var(--md-sys-color-error);
+}
+
+.description {
+  @apply shadow-lg shadow-surface-container-highest;
 }
 </style>

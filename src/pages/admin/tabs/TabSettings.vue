@@ -56,6 +56,6 @@ const items: Item[] = [
 
 <style lang="scss" scoped>
 .item {
-  @apply relative flex flex-col justify-between p-6 rounded-[28px] w-full bg-surface-container md:w-2/3 xl:w-1/2;;
+  @apply relative flex flex-col justify-between p-6 rounded-3xl w-full bg-surface-container md:w-2/3 xl:w-1/2;;
 }
 </style>

@@ -7,8 +7,8 @@
     </div>
 
     <div class="flex flex-col items-center" v-else-if="isValid">
-      <h2 class="headline-small font-medium">Order success!</h2>
-      <p class="body-medium">{{ store.isLoggedIn ? Env.checkout_order_success : Env.checkout_order_success_not_logged_in }}</p>
+      <h2 class="headline-small font-medium mb-3">Order success!</h2>
+      <p class="body-medium text-center">{{ store.isLoggedIn ? Env.checkout_order_success : Env.checkout_order_success_not_logged_in }}</p>
   
       <div v-if="store.isLoggedIn" class="mt-4">
         <router-link to="/orders">

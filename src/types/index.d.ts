@@ -6,6 +6,7 @@ declare global {
     success: boolean,
     data: T,
     message: any,
+    count?: number
   }
 
   type DialogButton = {

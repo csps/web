@@ -10,6 +10,11 @@ interface Map {
   [key: string]: string | number
 }
 
+interface StringMap {
+  [key: string]: string
+}
+
+
 export const NAV_LINKS: {
   name: string,
   path: string,
@@ -32,6 +37,6 @@ export const Config: Map = {
   initialHistoryLength: 0
 };
 
-export const Env: Map = {
-
+export const Env: StringMap = {
+  
 };

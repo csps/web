@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="h-full">
     <div class="container mx-auto px-6">
       <div class="overflow-x-scroll">
         <md-tabs>
@@ -13,7 +13,7 @@
 
     <div>
 
-      <div class="flex justify-center mt-5">
+      <div class="flex justify-center mt-5 h-full">
         <Transition name="slide-fade" mode="out-in">
           <TabDashboard v-if="tab === 'dashboard'" />
           <TabDashboard v-else-if="tab === 'students'" />
@@ -60,7 +60,7 @@ const tabs: Tab[] = [
   { id: "settings",  name: "Settings", component: TabOrders, icon: "settings" },
 ];
 
-const tab = ref("env");
+const tab = ref("orders");
 </script>
 
 <style lang="scss" scoped>

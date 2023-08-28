@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col justify-center items-center w-full px-6">
+  <div class="flex flex-col justify-center items-center w-full px-6 container mx-auto h-full">
     <div class="flex items-center gap-3">
       <md-outlined-text-field
         v-model="data.search"
@@ -22,6 +22,7 @@
     <div class="flex justify-center items-center flex-wrap gap-2 mt-4">
       <md-filter-chip
         v-for="s in status"
+        elevated
         :key="s.value"
         :selected="data.filterStatus.includes(s.value)"
         :label="s.label"
@@ -29,14 +30,7 @@
       />
     </div>
 
-    <!-- <p class="body-medium mt-3">{{ count }} results</p> -->
-
-    <div v-if="isLoading" class="flex flex-col gap-3 items-center mt-10">
-      <md-linear-progress indeterminate />
-      <p>Fetching orders...</p>
-    </div>
-
-    <div v-else class="flex justify-center mt-8 container mx-auto">
+    <div class="flex justify-center mt-8 flex-grow">
       <div v-if="data.orders.length > 0" class="grid grid-cols-1 lg:grid-cols-2 gap-3">
         <OrderCard v-for="order in data.orders" :key="order.id" :order="order" />
       </div>
@@ -44,6 +38,15 @@
         {{ message }}
       </div>
     </div>
+
+    <VPagination
+      class="mt-5"
+      v-if="data.orders.length > 0"
+      :limit="parseInt(Env.admin_orders_per_page)"
+      :page="data.page"
+      :total="data.total"
+      @change="p => data.page = p"
+    />
   </div>
 </template>
 
@@ -54,6 +57,7 @@ import { Endpoints, makeRequest } from "~/network/request";
 import { FullOrderEnum } from "~/types/models";
 import { OrderStatus } from "~/types/enums";
 import { capitalize } from "~/utils/string";
+import { useStore } from "~/store";
 import { Env } from "~/config";
 
 import "@material/web/button/filled-button";
@@ -66,9 +70,10 @@ import "@material/web/select/outlined-select";
 import "@material/web/select/select-option";
 
 import OrderCard from "../components/OrderCard.vue";
+import VPagination from "~/components/VPagination.vue";
 
 const data = ref({
-  count: 0,
+  total: 0,
   orders: [] as FullOrderModel[],
   page: 1,
   search: "",
@@ -78,6 +83,7 @@ const data = ref({
 
 const message = ref("");
 const isLoading = ref(true);
+const store = useStore();
 
 const status = [
   { value: OrderStatus.PENDING_PAYMENT, label: "Pending" },
@@ -92,6 +98,7 @@ watch([
   () => data.value.search,
   () => data.value.column,
   () => data.value.filterStatus,
+  () => data.value.page,
 ], v => {
   fetchOrders(v[0]);
 });
@@ -100,8 +107,7 @@ onMounted(fetchOrders);
 
 function fetchOrders(search = "") {
   isLoading.value = true;
-  data.value.count = 0;
-  data.value.orders = [];
+  store.isLoading = true;
 
   const request: any = {
     search_value: [data.value.column === FullOrderEnum.receipt_id ? 'CSPS' + search : search, ...data.value.filterStatus],
@@ -112,10 +118,11 @@ function fetchOrders(search = "") {
 
   makeRequest<FullOrderModel[]>("GET", Endpoints.Orders, request, response => {
     isLoading.value = false;
+    store.isLoading = false;
     data.value.orders = [];
 
     if (response.success) {
-      data.value.count = response.data.length;
+      data.value.total = response.count || 0;
       data.value.orders = response.data;
       return;
     }

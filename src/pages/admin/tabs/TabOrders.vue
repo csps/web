@@ -4,7 +4,7 @@
       <md-outlined-text-field v-model="data.search" label="Search">
         <md-icon slot="leadingicon" v-html="icon('search')" />
       </md-outlined-text-field>
-      <md-outlined-select v-model="data.column" label="Filter by">
+      <md-outlined-select v-model="data.column" label="Filter by" quick>
         <md-icon slot="leadingicon" v-html="icon('filter_alt', true)" />
         <md-select-option
           v-for="option in FullOrderEnum"
@@ -101,8 +101,8 @@ function fetchOrders(search = "") {
   data.value.orders = [];
 
   const request: any = {
-    search_value: JSON.stringify([search, ...data.value.filterStatus]),
-    search_column: JSON.stringify([data.value.column, ...Array(data.value.filterStatus.length).fill(FullOrderEnum.status)]),
+    search_value: [search, ...data.value.filterStatus],
+    search_column: [data.value.column, ...Array(data.value.filterStatus.length).fill(FullOrderEnum.status)],
     page: data.value.page,
     limit: Env.admin_orders_per_page
   };

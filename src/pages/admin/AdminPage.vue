@@ -60,7 +60,7 @@ const tabs: Tab[] = [
   { id: "settings",  name: "Settings", component: TabOrders, icon: "settings" },
 ];
 
-const tab = ref("orders");
+const tab = ref("env");
 </script>
 
 <style lang="scss" scoped>

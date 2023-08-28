@@ -1,10 +1,15 @@
 <template>
   <div class="px-6">
 
-    <div class="flex justify-center mb-2">
+    <div class="flex flex-col items-center justify-center mb-2 gap-3">
       <md-outlined-text-field label="Search variable">
         <md-icon slot="leadingicon" v-html="icon('search')" />
       </md-outlined-text-field>
+
+      <md-filled-button @click="onAddEnvClick">
+        <md-icon slot="icon" v-html="icon('add')" />
+        Add variable
+      </md-filled-button>
     </div>
 
     <div class="flex flex-col items-center pt-6 gap-3">
@@ -26,9 +31,10 @@
 
 <script lang="ts" setup>
 import "@material/web/icon/icon";
+import "@material/web/button/filled-button";
 import "@material/web/textfield/outlined-text-field";
 
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import { Env } from "~/config";
 import { icon } from "~/utils/icon";
 import { capitalize } from "~/utils/string";
@@ -39,9 +45,20 @@ const isDialogOpen = ref(false);
 const name = ref("");
 const value = ref("");
 
+watch(isDialogOpen, v => {
+  if (!v) {
+    name.value = "";
+    value.value = "";
+  }
+});
+
 function onEnvClick(item: [string, string | number]) {
   name.value = item[0];
   value.value = item[1].toString();
+  isDialogOpen.value = true;
+}
+
+function onAddEnvClick() {
   isDialogOpen.value = true;
 }
 </script>

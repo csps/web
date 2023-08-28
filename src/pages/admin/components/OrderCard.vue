@@ -30,7 +30,9 @@
         <div class="flex justify-between gap-6">
           <div>
             <h4 class="title-small">{{ order.first_name }} {{ order.last_name }}</h4>
-            <h5 class="body-small">{{ order.email_address }}</h5>
+            <h5 class="body-small text-outline">
+              {{ order.email_address }}
+            </h5>
           </div>
   
           <div class="hidden md:flex justify-end">

@@ -9,7 +9,7 @@
         <md-icon slot="leadingicon" v-html="icon('search')" />
       </md-outlined-text-field>
       <md-outlined-select v-model="data.column" label="Filter by" quick>
-        <md-icon slot="leadingicon" v-html="icon('filter_alt', true)" />
+        <md-icon slot="leadingicon" v-html="icon('filter_list', true)" />
         <md-select-option
           v-for="option in FullOrderEnum"
           :key="option"
@@ -34,8 +34,8 @@
       <div v-if="data.orders.length > 0" class="grid grid-cols-1 lg:grid-cols-2 gap-3">
         <OrderCard v-for="order in data.orders" :key="order.id" :order="order" />
       </div>
-      <div v-else>
-        {{ message }}
+      <div class="surface primary" v-else>
+        {{ message || "Fetching orders..." }}
       </div>
     </div>
 
@@ -115,6 +115,14 @@ function fetchOrders(search = "") {
     page: data.value.page,
     limit: Env.admin_orders_per_page
   };
+
+  if (data.value.filterStatus.length === 0) {
+    message.value = "Select at least one status";
+    isLoading.value = false;
+    store.isLoading = false;
+    data.value.orders = [];
+    return;
+  }
 
   makeRequest<FullOrderModel[]>("GET", Endpoints.Orders, request, response => {
     isLoading.value = false;

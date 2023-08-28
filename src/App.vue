@@ -1,6 +1,6 @@
 <template>
   <div class="min-h-screen">
-    <md-linear-progress class="fixed right-0 left-0 top-0 min-w-full" :indeterminate="store.isLoading" />
+    <md-linear-progress class="fixed right-0 left-0 top-0 min-w-full z-[1]" :indeterminate="store.isLoading" />
 
     <div class="flex flex-col min-h-screen" v-if="store.errorMessage.length === 0" :class="{ 'justify-between': route.name !== 'Admin'  }">
       <VAppBar transparent />

@@ -22,8 +22,8 @@
             <h3 class="body-medium font-medium">{{ order.product_name }}</h3>
             <h5 class="body-small">{{ order.variations_name || 'Standard' }}</h5>
           </div>
-          <div class="flex flex-col gap-1 items-end">
-            <h3 class="label-medium mt-0.5">{{ mapOrderStatusLabel(order.status) }}</h3>
+          <div class="mt-0.5 body-small">
+            {{ getReadableDate(order.date_stamp) }}
           </div>
         </div>
   
@@ -31,7 +31,7 @@
           <div>
             <h4 class="title-small">{{ order.first_name }} {{ order.last_name }}</h4>
             <h5 class="body-small text-outline">
-              {{ order.email_address }}
+              <h3 class="label-medium mt-0.5">{{ mapOrderStatusLabel(order.status) }}</h3>
             </h5>
           </div>
   
@@ -67,31 +67,12 @@ import "@material/web/button/filled-button";
 import VImage from "~/components/VImage.vue";
 import ImageTemplate from "~/composables/ImageTemplate.vue";
 import { icon } from "~/utils/icon";
+import { getReadableDate } from "~/utils/date";
 // import { ModeOfPayment } from "~/types/enums";
 
 defineProps<{
   order: FullOrderModel;
 }>();
-
-// /**
-//  * Convert order status to generic status
-//  * @param status Generic status
-//  */
-// function mapOrderStatus(status: OrderStatus): Status {
-//   switch (status) {
-//     case OrderStatus.PENDING_PAYMENT:
-//       return Status.WARNING;
-//     case OrderStatus.COMPLETED:
-//       return Status.SUCCESS;
-//     case OrderStatus.CANCELLED_BY_USER:
-//     case OrderStatus.CANCELLED_BY_ADMIN:
-//     case OrderStatus.REMOVED:
-//     case OrderStatus.REJECTED:
-//       return Status.ERROR;
-//     default:
-//       return Status.INFO;
-//   }
-// }
 
 /**
  * Convert order status to label

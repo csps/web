@@ -117,11 +117,11 @@ import GroupsOutlined from "@material-symbols/svg-700/rounded/groups.svg?raw";
 import ChevronRight from "@material-symbols/svg-700/rounded/chevron_right-fill.svg?raw";
 import ChevronRightOutlined from "@material-symbols/svg-700/rounded/chevron_right.svg?raw";
 
-import FilterAlt from "@material-symbols/svg-700/rounded/filter_alt-fill.svg?raw";
-import FilterAltOutlined from "@material-symbols/svg-700/rounded/filter_alt.svg?raw";
-
 import ChevronLeft from "@material-symbols/svg-700/rounded/chevron_left-fill.svg?raw";
 import ChevronLeftOutlined from "@material-symbols/svg-700/rounded/chevron_left.svg?raw";
+
+import FilterList from "@material-symbols/svg-700/rounded/filter_list-fill.svg?raw";
+import FilterListOutlined from "@material-symbols/svg-700/rounded/filter_list.svg?raw";
 
 // Icon type
 export type Icon = "arrow_back" | "menu" | "photo_camera" | "favorite" |
@@ -130,7 +130,7 @@ export type Icon = "arrow_back" | "menu" | "photo_camera" | "favorite" |
   "link" | "shopping_cart" | "badge" | "school" | "mail" | "add" | "remove" | "qr_code" |
   "shopping_cart_checkout" | "ballot" | "deployed_code" | "steppers" | "search" |
   "person" | "security" | "settings" | "tune" | "receipt" | "more_vert" | "check" |
-  "groups" | "chevron_right" | "filter_alt" | "chevron_left";
+  "groups" | "chevron_right" | "filter_list" | "chevron_left";
 
 /**
  * Material Icon
@@ -214,8 +214,8 @@ export function icon(name: Icon, outlined: boolean = false) {
   if (name === "groups") return outlined ? GroupsOutlined : Groups;
   // Chevron Right
   if (name === "chevron_right") return outlined ? ChevronRightOutlined : ChevronRight;
-  // Filter alt
-  if (name === "filter_alt") return outlined ? FilterAltOutlined : FilterAlt;
+  // Filter list
+  if (name === "filter_list") return outlined ? FilterListOutlined : FilterList;
   // Chevron Left
   if (name === "chevron_left") return outlined ? ChevronLeftOutlined : ChevronLeft;
 

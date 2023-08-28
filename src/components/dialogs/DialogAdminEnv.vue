@@ -87,8 +87,8 @@ function submit() {
   isLoading.value = true;
   
   // Send the request
-  makeRequest(isAdd ? "POST" : "PUT", isAdd ? Endpoints.Env : Endpoints.EnvKey, { 
-    key: isAdd ? newName.value : props.name,
+  makeRequest(isAdd.value ? "POST" : "PUT", isAdd.value ? Endpoints.Env : Endpoints.EnvKey, { 
+    key: isAdd.value ? newName.value : props.name,
     value: newValue.value
   }, response => {
     // Set loading to false

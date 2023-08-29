@@ -40,7 +40,7 @@ defineProps({
 
 <style lang="scss" scoped>
 .profile {
-  @apply w-[175px] h-[175px] absolute overflow-hidden rounded-full top-28 left-1/2
+  @apply w-[175px] h-[175px] absolute overflow-hidden rounded-full left-1/2
     -translate-x-1/2 -translate-y-1/2 border-[6px] z-[500] border-surface-container;
 }
 
@@ -54,7 +54,7 @@ h5 {
 
 .message {
   @apply text-sm leading-6;
-  font-family: Roboto;
+  font-family: Arial, Roboto, sans-serif;
 }
 
 .message > p {
@@ -73,22 +73,9 @@ h5 {
   @apply rounded-[32px] p-6 pt-14 sm:p-6 md:p-10 mx-4 w-full bg-surface text-on-surface
     border-surface-container md:w-3/4 lg:w-4/5 xl:w-2/3 2xl:w-3/4 3xl:w-2/3 flex
     flex-col items-center border-[6px];
-
-  animation: glow 1.5s ease-in-out infinite alternate;
 }
 
 p {
   @apply mb-3;
-}
-
-
-@keyframes glow {
-  0% {
-    box-shadow: 0 0 120px -10px var(--md-sys-color-primary);
-  }
-
-  100% {
-    box-shadow: 0 0 120px -50px var(--md-sys-color-primary);
-  }
 }
 </style>

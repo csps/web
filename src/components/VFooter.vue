@@ -1,7 +1,7 @@
 <template>
-  <div class="flex items-end z-0">
+  <div class="flex items-end z-" :class="{ 'bg-surface-variant dark:bg-surface-container-high': route.name === 'Home' }">
     <footer class="w-screen px-6 py-12 flex flex-col justify-center z-[1000] text-on-surface-variant">
-      <div class="flex flex-col justify-center items-center gap-x-10 gap-y-5">
+      <div class="flex flex-col justify-center items-center gap-x-10 gap-y-2">
         <div class="flex flex-col">
           <!-- <div class="hidden sm:block text-xs text-center mt-4 mb-2 text-outline">
             Copyright &copy; {{ year }}. All rights reserved.
@@ -9,9 +9,13 @@
   
           <div class="flex items-center justify-center space-x-5 mt-2" tabindex="-1">
             <a class="relative outline-none" v-for="(link, i) in links" :href="link.href" :key="i" target="_blank">
-              <md-focus-ring />
-              <img :src="link.src" :alt="link.alt" class="w-5 sm:w-6" tabindex="-1" />
+              <!-- <md-focus-ring /> -->
+              <!-- <img :src="link.src" :alt="link.alt" class="w-5 sm:w-6" tabindex="-1" /> -->
+
+              <md-icon v-html="link.src" />
             </a>
+
+
           </div>
         </div>
 
@@ -35,12 +39,16 @@
 </template>
 
 <script lang="ts" setup>
-import FacebookSvg from "~/assets/svg/facebook.svg";
-import MailSvg from "~/assets/svg/mail.svg";
-import DiscordSvg from "~/assets/svg/discord.svg";
-import GithubSvg from "~/assets/svg/github.svg";
+import { useRoute } from "vue-router";
 
-import "@material/web/focus/md-focus-ring";
+import FacebookSvg from "~/assets/svg/facebook.svg?raw";
+import MailSvg from "~/assets/svg/mail.svg?raw";
+import DiscordSvg from "~/assets/svg/discord.svg?raw";
+import GithubSvg from "~/assets/svg/github.svg?raw";
+
+import "@material/web/icon/icon";
+
+const route = useRoute();
 
 // const year = new Date().getFullYear();
 
@@ -53,7 +61,7 @@ const links = [
 </script>
 
 <style lang="scss" scoped>
-a {
+a md-icon {
   @apply hover:scale-[1.30] hover:rotate-[360deg] transition-transform duration-500;
 
   img {

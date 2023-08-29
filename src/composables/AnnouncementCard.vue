@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-surface-container rounded-xl p-7">
+  <div class="bg-surface-container-low dark:bg-surface rounded-2xl p-7">
     <div class="flex justify-between items-center mb-5">
       <div class="flex items-center gap-3">
         <div>

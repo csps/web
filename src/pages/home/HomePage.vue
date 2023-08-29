@@ -1,7 +1,7 @@
 <template>
-  <div class="relative">
+  <div class="relative bg-surface-variant dark:bg-surface-container-high flex-grow">
     <!-- Call To Action -->
-    <div class="rounded-br-3xl rounded-bl-3xl -z-[1]">
+    <div class="rounded-br-3xl rounded-bl-3xl -z-[1] bg-surface">
       <div class="container mx-auto text-center pt-8 pb-5 px-6">
         <div class="flex justify-center gap-3 mb-6">
           <md-filter-chip :selected="role === 'adviser'" @click="showMessage('adviser')" label="Adviser" title="View Message" data-sal="slide-right" data-sal-repeat>
@@ -33,11 +33,14 @@
           </v-button>
         </div>
       </div>
+      <div class="w-full overflow-hidden mt-10">
+        <canvas ref="waveEl"></canvas>
+      </div>
     </div>
 
     <!-- Message -->
     <Transition name="slide-fade" mode="out-in">
-      <div v-show="role" class="h-full">
+      <div v-show="role" class="h-full bg-surface-variant dark:bg-surface-container-high">
         <swiper-container
           ref="swiper"
           effect="coverflow"
@@ -64,32 +67,33 @@
     </Transition>
 
     <!-- Announcements -->
-    <div class="container mx-auto px-6 flex justify-center bg-transparent mt-8 h-full">
-      <Transition name="slide-fade" mode="out-in">
+    <Transition name="slide-fade" mode="out-in">
+      <div v-show="!role" class="container mx-auto px-6 flex justify-center mt-20 h-full">
         <div v-if="isLoading">
           <md-circular-progress indeterminate />
         </div>
         <div v-else-if="message.length > 0" class="text-sm text-error">
           {{ message }}
         </div>
-        <div v-else class="w-full lg:w-3/4 2xl:w-3/5 3xl:w-1/2 flex flex-col gap-6">
+        <div v-else class="w-full lg:w-3/4 2xl:w-3/5 3xl:w-1/2 flex flex-col gap-6 pb-6">
           <AnnouncementCard
             v-for="announcement in announcements"
             :key="announcement.id"
             :data="announcement"
           />
         </div>
-      </Transition>
-    </div>
+      </div>
+    </Transition>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, watch } from 'vue';
 import { useStore } from "~/store";
 import { icon } from "~/utils/icon";
 import { register } from 'swiper/element/bundle';
 import { Endpoints, makeRequest } from '~/network/request';
+import wave from "~/utils/wave";
 import sal from "sal.js";
 
 import VButton from '~/components/VButton.vue';
@@ -108,7 +112,8 @@ import "@material/web/chips/filter-chip";
 register();
 
 const swiper = ref();
-const role = ref<Role | null>('adviser');
+const waveEl = ref();
+const role = ref<Role | null>();
 const isShowMessage = ref(false);
 const announcements = ref<AnnouncementModel[]>([]);
 const isLoading = ref(true);
@@ -129,6 +134,15 @@ const messages = [
     message: deanMessage
   },
 ];
+
+let wavifyInstance: {
+  setColor: (color: string) => void;
+};
+
+watch(() => store.isDark, v => {
+  if (!wavifyInstance) return;
+  wavifyInstance.setColor(v ? "#2C292C" : "#EBDFE9");
+})
 
 onMounted(() => {
   // Get announcements
@@ -160,6 +174,9 @@ onMounted(() => {
 
     role.value = null;
   });
+
+  // Initialize wavify
+  wavifyInstance = wave(waveEl.value, store.isDark ? "#2C292C" : "#EBDFE9");
 
   // Initialize sal
   sal();

@@ -16,9 +16,9 @@
       <div class="flex justify-center mt-5 h-full">
         <Transition name="slide-fade" mode="out-in">
           <TabDashboard v-if="tab === 'dashboard'" />
-          <TabDashboard v-else-if="tab === 'students'" />
+          <TabStudents v-else-if="tab === 'students'" />
           <TabOrders v-else-if="tab === 'orders'" />
-          <TabSettings v-else-if="tab === 'settings'" />
+          <TabSettings v-else-if="tab === 'settings'" />  
           <TabEnvironment v-else-if="tab === 'env'" />
   
           <div class="flex justify-center items-center" v-else>
@@ -60,7 +60,7 @@ const tabs: Tab[] = [
   { id: "settings",  name: "Settings", component: TabOrders, icon: "settings" },
 ];
 
-const tab = ref("orders");
+const tab = ref("dashboard");
 </script>
 
 <style lang="scss" scoped>

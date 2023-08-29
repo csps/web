@@ -53,10 +53,8 @@
 </template>
 
 <script lang="ts" setup>
-// import { icon } from '~/utils/icon';
 import { getPhotoLink } from "~/utils/network";
 import { OrderStatus } from "~/types/enums";
-// import { Status } from "~/types/enums";
 
 import "@material/web/icon/icon";
 import "@material/web/divider/divider";
@@ -68,7 +66,6 @@ import VImage from "~/components/VImage.vue";
 import ImageTemplate from "~/composables/ImageTemplate.vue";
 import { icon } from "~/utils/icon";
 import { getReadableDate } from "~/utils/date";
-// import { ModeOfPayment } from "~/types/enums";
 
 defineProps<{
   order: FullOrderModel;

@@ -34,7 +34,7 @@
       <div v-if="data.orders.length > 0" class="grid grid-cols-1 lg:grid-cols-2 gap-3">
         <OrderCard v-for="order in data.orders" :key="order.id" :order="order" />
       </div>
-      <div class="surface primary" v-else>
+      <div v-else>
         {{ message || "Fetching orders..." }}
       </div>
     </div>

@@ -14,6 +14,7 @@ enum Endpoints {
   PhotosId = "/photos/:id",
   PhotosIdRaw = "/photos/:id/raw",
   StudentsKey = "/students/:key",
+  Students = "/students",
   Announcements = "/announcements",
   Env = "/env",
   EnvKey = "/env/:key",

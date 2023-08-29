@@ -15,7 +15,6 @@ export const useStore = defineStore("global", () => {
   const student: StudentResponse = {
     id: 0,
     student_id: "",
-    birth_date: "",
     email_address: "",
     first_name: "",
     last_name: "",
@@ -26,7 +25,6 @@ export const useStore = defineStore("global", () => {
   const admin: StudentResponse = {
     id: 0,
     student_id: "",
-    birth_date: "",
     email_address: "",
     first_name: "",
     last_name: "",

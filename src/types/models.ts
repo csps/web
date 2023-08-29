@@ -86,7 +86,6 @@ export enum StudentEnum {
   first_name = "first_name",
   year_level = "year_level",
   email_address = "email_address",
-  birth_date = "birth_date",
   password = "password",
   date_stamp = "date_stamp",
 }

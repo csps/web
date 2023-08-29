@@ -30,7 +30,6 @@ declare global {
     first_name: string;
     year_level: string;
     email_address: string;
-    birth_date: string;
     date_stamp: string;
   }
 
@@ -192,7 +191,6 @@ declare global {
     first_name: string;
     year_level: string;
     email_address: string;
-    birth_date: string;
     password?: string;
     date_stamp: string;
   }

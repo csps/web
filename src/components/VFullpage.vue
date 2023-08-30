@@ -5,7 +5,7 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, ref } from "vue";
+import { onMounted, onUnmounted, ref } from "vue";
 import anime from "animejs/lib/anime.es.js";
 
 const fullpage = ref();
@@ -22,6 +22,8 @@ onMounted(() => {
     return;
   }
 
+  let initialY: number | undefined;
+
   const scrollElement =
       window.document.scrollingElement ||
       window.document.body ||
@@ -29,29 +31,28 @@ onMounted(() => {
 
   let instance: anime.AnimeInstance | undefined;
   
-  // Sections are zero indexed to match array from getElementsByClassName
-  let scroll = {
+  const scroll = {
     activeSection: 0,
     totalSections: fullpage.value.getElementsByClassName('section').length,
     throttled: false,
     throttleDur: 500,
-  }
+  };
   
-  let downSection = () => {
+  const downSection = () => {
     if (scroll.activeSection < 4) {
       ++scroll.activeSection
       scrollToSection(scroll.activeSection)
     }
   }
   
-  let upSection = () => {
+  const upSection = () => {
     if (scroll.activeSection > 0) {
       --scroll.activeSection
       scrollToSection(scroll.activeSection)
     }
   }
   
-  let scrollToSection = (section: number) => {
+  const scrollToSection = (section: number) => {
     if (instance) {
       instance.pause()
     }
@@ -65,34 +66,12 @@ onMounted(() => {
     
     scroll.activeSection = section
   }
-  
-  window.addEventListener("keydown", function(e) {
-    if ([' ', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].indexOf(e.key) === -1) {
-      e.preventDefault();
-    }
 
-    if (!scroll.throttled) {
-      scroll.throttled = true
-      
-      setTimeout(function() {
-        scroll.throttled = false
-      }, 1.5 * scroll.throttleDur)
-      
-      if ([' ', 'ArrowDown'].indexOf(e.key) > -1) {
-        downSection()
-      }
-      if (['ArrowUp'].indexOf(e.key) > -1) {
-        upSection()
-      }
-    }
-
-  }, false)
-  
-  window.addEventListener('scroll', function(e) {
+  function eventScroll(e: Event) {
     e.preventDefault()
-  }, false)
-  
-  window.addEventListener('wheel', function(e) {
+  }
+
+  function eventWheel(e: WheelEvent) {
     e.preventDefault()
     
     if (!scroll.throttled) {
@@ -108,17 +87,15 @@ onMounted(() => {
         downSection()
       }
     } 
-  }, { passive: false })
-  
-  let initialY: number | undefined;
-  
-  window.addEventListener('touchstart', function(e) {
+  }
+
+  function eventTouchstart(e: TouchEvent) {
     if (e.touches && e.touches.length > 0) {
       initialY = e.touches[0].clientY
     }
-  }, false)
-  
-  window.addEventListener('touchmove', function(e) {
+  }
+
+  function eventTouchmove(e: TouchEvent) {
     e.preventDefault()
     
     if (initialY === undefined) {
@@ -148,11 +125,25 @@ onMounted(() => {
     }
     
     initialY = undefined;
-  }, {passive: false})
+  }
 
-  window.addEventListener('resize', function() {
-    scrollToSection(scroll.activeSection)
-  }, false)
+  function eventResize() {
+    scrollToSection(scroll.activeSection);
+  }
+  
+  window.addEventListener('scroll', eventScroll, false);
+  window.addEventListener('wheel', eventWheel, { passive: false })
+  window.addEventListener('touchstart', eventTouchstart, false)
+  window.addEventListener('touchmove', eventTouchmove, { passive: false })
+  window.addEventListener('resize', eventResize, false)
+
+  onUnmounted(() => {
+    window.removeEventListener('scroll', eventScroll, false);
+    window.removeEventListener('wheel', eventWheel);
+    window.removeEventListener('touchstart', eventTouchstart, false);
+    window.removeEventListener('touchmove', eventTouchmove);
+    window.removeEventListener('resize', eventResize, false);
+  });
 });
 </script>
 

@@ -1,6 +1,7 @@
 <template>
   <div>
-    <img class="md:scale-[700%] w-full h-full absolute md:top-0 right-[0.2%] filter dark:contrast-50 -z-[10] opacity-[3%] dark:opacity-10" :src="CSPSLogo" alt="Logo" />
+    <img class="md:scale-[700%] w-full h-full absolute md:top-0 filter right-[0.6%] dark:contrast-50 -z-[10] opacity-[3%] dark:opacity-10" :src="CSPSLogo" alt="Logo" />
+    <VMouse class="invisible 2xl:visible absolute bottom-[5%] left-1/2 -translate-x-1/2" />
     <VFullpage inner>
       <section>
         <div class="container mx-auto px-6 py-24 flex flex-col items-center justify-center text-center">
@@ -13,8 +14,6 @@
               Join us at CSP-S and become part of a community that celebrates diversity and fosters growth and development for all students in the field of computer science. We welcome you with open arms!
             </p>
           </div>
-  
-          <VMouse class="invisible 2xl:visible" />
         </div>
       </section>
       
@@ -28,7 +27,7 @@
           </div>
   
           <div class="flex justify-center">
-            <div class="grid grid-cols-1 lg:grid-cols-3 justify-center relative gap-5 lg:gap-10 mt-12 w-full xl:w-3/4 body-large">
+            <div class="grid grid-cols-1 lg:grid-cols-3 justify-center relative gap-5 lg:gap-10 mt-12 w-full xl:w-3/4 body-medium">
               <div class="surface high" data-sal="slide-right" data-sal-repeat>
                 <h2 class="headline-small mb-3">Goals</h2>
                 <p class="mb-5">We aim to cultivate a teaching-learning environment that:</p>
@@ -82,7 +81,7 @@
               University of Cebu
             </h1>
           </div>
-          <div class="flex flex-col md:flex-row justify-center gap-5 lg:gap-10 ">
+          <div class="flex flex-col md:flex-row justify-center gap-5 lg:gap-10 body-medium">
             <div class="surface tertiary md:w-1/2 xl:w-1/4" data-sal="slide-right" data-sal-repeat>
               <h2 class="headline-small mb-3">Mission</h2>
               <p>

@@ -37,21 +37,14 @@ onBeforeMount(() => {
 <style lang="scss" scoped>
 .scroll-down {
   cursor: pointer;
-  box-sizing: border-box;
-  animation: updown 1s infinite;
+  animation: updown 2s infinite;
 
-  @apply text-on-surface-variant absolute bottom-[5%] w-9;
-}
-
-.scroll-down.svg svg {
-  width: 30px;
-  opacity: .5;
-  transition: all .3s ease-in-out;
+  @apply text-on-surface-variant w-9;
 }
 
 .scroll-down .scroller {
   @apply text-primary;
-  animation: updown 1s infinite;
+  animation: updown 2s infinite;
 }
 
 @keyframes updown {

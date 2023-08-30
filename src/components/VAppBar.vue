@@ -1,5 +1,5 @@
 <template>
-  <div class="appbar">
+  <div class="h-20 z-0">
     <div class="container mx-auto px-4 flex items-center space-x-1 md:space-x-5 h-full">
       <!-- Back button -->
       <md-icon-button v-if="store.isShowBackButton" @click="back">
@@ -143,7 +143,7 @@ function back() {
 }
 
 .appbar {
-  @apply relative h-20;
+  @apply absolute top-0 left-0 right-0 h-20;
 }
 
 h3 {

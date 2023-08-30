@@ -2,7 +2,7 @@
   <div class="min-h-screen">
     <md-linear-progress class="fixed right-0 left-0 top-0 min-w-full z-[1]" :indeterminate="store.isLoading" />
 
-    <div class="flex flex-col min-h-screen" v-if="store.errorMessage.length === 0" :class="{ 'justify-between': route.name !== 'Admin'  }">
+    <div class="flex flex-col min-h-screen" :class="{ 'justify-between': route.name !== 'Admin'  }">
       <VAppBar transparent />
       <router-view v-slot="{ Component }">
         <Transition name="slide-fade" mode="out-in">
@@ -12,29 +12,24 @@
       <VFooter :class="{ 'flex-grow': route.name === 'Admin' }" />
     </div>
 
-    <div class="flex justify-center items-center min-h-screen" v-else>
-      <div class="surface error text-center">
-        {{ store.errorMessage }}
-      </div>
-    </div>
-    
     <DialogMain />
   </div>
 </template>
 
 <script lang="ts" setup>
+import { useRoute } from "vue-router";
+import { Env } from './config';
+import { useStore } from './store';
+import { removeLocal } from './utils/page';
+import { toast } from 'vue3-toastify';
+import { Endpoints, makeRequest } from './network/request';
+import { isAdminLoginValid, isLoginValid } from './utils/network';
+
+import "@material/web/progress/linear-progress";
+
 import VAppBar from './components/VAppBar.vue';
 import VFooter from './components/VFooter.vue';
 import DialogMain from './components/dialogs/DialogMain.vue';
-import { Endpoints, makeRequest } from './network/request';
-import { Env } from './config';
-import { useRoute } from "vue-router";
-
-import { useStore } from './store';
-import { isAdminLoginValid, isLoginValid } from './utils/network';
-import { removeLocal } from './utils/page';
-
-import "@material/web/progress/linear-progress";
 
 // Get store
 const store = useStore();
@@ -90,7 +85,14 @@ makeRequest<any>("GET", Endpoints.Env, null, response => {
     return;
   }
 
-  store.errorMessage = response.message;
+  toast.error(response.message);
+
+  if (response.data === "UNAUTHORIZED") {
+    removeLocal("token");
+    removeLocal("csps_token");
+    store.isLoggedIn = false;
+    store.isAdminLoggedIn = false;
+  }
 });
 
 

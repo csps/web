@@ -71,7 +71,7 @@ img {
 }
 
 .surface {
-  @apply bg-surface-variant text-on-surface-variant p-7 rounded-[28px];
+  @apply bg-surface-variant text-on-surface-variant p-7 rounded-[28px] text-left;
 
   h2 {
     @apply relative w-min whitespace-nowrap z-10;
@@ -88,8 +88,12 @@ img {
   }
 }
 
+.surface.high {
+  @apply bg-surface-container-high text-on-surface-variant;
+}
+
 .surface.tertiary {
-  @apply bg-tertiary-container text-on-tertiary-container;
+  @apply bg-tertiary-container text-on-tertiary-container dark:bg-surface-container-high dark:text-on-surface-variant;
 }
 
 .surface.primary {

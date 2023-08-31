@@ -2,7 +2,7 @@
   <div class="card min-h-[700px]">
     <h1 class="headline-small font-semibold text-on-surface-variant mb-1 whitespace-nowrap">{{ name }}</h1>
     <h4 class="title-small text-on-surface-variant font-medium whitespace-nowrap">{{ position }}</h4>
-    <div class="flex justify-center md:float-right ml-8 mt-8 md:mt-4">
+    <div class="justify-center hidden lg:flex lg:float-right ml-8 mt-8 lg:mt-4">
       <img class="w-[300px] min-w-[300px] h-auto z-0" :src="image" :alt="name" />
     </div>
     <p class="text-justify body-medium mt-10" ref="message" />
@@ -33,13 +33,7 @@ onMounted(() => {
 });
 
 watch(() => props.activeRole, v => {
-  message.value.innerHTML = "";
-
-  if (instance) {
-    instance.destroy();
-  }
-
-  if (v === props.role) {
+  if (!instance && v === props.role) {
     startTyped();
   }
 });
@@ -60,7 +54,7 @@ function startTyped() {
 
 <style lang="scss" scoped>
 .card {
-  @apply rounded-[32px] p-6 pt-14 sm:p-6 md:p-12 bg-surface text-on-surface gap-10 leading-6
+  @apply rounded-[32px] p-6 pt-14 sm:p-6 lg:p-12 bg-surface text-on-surface gap-10 leading-6
     border-surface-container-low text-left border-[6px];
 }
 

@@ -16,7 +16,7 @@ defineProps({
 
 <style lang="scss" scoped>
 .card {
-  @apply flex justify-center items-center bg-surface-container-high p-8 lg:p-14 rounded-[28px] relative shadow-xl;
+  @apply flex justify-center items-center bg-surface-container-high p-8 lg:p-14 rounded-3xl relative shadow-xl;
 }
 
 h4 {

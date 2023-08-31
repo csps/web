@@ -3,22 +3,13 @@
     <footer class="w-screen px-6 py-12 flex flex-col justify-center z-[1000] text-on-surface-variant">
       <div class="flex flex-col justify-center items-center gap-x-10 gap-y-2">
         <div class="flex flex-col">
-          <!-- <div class="hidden sm:block text-xs text-center mt-4 mb-2 text-outline">
-            Copyright &copy; {{ year }}. All rights reserved.
-          </div> -->
-  
-          <div class="flex items-center justify-center space-x-5 mt-2" tabindex="-1">
-            <a class="relative outline-none" v-for="(link, i) in links" :href="link.href" :key="i" target="_blank">
-              <!-- <md-focus-ring /> -->
-              <!-- <img :src="link.src" :alt="link.alt" class="w-5 sm:w-6" tabindex="-1" /> -->
-
+          <div class="flex items-center justify-center space-x-5 mt-2 mb-2" tabindex="-1">
+            <a class="relative outline-none w-6 h-6" v-for="(link, i) in links" :href="link.href" :key="i" target="_blank">
+              <md-focus-ring />
               <md-icon v-html="link.src" />
             </a>
-
-
           </div>
         </div>
-
         <div class="flex flex-col items-center gap-5">
           <div class="text-center">
             <p class="text-sm sm:text-base mb-1 font-medium">
@@ -29,10 +20,6 @@
             </p>
           </div>
         </div>
-
-        <!-- <div class="block sm:hidden text-xs text-outline">
-          Copyright &copy; {{ year }}. All rights reserved.
-        </div> -->
       </div>
     </footer>
   </div>
@@ -49,8 +36,6 @@ import GithubSvg from "~/assets/svg/github.svg?raw";
 import "@material/web/icon/icon";
 
 const route = useRoute();
-
-// const year = new Date().getFullYear();
 
 const links = [
   { href: "https://web.facebook.com/UCMainCSPS", src: FacebookSvg, alt: "CSP-S UC Main Facebook Page" },

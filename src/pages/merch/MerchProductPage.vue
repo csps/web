@@ -49,17 +49,6 @@
             {{ product?.description }}
           </p>
 
-          <div class="flex gap-4 items-center justify-center md:justify-start"> 
-            <p class="title-medium">
-              <span v-if="variation ? variation.stock > 0 : (product?.stock && product.stock > 0)">
-                <span class="font-medium">{{ variation ? variation.stock : product?.stock }}</span> stocks left
-              </span>
-              <span class="text-error font-medium" v-else>
-                We're out of stock! :(
-              </span>
-            </p>
-          </div>
-
           <div v-if="product?.variations && product.variations.length > 0" class="body-medium font-medium flex justify-center md:justify-start gap-2">
             <md-filter-chip
               v-for="variant in product.variations"
@@ -69,6 +58,17 @@
               @click="variant.stock <= 0 ? '' : variation?.id === variant.id ? variation = undefined : variation = variant"
               :disabled="variant.stock <= 0"
             />
+          </div>
+
+          <div class="flex gap-4 items-center justify-center md:justify-start"> 
+            <p class="title-medium">
+              <span v-if="variation ? variation.stock > 0 : (product?.stock && product.stock > 0)">
+                <span class="font-medium">{{ variation ? variation.stock : product?.stock }}</span> stocks left
+              </span>
+              <span class="text-error font-medium" v-else>
+                We're out of stock! :(
+              </span>
+            </p>
           </div>
 
           <div class="flex flex-col md:items-end justify-center gap-5">

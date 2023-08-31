@@ -1,81 +1,79 @@
 <template>
-  <!-- Message Card -->
-  <div class="profile">
-    <img :src="image" :alt="name" />
-  </div>
-  <div class="card w-full">
-    <h2 class="text-center">{{ name }}</h2>
-    <h5 class="text-center">{{ position }}</h5>
-    <div class="text-justify message">
-      <p v-for="(p, i) in message" :key="i">
-        <div v-if="Array.isArray(p)" class="closing">
-          <p v-for="(c, j) in p" :key="j">{{ c }}</p>
-        </div>
-        <span class="paragraph" v-else>{{ p }}</span>
-      </p>
+  <div class="card min-h-[700px]">
+    <h1 class="headline-small font-semibold text-on-surface-variant mb-1 whitespace-nowrap">{{ name }}</h1>
+    <h4 class="title-small text-on-surface-variant font-medium whitespace-nowrap">{{ position }}</h4>
+    <div class="flex justify-center md:float-right ml-8 mt-8 md:mt-4">
+      <img class="w-[300px] min-w-[300px] h-auto z-0" :src="image" :alt="name" />
     </div>
+    <p class="text-justify body-medium mt-10" ref="message" />
   </div>
 </template>
 
 <script lang="ts" setup>
-defineProps({
-  image: {
-    type: String,
-    default: ''
-  },
-  name: {
-    type: String,
-    required: true
-  },
-  position: {
-    type: String,
-    required: true
-  },
-  message: {
-    type: Array,
-    required: true
+import { ref, onMounted, watch } from 'vue';
+import Typed from 'typed.js';
+
+const props = defineProps<{
+  image: string;
+  name: string;
+  position: string;
+  message: string;
+  role: string;
+  activeRole: Role | null;
+}>();
+
+const message = ref();
+
+let instance: Typed | undefined;
+
+onMounted(() => {
+  if (props.activeRole === props.role) {
+    startTyped();
   }
-})
+});
+
+watch(() => props.activeRole, v => {
+  message.value.innerHTML = "";
+
+  if (instance) {
+    instance.destroy();
+  }
+
+  if (v === props.role) {
+    startTyped();
+  }
+});
+
+function startTyped() {
+  if (instance) {
+    instance.destroy();
+  }
+
+  instance = new Typed(message.value, {
+    strings: [ props.message ],
+    typeSpeed: 1,
+    backSpeed: 1,
+    showCursor: false,
+  });
+}
 </script>
 
 <style lang="scss" scoped>
-.profile {
-  @apply w-[175px] h-[175px] absolute overflow-hidden rounded-full left-1/2
-    -translate-x-1/2 -translate-y-1/2 border-[6px] z-[500] border-surface-container;
-}
-
-h2 {
-  @apply text-xl font-semibold mt-14 mb-1.5 text-on-surface-variant;
-}
-
-h5 {
-  @apply text-xs sm:text-sm mb-3;
-}
-
-.message {
-  @apply text-sm leading-6;
-  font-family: Arial, Roboto, sans-serif;
-}
-
-.message > p {
-  @apply text-justify;
-}
-
-.paragraph {
-  @apply first-letter:text-xl;
-}
-
-.closing p {
-  @apply mb-0 italic;
-}
-
 .card {
-  @apply rounded-[32px] p-6 pt-14 sm:p-6 md:p-10 mx-4 w-full bg-surface text-on-surface
-    border-surface-container md:w-3/4 lg:w-4/5 xl:w-2/3 2xl:w-3/4 3xl:w-2/3 flex
-    flex-col items-center border-[6px];
+  @apply rounded-[32px] p-6 pt-14 sm:p-6 md:p-12 bg-surface text-on-surface gap-10 leading-6
+    border-surface-container-low text-left border-[6px];
 }
 
 p {
   @apply mb-3;
+  font-family: Helvitica, Arial, OpenSans, sans-serif;
+}
+
+img {
+  @apply rounded-3xl;
+}
+
+.closing p {
+  @apply mb-0 italic;
 }
 </style>

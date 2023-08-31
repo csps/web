@@ -1,0 +1,10 @@
+Dear BSCS Students,^500 <br><br>
+As the Dean of the College of Computer Studies,^500 I am excited to welcome you to the University of Cebu  and to the field of Computer Science.^1500 My commitment is to provide you with the best possible education and to help you succeed in your studies and careers.^1500  <br><br>
+Computer science is a rapidly growing and evolving field that offers many opportunities for students.^1500 Having a degree in this field provides you with a deep understanding of theories and emerging technologies,^500 allowing you to develop cutting-edge solutions that address today's challenges.^1500 <br><br>
+Our college has faculty members who are experts,^500 passionate about teaching and mentoring,^500 and are committed to helping you reach your full potential.^1500 We also have facilities and resources that will support your learning.^1500 <br><br>
+In addition to your course requirements,^500 I encourage you to get involved in co-curricular and extracurricular activities,^500 such as research,^500 internships,^500 hackathons,^500 and ICT congress.^1500 These activities will help you gain real-world experience and develop your skills.^1500 These activities can help you stand out in the job market and prepare you for the challenges and opportunities that lie ahead.^1500 <br><br>
+I also encourage you to network with alumni and industry professionals.^1500 These connections will help you land your dream job after graduation.^1500 The good thing is,^500 we already have a lot of industry partners where most of our alumni are working. <br><br>
+I am confident that you will have a successful and rewarding career in computer science.^1500 I am here to support you every step of the way. <br><br>
+Sincerely,^500 <br><br>
+Neil A. Basabe,^500 MIT <br>
+Dean,^500 College of Computer Studies

@@ -4,14 +4,14 @@
     <div class="rounded-br-3xl rounded-bl-3xl -z-[1] bg-surface">
       <div class="container mx-auto text-center pt-8 pb-5 px-6">
         <div class="flex justify-center gap-3 mb-6">
-          <md-filter-chip :selected="role === 'adviser'" @click="showMessage('adviser')" label="Adviser" title="View Message" data-sal="slide-right" data-sal-repeat>
-            <div slot="icon" class="rounded-full overflow-hidden">
-              <img :src="Adviser" alt="Adviser" />
-            </div>
-          </md-filter-chip>
           <md-filter-chip :selected="role ==='dean'" @click="showMessage('dean')" label="Dean" title="View Message" data-sal="slide-right" data-sal-repeat>
             <div slot="icon" class="rounded-full overflow-hidden">
               <img :src="Dean" alt="Dean" />
+            </div>
+          </md-filter-chip>
+          <md-filter-chip :selected="role === 'adviser'" @click="showMessage('adviser')" label="Adviser" title="View Message" data-sal="slide-right" data-sal-repeat>
+            <div slot="icon" class="rounded-full overflow-hidden">
+              <img :src="Adviser" alt="Adviser" />
             </div>
           </md-filter-chip>
         </div>
@@ -40,26 +40,28 @@
 
     <!-- Message -->
     <Transition name="slide-fade" mode="out-in">
-      <div v-show="role" class="h-full bg-surface-variant dark:bg-surface-container-high">
+      <div v-show="role" class="h-full bg-surface-variant dark:bg-surface-container-high px-6 my-16">
         <swiper-container
           ref="swiper"
-          effect="coverflow"
+          effect="cards"
           keyboard-enabled="true"
           round-lengths="true"
-          class="overflow-visible"
-          coverflow-effect-slide-shadows="false"
+          class="overflow-visible w-full md:w-3/4 lg:w-4/5 xl:w-2/3 2xl:w-3/4 3xl:w-2/3"
           grab-cursor="true"
         >
           <swiper-slide
             v-for="message in messages"
             :key="message.name"
-            class="flex pt-32 pb-32 justify-center overflow-visible"
+            class="overflow-hidden rounded-[28px]"
           >
             <MessageCard
+              ref="card"
               :image="message.image"
               :name="message.name"
               :position="message.position"
               :message="message.message"
+              :role="message.role"
+              :active-role="role"
             />  
           </swiper-slide>
         </swiper-container>
@@ -102,18 +104,20 @@ import AnnouncementCard from '~/composables/AnnouncementCard.vue';
 
 import Dean from "~/assets/img/profile/Dean.jpg";
 import Adviser from "~/assets/img/profile/Adviser.jpg";
-import deanMessage from "~/assets/json/dean.json";
-import adviserMessage from "~/assets/json/adviser.json";
+import deanMessage from "~/assets/messages/dean.txt?raw";
+import adviserMessage from "~/assets/messages/adviser.txt?raw";
 
 import "@material/web/iconbutton/icon-button";
 import "@material/web/progress/circular-progress";
+import "@material/web/button/filled-button";
 import "@material/web/chips/filter-chip";
 
 register();
 
+const card = ref();
 const swiper = ref();
 const waveEl = ref();
-const role = ref<Role | null>();
+const role = ref<Role | null>("dean");
 const isShowMessage = ref(false);
 const announcements = ref<AnnouncementModel[]>([]);
 const isLoading = ref(true);
@@ -122,16 +126,18 @@ const message = ref("");
 const store = useStore();
 const messages = [
   {
-    image: Adviser,
-    name: "Mr. Heubert Ferolino",
-    position: "Adviser",
-    message: adviserMessage
-  },
-  {
     image: Dean,
     name: "Mr. Neil Basabe",
     position: "Dean - UC Main CCS",
-    message: deanMessage
+    message: deanMessage,
+    role: "dean"
+  },
+  {
+    image: Adviser,
+    name: "Mr. Heubert Ferolino",
+    position: "Adviser",
+    message: adviserMessage,
+    role: "adviser"
   },
 ];
 
@@ -161,14 +167,14 @@ onMounted(() => {
   });
 
   // Add slide change event listener to swiper
-  swiper.value.addEventListener('slidechange', (event: any) => {
+  swiper.value?.addEventListener('slidechange', (event: any) => {
     if (event.detail[0].realIndex === 0) {
-      role.value = "adviser";
+      role.value = "dean";
       return;
     }
 
     if (event.detail[0].realIndex === 1) {
-      role.value = "dean";
+      role.value = "adviser";
       return;
     }
 
@@ -190,12 +196,12 @@ function showMessage(r: Role) {
   isShowMessage.value = true;
   role.value = role.value === r ? null : r;
 
-  if (r === "adviser") {
-    swiper.value.swiper.slideTo(0);
+  if (r === "dean") {
+    swiper.value?.swiper.slideTo(0);
   }
   
-  if (r === "dean") {
-    swiper.value.swiper.slideTo(1);
+  if (r === "adviser") {
+    swiper.value?.swiper.slideTo(1);
   }
 }
 </script>

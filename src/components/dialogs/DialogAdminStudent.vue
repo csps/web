@@ -99,6 +99,7 @@ import { icon } from "~/utils/icon";
 import { useStore } from "~/store";
 import { Endpoints, makeRequest } from "~/network/request";
 import { Env } from "~/config";
+import { useDialog } from "~/store";
 
 const emit = defineEmits(["update:modelValue"]);
 const props = defineProps<{
@@ -109,6 +110,7 @@ const props = defineProps<{
 const store = useStore();
 const isLoading = ref(false);
 const isDialogOpen = computed(() => props.modelValue);
+const dialog = useDialog();
 
 const firstName = ref("");
 const lastName = ref("");
@@ -211,7 +213,25 @@ function submit() {
  * Close the dialog
  */
 function close() {
-  // TODO: add confirmation dialog
+  if (isLoading.value) return;
+
+  if (studentID.value || firstName.value || lastName.value || email.value) {
+    dialog.open(`Cancel ${props.student ? 'edit' : 'add'} student?`, "You have unsaved changes. Are you sure you want to close this dialog?", {
+      text: "Yes, cancel",
+      click() {
+        dialog.hide();
+        emit("update:modelValue", false);
+      }
+    }, {
+      text: "No, continue editing",
+      click() {
+        dialog.hide();
+      }
+    });
+
+    return;
+  }
+  
   emit("update:modelValue", false);
 }
 </script>

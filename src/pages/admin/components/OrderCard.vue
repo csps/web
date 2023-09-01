@@ -25,12 +25,11 @@
             <h5 class="body-small">{{ order.variations_name || 'Standard' }}</h5>
           </div>
           
-          
           <div class="mt-0.5 body-small flex flex-col justify-between items-end">
-            <h3 class="label-large mt-0.5 font-medium" :class="order.status === OrderStatus.PENDING_PAYMENT ? 'text-error' : 'text-primary'">
+            <h3 class="label-large mt-0.5 font-medium">
               {{ mapOrderStatusLabel(order.status) }}
             </h3>
-            <span>{{ getReadableDate(order.date_stamp) }}</span>
+            <span class="text-outline">{{ getReadableDate(order.date_stamp) }}</span>
           </div>
         </div>
       </div>
@@ -39,6 +38,8 @@
 </template>
 
 <script lang="ts" setup>
+import { icon } from "~/utils/icon";
+import { getReadableDate } from "~/utils/date";
 import { getPhotoLink } from "~/utils/network";
 import { mapOrderStatusLabel } from "~/utils/page";
 
@@ -47,13 +48,8 @@ import "@material/web/ripple/ripple";
 
 import VImage from "~/components/VImage.vue";
 import ImageTemplate from "~/composables/ImageTemplate.vue";
-import { icon } from "~/utils/icon";
-import { getReadableDate } from "~/utils/date";
-import { OrderStatus } from "~/types/enums";
 
 defineProps<{
   order: FullOrderModel;
 }>();
-
-
 </script>

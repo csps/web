@@ -1,11 +1,11 @@
 <template>
-  <div class="flex justify-center items-center py-10">
+  <div class="container mx-auto px-6 flex justify-center items-center py-10">
     <div v-if="isLoading" class="flex flex-col items-center justify-center gap-3">
       <md-linear-progress indeterminate />
-      <span class="body-medium">Fetching order {{ route.params.receipt }}</span>
+      <span class="body-medium">Fetching order...</span>
     </div>
 
-    <div v-else class="flex flex-col justify-center items-center w-1/3">
+    <div v-else class="flex flex-col justify-center items-center w-full lg:w-3/4 xl:w-1/2">
       <div class="flex justify-between items-center w-full mb-5">
         <div>
           <h2 class="font-semibold title-large mb-1 text-primary w-full text-left">Order #{{ route.params.receipt }}</h2>
@@ -28,16 +28,23 @@
         <div>Student ID</div>
         <div>{{ order?.student_id }}</div>
         <div>Course</div>
-        <div>{{ order?.course == 0 ? 'BSCS' : order?.course ? courses[order?.course] : "Unknown" }} {{ order?.year_level }}</div>
+        <div>{{ order?.course == 0 ? 'BSCS' : order?.course && courses ? courses[order?.course] : "Unknown" }} {{ order?.year_level }}</div>
         <div>Remarks</div>
         <div>{{ order?.user_remarks || "Empty" }}</div>
         <div>Mode of Payment</div>
         <div v-if="order?.mode_of_payment === ModeOfPayment.WALK_IN">Walk-in</div>
         <div v-else>
-          <a :href="getPhotoLink(order?.receipt_id || 0, true)" class="border-b border-dashed border-outline" title="View submitted receipt" data-fancybox>
+          <a
+            :href="getPhotoLink(order?.receipt_id || 0, true)"
+            class="border-b border-dashed border-outline"
+            title="View submitted receipt"
+            data-fancybox
+          >
             GCash
           </a>
         </div>
+        <div>Status</div>
+        <div>{{ mapOrderStatusLabel(order?.status) }}</div>
       </div>
 
       <div class="flex justify-between mt-5 w-full bg-surface-container p-6 rounded-2xl text-on-surface-variant">
@@ -45,15 +52,17 @@
           <div>
             <h3 class="text-base font-medium">
               {{ order?.product_name }}
-              
-              <div class="text-outline text-sm inline-block -translate-y-[1px] ml-0.5">
-                x {{ order?.quantity }}
-              </div>
             </h3>
             <h5 class="text-xs">{{ order?.variations_name || 'Standard' }}</h5>
           </div>
 
-          <h3 class="text-primary">{{ toCurrency(order?.product_price || 0) }}</h3>
+          <h3 class="text-sm">
+            {{ toCurrency(order?.product_price || 0) }}
+            
+            <div class="text-outline inline-block ml-[1px]">
+              &#215; {{ order?.quantity }}
+            </div>
+          </h3>
         </div>
         <div>
           <div class="h-24">
@@ -69,8 +78,11 @@
         </div>
       </div>
 
-      <div class="body-medium font-medium mt-5">
-        Status: {{ mapOrderStatusLabel(order?.status) }}
+      <div class="flex justify-between w-full mt-5 body-large">
+        <div>Total</div>
+        <div class="font-medium text-primary">
+          {{ toCurrency((order?.product_price || 0) * (order?.quantity || 0)) }}
+        </div>
       </div>
     </div>
   </div>
@@ -90,9 +102,11 @@ import { mapOrderStatusLabel } from '~/utils/page';
 import { toCurrency } from '~/utils/string';
 import { ModeOfPayment } from '~/types/enums';
 
+import "@material/web/menu/menu";
+import "@material/web/menu/menu-item";
 import "@material/web/divider/divider";
-import "@material/web/progress/linear-progress";
 import "@material/web/button/filled-button";
+import "@material/web/progress/linear-progress";
 import "@fancyapps/ui/dist/fancybox/fancybox.css";
 
 import VImage from '~/components/VImage.vue';

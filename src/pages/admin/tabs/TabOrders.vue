@@ -4,11 +4,10 @@
       <md-outlined-text-field
         v-model="data.search"
         :label="'Search ' + capitalize(data.column)"
-        :prefix-text="data.column === FullOrderEnum.receipt_id ? 'CSPS' : ''"
       >
         <md-icon slot="leadingicon" v-html="icon('search')" />
       </md-outlined-text-field>
-      <md-outlined-select v-model="data.column" label="Filter by" quick>
+      <md-outlined-select v-model="data.column" label="Filter by" class="dense" quick>
         <md-icon slot="leadingicon" v-html="icon('filter_list', true)" />
         <md-select-option
           v-for="option in FullOrderEnum"
@@ -108,7 +107,7 @@ function fetchOrders(search = "") {
   store.isLoading = true;
 
   const request: any = {
-    search_value: [data.value.column === FullOrderEnum.receipt_id ? 'CSPS' + search : search, ...data.value.filterStatus],
+    search_value: [search, ...data.value.filterStatus],
     search_column: [data.value.column, ...Array(data.value.filterStatus.length).fill(FullOrderEnum.status)],
     page: data.value.page,
     limit: Env.admin_orders_per_page

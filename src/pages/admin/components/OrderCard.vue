@@ -36,7 +36,7 @@
 
 <script lang="ts" setup>
 import { getPhotoLink } from "~/utils/network";
-import { OrderStatus } from "~/types/enums";
+import { mapOrderStatusLabel } from "~/utils/page";
 
 import "@material/web/icon/icon";
 import "@material/web/ripple/ripple";
@@ -50,26 +50,5 @@ defineProps<{
   order: FullOrderModel;
 }>();
 
-/**
- * Convert order status to label
- * @param status Generic status
- */
-function mapOrderStatusLabel(status: OrderStatus): string {
-  switch (status) {
-    case OrderStatus.PENDING_PAYMENT:
-      return "Pending Payment";
-    case OrderStatus.COMPLETED:
-      return "Completed";
-    case OrderStatus.CANCELLED_BY_USER:
-      return "Cancelled by user";
-    case OrderStatus.CANCELLED_BY_ADMIN:
-      return "Cancelled by admin";
-    case OrderStatus.REMOVED:
-      return "Removed";
-    case OrderStatus.REJECTED:
-      return "Rejected";
-    default:
-      return "Unknown";
-  }
-}
+
 </script>

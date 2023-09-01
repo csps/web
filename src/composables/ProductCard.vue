@@ -66,7 +66,7 @@ defineProps<{
 
 @keyframes glow {
   0% {
-    box-shadow: 0 0 100px -10px var(--md-sys-color-primary);
+    box-shadow: 0 0 100px -30px var(--md-sys-color-primary);
   }
   100% {
     box-shadow: 0 0 100px -50px var(--md-sys-color-primary);

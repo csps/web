@@ -1,7 +1,8 @@
 <template>
-  <div class="bg-surface-container-low rounded-2xl p-6">
-    <div class="flex">
-      <div class="w-28 h-28 md:w-32 md:h-32 overflow-hidden">
+  <div class="bg-surface-container-low rounded-2xl p-6 relative" role="button">
+    <md-ripple />
+    <div class="flex gap-5">
+      <div class="w-16 h-16 overflow-hidden">
         <VImage
           v-if="order.thumbnail > 0 || order.variations_photo_id > 0"
           :src="getPhotoLink(order.variations_photo_id || order.thumbnail)"
@@ -22,32 +23,13 @@
             <h3 class="body-medium font-medium">{{ order.product_name }}</h3>
             <h5 class="body-small">{{ order.variations_name || 'Standard' }}</h5>
           </div>
-          <div class="mt-0.5 body-small">
-            {{ getReadableDate(order.date_stamp) }}
-          </div>
-        </div>
-  
-        <div class="flex justify-between gap-6">
-          <div>
-            <h4 class="title-small">{{ order.first_name }} {{ order.last_name }}</h4>
-            <h5 class="body-small text-outline">
-              <h3 class="label-medium mt-0.5">{{ mapOrderStatusLabel(order.status) }}</h3>
-            </h5>
-          </div>
-  
-          <div class="hidden md:flex justify-end">
-            <md-filled-button>
-              View Order
-            </md-filled-button>
+
+          <div class="mt-0.5 body-small flex flex-col justify-between items-end">
+            <span>{{ getReadableDate(order.date_stamp) }}</span>
+            <h3 class="label-medium mt-0.5 text-secondary font-medium">{{ mapOrderStatusLabel(order.status) }}</h3>
           </div>
         </div>
       </div>
-    </div>
-
-    <div class="block md:hidden mt-5 w-full">
-      <md-filled-button class="w-full">
-        View Order
-      </md-filled-button>
     </div>
   </div>
 </template>
@@ -57,10 +39,7 @@ import { getPhotoLink } from "~/utils/network";
 import { OrderStatus } from "~/types/enums";
 
 import "@material/web/icon/icon";
-import "@material/web/divider/divider";
-import "@material/web/iconbutton/icon-button";
-import "@material/web/chips/assist-chip";
-import "@material/web/button/filled-button";
+import "@material/web/ripple/ripple";
 
 import VImage from "~/components/VImage.vue";
 import ImageTemplate from "~/composables/ImageTemplate.vue";

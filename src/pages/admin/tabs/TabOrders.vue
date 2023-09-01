@@ -30,13 +30,11 @@
       />
     </div>
 
-    <div class="flex justify-center mt-8 flex-grow">
-      <div v-if="data.orders.length > 0" class="grid grid-cols-1 lg:grid-cols-2 gap-3">
-        <OrderCard v-for="order in data.orders" :key="order.id" :order="order" />
-      </div>
-      <div v-else>
-        {{ message || "Fetching orders..." }}
-      </div>
+    <div v-if="data.orders.length > 0" class="space-y-3 mt-8 w-full lg:w-4/5 xl:w-3/4 2xl:w-1/2">
+      <OrderCard v-for="order in data.orders" :key="order.id" :order="order" />
+    </div>
+    <div v-else class="flex justify-center mt-8 flex-grow">
+      {{ message || "Fetching orders..." }}
     </div>
 
     <VPagination

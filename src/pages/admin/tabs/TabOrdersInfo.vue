@@ -31,6 +31,13 @@
         <div>{{ order?.course == 0 ? 'BSCS' : order?.course ? courses[order?.course] : "Unknown" }} {{ order?.year_level }}</div>
         <div>Remarks</div>
         <div>{{ order?.user_remarks || "Empty" }}</div>
+        <div>Mode of Payment</div>
+        <div v-if="order?.mode_of_payment === ModeOfPayment.WALK_IN">Walk-in</div>
+        <div v-else>
+          <a :href="getPhotoLink(order?.receipt_id || 0, true)" class="border-b border-dashed border-outline" title="View submitted receipt" data-fancybox>
+            GCash
+          </a>
+        </div>
       </div>
 
       <div class="flex justify-between mt-5 w-full bg-surface-container p-6 rounded-2xl text-on-surface-variant">
@@ -76,17 +83,20 @@ import { toast } from 'vue3-toastify';
 import { useStore } from '~/store';
 import { Endpoints, makeRequest } from '~/network/request';
 import { getPhotoLink } from '~/utils/network';
-
-import "@material/web/divider/divider";
-import "@material/web/progress/linear-progress";
-import "@material/web/button/filled-button";
-
-import VImage from '~/components/VImage.vue';
-import ImageTemplate from '~/composables/ImageTemplate.vue';
+import { Fancybox } from "@fancyapps/ui";
 import { setPageTitle } from '~/utils/page';
 import { getReadableDate } from '~/utils/date';
 import { mapOrderStatusLabel } from '~/utils/page';
 import { toCurrency } from '~/utils/string';
+import { ModeOfPayment } from '~/types/enums';
+
+import "@material/web/divider/divider";
+import "@material/web/progress/linear-progress";
+import "@material/web/button/filled-button";
+import "@fancyapps/ui/dist/fancybox/fancybox.css";
+
+import VImage from '~/components/VImage.vue';
+import ImageTemplate from '~/composables/ImageTemplate.vue';
 
 const route = useRoute();
 const store = useStore();
@@ -107,6 +117,27 @@ onMounted(() => {
 
     if (response.success) {
       order.value = response.data;
+
+      setTimeout(() => {
+        Fancybox.bind("[data-fancybox]", {
+          Toolbar: {
+            display: {
+              left: ["infobar"],
+              middle: [
+                "zoomIn", "zoomOut", "toggle1to1", 
+                "rotateCCW", "rotateCW", "flipX", "flipY",
+              ],
+              right: [
+                "iterateZoom",
+                "download",
+                "fullscreen",
+                "close"
+              ]
+            }
+          }
+        });
+      }, 0);
+
       return;
     }
 

@@ -13,6 +13,8 @@ enum Endpoints {
   Products = "/products",
   PhotosId = "/photos/:id",
   PhotosIdRaw = "/photos/:id/raw",
+  ReceiptId = "/photos/:id/receipt",
+  ReceiptIdRaw = "/photos/:id/receipt/raw",
   StudentsKey = "/students/:key",
   Students = "/students",
   Announcements = "/announcements",

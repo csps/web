@@ -53,9 +53,10 @@ export function isAdminLoginValid(callback: (valid: boolean) => void) {
 /**
  * Get the photo link
  * @param id Photo ID
+ * @param isReceipt If the photo is a receipt
  */
-export function getPhotoLink(id: number) {
-  return `${location.protocol}//${location.hostname}:4000` + Endpoints.PhotosIdRaw.replace(":id", id.toString());
+export function getPhotoLink(id: number | string, isReceipt = false) {
+  return `${location.protocol}//${location.hostname}:4000` + Endpoints[isReceipt ? 'ReceiptIdRaw' : "PhotosIdRaw"].replace(":id", id.toString());
 }
 
 /**

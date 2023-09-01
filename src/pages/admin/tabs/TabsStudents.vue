@@ -16,11 +16,13 @@
           :headline="capitalize(option)"
         />
       </md-outlined-select>
+
     </div>
 
+    
     <div class="flex justify-center items-center flex-wrap gap-2 mt-4">
       <md-filter-chip
-        v-for="year in 4"
+      v-for="year in 4"
         elevated
         :key="year"
         :selected="data.filterYear.includes(year)"
@@ -29,13 +31,16 @@
       />
     </div>
 
-    <div class="flex justify-center mt-8 flex-grow">
-      <div v-if="data.students.length > 0" class="grid grid-cols-1 lg:grid-cols-2 gap-3">
-        <StudentCard v-for="student in data.students" :key="student.id" :student="student" />
-      </div>
-      <div v-else>
-        {{ message || "Fetching students..." }}
-      </div>
+    <md-filled-button class="mt-5">
+      <md-icon slot="icon" v-html="icon('add')" />
+      Add Student
+    </md-filled-button>
+
+    <div v-if="data.students.length > 0" class="space-y-3 mt-5 w-full lg:w-1/2 2xl:w-1/3">
+      <StudentCard v-for="student in data.students" :key="student.id" :student="student" />
+    </div>
+    <div v-else class="flex justify-center mt-8 flex-grow">
+      {{ message || "Fetching students..." }}
     </div>
   </div>
 </template>
@@ -53,6 +58,7 @@ import "@material/web/icon/icon";
 import "@material/web/chips/filter-chip";
 import "@material/web/textfield/outlined-text-field";
 import "@material/web/select/outlined-select";
+import "@material/web/button/filled-button";
 
 import StudentCard from '../components/StudentCard.vue';
 

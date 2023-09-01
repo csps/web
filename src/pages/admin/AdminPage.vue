@@ -2,7 +2,7 @@
   <div class="h-full">
     <div class="container mx-auto px-6">
       <div class="overflow-x-scroll">
-        <md-tabs>
+        <md-tabs :selected="tabs.findIndex(t => t.id === tab)">
           <md-tab v-for="t in tabs" :key="t.name" @click="tab = t.id">
             <md-icon slot="icon" v-html="icon(t.icon)" />
             {{ t.name }}
@@ -32,7 +32,8 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from "vue";
+import { ref, watch } from "vue";
+import { useRoute, useRouter } from "vue-router";
 import { Icon, icon } from "~/utils/icon";
 
 import "@material/web/tabs/tab";
@@ -52,6 +53,8 @@ type Tab = {
   icon: Icon;
 };
 
+const route = useRoute();
+const router = useRouter();
 const tabs: Tab[] = [
   { id: "dashboard", name: "Dashboard", component: TabDashboard, icon: "dashboard" },
   { id: "students",  name: "Students", component: TabStudents, icon: "groups" },
@@ -60,7 +63,11 @@ const tabs: Tab[] = [
   { id: "settings",  name: "Settings", component: TabOrders, icon: "settings" },
 ];
 
-const tab = ref("dashboard");
+const tab = ref(route.params.tab);
+
+watch(tab, v => {
+  router.push({ name: "Admin", params: { tab: v } });
+});
 </script>
 
 <style lang="scss" scoped>

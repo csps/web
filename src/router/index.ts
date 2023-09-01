@@ -68,8 +68,18 @@ const routes: RouteRecordRaw[] = [
   },
   {
     path: "/admin",
+    redirect: "/admin/dashboard"
+  },
+  {
+    path: "/admin/:tab",
     name: "Admin",
     component: () => import("../pages/admin/AdminPage.vue"),
+    meta: { requiresAuth: true }
+  },
+  {
+    path: "/admin/orders/:receipt",
+    name: "Order",
+    component: () => import("../pages/admin/tabs/TabOrdersInfo.vue"),
     meta: { requiresAuth: true }
   },
   {

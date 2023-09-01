@@ -29,8 +29,8 @@
       />
     </div>
 
-    <div v-if="data.orders.length > 0" class="space-y-3 mt-8 w-full lg:w-4/5 xl:w-3/4 2xl:w-1/2">
-      <OrderCard v-for="order in data.orders" :key="order.id" :order="order" />
+    <div v-if="data.orders.length > 0" class="space-y-3 mt-8 w-full lg:w-2/3 xl:w-1/2 2xl:w-2/5">
+      <OrderCard v-for="order in data.orders" :key="order.id" :order="order" @click="goToOrder(order.receipt_id)" />
     </div>
     <div v-else class="flex justify-center mt-8 flex-grow">
       {{ message || "Fetching orders..." }}
@@ -50,6 +50,7 @@
 <script lang="ts" setup>
 import { icon } from "~/utils/icon";
 import { ref, onMounted, watch } from "vue";
+import { useRouter } from "vue-router";
 import { Endpoints, makeRequest } from "~/network/request";
 import { FullOrderEnum } from "~/types/models";
 import { OrderStatus } from "~/types/enums";
@@ -81,6 +82,7 @@ const data = ref({
 const message = ref("");
 const isLoading = ref(true);
 const store = useStore();
+const router = useRouter();
 
 const status = [
   { value: OrderStatus.PENDING_PAYMENT, label: "Pending" },
@@ -101,6 +103,10 @@ watch([
 });
 
 onMounted(fetchOrders);
+
+function goToOrder(receipt: string) {
+  router.push({ name: "Order", params: { receipt}});
+}
 
 function fetchOrders(search = "") {
   isLoading.value = true;

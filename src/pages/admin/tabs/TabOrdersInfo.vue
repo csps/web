@@ -1,9 +1,136 @@
 <template>
-  <div>
-    Orders
+  <div class="flex justify-center items-center py-10">
+    <div v-if="isLoading" class="flex flex-col items-center justify-center gap-3">
+      <md-linear-progress indeterminate />
+      <span class="body-medium">Fetching order {{ route.params.receipt }}</span>
+    </div>
+
+    <div v-else class="flex flex-col justify-center items-center w-1/3">
+      <div class="flex justify-between items-center w-full mb-5">
+        <div>
+          <h2 class="font-semibold title-large mb-1 text-primary w-full text-left">Order #{{ route.params.receipt }}</h2>
+          <h5 class="title-small w-full text-left">{{ order?.date_stamp ? getReadableDate(order?.date_stamp) : 'Invalid date' }}</h5>
+        </div>
+        <div>
+          <md-filled-button>
+            Update status
+          </md-filled-button>
+        </div>
+      </div>
+
+      <md-divider />
+
+      <div class="student-info body-medium">
+        <div>Name</div>
+        <div>{{ order?.first_name }} {{ order?.last_name }}</div>
+        <div>Email</div>
+        <div>{{ order?.email_address }}</div>
+        <div>Student ID</div>
+        <div>{{ order?.student_id }}</div>
+        <div>Course</div>
+        <div>{{ order?.course == 0 ? 'BSCS' : order?.course ? courses[order?.course] : "Unknown" }} {{ order?.year_level }}</div>
+        <div>Remarks</div>
+        <div>{{ order?.user_remarks || "Empty" }}</div>
+      </div>
+
+      <div class="flex justify-between mt-5 w-full bg-surface-container p-6 rounded-2xl text-on-surface-variant">
+        <div class="flex flex-col justify-between">
+          <div>
+            <h3 class="text-base font-medium">
+              {{ order?.product_name }}
+              
+              <div class="text-outline text-sm inline-block -translate-y-[1px] ml-0.5">
+                x {{ order?.quantity }}
+              </div>
+            </h3>
+            <h5 class="text-xs">{{ order?.variations_name || 'Standard' }}</h5>
+          </div>
+
+          <h3 class="text-primary">{{ toCurrency(order?.product_price || 0) }}</h3>
+        </div>
+        <div>
+          <div class="h-24">
+            <VImage
+              v-if="(order?.thumbnail || 0) > 0 || (order?.variations_photo_id || 0) > 0"
+              :src="getPhotoLink(order?.variations_photo_id || order?.thumbnail || 0)"
+              :alt="order?.product_name || ''"
+              :w-full="false"
+              h-full
+            />
+            <ImageTemplate v-else />
+          </div>
+        </div>
+      </div>
+
+      <div class="body-medium font-medium mt-5">
+        Status: {{ mapOrderStatusLabel(order?.status) }}
+      </div>
+    </div>
   </div>
 </template>
 
 <script lang="ts" setup>
+import { ref, onMounted } from 'vue';
+import { useRoute } from 'vue-router';
+import { toast } from 'vue3-toastify';
+import { useStore } from '~/store';
+import { Endpoints, makeRequest } from '~/network/request';
+import { getPhotoLink } from '~/utils/network';
 
+import "@material/web/divider/divider";
+import "@material/web/progress/linear-progress";
+import "@material/web/button/filled-button";
+
+import VImage from '~/components/VImage.vue';
+import ImageTemplate from '~/composables/ImageTemplate.vue';
+import { setPageTitle } from '~/utils/page';
+import { getReadableDate } from '~/utils/date';
+import { mapOrderStatusLabel } from '~/utils/page';
+import { toCurrency } from '~/utils/string';
+
+const route = useRoute();
+const store = useStore();
+const isLoading = ref(true);
+const order = ref<FullOrderModel>();
+const courses = ref();
+
+onMounted(() => {
+  store.isLoading = true;
+  setPageTitle("Order #" + route.params.receipt);
+
+  // Fetch order
+  makeRequest<FullOrderModel>("GET", Endpoints.OrdersReceipt, {
+    receipt: route.params.receipt
+  }, response => {
+    isLoading.value = false;
+    store.isLoading = false;
+
+    if (response.success) {
+      order.value = response.data;
+      return;
+    }
+
+    toast.error(response.message);
+  });
+
+  // Fetch courses
+  makeRequest("GET", Endpoints.Courses, null, response => {
+    if (response.success) {
+      courses.value = response.data;
+      return;
+    }
+
+    toast.error(response.message);
+  });
+});
 </script>
+
+<style lang="scss" scoped>
+.student-info {
+  @apply grid grid-cols-2 w-full mt-5 gap-2;
+
+  & > div:nth-child(even) {
+    @apply text-right;
+  }
+}
+</style>

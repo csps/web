@@ -16,17 +16,21 @@
       <div class="flex-grow flex flex-col justify-between text-on-surface-variant">
         <div class="flex justify-between gap-6">
           <div>
-            <h3 class="body-medium font-medium mb-2 flex items-center gap-1 text-primary">
-              <md-icon class="w-4 h-4" v-html="icon('receipt', true)" />
-              {{ order.receipt_id }}
+            <h3 class="body-medium font-medium mb-2 flex items-center gap-1">
+              <md-icon class="w-4 h-4 text-primary" v-html="icon('receipt', true)" />
+              <span class="text-primary">{{ order.receipt_id.substring(0, 12) }}</span>
+              <span class="text-secondary">{{ order.receipt_id.substring(12) }}</span>
             </h3>
-            <h3 class="body-medium font-medium">{{ order.product_name }}</h3>
+            <h3 class="body-medium font-medium mb-1">{{ order.product_name }}</h3>
             <h5 class="body-small">{{ order.variations_name || 'Standard' }}</h5>
           </div>
-
+          
+          
           <div class="mt-0.5 body-small flex flex-col justify-between items-end">
+            <h3 class="label-large mt-0.5 font-medium" :class="order.status === OrderStatus.PENDING_PAYMENT ? 'text-error' : 'text-primary'">
+              {{ mapOrderStatusLabel(order.status) }}
+            </h3>
             <span>{{ getReadableDate(order.date_stamp) }}</span>
-            <h3 class="label-medium mt-0.5 text-secondary font-medium">{{ mapOrderStatusLabel(order.status) }}</h3>
           </div>
         </div>
       </div>
@@ -45,6 +49,7 @@ import VImage from "~/components/VImage.vue";
 import ImageTemplate from "~/composables/ImageTemplate.vue";
 import { icon } from "~/utils/icon";
 import { getReadableDate } from "~/utils/date";
+import { OrderStatus } from "~/types/enums";
 
 defineProps<{
   order: FullOrderModel;

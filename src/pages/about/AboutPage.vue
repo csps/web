@@ -100,31 +100,29 @@
       
       <section>
         <div class="w-full">
-          <h1 class="text-2xl text-csps-tertiary dark:text-secondary font-semibold text-center" data-sal="zoom-in" data-sal-repeat>
+          <h1 class="headline-small  text-csps-tertiary dark:text-secondary font-semibold text-center" data-sal="zoom-in" data-sal-repeat>
             MEET THE <span class="text-csps-secondary dark:text-tertiary-80">CSPS OFFICERS!</span>
           </h1>
   
           <div class="relative">
-            <div class="absolute top-0 left-0 right-0 bottom-0 vignette h-full w-full z-[500]" />
             <swiper-container
-              effect="coverflow"
+              effect="cards"
               grab-cursor="true"
               centered-slides="true"
               round-lengths="true"
               autoplay-delay="3000"
-              coverflow-effect-slide-shadows="false"
               data-sal="zoom-in" data-sal-repeat
               class="officers-swiper w-full py-4 lg:py-8 overflow-hidden lg:overflow-visible"
               autoplay-disable-on-interaction="false"
             >
               <swiper-slide
-                class="py-8 w-fit h-auto"
                 v-for="officer in officers"
                 :key="officer.name"
+                class="rounded-3xl shadow-md"
               >
-                <CardAbout class="mx-8 w-full md:w-1/3 xl:w-full" :title="officer.position">
+                <CardAbout :title="officer.position">
                   <div class="flex flex-col items-center justify-center">
-                    <img :src="officer.thumb" class="rounded-full w-64 mb-7 shadow-sm filter saturate-[0.8]" loading="lazy" />
+                    <img :src="officer.thumb" class="rounded-full w-64 mb-7 shadow-sm filter" loading="lazy" />
                     <h3 class="text-xl mb-2 font-semibold">{{ officer.name }}</h3>
                     <p class="text-base text-center text-on-surface-variant font-medium">{{ officer.position }}</p>
                   </div>
@@ -231,16 +229,7 @@ ul {
   }
 }
 
-.vignette {
-  @apply pointer-events-none;
-  background-image: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0) 30%, theme("colors.surface"));
-}
-
 .officers-swiper {
   --swiper-pagination-color: theme("colors.csps-primary");
-}
-
-swiper-slide {
-  @apply flex justify-center;
 }
 </style>

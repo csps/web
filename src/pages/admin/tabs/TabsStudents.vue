@@ -17,7 +17,6 @@
         />
       </md-outlined-select>
     </div>
-
     
     <div class="flex justify-center items-center flex-wrap gap-2 mt-4">
       <md-filter-chip
@@ -42,6 +41,15 @@
       {{ message || "Fetching students..." }}
     </div>
 
+    <VPagination
+      class="mt-5"
+      v-if="data.students.length > 0"
+      :limit="parseInt(Env.admin_students_per_page)"
+      :page="data.page"
+      :total="data.total"
+      @change="p => data.page = p"
+    />
+
     <DialogAdminStudent v-model="isDialogOpen" />
   </div>
 </template>
@@ -62,6 +70,7 @@ import "@material/web/select/outlined-select";
 import "@material/web/button/filled-button";
 
 import StudentCard from '../components/StudentCard.vue';
+import VPagination from "~/components/VPagination.vue";
 import DialogAdminStudent from '~/components/dialogs/DialogAdminStudent.vue';
 
 const store = useStore();

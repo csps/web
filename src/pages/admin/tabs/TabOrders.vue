@@ -116,6 +116,8 @@ function fetchOrders(search = "") {
     search_value: [search, ...data.value.filterStatus],
     search_column: [data.value.column, ...Array(data.value.filterStatus.length).fill(FullOrderEnum.status)],
     page: data.value.page,
+    sort_column: FullOrderEnum.date_stamp,
+    sort_type: "DESC",
     limit: Env.admin_orders_per_page
   };
 

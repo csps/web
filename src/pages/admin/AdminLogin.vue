@@ -120,7 +120,7 @@ function login() {
       // Set is logged in to true
       store.isAdminLoggedIn = true;
       // Redirect to home page
-      router.push({ name: "Admin" });
+      router.push({ name: "Admin", params: { tab: "dashboard" } });
       return;
     }
 

@@ -18,7 +18,6 @@ app.use(router);
 app.use(Vue3Toastify, {
   position: 'bottom-right',
   clearOnUrlChange: false,
-  limit: 1
 } as ToastContainerOptions);
 
 app.mount('#app')

@@ -1,5 +1,5 @@
 <template>
-  <div class="py-5 md:py-10">
+  <div class="flex justify-center items-center py-5 md:py-10">
 
     <div v-if="isLoading" class="flex justify-center items-center flex-col gap-4">
       <md-linear-progress indeterminate />
@@ -21,7 +21,7 @@
   
       <div class="bg-surface-container p-6 rounded-2xl mt-8">
         <div class="w-[320px] body-medium">
-          <VImage :src="getQRCodeLink(order?.receipt_id || '', store.isDark)" class="pt-2 pb-6" alt="QR Code" />
+          <VImage :src="getQRCodeLink(href, store.isDark)" class="pt-2 pb-6" alt="QR Code" />
   
           <div class=" content">
             <span>Merch</span>
@@ -50,7 +50,7 @@
             <span>{{ order?.date_stamp }}</span>
   
             <span>Status</span>
-            <span>{{ mapOrderStatus(order?.status) }}</span>
+            <span>{{ mapOrderStatusLabel(order?.status) }}</span>
           </div>
         </div>
       </div>
@@ -81,7 +81,7 @@ import "@material/web/button/filled-button";
 import "@material/web/progress/linear-progress";
 import { ModeOfPayment } from "~/types/enums";
 import { toCurrency } from "~/utils/string";
-import { mapOrderStatus } from "~/utils/page";
+import { mapOrderStatusLabel } from "~/utils/page";
 import { Env } from "~/config";
 
 const store = useStore();
@@ -90,6 +90,7 @@ const message = ref();
 const isValid = ref(false);
 const isLoading = ref(true);
 const order = ref<FullOrderModel>();
+const href = encodeURIComponent(window.location.href);
 
 makeRequest<FullOrderModel>("GET", Endpoints.OrdersReceipt, { receipt: route.params.receipt }, response => {
   isLoading.value = false;

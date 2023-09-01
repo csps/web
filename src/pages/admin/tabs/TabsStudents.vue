@@ -7,7 +7,7 @@
       >
         <md-icon slot="leadingicon" v-html="icon('search')" />
       </md-outlined-text-field>
-      <md-outlined-select v-model="data.column" label="Filter by" quick>
+      <md-outlined-select v-model="data.column" label="Filter by" class="dense" quick>
         <md-icon slot="leadingicon" v-html="icon('filter_list', true)" />
         <md-select-option
           v-for="option in StudentEnum"
@@ -16,7 +16,6 @@
           :headline="capitalize(option)"
         />
       </md-outlined-select>
-
     </div>
 
     
@@ -31,7 +30,7 @@
       />
     </div>
 
-    <md-filled-button class="mt-5">
+    <md-filled-button @click="isDialogOpen = true" class="mt-5">
       <md-icon slot="icon" v-html="icon('add')" />
       Add Student
     </md-filled-button>
@@ -42,6 +41,8 @@
     <div v-else class="flex justify-center mt-8 flex-grow">
       {{ message || "Fetching students..." }}
     </div>
+
+    <DialogAdminStudent v-model="isDialogOpen" />
   </div>
 </template>
 
@@ -61,9 +62,11 @@ import "@material/web/select/outlined-select";
 import "@material/web/button/filled-button";
 
 import StudentCard from '../components/StudentCard.vue';
+import DialogAdminStudent from '~/components/dialogs/DialogAdminStudent.vue';
 
 const store = useStore();
 const isLoading = ref(false);
+const isDialogOpen = ref(false);
 const message = ref("");
 
 const data = ref({

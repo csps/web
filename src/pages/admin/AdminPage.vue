@@ -12,10 +12,11 @@
     </div>
 
     <div>
-
       <div class="flex justify-center mt-5 h-full">
         <Transition name="slide-fade" mode="out-in">
           <TabDashboard v-if="tab === 'dashboard'" />
+          <TabAnnouncements v-else-if="tab === 'announcements'" />
+          <TabEvents v-else-if="tab === 'events'" />
           <TabStudents v-else-if="tab === 'students'" />
           <TabOrders v-else-if="tab === 'orders'" />
           <TabSettings v-else-if="tab === 'settings'" />  
@@ -27,7 +28,6 @@
         </Transition>
       </div>
     </div>
-
   </div>  
 </template>
 
@@ -45,6 +45,8 @@ import TabStudents from "./tabs/TabsStudents.vue";
 import TabDashboard from "./tabs/TabDashboard.vue";
 import TabSettings from "./tabs/TabSettings.vue";
 import TabEnvironment from "./tabs/TabEnvironment.vue";
+import TabAnnouncements from "./tabs/TabAnnouncements.vue";
+import TabEvents from "./tabs/TabEvents.vue";
 
 type Tab = {
   id: string;
@@ -56,11 +58,13 @@ type Tab = {
 const route = useRoute();
 const router = useRouter();
 const tabs: Tab[] = [
-  { id: "dashboard", name: "Dashboard", component: TabDashboard, icon: "dashboard" },
-  { id: "students",  name: "Students", component: TabStudents, icon: "groups" },
-  { id: "orders",    name: "Orders", component: TabOrders, icon: "shopping_cart" },
-  { id: "env",       name: "Environment Variables", component: TabOrders, icon: "tune" },
-  { id: "settings",  name: "Settings", component: TabOrders, icon: "settings" },
+  { id: "dashboard",     name: "Dashboard", component: TabDashboard, icon: "dashboard" },
+  { id: "announcements", name: "Announcements", component: TabAnnouncements, icon: "campaign" },
+  { id: "events",        name: "Events", component: TabAnnouncements, icon: "event" },
+  { id: "students",      name: "Students", component: TabStudents, icon: "groups" },
+  { id: "orders",        name: "Orders", component: TabOrders, icon: "shopping_cart" },
+  { id: "env",           name: "Environment Variables", component: TabOrders, icon: "tune" },
+  { id: "settings",      name: "Settings", component: TabOrders, icon: "settings" },
 ];
 
 const tab = ref(route.params.tab);

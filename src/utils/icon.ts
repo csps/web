@@ -123,6 +123,12 @@ import ChevronLeftOutlined from "@material-symbols/svg-700/rounded/chevron_left.
 import FilterList from "@material-symbols/svg-700/rounded/filter_list-fill.svg?raw";
 import FilterListOutlined from "@material-symbols/svg-700/rounded/filter_list.svg?raw";
 
+import Campaign from "@material-symbols/svg-700/rounded/campaign-fill.svg?raw";
+import CampaignOutlined from "@material-symbols/svg-700/rounded/campaign.svg?raw";
+
+import Event from "@material-symbols/svg-700/rounded/event-fill.svg?raw";
+import EventOutlined from "@material-symbols/svg-700/rounded/event.svg?raw";
+
 // Icon type
 export type Icon = "arrow_back" | "menu" | "photo_camera" | "favorite" |
   "arrow_forward" | "verified" | "lock" | "visibility" | "visibility_off" | 
@@ -130,7 +136,7 @@ export type Icon = "arrow_back" | "menu" | "photo_camera" | "favorite" |
   "link" | "shopping_cart" | "badge" | "school" | "mail" | "add" | "remove" | "qr_code" |
   "shopping_cart_checkout" | "ballot" | "deployed_code" | "steppers" | "search" |
   "person" | "security" | "settings" | "tune" | "receipt" | "more_vert" | "check" |
-  "groups" | "chevron_right" | "filter_list" | "chevron_left";
+  "groups" | "chevron_right" | "filter_list" | "chevron_left" | "campaign" | "event";
 
 /**
  * Material Icon
@@ -218,6 +224,10 @@ export function icon(name: Icon, outlined: boolean = false) {
   if (name === "filter_list") return outlined ? FilterListOutlined : FilterList;
   // Chevron Left
   if (name === "chevron_left") return outlined ? ChevronLeftOutlined : ChevronLeft;
+  // Campaign
+  if (name === "campaign") return outlined ? CampaignOutlined : Campaign;
+  // Event
+  if (name === "event") return outlined ? EventOutlined : Event;
 
   // Default
   return null;

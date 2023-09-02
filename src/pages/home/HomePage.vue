@@ -117,7 +117,7 @@ register();
 const card = ref();
 const swiper = ref();
 const waveEl = ref();
-const role = ref<Role | null>("dean");
+const role = ref<Role | null>(null);
 const isShowMessage = ref(false);
 const announcements = ref<AnnouncementModel[]>([]);
 const isLoading = ref(true);
@@ -183,7 +183,6 @@ onMounted(() => {
 
   // Initialize wavify
   wavifyInstance = wave(waveEl.value, store.isDark ? "#2C292C" : "#EBDFE9");
-
   // Initialize sal
   sal();
 });

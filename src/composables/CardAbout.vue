@@ -1,14 +1,11 @@
 <template>
   <div class="card">
-    <md-ripple />
     <p><slot /></p>
 
   </div>
 </template>
 
 <script lang="ts" setup>
-import "@material/web/ripple/ripple";
-
 defineProps({
   title: {
     type: String,

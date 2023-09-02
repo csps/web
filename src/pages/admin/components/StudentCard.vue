@@ -34,6 +34,4 @@ import "@material/web/ripple/ripple";
 defineProps<{
   student: StudentModel;
 }>();
-
-
 </script>

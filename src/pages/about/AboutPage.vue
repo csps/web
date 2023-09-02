@@ -106,19 +106,20 @@
   
           <div class="relative">
             <swiper-container
-              effect="cards"
+              effect="coverflow"
               grab-cursor="true"
               centered-slides="true"
               round-lengths="true"
               autoplay-delay="3000"
+              coverflow-effect-slide-shadows="false"
               data-sal="zoom-in" data-sal-repeat
-              class="officers-swiper w-full py-4 lg:py-8 overflow-hidden lg:overflow-visible"
+              class="officers-swiper w-full py-4 lg:py-8 overflow-hidden lg:overflow-visible flex justify-center"
               autoplay-disable-on-interaction="false"
             >
               <swiper-slide
                 v-for="officer in officers"
                 :key="officer.name"
-                class="rounded-3xl shadow-md"
+                class="rounded-3xl shadow-md my-10"
               >
                 <CardAbout :title="officer.position">
                   <div class="flex flex-col items-center justify-center">
@@ -191,13 +192,13 @@ onMounted(() => {
     breakpoints: {
       0: {
         spaceBetween: 0,
-        slidesPerView: 1,
+        slidesPerView: 2,
       },
-      1280: {
+      1024: {
         spaceBetween: 0,
         slidesPerView: 3,
       },
-      1536: {
+      1280: {
         spaceBetween: 0,
         slidesPerView: 4,
       },

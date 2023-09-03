@@ -83,7 +83,7 @@ const data = ref({
   page: 1,
   search: "",
   students: [] as StudentModel[],
-  column: StudentEnum.student_id,
+  column: StudentEnum.last_name,
   filterYear: [1, 2, 3, 4]
 });
 

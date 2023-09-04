@@ -69,23 +69,21 @@
     </Transition>
 
     <!-- Announcements -->
-    <Transition name="slide-fade" mode="out-in">
-      <div v-show="!role" class="container mx-auto px-6 flex justify-center mt-20 h-full">
-        <div v-if="isLoading">
-          <md-circular-progress indeterminate />
-        </div>
-        <div v-else-if="message.length > 0" class="text-sm text-error">
-          {{ message }}
-        </div>
-        <div v-else class="w-full lg:w-3/4 2xl:w-3/5 3xl:w-1/2 flex flex-col gap-6 pb-6">
-          <AnnouncementCard
-            v-for="announcement in announcements"
-            :key="announcement.id"
-            :data="announcement"
-          />
-        </div>
+    <div class="container mx-auto px-6 flex justify-center mt-20 h-full">
+      <div v-if="isLoading">
+        <md-circular-progress indeterminate />
       </div>
-    </Transition>
+      <div v-else-if="message.length > 0" class="text-sm text-error">
+        {{ message }}
+      </div>
+      <div v-else class="w-full lg:w-3/4 2xl:w-3/5 3xl:w-1/2 flex flex-col gap-6 pb-6">
+        <AnnouncementCard
+          v-for="announcement in announcements"
+          :key="announcement.id"
+          :data="announcement"
+        />
+      </div>
+    </div>
   </div>
 </template>
 
@@ -117,7 +115,7 @@ register();
 const card = ref();
 const swiper = ref();
 const waveEl = ref();
-const role = ref<Role | null>(null);
+const role = ref<Role | null>("dean");
 const isShowMessage = ref(false);
 const announcements = ref<AnnouncementModel[]>([]);
 const isLoading = ref(true);

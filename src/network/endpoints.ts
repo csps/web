@@ -22,6 +22,7 @@ enum Endpoints {
   EnvKey = "/env/:key",
   Courses = "/courses",
   Orders = "/orders",
+  OrdersKey = "/orders/:id/:key",
   QRCode = "/qrcode/:q",
   QRCodeDark = "/qrcode/:q/dark",
   OrdersReceipt = "/orders/receipt/:receipt",

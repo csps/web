@@ -12,7 +12,7 @@
           <h5 class="title-small w-full text-left">{{ order?.date_stamp ? getReadableDate(order?.date_stamp) : 'Invalid date' }}</h5>
         </div>
         <div>
-          <md-outlined-select v-model="status" :disabled="status === OrderStatus.COMPLETED" label="Status" quick>
+          <md-outlined-select v-model="status" label="Status" quick>
             <md-select-option
               v-for="option in statuses"
               :key="option.value"
@@ -51,7 +51,7 @@
         <div>Status</div>
         <div>{{ mapOrderStatusLabel(order?.status) }}</div>
         <div>Date Completed</div>
-        <div class="text-outline">{{ order?.status === OrderStatus.COMPLETED ? getReadableDate(order.edit_date) : 'Pending' }}</div>
+        <div class="text-outline">{{ order?.status === OrderStatus.COMPLETED ? getReadableDate(order.edit_date) : '...' }}</div>
       </div>
 
       <div class="flex justify-between mt-5 w-full bg-surface-container p-6 rounded-2xl text-on-surface-variant">
@@ -96,7 +96,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { toast } from 'vue3-toastify';
 import { useStore } from '~/store';
@@ -108,6 +108,7 @@ import { getReadableDate } from '~/utils/date';
 import { mapOrderStatusLabel } from '~/utils/page';
 import { toCurrency } from '~/utils/string';
 import { ModeOfPayment, OrderStatus } from '~/types/enums';
+import { OrderEnum } from "~/types/models";
 
 import "@material/web/menu/menu";
 import "@material/web/menu/menu-item";
@@ -135,6 +136,15 @@ const statuses = [
   { value: OrderStatus.REMOVED, label: "Removed" },
   { value: OrderStatus.REJECTED, label: "Rejected" },
 ];
+
+watch(status, v => {
+  if (order.value?.id) {
+    updateStatus(order.value.id, v);
+    return;
+  }
+
+  toast.error("ID is null");
+});
 
 onMounted(() => {
   store.isLoading = true;
@@ -187,6 +197,21 @@ onMounted(() => {
     toast.error(response.message);
   });
 });
+
+/**
+ * Update order status
+ */
+function updateStatus(orderId: string, status: OrderStatus) {
+  store.isLoading = true;
+
+  makeRequest("PUT", Endpoints.OrdersKey, {
+    id: orderId,
+    key: OrderEnum.status,
+    value: status
+  }, _response => {
+    store.isLoading = false;
+  });
+}
 </script>
 
 <style lang="scss" scoped>

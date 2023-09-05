@@ -33,7 +33,7 @@ function makeRequest<T>(method: HttpMethod, endpoint: Endpoints, data: any, call
     // For every params
     for (const param of params) {
       // Replace param with data
-      url = endpoint.replace(`:${param}`, (data as any)[param] || "");
+      url = url.replace(`:${param}`, (data as any)[param] || "");
       // Delete param from data
       delete (data as any)[param];
     }

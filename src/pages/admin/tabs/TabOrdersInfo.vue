@@ -12,9 +12,14 @@
           <h5 class="title-small w-full text-left">{{ order?.date_stamp ? getReadableDate(order?.date_stamp) : 'Invalid date' }}</h5>
         </div>
         <div>
-          <md-filled-button>
-            Update status
-          </md-filled-button>
+          <md-outlined-select v-model="status" :disabled="status === OrderStatus.COMPLETED" label="Status" quick>
+            <md-select-option
+              v-for="option in statuses"
+              :key="option.value"
+              :value="option.value"
+              :headline="option.label"
+            />
+          </md-outlined-select>
         </div>
       </div>
 
@@ -45,6 +50,8 @@
         </div>
         <div>Status</div>
         <div>{{ mapOrderStatusLabel(order?.status) }}</div>
+        <div>Date Completed</div>
+        <div class="text-outline">{{ order?.status === OrderStatus.COMPLETED ? getReadableDate(order.edit_date) : 'Pending' }}</div>
       </div>
 
       <div class="flex justify-between mt-5 w-full bg-surface-container p-6 rounded-2xl text-on-surface-variant">
@@ -100,13 +107,14 @@ import { setPageTitle } from '~/utils/page';
 import { getReadableDate } from '~/utils/date';
 import { mapOrderStatusLabel } from '~/utils/page';
 import { toCurrency } from '~/utils/string';
-import { ModeOfPayment } from '~/types/enums';
+import { ModeOfPayment, OrderStatus } from '~/types/enums';
 
 import "@material/web/menu/menu";
 import "@material/web/menu/menu-item";
 import "@material/web/divider/divider";
-import "@material/web/button/filled-button";
 import "@material/web/progress/linear-progress";
+import "@material/web/select/outlined-select";
+import "@material/web/select/select-option";
 import "@fancyapps/ui/dist/fancybox/fancybox.css";
 
 import VImage from '~/components/VImage.vue';
@@ -116,7 +124,17 @@ const route = useRoute();
 const store = useStore();
 const isLoading = ref(true);
 const order = ref<FullOrderModel>();
+const status = ref();
 const courses = ref();
+
+const statuses = [
+  { value: OrderStatus.PENDING_PAYMENT, label: "Pending" },
+  { value: OrderStatus.COMPLETED, label: "Completed" },
+  { value: OrderStatus.CANCELLED_BY_USER, label: "Cancelled by user" },
+  { value: OrderStatus.CANCELLED_BY_ADMIN, label: "Cancelled by admin" },
+  { value: OrderStatus.REMOVED, label: "Removed" },
+  { value: OrderStatus.REJECTED, label: "Rejected" },
+];
 
 onMounted(() => {
   store.isLoading = true;
@@ -131,6 +149,7 @@ onMounted(() => {
 
     if (response.success) {
       order.value = response.data;
+      status.value = order.value.status;
 
       setTimeout(() => {
         Fancybox.bind("[data-fancybox]", {

@@ -26,7 +26,7 @@
           </div>
           
           <div class="mt-0.5 body-small flex flex-col justify-between items-end">
-            <h3 class="label-large mt-0.5 font-medium">
+            <h3 class="label-medium mt-0.5 font-medium text-outline">
               {{ mapOrderStatusLabel(order.status) }}
             </h3>
             <span class="text-outline">{{ getReadableDate(order.date_stamp) }}</span>

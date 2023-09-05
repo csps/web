@@ -10,7 +10,7 @@
       <md-outlined-select v-model="data.column" label="Filter by" class="dense" quick>
         <md-icon slot="leadingicon" v-html="icon('filter_list', true)" />
         <md-select-option
-          v-for="option in FullOrderEnum"
+          v-for="option in allowedFilters"
           :key="option"
           :value="option"
           :headline="capitalize(option)"
@@ -95,6 +95,17 @@ const status = [
   { value: OrderStatus.CANCELLED_BY_ADMIN, label: "Cancelled by admin" },
   { value: OrderStatus.REMOVED, label: "Removed" },
   { value: OrderStatus.REJECTED, label: "Rejected" },
+];
+
+const allowedFilters = [
+  FullOrderEnum.receipt_id,
+  FullOrderEnum.student_id,
+  FullOrderEnum.first_name,
+  FullOrderEnum.last_name,
+  FullOrderEnum.email_address,
+  FullOrderEnum.product_name,
+  FullOrderEnum.mode_of_payment,
+  FullOrderEnum.variations_name,
 ];
 
 watch([

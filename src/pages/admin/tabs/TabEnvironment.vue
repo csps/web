@@ -25,7 +25,7 @@
       </div>
     </div>
 
-    <DialogAdminEnv v-model="isDialogOpen" :name="name" :value="value" />
+    <DialogAdminEnv v-model="isDialogOpen" :name="name" :value="value" @done="onDone" />
   </div>  
 </template>
 
@@ -73,6 +73,10 @@ function onEnvClick(item: [string, string | number]) {
   name.value = item[0];
   value.value = item[1].toString();
   isDialogOpen.value = true;
+}
+
+function onDone() {
+  list.value = Object.entries(Env);
 }
 
 function onAddEnvClick() {

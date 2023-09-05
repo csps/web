@@ -49,7 +49,7 @@ import { Endpoints, makeRequest } from "~/network/request";
 import { capitalize } from "~/utils/string";
 import { Env } from "~/config";
 
-const emit = defineEmits(["update:modelValue"]);
+const emit = defineEmits(["update:modelValue", "done"]);
 const props = defineProps({
   modelValue: {
     type: Boolean,
@@ -106,8 +106,12 @@ function submit() {
           for (const key in response.data) {
             Env[key] = response.data[key];
           }
+
+          emit("done");
+          close();
+          return;
         }
-  
+
         toast.error(response.message);
         close();
       });

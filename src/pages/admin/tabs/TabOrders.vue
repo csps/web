@@ -30,7 +30,10 @@
     </div>
 
     <div v-if="data.orders.length > 0" class="space-y-3 mt-8 w-full lg:w-2/3 xl:w-1/2 2xl:w-2/5">
-      <OrderCard v-for="order in data.orders" :key="order.id" :order="order" @click="goToOrder(order.receipt_id)" />
+      <div v-for="(order, i) in data.orders" :key="order.id">
+        <p class="label-large font-medium text-on-surface-variant mb-3 text-left" v-if="getMonthCategory(order, i)">{{ getMonthCategory(order, i) }}</p>
+        <OrderCard :order="order" @click="goToOrder(order.receipt_id)" />
+      </div>
     </div>
     <div v-else class="flex justify-center mt-8 flex-grow">
       {{ message || "Fetching orders..." }}
@@ -69,6 +72,7 @@ import "@material/web/select/select-option";
 
 import OrderCard from "../components/OrderCard.vue";
 import VPagination from "~/components/VPagination.vue";
+import { getMonthYear } from "~/utils/date";
 
 const data = ref({
   total: 0,
@@ -155,5 +159,21 @@ function onFilter(status: OrderStatus) {
 
   data.value.filterStatus.splice(index, 1);
   data.value.filterStatus = [...data.value.filterStatus];
+}
+
+function getMonthCategory(date: FullOrderModel, i: number) {
+  const value = getMonthYear(date.date_stamp);
+
+  if (i === 0) {
+    return value;
+  }
+
+  const prev = data.value.orders[i - 1];
+
+  if (getMonthYear(prev.date_stamp) !== value) {
+    return value;
+  }
+    
+  return "";
 }
 </script>

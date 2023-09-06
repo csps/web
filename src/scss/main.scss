@@ -130,3 +130,10 @@ md-outlined-field, md-filled-field {
 md-outlined-select.dense::part(menu), md-filled-select.dense::part(menu) {
   max-height: 350px;
 }
+
+.file-input {
+  @apply bg-surface-container-high w-full text-sm rounded-md
+    placeholder:text-on-surface-variant file:bg-surface-container-high file:rounded-md
+    file:border-none file:mr-2 file:px-4 file:py-2 file:cursor-pointer
+    file:text-on-surface-variant ;
+}

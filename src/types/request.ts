@@ -4,10 +4,7 @@
 export type AnnouncementRequest = {
   title: string,
   content: string,
-  photo_data?: string;
-  photo_type?: string;
-  photo_width?: number;
-  photo_height?: number;
+  photo?: File
 };
 
 /**

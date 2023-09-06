@@ -300,11 +300,4 @@ function onFilePut(event: Event) {
 md-filled-text-field {
   @apply w-full;
 }
-
-.file-input {
-  @apply bg-surface-container-high w-full text-sm rounded-md
-    placeholder:text-on-surface-variant file:bg-surface-container-high file:rounded-md
-    file:border-none file:mr-2 file:px-4 file:py-2 file:cursor-pointer
-    file:text-on-surface-variant ;
-}
 </style>

@@ -30,6 +30,15 @@
       {{ message || "Fetching products..." }}
     </div>
 
+    <VPagination
+      class="mt-5"
+      v-if="data.products.length > 0"
+      :limit="parseInt(Env.admin_products_per_page)"
+      :page="data.page"
+      :total="data.total"
+      @change="p => data.page = p"
+    />
+
     <DialogAdminProducts v-model="isDialogOpen" />
   </div>
 </template>
@@ -46,6 +55,7 @@ import { Endpoints, makeRequest } from "~/network/request";
 
 import ProductCard from "../components/ProductCard.vue";
 import DialogAdminProducts from "~/components/dialogs/DialogAdminProducts.vue";
+import VPagination from "~/components/VPagination.vue";
 
 const store = useStore();
 const isDialogOpen = ref(false);

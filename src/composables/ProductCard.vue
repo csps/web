@@ -2,9 +2,9 @@
   <div class="product overflow-hidden">
     <md-ripple />
     <router-link :to="'/merch/' + product.id" tabindex="-1" :title="'View ' + product.name">
-      <div class="w-56 min-h-[14rem] flex items-center justify-center foreground">
+      <div class="flex h-64 w-64 items-center justify-center foreground object">
         <VImage
-          class="rounded-xl overflow-hidden"
+          class="rounded-xl"
           v-if="product?.thumbnail && product.thumbnail > 0"
           :src="getPhotoLink(product.thumbnail)"
           :alt="product.name"
@@ -64,12 +64,12 @@ defineProps<{
   }
 }
 
-@keyframes glow {
-  0% {
-    box-shadow: 0 0 100px -30px var(--md-sys-color-primary);
-  }
-  100% {
-    box-shadow: 0 0 100px -50px var(--md-sys-color-primary);
-  }
-}
+// @keyframes glow {
+//   0% {
+//     box-shadow: 0 0 100px -30px var(--md-sys-color-primary);
+//   }
+//   100% {
+//     box-shadow: 0 0 100px -50px var(--md-sys-color-primary);
+//   }
+// }
 </style>

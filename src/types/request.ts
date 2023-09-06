@@ -1,23 +1,14 @@
-/**
- * Announcement Request
- */
 export type AnnouncementRequest = {
   title: string,
   content: string,
   photo?: File
 };
 
-/**
- * Photo request
- */
 export type PhotoRequest = {
   data: Buffer;
   type: string;
 }
 
-/**
- * Pagination request
- */
 export type PaginationRequest = {
   sort_column?: string;
   sort_type?: 'ASC' | 'DESC';
@@ -26,3 +17,12 @@ export type PaginationRequest = {
   page?: number | string;
   limit?: number | string;
 };
+
+export type ProductRequest = {
+  name: string;
+  description: string;
+  stock: number;
+  price: number;
+  max_quantity: number;
+  variations: string;
+}

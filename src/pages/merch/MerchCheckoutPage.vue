@@ -70,6 +70,7 @@
                 v-if="(store.checkoutDetails.variant?.photos_id && store.checkoutDetails.variant?.photos_id > 0) || (store.checkoutDetails.product?.thumbnail && store.checkoutDetails.product?.thumbnail > 0)"
                 :src="getPhotoLink(store.checkoutDetails.variant?.photos_id ? store.checkoutDetails.variant.photos_id : store.checkoutDetails.product.thumbnail || -1)"
                 :alt="store.checkoutDetails.variant?.name || store.checkoutDetails.product?.name"
+                class="!w-32 !h-32"
               />
 
               <ImageTemplate class="h-full" v-else />

@@ -29,7 +29,7 @@
           </div>
         </div>
 
-        <div class="flex flex-col gap-6">
+        <div class="flex flex-col flex-grow gap-6">
           <div class="flex justify-between gap-6">
             <div>
               <h2 class="headline-small mb-1 font-medium">{{ product?.name }}</h2>

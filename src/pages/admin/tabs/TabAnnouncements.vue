@@ -29,9 +29,10 @@
     <div v-else class="flex justify-center mt-8 flex-grow body-medium">
       {{ message || "Fetching announcements..." }}
     </div>
+
+    <DialogAdminAnnouncement v-model="isDialogOpen" :announcement="announcement" />
   </div>
 </template>
-
 
 <script lang="ts" setup>
 import { ref, watch, onMounted } from "vue";
@@ -39,14 +40,17 @@ import { AnnouncementEnum } from "~/types/models";
 import { icon } from "~/utils/icon";
 import { useStore } from "~/store";
 import { capitalize } from "~/utils/string";
+import type { PaginationRequest } from "~/types/request";
 
 import { Env } from "~/config";
 import { Endpoints, makeRequest } from "~/network/request";
 
 import AnnouncementCard from "~/pages/admin/components/AnnouncementCard.vue";
+import DialogAdminAnnouncement from "~/components/dialogs/DialogAdminAnnouncement.vue";
 
 const store = useStore();
 const isDialogOpen = ref(false);
+const announcement = ref();
 const isLoading = ref(false);
 const message = ref("");
 
@@ -72,11 +76,13 @@ function fetchProducts(search = "") {
   isLoading.value = true;
   store.isLoading = true;
 
-  const request: any = {
+  const request: PaginationRequest = {
     search_value: [search],
     search_column: [data.value.column],
     page: data.value.page,
-    limit: Env.admin_products_per_page
+    limit: Env.admin_products_per_page,
+    sort_column: AnnouncementEnum.date_stamp,
+    sort_type: "DESC"
   };
 
   makeRequest<AnnouncementModel[]>("GET", Endpoints.Announcements, request, response => {

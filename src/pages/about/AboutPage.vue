@@ -218,7 +218,7 @@ ul {
   @apply list-disc mt-3;
 
   li {
-    @apply ml-6 pb-2 lg:pb-5 text-start leading-7;
+    @apply ml-6 pb-2 lg:pb-3 text-start leading-6;
   }
 }
 

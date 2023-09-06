@@ -29,6 +29,8 @@
     <div v-else class="flex justify-center mt-8 flex-grow body-medium">
       {{ message || "Fetching products..." }}
     </div>
+
+    <DialogAdminProducts v-model="isDialogOpen" />
   </div>
 </template>
 
@@ -43,6 +45,7 @@ import { Env } from "~/config";
 import { Endpoints, makeRequest } from "~/network/request";
 
 import ProductCard from "../components/ProductCard.vue";
+import DialogAdminProducts from "~/components/dialogs/DialogAdminProducts.vue";
 
 const store = useStore();
 const isDialogOpen = ref(false);

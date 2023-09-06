@@ -18,7 +18,6 @@ import { getReadableDate } from '~/utils/date';
 
 import "@material/web/iconbutton/icon-button"
 
-
 defineProps<{
   data: AnnouncementModel
 }>();

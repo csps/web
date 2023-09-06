@@ -15,7 +15,7 @@
       <md-outlined-select v-model="data.column" label="Filter by" class="dense" quick>
         <md-icon slot="leadingicon" v-html="icon('filter_list', true)" />
         <md-select-option
-          v-for="option in ProductEnum"
+          v-for="option in AnnouncementEnum"
           :key="option"
           :value="option"
           :headline="capitalize(option)"
@@ -35,7 +35,7 @@
 
 <script lang="ts" setup>
 import { ref, watch, onMounted } from "vue";
-import { AnnouncementEnum, ProductEnum } from "~/types/models";
+import { AnnouncementEnum } from "~/types/models";
 import { icon } from "~/utils/icon";
 import { useStore } from "~/store";
 import { capitalize } from "~/utils/string";

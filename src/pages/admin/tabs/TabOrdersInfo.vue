@@ -51,7 +51,7 @@
         <div>Status</div>
         <div>{{ mapOrderStatusLabel(order?.status) }}</div>
         <div>Date Completed</div>
-        <div class="text-outline">{{ order?.status === OrderStatus.COMPLETED ? getReadableDate(order.edit_date) : '...' }}</div>
+        <div class="text-outline">{{ order?.status === OrderStatus.COMPLETED || status === OrderStatus.COMPLETED ? (order?.edit_date ? getReadableDate(order.edit_date) : 'Invalid date') : '...' }}</div>
       </div>
 
       <div class="flex justify-between mt-5 w-full bg-surface-container p-6 rounded-2xl text-on-surface-variant">
@@ -208,8 +208,15 @@ function updateStatus(orderId: string, status: OrderStatus) {
     id: orderId,
     key: OrderEnum.status,
     value: status
-  }, _response => {
+  }, response => {
     store.isLoading = false;
+
+    if (response.success) {
+      toast.success(response.message);
+      return;
+    }
+
+    toast.error(response.message);
   });
 }
 </script>

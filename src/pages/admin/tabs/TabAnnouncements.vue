@@ -87,8 +87,6 @@ function fetchProducts(search = "") {
     if (response.success) {
       data.value.total = response.count || 0;
       data.value.announcements = response.data;
-      console.log(response.data);
-      
       return;
     }
 

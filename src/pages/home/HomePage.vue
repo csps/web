@@ -109,6 +109,7 @@ import "@material/web/iconbutton/icon-button";
 import "@material/web/progress/circular-progress";
 import "@material/web/button/filled-button";
 import "@material/web/chips/filter-chip";
+import { AnnouncementEnum } from '~/types/models';
 
 register();
 
@@ -150,7 +151,10 @@ watch(() => store.isDark, v => {
 
 onMounted(() => {
   // Get announcements
-  makeRequest<AnnouncementModel[]>("GET", Endpoints.Announcements, null, response => {
+  makeRequest<AnnouncementModel[]>("GET", Endpoints.Announcements, {
+    sort_column: AnnouncementEnum.date_stamp,
+    sort_type: "DESC"
+  }, response => {
     // Hide loading
     isLoading.value = false;
 

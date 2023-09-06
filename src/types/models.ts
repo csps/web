@@ -58,7 +58,6 @@ export enum ProductEnum {
   id = "id",
   name = "name",
   thumbnail = "thumbnail",
-  short_description = "short_description",
   description = "description",
   likes = "likes",
   stock = "stock",

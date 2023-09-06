@@ -163,7 +163,6 @@ declare global {
     id: number;
     name: string;
     thumbnail?: number;
-    short_description: string;
     description: string;
     likes: number;
     stock: number;

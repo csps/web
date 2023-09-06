@@ -30,7 +30,7 @@
       {{ message || "Fetching announcements..." }}
     </div>
 
-    <DialogAdminAnnouncement v-model="isDialogOpen" :announcement="announcement" />
+    <DialogAdminAnnouncement v-model="isDialogOpen" :announcement="announcement" @done="fetchAnnouncements" />
   </div>
 </template>
 
@@ -67,12 +67,12 @@ watch([
   () => data.value.column,
   () => data.value.page,
 ], v => {
-  fetchProducts(v[0]);
+  fetchAnnouncements(v[0]);
 });
 
-onMounted(fetchProducts);
+onMounted(fetchAnnouncements);
 
-function fetchProducts(search = "") {
+function fetchAnnouncements(search = "") {
   isLoading.value = true;
   store.isLoading = true;
 
@@ -99,5 +99,4 @@ function fetchProducts(search = "") {
     message.value = response.message;
   });
 }
-
 </script>

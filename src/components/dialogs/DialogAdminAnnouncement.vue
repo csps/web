@@ -29,7 +29,7 @@
     </div>
     <div class="space-x-1" slot="actions">
       <md-text-button @click="close" :disabled="isLoading">Cancel</md-text-button>
-      <md-text-button @click="submit" :disabled="isLoading" autofocus>
+      <md-text-button @click="submit" :disabled="!title || !content || isLoading" autofocus>
         {{ announcement ? (isLoading ? "Updating..." : "Update") : (isLoading ? 'Adding...' : 'Add') }}
       </md-text-button>
     </div>
@@ -43,7 +43,6 @@ import "@material/web/textfield/filled-text-field";
 import { ref, computed, watch } from "vue";
 import { toast } from "vue3-toastify";
 import { icon } from "~/utils/icon";
-import { useStore } from "~/store";
 import { Endpoints, makeRequest } from "~/network/request";
 
 const emit = defineEmits(["update:modelValue", "done"]);
@@ -55,7 +54,6 @@ const props = defineProps<{
   }
 }>();
 
-const store = useStore();
 const isLoading = ref(false);
 const isDialogOpen = computed(() => props.modelValue);
 const title = ref("");
@@ -77,16 +75,17 @@ function submit() {
   
   // Send the request
   makeRequest(props.announcement ? "PUT" : "POST", props.announcement ? Endpoints.AnnouncementsId : Endpoints.Announcements, { 
-    key: title.value,
-    value: content.value
+    title: title.value,
+    content: content.value
   }, response => {
     // Set loading to false
     isLoading.value = false;
 
     // If success
     if (response.success) {
-      store.isLoading = true;
       toast.success(response.message);
+      emit("done");
+      close();
       return;
     }
 

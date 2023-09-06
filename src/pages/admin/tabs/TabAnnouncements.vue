@@ -30,6 +30,15 @@
       {{ message || "Fetching announcements..." }}
     </div>
 
+    <VPagination
+      class="mt-5"
+      v-if="data.announcements.length > 0"
+      :limit="parseInt(Env.admin_announcements_per_page)"
+      :page="data.page"
+      :total="data.total"
+      @change="p => data.page = p"
+    />
+
     <DialogAdminAnnouncement v-model="isDialogOpen" :announcement="announcement" @done="fetchAnnouncements" />
   </div>
 </template>
@@ -47,6 +56,7 @@ import { Endpoints, makeRequest } from "~/network/request";
 
 import AnnouncementCard from "~/pages/admin/components/AnnouncementCard.vue";
 import DialogAdminAnnouncement from "~/components/dialogs/DialogAdminAnnouncement.vue";
+import VPagination from "~/components/VPagination.vue";
 
 const store = useStore();
 const isDialogOpen = ref(false);
@@ -80,7 +90,7 @@ function fetchAnnouncements(search = "") {
     search_value: [search],
     search_column: [data.value.column],
     page: data.value.page,
-    limit: Env.admin_products_per_page,
+    limit: Env.admin_announcements_per_page,
     sort_column: AnnouncementEnum.date_stamp,
     sort_type: "DESC"
   };

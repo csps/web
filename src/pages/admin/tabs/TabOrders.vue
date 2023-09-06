@@ -57,6 +57,7 @@ import { useRouter } from "vue-router";
 import { Endpoints, makeRequest } from "~/network/request";
 import { FullOrderEnum } from "~/types/models";
 import { OrderStatus } from "~/types/enums";
+import { getMonthYear } from "~/utils/date";
 import { capitalize } from "~/utils/string";
 import { useStore } from "~/store";
 import { Env } from "~/config";
@@ -72,7 +73,6 @@ import "@material/web/select/select-option";
 
 import OrderCard from "../components/OrderCard.vue";
 import VPagination from "~/components/VPagination.vue";
-import { getMonthYear } from "~/utils/date";
 
 const data = ref({
   total: 0,

@@ -45,8 +45,6 @@ defineProps<{
 .product {
   @apply flex flex-col justify-between relative bg-surface-container-low rounded-xl w-min;
 
-  animation: glow 1.5s ease-in-out infinite alternate;
-
   .foreground {
     @apply bg-surface-container rounded-xl;
   }
@@ -63,13 +61,4 @@ defineProps<{
     }
   }
 }
-
-// @keyframes glow {
-//   0% {
-//     box-shadow: 0 0 100px -30px var(--md-sys-color-primary);
-//   }
-//   100% {
-//     box-shadow: 0 0 100px -50px var(--md-sys-color-primary);
-//   }
-// }
 </style>

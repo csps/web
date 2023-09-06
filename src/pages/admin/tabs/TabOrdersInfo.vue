@@ -12,7 +12,7 @@
           <h5 class="title-small w-full text-left">{{ order?.date_stamp ? getReadableDate(order?.date_stamp) : 'Invalid date' }}</h5>
         </div>
         <div>
-          <md-outlined-select v-model="status" label="Status" quick>
+          <md-outlined-select v-model="status" label="Status" :disabled="isCompleted" quick>
             <md-select-option
               v-for="option in statuses"
               :key="option.value"
@@ -126,6 +126,7 @@ const store = useStore();
 const isLoading = ref(true);
 const order = ref<FullOrderModel>();
 const status = ref();
+const isCompleted = ref(false);
 const courses = ref();
 
 const statuses = [
@@ -160,6 +161,10 @@ onMounted(() => {
     if (response.success) {
       order.value = response.data;
       status.value = order.value.status;
+
+      if (order.value.status === OrderStatus.COMPLETED) {
+        isCompleted.value = true;
+      }
 
       setTimeout(() => {
         Fancybox.bind("[data-fancybox]", {
@@ -212,6 +217,10 @@ function updateStatus(orderId: string, status: OrderStatus) {
     store.isLoading = false;
 
     if (response.success) {
+      if (status === OrderStatus.COMPLETED) {
+        isCompleted.value = true;
+      }
+
       toast.success(response.message);
       return;
     }

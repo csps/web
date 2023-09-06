@@ -1,7 +1,7 @@
 <template>
   <div class="px-6">
 
-    <div class="flex flex-col items-center justify-center mb-2 gap-3">
+    <div class="flex items-center justify-center mb-2 gap-5">
       <md-outlined-text-field v-model="search" label="Search variable">
         <md-icon slot="leadingicon" v-html="icon('search')" />
       </md-outlined-text-field>

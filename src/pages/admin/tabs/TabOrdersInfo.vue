@@ -138,13 +138,15 @@ const statuses = [
   { value: OrderStatus.REJECTED, label: "Rejected" },
 ];
 
-watch(status, v => {
-  if (order.value?.id) {
+watch(status, (v, before) => {
+  if (order.value?.id && before !== undefined) {
     updateStatus(order.value.id, v);
     return;
   }
 
-  toast.error("ID is null");
+  if (order.value?.id === undefined) {
+    toast.error("ID is null");
+  }
 });
 
 onMounted(() => {

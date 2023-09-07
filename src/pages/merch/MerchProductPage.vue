@@ -40,7 +40,7 @@
             <div>
               <md-icon-button toggle>
                 <md-icon v-html="icon('favorite', true)" />
-                <md-icon slot="selectedIcon" v-html="icon('favorite')" />
+                <md-icon slot="selected" v-html="icon('favorite')" />
               </md-icon-button>
             </div>
           </div>

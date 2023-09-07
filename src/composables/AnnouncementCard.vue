@@ -16,7 +16,7 @@
       <div class="label-large font-medium">
         <md-icon-button toggle>
           <md-icon v-html="icon('favorite', true)" />
-          <md-icon slot="selectedIcon" v-html="icon('favorite', false)" />
+          <md-icon slot="selected" v-html="icon('favorite', false)" />
         </md-icon-button>
       </div>
     </div>

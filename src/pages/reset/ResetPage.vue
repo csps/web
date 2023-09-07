@@ -31,7 +31,7 @@
           <md-icon slot="leadingicon" v-html="icon('lock', true)" />
           <md-icon-button slot="trailingicon" @click="isPassVisible = !isPassVisible" toggle>
             <md-icon v-html="icon('visibility_off', true)" />
-            <md-icon slot="selectedIcon" v-html="icon('visibility', true)" />
+            <md-icon slot="selected" v-html="icon('visibility', true)" />
           </md-icon-button>
         </md-outlined-text-field>
 
@@ -48,7 +48,7 @@
           <md-icon slot="leadingicon" v-html="icon('lock', true)" />
           <md-icon-button slot="trailingicon" @click="isConfirmPassVisible = !isConfirmPassVisible" toggle>
             <md-icon v-html="icon('visibility_off', true)" />
-            <md-icon slot="selectedIcon" v-html="icon('visibility', true)" />
+            <md-icon slot="selected" v-html="icon('visibility', true)" />
           </md-icon-button>
         </md-outlined-text-field>
 

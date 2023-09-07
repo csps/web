@@ -3,10 +3,10 @@
     <div class="container mx-auto px-6">
       <div class="overflow-x-scroll">
         <md-tabs :selected="tabs.findIndex(t => t.id === tab)">
-          <md-tab v-for="t in tabs" :key="t.name" @click="tab = t.id">
+          <md-primary-tab v-for="t in tabs" :key="t.name" @click="tab = t.id">
             <md-icon slot="icon" v-html="icon(t.icon)" />
             {{ t.name }}
-          </md-tab>
+          </md-primary-tab>
         </md-tabs>
       </div>
     </div>
@@ -37,9 +37,9 @@ import { ref, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { Icon, icon } from "~/utils/icon";
 
-import "@material/web/tabs/tab";
 import "@material/web/tabs/tabs";
 import "@material/web/icon/icon";
+import "@material/web/tabs/primary-tab";
 
 import TabOrders from "./tabs/TabOrders.vue";
 import TabStudents from "./tabs/TabsStudents.vue";

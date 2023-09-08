@@ -35,7 +35,7 @@
     </div>
 
     <div v-if="data.students.length > 0" class="space-y-3 mt-5 w-full lg:w-3/4 2xl:w-1/2">
-      <StudentCard v-for="student in data.students" :key="student.id" :student="student" />
+      <CardStudent v-for="student in data.students" :key="student.id" :student="student" />
     </div>
     <div v-else class="flex justify-center mt-8 flex-grow">
       {{ message || "Fetching students..." }}
@@ -69,7 +69,7 @@ import "@material/web/textfield/outlined-text-field";
 import "@material/web/select/outlined-select";
 import "@material/web/button/filled-button";
 
-import StudentCard from '../components/StudentCard.vue';
+import CardStudent from '../components/CardStudent.vue';
 import VPagination from "~/components/VPagination.vue";
 import DialogAdminStudent from '~/components/dialogs/DialogAdminStudent.vue';
 

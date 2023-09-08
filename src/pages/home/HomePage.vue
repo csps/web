@@ -54,7 +54,7 @@
             :key="message.name"
             class="overflow-hidden rounded-[28px]"
           >
-            <MessageCard
+            <CardMessage
               ref="card"
               :image="message.image"
               :name="message.name"
@@ -77,7 +77,7 @@
         {{ message }}
       </div>
       <div v-else class="w-full lg:w-3/4 2xl:w-3/5 3xl:w-1/2 flex flex-col gap-6 pb-6">
-        <AnnouncementCard
+        <CardAnnouncement
           v-for="announcement in announcements"
           :key="announcement.id"
           :data="announcement"
@@ -97,8 +97,8 @@ import wave from "~/utils/wave";
 import sal from "sal.js";
 
 import VButton from '~/components/VButton.vue';
-import MessageCard from '~/composables/MessageCard.vue';
-import AnnouncementCard from '~/composables/AnnouncementCard.vue';
+import CardMessage from '~/composables/CardMessage.vue';
+import CardAnnouncement from '~/composables/CardAnnouncement.vue';
 
 import Dean from "~/assets/img/profile/Dean.jpg";
 import Adviser from "~/assets/img/profile/Adviser.jpg";

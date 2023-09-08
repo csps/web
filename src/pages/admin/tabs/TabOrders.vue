@@ -32,7 +32,7 @@
     <div v-if="data.orders.length > 0" class="space-y-3 mt-8 w-full lg:w-2/3 xl:w-1/2 2xl:w-2/5">
       <div v-for="(order, i) in data.orders" :key="order.id">
         <p class="label-large font-medium text-on-surface-variant mb-3 text-left" v-if="getMonthCategory(order, i)">{{ getMonthCategory(order, i) }}</p>
-        <OrderCard :order="order" @click="goToOrder(order.receipt_id)" />
+        <CardOrder :order="order" @click="goToOrder(order.receipt_id)" />
       </div>
     </div>
     <div v-else class="flex justify-center mt-8 flex-grow">
@@ -71,7 +71,7 @@ import "@material/web/chips/chip-set";
 import "@material/web/select/outlined-select";
 import "@material/web/select/select-option";
 
-import OrderCard from "../components/OrderCard.vue";
+import CardOrder from "../components/CardOrder.vue";
 import VPagination from "~/components/VPagination.vue";
 
 const data = ref({

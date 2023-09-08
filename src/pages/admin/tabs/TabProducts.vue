@@ -24,7 +24,7 @@
     </div>
 
     <div v-if="data.products.length > 0" class="space-y-3 mt-5 w-full lg:w-3/4 xl:w-1/2 3xl:w-1/3">
-      <ProductCard v-for="product in data.products" :key="product.id" :product="product" />
+      <CardProduct v-for="product in data.products" :key="product.id" :product="product" />
     </div>
     <div v-else class="flex justify-center mt-8 flex-grow body-medium">
       {{ message || "Fetching products..." }}
@@ -53,7 +53,7 @@ import { capitalize } from "~/utils/string";
 import { Env } from "~/config";
 import { Endpoints, makeRequest } from "~/network/request";
 
-import ProductCard from "../components/ProductCard.vue";
+import CardProduct from "../components/CardProduct.vue";
 import DialogAdminProducts from "~/components/dialogs/DialogAdminProducts.vue";
 import VPagination from "~/components/VPagination.vue";
 

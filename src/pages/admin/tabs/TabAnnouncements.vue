@@ -24,7 +24,7 @@
     </div>
 
     <div v-if="data.announcements.length > 0" class="space-y-3 mt-5 w-full lg:w-3/4 xl:w-1/2 3xl:w-1/3">
-      <AnnouncementCard v-for="announcement in data.announcements" :key="announcement.id" :data="announcement" />
+      <CardAnnouncement v-for="announcement in data.announcements" :key="announcement.id" :data="announcement" />
     </div>
     <div v-else class="flex justify-center mt-8 flex-grow body-medium">
       {{ message || "Fetching announcements..." }}
@@ -54,7 +54,7 @@ import type { PaginationRequest } from "~/types/request";
 import { Env } from "~/config";
 import { Endpoints, makeRequest } from "~/network/request";
 
-import AnnouncementCard from "~/pages/admin/components/AnnouncementCard.vue";
+import CardAnnouncement from "~/pages/admin/components/CardAnnouncement.vue";
 import DialogAdminAnnouncement from "~/components/dialogs/DialogAdminAnnouncement.vue";
 import VPagination from "~/components/VPagination.vue";
 

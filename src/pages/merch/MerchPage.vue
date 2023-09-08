@@ -31,7 +31,7 @@
 
       <div v-show="!isLoading && message.length === 0" class="-translate-y-1 px-6 w-full 3xl:w-3/5 !overflow-visible">
         <div class="flex justify-center flex-wrap gap-6">
-          <ProductCard
+          <CardProduct
             v-for="(product, i) in products"
             :key="product.id"
             :product="product"
@@ -56,7 +56,7 @@ import "@material/web/icon/icon";
 import "@material/web/button/filled-button";
 import "@material/web/progress/linear-progress";
 
-import ProductCard from "~/composables/ProductCard.vue";
+import CardProduct from "~/composables/CardProduct.vue";
 
 const isLoading = ref(true);
 const message = ref("");

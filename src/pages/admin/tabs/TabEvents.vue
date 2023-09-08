@@ -29,7 +29,7 @@
           {{ getMonthCategory(data.events, event.date_stamp, i) }}
         </p>
 
-        <EventCard :event="event" />
+        <CardEvent :event="event" />
       </div>
     </div>
     <div v-else class="flex justify-center mt-8 flex-grow body-medium">
@@ -51,7 +51,7 @@ import { Endpoints, makeRequest } from "~/network/request";
 import { useStore } from "~/store";
 import { Env } from "~/config";
 
-import EventCard from "../components/EventCard.vue";
+import CardEvent from "../components/CardEvent.vue";
 import DialogAdminEvents from "~/components/dialogs/DialogAdminEvents.vue";
 
 const message = ref();

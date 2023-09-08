@@ -28,7 +28,6 @@
       </md-filled-text-field>
   
       <input @change="onFilePut" type="file" class="mt-5 file-input" pattern="image/*" accept="image/*" />
-
     </div>
     <div class="space-x-1" slot="actions">
       <md-text-button @click="close" :disabled="isLoading">Cancel</md-text-button>

@@ -21,3 +21,25 @@ export function getMonthYear(date: string) {
   const year = dateObj.getFullYear();
   return `${month} ${year}`;
 }
+
+/**
+ * Get month category
+ * @param data Array of data
+ * @param date Date to check
+ * @param i Index of data
+ */
+export function getMonthCategory(data: any[], date: string, i: number) {
+  const value = getMonthYear(date);
+
+  if (i === 0) {
+    return value;
+  }
+
+  const prev = data[i - 1];
+
+  if (getMonthYear(prev.date_stamp) !== value) {
+    return value;
+  }
+    
+  return "";
+}

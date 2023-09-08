@@ -129,6 +129,9 @@ import CampaignOutlined from "@material-symbols/svg-700/rounded/campaign.svg?raw
 import Event from "@material-symbols/svg-700/rounded/event-fill.svg?raw";
 import EventOutlined from "@material-symbols/svg-700/rounded/event.svg?raw";
 
+import LocationOn from "@material-symbols/svg-700/rounded/location_on-fill.svg?raw";
+import LocationOnOutlined from "@material-symbols/svg-700/rounded/location_on.svg?raw";
+
 // Icon type
 export type Icon = "arrow_back" | "menu" | "photo_camera" | "favorite" |
   "arrow_forward" | "verified" | "lock" | "visibility" | "visibility_off" | 
@@ -136,7 +139,8 @@ export type Icon = "arrow_back" | "menu" | "photo_camera" | "favorite" |
   "link" | "shopping_cart" | "badge" | "school" | "mail" | "add" | "remove" | "qr_code" |
   "shopping_cart_checkout" | "ballot" | "deployed_code" | "steppers" | "search" |
   "person" | "security" | "settings" | "tune" | "receipt" | "more_vert" | "check" |
-  "groups" | "chevron_right" | "filter_list" | "chevron_left" | "campaign" | "event";
+  "groups" | "chevron_right" | "filter_list" | "chevron_left" | "campaign" | "event" |
+  "location_on";
 
 /**
  * Material Icon
@@ -228,6 +232,8 @@ export function icon(name: Icon, outlined: boolean = false) {
   if (name === "campaign") return outlined ? CampaignOutlined : Campaign;
   // Event
   if (name === "event") return outlined ? EventOutlined : Event;
+  // Location On
+  if (name === "location_on") return outlined ? LocationOnOutlined : LocationOn;
 
   // Default
   return null;

@@ -1,3 +1,5 @@
+const months3 = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
 /**
  * Convert date to readable format
  * @param date YYYY-MM-DD HH:MM:SS format
@@ -42,4 +44,11 @@ export function getMonthCategory(data: any[], date: string, i: number) {
   }
     
   return "";
+}
+
+/**
+ * Get month name
+ */
+export function getMonthName(month: number) {
+  return months3[month - 1];
 }

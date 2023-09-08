@@ -3,12 +3,13 @@ import Endpoints from "./endpoints";
 
 import type { AxiosRequestConfig } from "axios";
 import { getLocal } from "~/utils/page";
+import { Config } from "~/config";
 
 /**
  * Create axios instance
  */
 const instance = axios.create({
-  baseURL: `${location.protocol}//${location.hostname}:4000/`,
+  baseURL: `${Config.API_URL}`,
   headers: {
     "Content-Type": "multipart/form-data",
   }

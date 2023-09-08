@@ -1,6 +1,7 @@
 import { Endpoints, makeRequest } from "~/network/request";
 import { useStore } from "~/store";
 import { getLocal } from "./page";
+import { Config } from "~/config";
 
 /**
  * Check if the login is valid.
@@ -56,7 +57,7 @@ export function isAdminLoginValid(callback: (valid: boolean) => void) {
  * @param isReceipt If the photo is a receipt
  */
 export function getPhotoLink(id: number | string, isReceipt = false) {
-  return `${location.protocol}//${location.hostname}:4000` + Endpoints[isReceipt ? 'ReceiptIdRaw' : "PhotosIdRaw"].replace(":id", id.toString());
+  return Config.API_URL + Endpoints[isReceipt ? 'ReceiptIdRaw' : "PhotosIdRaw"].replace(":id", id.toString());
 }
 
 /**
@@ -65,5 +66,5 @@ export function getPhotoLink(id: number | string, isReceipt = false) {
  * @param isDark If the QR Code is dark
  */
 export function getQRCodeLink(q: string, isDark = false) {
-  return `${location.protocol}//${location.hostname}:4000` + (isDark ? Endpoints.QRCodeDark : Endpoints.QRCode).replace(":q", q);
+  return Config.API_URL + (isDark ? Endpoints.QRCodeDark : Endpoints.QRCode).replace(":q", q);
 }

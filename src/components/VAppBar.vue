@@ -56,7 +56,7 @@
 
         <!-- Drawer Button -->
         <div class="flex justify-end xl:hidden">
-          <md-icon-button ref="menu" @click="isMenuOpen = !isMenuOpen">
+          <md-icon-button id="appbar-menu" @click="isMenuOpen = !isMenuOpen">
             <md-icon v-html="icon('menu')" />
           </md-icon-button>
         </div>
@@ -66,7 +66,7 @@
     <md-menu
       fixed quick
       :open="isMenuOpen"
-      :anchor="menu"
+      anchor="appbar-menu"
       @closed="isMenuOpen = false"
       class="min-w-min"
       y-offset="8"
@@ -119,7 +119,6 @@ onMounted(() => {
 
 const store = useStore();
 const router = useRouter();
-const menu = ref();
 const isMenuOpen = ref(false);
 
 function onThemeChange() {

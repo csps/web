@@ -57,18 +57,17 @@ declare global {
     value: string;
     date_stamp: string;
   }
-  
+
   type EventModel = {
     id: number;
-    thumbnail: number;
+    thumbnail?: number;
     title: string;
     description: string;
-    date: string;
-    start_time: string;
-    end_time: string;
     venue: string;
+    start_date_stamp: string;
+    end_date_stamp: string;
     date_stamp: string;
-  };
+  }
   
   type OrderModel = {
     id: number;

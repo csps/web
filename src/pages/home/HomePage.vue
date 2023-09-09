@@ -4,27 +4,27 @@
     <div class="rounded-br-3xl rounded-bl-3xl -z-[1] bg-surface">
       <div class="container mx-auto text-center pt-8 pb-5 px-6">
         <div class="flex justify-center gap-3 mb-6">
-          <md-filter-chip :selected="role ==='dean'" @click="showMessage('dean')" label="Dean" title="Welcome Message" data-sal="slide-right" data-sal-repeat>
+          <md-filter-chip :selected="role ==='dean'" @click="showMessage('dean')" label="Dean" title="Welcome Message" data-sal="zoom-in" data-sal-repeat elevated>
             <div slot="icon" class="rounded-full overflow-hidden">
               <img :src="Dean" alt="Dean" />
             </div>
           </md-filter-chip>
-          <md-filter-chip :selected="role === 'adviser'" @click="showMessage('adviser')" label="Adviser" title="Welcome Message" data-sal="slide-right" data-sal-repeat>
+          <md-filter-chip :selected="role === 'adviser'" @click="showMessage('adviser')" label="Adviser" title="Welcome Message" data-sal="zoom-in" data-sal-repeat elevated>
             <div slot="icon" class="rounded-full overflow-hidden">
               <img :src="Adviser" alt="Adviser" />
             </div>
           </md-filter-chip>
         </div>
-        
-        <h2 class="headline-medium font-semibold text-on-surface-variant" data-sal="slide-right" data-sal-repeat>
+
+        <h2 class="headline-medium font-semibold text-on-surface-variant" data-sal="zoom-in" data-sal-repeat>
           {{ store.isLoggedIn ? `Hello, ${store.student.first_name} ${store.student.last_name}` : "Dive into the world of Computer Science" }}
         </h2>
 
-        <h5 v-if="!store.isLoggedIn" class="title-medium text-on-surface-variant mt-2 mb-4" data-sal="slide-right" data-sal-delay="100" data-sal-repeat>
+        <h5 v-if="!store.isLoggedIn" class="title-medium text-on-surface-variant mt-2 mb-4" data-sal="zoom-in" data-sal-delay="100" data-sal-repeat>
           Connect, collaborate, and Grow Together
         </h5>
 
-        <div class="flex justify-center space-x-3" :class="{ 'mt-5': store.isLoggedIn }" data-sal="slide-right" data-sal-repeat data-sal-delay="200">
+        <div class="flex justify-center space-x-3" :class="{ 'mt-5': store.isLoggedIn }" data-sal="zoom-in" data-sal-repeat data-sal-delay="200">
           <v-button :to="store.isLoggedIn ? '/bulletin' : '/login'" color="primary" variant="filled">
             {{ store.isLoggedIn ? 'Bulletin Board' : 'Login' }}
           </v-button>
@@ -40,7 +40,7 @@
 
     <!-- Message -->
     <Transition name="slide-fade" mode="out-in">
-      <div v-show="role" class="h-full bg-surface-variant dark:bg-surface-container-high px-6 my-16">
+      <div v-show="role" class="h-full bg-surface-variant dark:bg-surface-container-high px-6 mt-16 mb-16">
         <swiper-container
           ref="swiper"
           effect="cards"
@@ -55,7 +55,6 @@
             class="overflow-hidden rounded-[28px]"
           >
             <CardMessage
-              ref="card"
               :image="message.image"
               :name="message.name"
               :position="message.position"
@@ -69,9 +68,10 @@
     </Transition>
 
     <!-- Announcements -->
-    <div class="container mx-auto px-6 flex justify-center mt-20 h-full">
-      <div v-if="isLoading">
-        <md-circular-progress indeterminate />
+    <div class="container mx-auto px-6 flex justify-center mt-16 h-full">
+      <div v-if="isLoading" class="flex flex-col justify-center items-center gap-2 body-medium">
+        <md-linear-progress indeterminate />
+        <span>Fetching announcements...</span>
       </div>
       <div v-else-if="message.length > 0" class="text-sm text-error">
         {{ message }}
@@ -93,6 +93,7 @@ import { useStore } from "~/store";
 import { icon } from "~/utils/icon";
 import { register } from 'swiper/element/bundle';
 import { Endpoints, makeRequest } from '~/network/request';
+import { AnnouncementEnum } from '~/types/models';
 import wave from "~/utils/wave";
 import sal from "sal.js";
 
@@ -106,14 +107,13 @@ import deanMessage from "~/assets/messages/dean.txt?raw";
 import adviserMessage from "~/assets/messages/adviser.txt?raw";
 
 import "@material/web/iconbutton/icon-button";
-import "@material/web/progress/circular-progress";
+import "@material/web/progress/linear-progress";
 import "@material/web/button/filled-button";
+import "@material/web/button/filled-tonal-button";
 import "@material/web/chips/filter-chip";
-import { AnnouncementEnum } from '~/types/models';
 
 register();
 
-const card = ref();
 const swiper = ref();
 const waveEl = ref();
 const role = ref<Role | null>("dean");

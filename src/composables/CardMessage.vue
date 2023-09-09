@@ -54,7 +54,7 @@ function startTyped() {
 <style lang="scss" scoped>
 .card {
   @apply rounded-[32px] p-6 pt-14 sm:p-6 lg:p-12 bg-surface text-on-surface gap-10 leading-6
-    border-surface-container-low text-left border-[6px];
+    border-surface-container text-left border-[6px];
 }
 
 p {
@@ -63,7 +63,7 @@ p {
 }
 
 img {
-  @apply rounded-3xl;
+  @apply rounded-3xl border-[5px] border-secondary-container;
 }
 
 .closing p {

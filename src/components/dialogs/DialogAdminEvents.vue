@@ -1,12 +1,13 @@
 <template>
   <md-dialog
+    ref="dialog"
     :open="isDialogOpen"
     @close="close"
     :scrim-click-action="isLoading ? '' : 'close'"
     :escape-key-action="isLoading ? '' : 'close'"
   >
     <div slot="headline">Add Event</div>
-    <div slot="content" class="space-y-5">
+    <div slot="content" class="space-y-5 relative z-[100000]">
       <md-filled-text-field
         class="w-full"
         label="Title"
@@ -19,41 +20,93 @@
       <md-filled-text-field
         class="w-full"
         label="Description"
+        type="textarea"
         v-model.trim="description"
         :disabled="isLoading"
         @keydown.enter="submit"
       >
         <md-icon slot="leadingicon" v-html="icon('tune', true)" />
       </md-filled-text-field>
-      <md-filled-text-field
-        class="w-full"
-        label="Venue"
-        v-model.trim="venue"
-        :disabled="isLoading"
-        @keydown.enter="submit"
-      >
-        <md-icon slot="leadingicon" v-html="icon('location_on', true)" />
-      </md-filled-text-field>
       
       <div class="grid grid-cols-2 gap-5">
         <md-filled-text-field
           class="w-full"
-          label="Start Date"
-          v-model.trim="startDate"
+          label="Venue"
+          v-model.trim="venue"
           :disabled="isLoading"
           @keydown.enter="submit"
         >
-          <md-icon slot="leadingicon" v-html="icon('event', true)" />
+          <md-icon slot="leadingicon" v-html="icon('location_on', true)" />
         </md-filled-text-field>
-        <md-filled-text-field
-          class="w-full"
-          label="End Date"
-          v-model.trim="endDate"
-          :disabled="isLoading"
-          @keydown.enter="submit"
+  
+        <DatePicker
+          v-model="date"
+          :attributes="attributes"
+          :is-dark="store.isDark"
+          class="inline-block"
+          color="purple"
+          popover
         >
-          <md-icon slot="leadingicon" v-html="icon('event', true)" />
-        </md-filled-text-field>
+          <template #default="{ togglePopover }">
+            <md-filled-text-field
+              class="w-full"
+              label="Date"
+              @click="togglePopover"
+              readonly
+              v-model.trim="dateText"
+              :disabled="isLoading"
+              @keydown.enter="submit"
+            >
+              <md-icon slot="leadingicon" v-html="icon('event', true)" />
+            </md-filled-text-field>
+          </template>
+        </DatePicker>
+
+        <DatePicker
+          mode="time"
+          v-model="startTime"
+          :is-dark="store.isDark"
+          class="inline-block"
+          color="purple"
+          popover
+        >
+          <template #default="{ togglePopover }">
+            <md-filled-text-field
+              class="w-full"
+              label="Start time"
+              @click="togglePopover"
+              readonly
+              :disabled="!date || isLoading"
+              v-model.trim="startTimeText"
+              @keydown.enter="submit"
+            >
+              <md-icon slot="leadingicon" v-html="icon('event', true)" />
+            </md-filled-text-field>
+          </template>
+        </DatePicker>
+
+        <DatePicker
+          mode="time"
+          v-model="endTime"
+          :is-dark="store.isDark"
+          class="inline-block"
+          color="purple"
+          popover
+        >
+          <template #default="{ togglePopover }">
+            <md-filled-text-field
+              class="w-full"
+              label="End time"
+              @click="togglePopover"
+              readonly
+              :disabled="!date || isLoading"
+              v-model.trim="endTimeText"
+              @keydown.enter="submit"
+            >
+              <md-icon slot="leadingicon" v-html="icon('event', true)" />
+            </md-filled-text-field>
+          </template>
+        </DatePicker>
       </div>
 
       <input @change="onFilePut" type="file" class="mt-5 file-input" pattern="image/*" accept="image/*" />
@@ -70,13 +123,31 @@
 <script lang="ts" setup>
 import "@material/web/dialog/dialog";
 import "@material/web/textfield/filled-text-field";
+import 'v-calendar/style.css'
 
 import { icon } from "~/utils/icon";
-import { ref, computed } from "vue";
-// import { toast } from "vue3-toastify";
-// import { useStore } from "~/store";
-// import { Endpoints, makeRequest } from "~/network/request";
-// import { Env } from "~/config";
+import { ref, computed, watch } from "vue";
+import { DatePicker } from "v-calendar";
+import { getHumanDate, getTime, toISODate, toISOTime } from "~/utils/date";
+import { useStore } from "~/store";
+import { Endpoints, makeRequest } from "~/network/request";
+import { EventRequest } from "~/types/request";
+import { toast } from "vue3-toastify";
+
+let attributes = [
+  {
+    highlight: {
+      color: 'purple',
+      fillMode: 'outline'
+    },
+    popover: {
+      label: 'Today',
+      visibility: 'hover',
+      placement: 'top'
+    },
+    dates: [new Date()]
+  }
+];
 
 const emit = defineEmits(["update:modelValue", "done"]);
 const props = defineProps({
@@ -86,72 +157,100 @@ const props = defineProps({
   }
 });
 
-// const store = useStore();
+const store = useStore();
 const isLoading = ref(false);
 const isDialogOpen = computed(() => props.modelValue);
 
+const dialog = ref();
 const title = ref("");
 const description = ref("");
 const venue = ref("");
-const startDate = ref("");
-const endDate = ref("");
-const photo = ref();
+const date = ref();
+const startTime = ref();
+const endTime = ref();
+const thumbnail = ref();
 
-/**
- * Send the email
- */
-function submit() {
-  // // If already loading, return
-  // if (isLoading.value) return;
-  // isLoading.value = true;
+const dateText = ref("");
+const startTimeText = ref("");
+const endTimeText = ref("");
+
+watch(date, v => {
+  dateText.value = v ? getHumanDate(v) : "";
   
-  // // Send the request
-  // makeRequest(isAdd.value ? "POST" : "PUT", isAdd.value ? Endpoints.Env : Endpoints.EnvKey, { 
-  //   key: isAdd.value ? newName.value : props.name,
-  //   value: newValue.value
-  // }, response => {
-  //   // Set loading to false
-  //   isLoading.value = false;
+  if (!startTime.value) {
+    startTime.value = new Date();
+    startTime.value.setHours(8, 0);
+  }
 
-  //   // If success
-  //   if (response.success) {
-  //     store.isLoading = true;
-  //     toast.success(response.message);
+  if (!endTime.value) {
+    endTime.value = new Date();
+    endTime.value.setHours(12, 0);
+  }
+});
 
-  //     makeRequest<any>("GET", Endpoints.Env, null, response => {
-  //       store.isLoading = false;
+watch(startTime, v => {
+  startTimeText.value = getTime(v);
+});
 
-  //       if (response.success) {
-  //         for (const key in response.data) {
-  //           Env[key] = response.data[key];
-  //         }
+watch(endTime, v => {
+  endTimeText.value = getTime(v);
+});
 
-  //         emit("done");
-  //         close();
-  //         return;
-  //       }
+// Mausab najud
+watch(isDialogOpen, () => {
+  setTimeout(() => {
+    dialog.value.shadowRoot.querySelector(".scroller").setAttribute("style", "overflow: visible;");
+    dialog.value.shadowRoot.querySelector(".container").setAttribute("style", "overflow: visible;");
+  }, 0)
+});
 
-  //       toast.error(response.message);
-  //       close();
-  //     });
+function submit() {
+  // If already loading, return
+  if (isLoading.value) return;
+  isLoading.value = true;
 
-  //     return;
-  //   }
+  const data: EventRequest = {
+    title: title.value,
+    description: description.value,
+    venue: venue.value,
+    date: toISODate(date.value),
+    start_time: toISOTime(startTime.value),
+    end_time: toISOTime(endTime.value),
+  };
 
-  //   // Otherwise, show error
-  //   toast.error(response.message);
-  // });
+  // If thumbnail is set, append it to the data
+  if (thumbnail.value) {
+    data.thumbnail = thumbnail.value;
+  }
+
+  // Send the request
+  makeRequest("POST", Endpoints.Events, data, response => {
+    // Set loading to false
+    isLoading.value = false;
+    store.isLoading = false;
+
+    // If success
+    if (response.success) {
+      toast.success(response.message);
+      emit("done");
+      close();
+      return;
+    }
+
+    // Otherwise, show error
+    toast.error(response.message);
+  });
 }
 
 function onFilePut(event: Event) {
   const file = (event.target as HTMLInputElement).files?.[0];
   
   if (!file) {
-    photo.value = undefined;
+    thumbnail.value = undefined;
     return;
   }
 
-  photo.value = file;
+  thumbnail.value = file;
 }
 
 /**
@@ -165,5 +264,36 @@ function close() {
 <style lang="scss" scoped>
 .file-input {
   @apply bg-surface-container-highest file:bg-surface-container py-2 pl-2;
+}
+</style>
+
+<style lang="scss">
+.vc-light {
+  --vc-bg: var(--md-sys-color-surface-container);
+}
+
+.vc-dark {
+  --vc-bg: var(--md-sys-color-surface-container);
+  --vc-color: var(--md-sys-color-on-surface);
+  --vc-popover-content-bg: var(--md-sys-color-surface-variant);
+  --vc-day-content-disabled-color: var(--md-sys-color-surface-variant);
+  
+  &.vc-popover-content {
+    border: none;
+  }
+}
+
+/* Replace blue with sky blue palette */
+.vc-purple {
+  --vc-accent-900: #56216b;
+  --vc-accent-800: #58236d;
+  --vc-accent-700: #652f7a;
+  --vc-accent-600: #723c87;
+  --vc-accent-500: #7f4894;
+  --vc-accent-400: #9a61ae;
+  --vc-accent-300: #b67aca;
+  --vc-accent-200: #d294e7;
+  --vc-accent-100: #edb1ff;
+  --vc-accent-50: #f5ccff;
 }
 </style>

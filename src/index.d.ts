@@ -1,4 +1,5 @@
 declare module "swiper/element/bundle";
+declare module "v-calendar";
 
 /**
  * Welcome to Typed.js!
@@ -6,7 +7,6 @@ declare module "swiper/element/bundle";
  * @param {object} options options object
  * @returns {object} a new Typed object
  */
-
 declare module 'typed.js' {
   export interface TypedOptions {
     /**

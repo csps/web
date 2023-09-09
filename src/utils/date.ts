@@ -84,11 +84,26 @@ export function getHumanDate(date1: Date, date2?: Date | undefined) {
 }
 
 /**
- * 
- * @param range 
+ * Convert date to YYYY-MM-DD format
+ * @param date Date
  */
-export function getRangeDate(range: { start: Date | null, end: Date | null }) {
-  return range.start && range.end ? `${getHumanDate(range.start)} - ${getHumanDate(range.end)}` : "";
+export function toISODate(date: Date) {
+  const year = date.getFullYear();
+  const month = n(date.getMonth() + 1);
+  const day = n(date.getDate());
+
+  return `${year}-${month}-${day}`;
+}
+
+/**
+ * Convert date to HH:MM:SS format
+ * @param date Date
+ */
+export function toISOTime(date: Date) {
+  const hours = n(date.getHours());
+  const minutes = n(date.getMinutes());
+
+  return `${hours}:${minutes}:00`;
 }
 
 /**
@@ -96,4 +111,13 @@ export function getRangeDate(range: { start: Date | null, end: Date | null }) {
  */
 export function getMonthName(month: number) {
   return months3[month - 1];
+}
+
+
+/**
+ * Normalize number
+ * @param value Number to normalize
+ */
+function n(value: number) {
+  return value < 10 ? '0' + value : value;
 }

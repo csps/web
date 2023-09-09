@@ -36,7 +36,7 @@
       {{ message || "Fetching events..." }}
     </div>
 
-    <DialogAdminEvents v-model="isDialogOpen" />
+    <DialogAdminEvents v-model="isDialogOpen" @done="fetchEvents" />
   </div>
 </template>
 

@@ -26,3 +26,13 @@ export type ProductRequest = {
   max_quantity: number;
   variations: string;
 }
+
+export type EventRequest = {
+  title: string;
+  description: string;
+  venue: string;
+  date: string;
+  start_time: string;
+  end_time: string;
+  thumbnail?: File
+}

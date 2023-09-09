@@ -10,9 +10,8 @@
       <p class="title-small text-outline text-center">Check out our bulletin board for a list of upcoming events and activities!</p>
 
       <div class="w-full 2xl:w-3/4">
-        <md-divider class="mb-8 md:mb-12 mt-4 md:mt-8" />
 
-        <div class="flex flex-col-reverse 2xl:grid 2xl:grid-cols-6 gap-16 justify-center">
+        <div class="flex flex-col-reverse 2xl:grid 2xl:grid-cols-6 gap-16 justify-center mt-10">
           <div class="w-full flex-grow col-span-2">
             <div v-if="isLoading" class="flex flex-col justify-center items-center gap-3 body-medium">
               <md-linear-progress indeterminate />
@@ -26,7 +25,8 @@
   
           <div class="hidden md:block col-span-4">
             <Calendar
-              @did-move="onChange"
+              ref="c1"
+              @did-move="($event: Event) => onChange($event, 1)"
               class="custom-calendar w-full"
               :masks="{ weekdays: 'WWW' }"
               :attributes="attributes"
@@ -54,7 +54,8 @@
   
           <div class="md:hidden flex justify-center">
             <Calendar
-              @did-move="onChange"
+              ref="c2"
+              @did-move="($event: Event) => onChange($event, 2)"
               class="w-full"
               :attributes="attributes"
               :is-dark="store.isDark"
@@ -80,9 +81,10 @@ import { toast } from "vue3-toastify";
 import VTimeline from '~/components/VTimeline.vue';
 
 import "@material/web/progress/linear-progress";
-import "@material/web/divider/divider";
 import 'v-calendar/style.css';
 
+const c1 = ref();
+const c2 = ref();
 const store = useStore();
 const isRootLoading = ref(true);
 const isLoading = ref(true);
@@ -116,6 +118,7 @@ function fetchEvents(search = "") {
     sort_column: EventEnum.date,
     sort_type: "ASC",
   };
+
 
   makeRequest<EventModel[]>("GET", Endpoints.Events, request, response => {
     isLoading.value = false;
@@ -157,6 +160,9 @@ function fetchEvents(search = "") {
         key: 'today1',
         highlight: true,
         dates: new Date(),
+        popover: {
+          label: 'Today',
+        }
       });
 
       return;
@@ -167,16 +173,33 @@ function fetchEvents(search = "") {
   });
 }
 
+// For AND circuit search condition 
+let x: number, y: number;
+
 /**
  * On date change
  */
-function onChange(e: any) {
+function onChange(e: any, c: number) {
   if (e.length === 0) {
     toast.error("Can't get date. Please try again. :(");
     return;
   }
 
-  fetchEvents(getYearMonth(e[0].year, e[0].month));
+  if (c === 1) {
+    c2.value.move({ year: e[0].year, month: e[0].month });
+    x = 1;
+  }
+  
+  if (c === 2) {
+    c1.value.move({ year: e[0].year, month: e[0].month });
+    y = 1;
+  }
+  
+  if (x > 0 && y > 0) {
+    fetchEvents(getYearMonth(e[0].year, e[0].month));
+    x = 0;
+    y = 0;
+  }
 }
 
 /**

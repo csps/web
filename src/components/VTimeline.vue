@@ -25,9 +25,9 @@
           {{ item.location }}
         </div>
 
-        <div class="mt-3 body-medium">
-          {{ item.content }}
-        </div>
+        <!-- <div class="mt-3 body-medium">
+          {{ item.content }} Hide for now
+        </div> -->
       </div>
     </li>
   </ol>

@@ -36,6 +36,15 @@
       {{ message || "Fetching events..." }}
     </div>
 
+    <VPagination
+      class="mt-5"
+      v-if="data.events.length > 0"
+      :limit="parseInt(Env.admin_events_per_page)"
+      :page="data.page"
+      :total="data.total"
+      @change="p => data.page = p"
+    />
+
     <DialogAdminEvents v-model="isDialogOpen" @done="fetchEvents" />
   </div>
 </template>
@@ -52,6 +61,7 @@ import { useStore } from "~/store";
 import { Env } from "~/config";
 
 import CardEvent from "../components/CardEvent.vue";
+import VPagination from "~/components/VPagination.vue";
 import DialogAdminEvents from "~/components/dialogs/DialogAdminEvents.vue";
 
 const message = ref();
@@ -85,8 +95,8 @@ function fetchEvents(search = "") {
     search_value: [search],
     search_column: [data.value.column],
     page: data.value.page,
-    limit: Env.admin_Events_per_page,
-    sort_column: EventEnum.date_stamp,
+    limit: Env.admin_events_per_page,
+    sort_column: EventEnum.date,
     sort_type: "DESC"
   };
 

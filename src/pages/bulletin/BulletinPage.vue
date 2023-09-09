@@ -1,6 +1,6 @@
 <template>
   <div class="w-full h-full py-8">
-    <div v-if="isLoading" class="flex flex-col justify-center items-center gap-3 body-medium">
+    <div v-if="isRootLoading" class="flex flex-col justify-center items-center gap-3 body-medium">
       <md-linear-progress indeterminate />
       <span>Fetching events and activities...</span>
     </div>
@@ -14,7 +14,14 @@
 
         <div class="flex flex-col-reverse 2xl:grid 2xl:grid-cols-6 gap-16 justify-center">
           <div class="w-full flex-grow col-span-2">
-            <VTimeline :data="data" />
+            <div v-if="isLoading" class="flex flex-col justify-center items-center gap-3 body-medium">
+              <md-linear-progress indeterminate />
+              <span>Fetching events and activities...</span>
+            </div>
+            <div class="bg-surface-container-low p-10 rounded-3xl text-center text-on-surface-variant  body-medium flex justify-center items-center" v-else-if="message.length > 0">
+              {{ message }}
+            </div>
+            <VTimeline v-else :data="data" />
           </div>
   
           <div class="hidden md:block col-span-4">
@@ -77,7 +84,9 @@ import "@material/web/divider/divider";
 import 'v-calendar/style.css';
 
 const store = useStore();
+const isRootLoading = ref(true);
 const isLoading = ref(true);
+const message = ref("");
 const attributes = ref<any[]>([]);
 const data = ref<TimelineData[]>([]);
 const year = ref(new Date().getFullYear());
@@ -96,6 +105,8 @@ watch([year, month], ([y, m]) => {
  */
 function fetchEvents(search = "") {
   store.isLoading = true;
+  isLoading.value = true;
+  message.value = "";
 
   const request: PaginationRequest = {
     page: 1,
@@ -109,7 +120,7 @@ function fetchEvents(search = "") {
   makeRequest<EventModel[]>("GET", Endpoints.Events, request, response => {
     isLoading.value = false;
     store.isLoading = false;
-
+    isRootLoading.value = false;
     attributes.value = [];
 
     if (response.success) {
@@ -132,13 +143,12 @@ function fetchEvents(search = "") {
           thumbnail: event.thumbnail,
         };
       });
-    } else {
-      toast.error("Can't get events. Please try again. :(");
-    }
 
-    if (response.success) {
       return;
     }
+
+    message.value = response.message;
+    console.warn(response.message);
   });
 }
 

@@ -209,6 +209,15 @@ declare global {
     id: number;
     name: string;
   };
+
+  type TimelineData = {
+    title: string,
+    time: string,
+    date: string,
+    content: string,
+    location?: string,
+    link?: string
+  }
 }
 
 export {};

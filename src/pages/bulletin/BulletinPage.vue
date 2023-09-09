@@ -42,9 +42,9 @@
                       v-for="attr in attributes"
                       :key="attr.key"
                       class="text-xs leading-tight rounded-sm p-1 mt-0 mb-1"
-                      :class="attr.customData.class"
+                      :class="attr.customData?.class"
                     >
-                      {{ attr.customData.title }}
+                      {{ attr?.customData?.title }}
                     </p>
                   </div>
                 </div>
@@ -121,7 +121,16 @@ function fetchEvents(search = "") {
     isLoading.value = false;
     store.isLoading = false;
     isRootLoading.value = false;
-    attributes.value = [];
+    attributes.value = [
+      {
+        key: 'today',
+        customData: {
+          title: 'Today',
+          class: 'bg-surface-variant text-on-surface-variant',
+        },
+        dates: new Date()
+      }
+    ];
 
     if (response.success) {
       data.value = response.data.map(event => {
@@ -142,6 +151,12 @@ function fetchEvents(search = "") {
           location: event.venue,
           thumbnail: event.thumbnail,
         };
+      });
+
+      attributes.value.push({
+        key: 'today1',
+        highlight: true,
+        dates: new Date(),
       });
 
       return;
@@ -180,6 +195,10 @@ function getYearMonth(year: number, month: number) {
   border-radius: 12px;
   width: 100%;
 
+  & .vc-highlight-bg-solid {
+    @apply bg-transparent;
+  }
+ 
   & .vc-header {
     @apply h-16 bg-surface-container-low mt-0 rounded-tl-xl rounded-tr-xl;
 

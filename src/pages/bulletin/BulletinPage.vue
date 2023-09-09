@@ -1,39 +1,61 @@
 <template>
-  <div class="w-full h-full py-12">
-    <div class="container mx-auto px-6 flex flex-col items-center">
-      <h2 class="headline-small font-semibold text-on-surface-variant">Bulletin Board</h2>
-      <p class="title-small mb-12 text-outline">Check out our bulletin board for a list of upcoming events and activities!</p>
+  <div class="w-full h-full py-8">
+    <div v-if="isLoading" class="flex flex-col justify-center items-center gap-3 body-medium">
+      <md-linear-progress indeterminate />
+      <span>Fetching events and activities...</span>
+    </div>
 
-      <div class="grid grid-cols-3 gap-16 w-full justify-center">
-        <div class="w-full flex-grow">
-          <VTimeline :data="data" />
+    <div v-else class="container mx-auto px-6 flex flex-col items-center">
+      <h2 class="title-large font-semibold text-on-surface-variant">Events & Activities</h2>
+      <p class="title-small text-outline text-center">Check out our bulletin board for a list of upcoming events and activities!</p>
+
+      <div class="w-full 2xl:w-3/4">
+        <md-divider class="mb-8 md:mb-12 mt-4 md:mt-8" />
+
+        <div class="flex flex-col-reverse 2xl:grid 2xl:grid-cols-6 gap-16 justify-center">
+          <div class="w-full flex-grow col-span-2">
+            <VTimeline :data="data" />
+          </div>
+  
+          <div class="hidden md:block col-span-4">
+            <Calendar
+              @did-move="onChange"
+              class="custom-calendar w-full"
+              :masks="{ weekdays: 'WWW' }"
+              :attributes="attributes"
+              :is-dark="store.isDark"
+              disable-page-swipe
+              color="purple"
+            >
+              <template v-slot:day-content="{ day, attributes }">
+                <div class="flex flex-col h-full z-10 overflow-hidden">
+                  <span class="day-label title-small text-on-surface-variant">{{ day.day }}</span>
+                  <div class="flex-grow overflow-y-auto overflow-x-auto">
+                    <p
+                      v-for="attr in attributes"
+                      :key="attr.key"
+                      class="text-xs leading-tight rounded-sm p-1 mt-0 mb-1"
+                      :class="attr.customData.class"
+                    >
+                      {{ attr.customData.title }}
+                    </p>
+                  </div>
+                </div>
+              </template>
+            </Calendar>
+          </div>
+  
+          <div class="md:hidden flex justify-center">
+            <Calendar
+              @did-move="onChange"
+              class="w-full"
+              :attributes="attributes"
+              :is-dark="store.isDark"
+              disable-page-swipe
+              color="purple"
+            />
+          </div>
         </div>
-
-        <Calendar
-          @did-move="onChange"
-          class="custom-calendar col-span-2"
-          :masks="{ weekdays: 'WWW' }"
-          :attributes="attributes"
-          :is-dark="store.isDark"
-          disable-page-swipe
-          color="purple"
-        >
-          <template v-slot:day-content="{ day, attributes }">
-            <div class="flex flex-col h-full z-10 overflow-hidden">
-              <span class="day-label title-small text-on-surface-variant">{{ day.day }}</span>
-              <div class="flex-grow overflow-y-auto overflow-x-auto">
-                <p
-                  v-for="attr in attributes"
-                  :key="attr.key"
-                  class="text-xs leading-tight rounded-sm p-1 mt-0 mb-1"
-                  :class="attr.customData.class"
-                >
-                  {{ attr.customData.title }}
-                </p>
-              </div>
-            </div>
-          </template>
-        </Calendar>
       </div>
     </div>
   </div>
@@ -46,13 +68,16 @@ import { useStore } from '~/store';
 import { Endpoints, makeRequest } from "~/network/request";
 import { PaginationRequest } from "~/types/request";
 import { EventEnum } from "~/types/models";
-import 'v-calendar/style.css';
-
-import VTimeline from '~/components/VTimeline.vue';
 import { toast } from "vue3-toastify";
 
+import VTimeline from '~/components/VTimeline.vue';
+
+import "@material/web/progress/linear-progress";
+import "@material/web/divider/divider";
+import 'v-calendar/style.css';
+
 const store = useStore();
-const isLoading = ref(false);
+const isLoading = ref(true);
 const attributes = ref<any[]>([]);
 const data = ref<TimelineData[]>([]);
 const year = ref(new Date().getFullYear());
@@ -70,7 +95,6 @@ watch([year, month], ([y, m]) => {
  * Fetch events from the server
  */
 function fetchEvents(search = "") {
-  isLoading.value = true;
   store.isLoading = true;
 
   const request: PaginationRequest = {
@@ -147,7 +171,7 @@ function getYearMonth(year: number, month: number) {
   width: 100%;
 
   & .vc-header {
-    @apply h-16 bg-surface-container-high mt-0 rounded-xl;
+    @apply h-16 bg-surface-container-low mt-0 rounded-tl-xl rounded-tr-xl;
 
     .vc-title, .vc-title:hover {
       @apply text-on-surface opacity-[0.9];
@@ -163,7 +187,7 @@ function getYearMonth(year: number, month: number) {
   }
 
   & .vc-day {
-    @apply bg-surface-container-high;
+    @apply bg-surface-container-low;
 
     padding: 0 5px 3px 5px;
     text-align: left;
@@ -177,10 +201,6 @@ function getYearMonth(year: number, month: number) {
 
     &:not(.on-bottom) {
       @apply border-b border-outline-variant;
-
-      &.weekday-1 {
-        @apply border-b border-outline-variant;
-      }
     }
 
     &:not(.on-right) {

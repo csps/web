@@ -132,8 +132,11 @@ import EventOutlined from "@material-symbols/svg-700/rounded/event.svg?raw";
 import LocationOn from "@material-symbols/svg-700/rounded/location_on-fill.svg?raw";
 import LocationOnOutlined from "@material-symbols/svg-700/rounded/location_on.svg?raw";
 
-import Shedule from "@material-symbols/svg-700/rounded/schedule-fill.svg?raw";
-import SheduleOutlined from "@material-symbols/svg-700/rounded/schedule.svg?raw";
+import Schedule from "@material-symbols/svg-700/rounded/schedule-fill.svg?raw";
+import ScheduleOutlined from "@material-symbols/svg-700/rounded/schedule.svg?raw";
+
+import CalendarMonth from "@material-symbols/svg-700/rounded/calendar_month-fill.svg?raw";
+import CalendarMonthOutlined from "@material-symbols/svg-700/rounded/calendar_month.svg?raw";
 
 // Icon type
 export type Icon = "arrow_back" | "menu" | "photo_camera" | "favorite" |
@@ -143,7 +146,7 @@ export type Icon = "arrow_back" | "menu" | "photo_camera" | "favorite" |
   "shopping_cart_checkout" | "ballot" | "deployed_code" | "steppers" | "search" |
   "person" | "security" | "settings" | "tune" | "receipt" | "more_vert" | "check" |
   "groups" | "chevron_right" | "filter_list" | "chevron_left" | "campaign" | "event" |
-  "location_on" | "schedule";
+  "location_on" | "schedule" | "calendar_month";
 
 /**
  * Material Icon
@@ -238,7 +241,9 @@ export function icon(name: Icon, outlined: boolean = false) {
   // Location On
   if (name === "location_on") return outlined ? LocationOnOutlined : LocationOn;
   // Schedule
-  if (name === "schedule") return outlined ? SheduleOutlined : Shedule;
+  if (name === "schedule") return outlined ? ScheduleOutlined : Schedule;
+  // Calendar Month
+  if (name === "calendar_month") return outlined ? CalendarMonthOutlined : CalendarMonth;
 
   // Default
   return null;

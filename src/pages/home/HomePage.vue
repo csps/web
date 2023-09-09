@@ -4,12 +4,12 @@
     <div class="rounded-br-3xl rounded-bl-3xl -z-[1] bg-surface">
       <div class="container mx-auto text-center pt-8 pb-5 px-6">
         <div class="flex justify-center gap-3 mb-6">
-          <md-filter-chip :selected="role ==='dean'" @click="showMessage('dean')" label="Dean" title="View Message" data-sal="slide-right" data-sal-repeat>
+          <md-filter-chip :selected="role ==='dean'" @click="showMessage('dean')" label="Dean" title="Welcome Message" data-sal="slide-right" data-sal-repeat>
             <div slot="icon" class="rounded-full overflow-hidden">
               <img :src="Dean" alt="Dean" />
             </div>
           </md-filter-chip>
-          <md-filter-chip :selected="role === 'adviser'" @click="showMessage('adviser')" label="Adviser" title="View Message" data-sal="slide-right" data-sal-repeat>
+          <md-filter-chip :selected="role === 'adviser'" @click="showMessage('adviser')" label="Adviser" title="Welcome Message" data-sal="slide-right" data-sal-repeat>
             <div slot="icon" class="rounded-full overflow-hidden">
               <img :src="Adviser" alt="Adviser" />
             </div>

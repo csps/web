@@ -22,7 +22,7 @@ export const NAV_LINKS: {
 }[] = [
   { name: 'Home', path: '/', icon: "home" },
   { name: 'About Us', path: '/about', icon: "diversity" },
-  { name: 'Bulletin Board', path: '/bulletin', icon: "ballot" },
+  { name: 'Bulletin Board', path: '/bulletin', icon: "calendar_month" },
   { name: 'Merch', path: '/merch', icon: "store" },
 ];
 

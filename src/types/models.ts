@@ -13,8 +13,9 @@ export enum EventEnum {
   title = "title",
   description = "description",
   venue = "venue",
-  start_date_stamp = "start_date_stamp",
-  end_date_stamp = "end_date_stamp",
+  date = "date",
+  start_time = "start_time",
+  end_time = "end_time",
   date_stamp = "date_stamp",
 }
 

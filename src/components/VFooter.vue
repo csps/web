@@ -40,7 +40,7 @@ const route = useRoute();
 const links = [
   { href: "https://web.facebook.com/UCMainCSPS", src: FacebookSvg, alt: "CSP-S UC Main Facebook Page" },
   { href: "mailto:ucmaincsps@gmail.com", src: MailSvg, alt: "CSP-S UC Main Email" },
-  { href: "https://discord.gg/v4jprGq3", src: DiscordSvg, alt: "CSP-S UC Main Discord Server" },
+  { href: "https://discord.com/invite/w3BPVTQUWd", src: DiscordSvg, alt: "CSP-S UC Main Discord Server" },
   { href: "https://github.com/csps", src: GithubSvg, alt: "CSP-S UC Main Github Organization" },
 ];
 </script>

@@ -28,25 +28,29 @@
 
         <div class="xl:flex justify-end space-x-5 hidden">
           <router-link v-for="link in NAV_LINKS" :key="link.path" :to="link.path" tabindex="-1">
-            <md-icon-button :title="link.name">
+            <md-icon-button :title="link.name" :selected="link.path === route.path">
+              <md-icon slot="selected" class="text-primary" v-html="icon(link.icon)" />
               <md-icon v-html="icon(link.icon, true)" />
             </md-icon-button>
           </router-link>
 
           <router-link v-if="store.isLoggedIn" to="/profile" tabindex="-1">
-            <md-icon-button title="Profile">
+            <md-icon-button title="Profile" :selected="route.path === '/profile'">
+              <md-icon slot="selected" class="text-primary" v-html="icon('person')" />
               <md-icon v-html="icon('person', true)" />
             </md-icon-button>
           </router-link>
 
           <router-link v-else-if="!store.isAdminLoggedIn" to="/login" tabindex="-1">
-            <md-icon-button title="Login">
+            <md-icon-button title="Login" :selected="route.path === '/login'">
+              <md-icon slot="selected" class="text-primary" v-html="icon('login')" />
               <md-icon v-html="icon('login')" />
             </md-icon-button>
           </router-link>
 
           <router-link v-if="store.isAdminLoggedIn" to="/admin" tabindex="-1">
-            <md-icon-button title="Admin">
+            <md-icon-button title="Admin" :selected="route.path.startsWith('/admin')">
+              <md-icon slot="selected" class="text-primary" v-html="icon('security')" />
               <md-icon v-html="icon('security')" />
             </md-icon-button>
           </router-link>
@@ -90,7 +94,7 @@ import CSPSLogo from '~/assets/img/csps_logo.png';
 import UCLogo from '~/assets/img/uc_logo.png';
 
 import { ref, onMounted } from 'vue';
-import { useRouter } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
 import { Config, NAV_LINKS } from "~/config";
 import { useStore } from "~/store";
 
@@ -118,6 +122,7 @@ onMounted(() => {
 });
 
 const store = useStore();
+const route = useRoute();
 const router = useRouter();
 const isMenuOpen = ref(false);
 

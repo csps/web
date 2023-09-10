@@ -73,7 +73,7 @@
         <md-linear-progress indeterminate />
         <span>Fetching announcements...</span>
       </div>
-      <div v-else-if="message.length > 0" class="text-sm text-error">
+      <div v-else-if="message.length > 0" class="text-sm p-8 bg-surface rounded-3xl text-on-surface">
         {{ message }}
       </div>
       <div v-else class="w-full lg:w-3/4 2xl:w-3/5 3xl:w-1/2 flex flex-col gap-6 pb-6">

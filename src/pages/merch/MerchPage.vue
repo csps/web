@@ -25,7 +25,7 @@
         <p>Fetching products...</p>
       </div>
 
-      <div class="text-error flex justify-center items-center gap-5 h-full" v-else-if="products === null || products.length === 0">
+      <div class="flex justify-center items-center gap-5 h-full p-8 bg-surface-variant rounded-3xl text-on-surface-variant" v-else-if="products === null || products.length === 0">
         {{ message }}
       </div>
 

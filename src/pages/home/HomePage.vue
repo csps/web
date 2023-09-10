@@ -4,27 +4,27 @@
     <div class="rounded-br-3xl rounded-bl-3xl -z-[1] bg-surface">
       <div class="container mx-auto text-center pt-8 pb-5 px-6">
         <div class="flex justify-center gap-3 mb-6">
-          <md-filter-chip :selected="role ==='dean'" @click="showMessage('dean')" label="Dean" title="Welcome Message" data-sal="zoom-in" data-sal-repeat elevated>
+          <md-filter-chip :selected="role ==='dean'" @click="showMessage('dean')" label="Dean" title="Welcome Message" data-sal="zoom-in" elevated>
             <div slot="icon" class="rounded-full overflow-hidden">
               <img :src="Dean" alt="Dean" />
             </div>
           </md-filter-chip>
-          <md-filter-chip :selected="role === 'adviser'" @click="showMessage('adviser')" label="Adviser" title="Welcome Message" data-sal="zoom-in" data-sal-repeat elevated>
+          <md-filter-chip :selected="role === 'adviser'" @click="showMessage('adviser')" label="Adviser" title="Welcome Message" data-sal="zoom-in" elevated>
             <div slot="icon" class="rounded-full overflow-hidden">
               <img :src="Adviser" alt="Adviser" />
             </div>
           </md-filter-chip>
         </div>
 
-        <h2 class="headline-medium font-semibold text-on-surface-variant" data-sal="zoom-in" data-sal-repeat>
+        <h2 class="headline-medium font-semibold text-on-surface-variant" data-sal="zoom-in">
           {{ store.isLoggedIn ? `Hello, ${store.student.first_name} ${store.student.last_name}` : "Dive into the world of Computer Science" }}
         </h2>
 
-        <h5 v-if="!store.isLoggedIn" class="title-medium text-on-surface-variant mt-2 mb-4" data-sal="zoom-in" data-sal-delay="100" data-sal-repeat>
+        <h5 v-if="!store.isLoggedIn" class="title-medium text-on-surface-variant mt-2 mb-4" data-sal="zoom-in" data-sal-delay="100">
           Connect, collaborate, and Grow Together
         </h5>
 
-        <div class="flex justify-center space-x-3" :class="{ 'mt-5': store.isLoggedIn }" data-sal="zoom-in" data-sal-repeat data-sal-delay="200">
+        <div class="flex justify-center space-x-3" :class="{ 'mt-5': store.isLoggedIn }" data-sal="zoom-in" data-sal-delay="200">
           <v-button :to="store.isLoggedIn ? '/bulletin' : '/login'" color="primary" variant="filled">
             {{ store.isLoggedIn ? 'Bulletin Board' : 'Login' }}
           </v-button>

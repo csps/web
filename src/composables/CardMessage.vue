@@ -63,7 +63,7 @@ p {
 }
 
 img {
-  @apply rounded-3xl border-[5px] border-secondary-container;
+  @apply rounded-3xl border-[5px] border-surface-container-high;
 }
 
 .closing p {

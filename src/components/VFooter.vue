@@ -6,7 +6,7 @@
           <div class="flex items-center justify-center space-x-5 mt-2 mb-2" tabindex="-1">
             <a class="relative outline-none w-6 h-6" v-for="(link, i) in links" :href="link.href" :key="i" target="_blank">
               <md-focus-ring />
-              <md-icon v-html="link.src" />
+              <md-icon class="text-outline" v-html="link.src" />
             </a>
           </div>
         </div>

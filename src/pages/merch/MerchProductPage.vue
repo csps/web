@@ -24,7 +24,14 @@
         
         <div class="rounded-2xl px-6 flex justify-center items-center h-full">
           <div class="h-[400px] w-[400px]">
-            <VImage v-if="photo > 0" :src="getPhotoLink(photo)" :alt="variation ? variation.name : (product?.name || '')" />
+            <a
+              v-if="photo > 0"
+              :href="getPhotoLink(photo)"
+              title="View product"
+              data-fancybox
+            >
+              <VImage :src="getPhotoLink(photo)" :alt="variation ? variation.name : (product?.name || '')" />
+            </a>
             <ImageTemplate class="h-full w-full" v-else />
           </div>
         </div>
@@ -90,10 +97,12 @@ import { useRoute } from 'vue-router';
 import { setPageTitle } from '~/utils/page';
 import { ref, onMounted, computed, watch } from 'vue';
 import { Endpoints, makeRequest } from '~/network/request';
+import { Fancybox } from "@fancyapps/ui";
 import { getPhotoLink } from '~/utils/network';
 import { toast } from 'vue3-toastify';
 import { ModeOfPayment } from "~/types/enums";
 import { useRouter } from 'vue-router';
+import { toCurrency } from '~/utils/string';
 
 import "@material/web/icon/icon";
 import "@material/web/divider/divider";
@@ -104,7 +113,7 @@ import "@material/web/chips/filter-chip";
 
 import VImage from '~/components/VImage.vue';
 import ImageTemplate from '~/composables/ImageTemplate.vue';
-import { toCurrency } from '~/utils/string';
+import "@fancyapps/ui/dist/fancybox/fancybox.css";
 
 const store = useStore();
 const route = useRoute();
@@ -157,6 +166,27 @@ onMounted(() => {
     if (product.value.thumbnail && product.value.thumbnail > 0) {
       // Set photo
       photo.value = product.value.thumbnail;
+
+      // Bind fancybox
+      setTimeout(() => {
+        Fancybox.bind("[data-fancybox]", {
+          Toolbar: {
+            display: {
+              left: ["infobar"],
+              middle: [
+                "zoomIn", "zoomOut", "toggle1to1", 
+                "rotateCCW", "rotateCW", "flipX", "flipY",
+              ],
+              right: [
+                "iterateZoom",
+                "download",
+                "fullscreen",
+                "close"
+              ]
+            }
+          }
+        });
+      }, 0);
     }
   });
 });

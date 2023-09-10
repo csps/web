@@ -9,6 +9,12 @@ declare global {
     count?: number
   }
 
+  type Officer = {
+    name: string;
+    position: string;
+    thumb: string;
+  }
+
   type DialogButton = {
     text: string,
     click: () => void,

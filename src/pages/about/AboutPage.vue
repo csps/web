@@ -7,12 +7,42 @@
         <div class="container mx-auto px-6 py-24 flex flex-col items-center justify-center text-center">
           <div class="flex justify-center flex-col items-center w-full lg:w-2/3 2xl:w-1/2 ">
             <img class="w-3/4 md:w-2/3" :src="store.isDark ? CSPSCoverDark : CSPSCoverLight" alt="CSPS Logo" data-sal="slide-right" data-sal-repeat />
-            <p class="text-justify w-full body-large leading-8 md:leading-9 mt-7 text-on-surface" data-sal="slide-right" data-sal-repeat>
+            <p class="text-justify w-full body-medium md:body-large leading-7 md:leading-9 mt-7 text-on-surface" data-sal="slide-right" data-sal-repeat>
               Welcome to the  Computing Society of the Philippines - Students!
               We are a student body organization that aims to create a welcoming and inclusive community for all computer science students at the University of Cebu - Main Campus.
               Our goal is to promote inclusivity and diversity within the field of computing, ensuring that every student has the opportunity to explore their interests and succeed in their academic and professional pursuits.
               Join us at CSP-S and become part of a community that celebrates diversity and fosters growth and development for all students in the field of computer science. We welcome you with open arms!
             </p>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <div class="w-full">
+          <h1 class="headline-small text-csps-primary dark:text-secondary font-semibold text-center" data-sal="zoom-in" data-sal-repeat>
+            MEET THE <span class="text-csps-secondary dark:text-tertiary-80">CSPS OFFICERS!</span>
+          </h1>
+  
+          <div class="relative">
+            <swiper-container
+              effect="coverflow"
+              grab-cursor="true"
+              centered-slides="true"
+              round-lengths="true"
+              autoplay-delay="3000"
+              coverflow-effect-slide-shadows="false"
+              data-sal="zoom-in" data-sal-repeat
+              class="officers-swiper w-full py-4 lg:py-8 overflow-hidden lg:overflow-visible flex justify-center"
+              autoplay-disable-on-interaction="false"
+            >
+              <swiper-slide
+                v-for="officer in officers"
+                :key="officer.name"
+                class="rounded-3xl my-10"
+              >
+                <CardOfficer class="mx-6 sm:mx-20 md:mx-4 lg:mx-6 shadow-md" :officer="officer" />
+              </swiper-slide>
+            </swiper-container>
           </div>
         </div>
       </section>
@@ -97,42 +127,6 @@
           </div>
         </div>
       </section>
-      
-      <section>
-        <div class="w-full">
-          <h1 class="headline-small  text-csps-tertiary dark:text-secondary font-semibold text-center" data-sal="zoom-in" data-sal-repeat>
-            MEET THE <span class="text-csps-secondary dark:text-tertiary-80">CSPS OFFICERS!</span>
-          </h1>
-  
-          <div class="relative">
-            <swiper-container
-              effect="coverflow"
-              grab-cursor="true"
-              centered-slides="true"
-              round-lengths="true"
-              autoplay-delay="3000"
-              coverflow-effect-slide-shadows="false"
-              data-sal="zoom-in" data-sal-repeat
-              class="officers-swiper w-full py-4 lg:py-8 overflow-hidden lg:overflow-visible flex justify-center"
-              autoplay-disable-on-interaction="false"
-            >
-              <swiper-slide
-                v-for="officer in officers"
-                :key="officer.name"
-                class="rounded-3xl shadow-md my-10"
-              >
-                <CardAbout :title="officer.position">
-                  <div class="flex flex-col items-center justify-center">
-                    <img :src="officer.thumb" class="rounded-full w-64 mb-7 shadow-sm filter" loading="lazy" />
-                    <h3 class="text-xl mb-2 font-semibold">{{ officer.name }}</h3>
-                    <p class="text-base text-center text-on-surface-variant font-medium">{{ officer.position }}</p>
-                  </div>
-                </CardAbout>
-              </swiper-slide>
-            </swiper-container>
-          </div>
-        </div>
-      </section>
     </VFullpage>
   </div>
 </template>
@@ -144,15 +138,17 @@ import CSPSLogo from "~/assets/svg/csps.svg";
 import CSPSCoverLight from "~/assets/svg/csps_cover_light.svg";
 import CSPSCoverDark from "~/assets/svg/csps_cover_dark.svg";
 
-import Jewel from '~/assets/img/profile/Jewel.jpg';
-import Brian from '~/assets/img/profile/Brian.jpg';
-import Jeremy from '~/assets/img/profile/Jeremy.jpg';
-import Krisha from '~/assets/img/profile/Krisha.jpg';
-import Leym from '~/assets/img/profile/Leym.jpg';
-import Christine from '~/assets/img/profile/Christine.jpg';
-import Enrico from '~/assets/img/profile/Enrico.jpg';
-import Rybryb from '~/assets/img/profile/Rybryb.jpg';
-import Andrian from '~/assets/img/profile/Andrian.jpg';
+import Gesim from '~/assets/img/profile/csps_gesim.jpg';
+import Lisondra from '~/assets/img/profile/csps_lisondra.jpg';
+import Ampatin from '~/assets/img/profile/csps_ampatin.jpg';
+import Gabuya from '~/assets/img/profile/csps_gabuya.jpg';
+import Reyes from '~/assets/img/profile/csps_reyes.jpg';
+import Lange from '~/assets/img/profile/csps_lange.jpg';
+import Bacalso from '~/assets/img/profile/csps_bacalso.jpg';
+import Branzuela from '~/assets/img/profile/csps_branzuela.jpg';
+import Sedigo from '~/assets/img/profile/csps_sedigo.jpg';
+import Fabroa from '~/assets/img/profile/csps_fabroa.jpg';
+import Tonilon from '~/assets/img/profile/csps_tonilon.jpg';
 
 import type { SwiperContainer } from 'swiper/element';
 import { register } from 'swiper/element/bundle';
@@ -160,22 +156,24 @@ import { onMounted } from 'vue';
 import { useStore } from '~/store';
 import sal from "sal.js";
 
-import CardAbout from '~/composables/CardAbout.vue';
+import CardOfficer from '~/composables/CardOfficer.vue';
 import VFullpage from '~/components/VFullpage.vue';
 import VMouse from "~/components/VMouse.vue";
 
 const store = useStore();
 
-const officers = [
-  { name: "Jewel Cedrick Gesim", position: "President", thumb: Jewel },
-  { name: "Brian Keith Lisondra", position: "VP - Internal", thumb: Brian },
-  { name: "Jeremy Andy Ampatin", position: "VP - External", thumb: Jeremy },
-  { name: "Krisha Mae Gabuya", position: "Secretary", thumb: Krisha },
-  { name: "Enrico Bacalso", position: "Treasurer", thumb: Enrico },
-  { name: "Marianne Leigh Reyes", position: "Assistant Treasurer", thumb: Leym },
-  { name: "Christine Lange", position: "Auditor", thumb: Christine },
-  { name: "Raymond Benedict Branzuela", position: "P.R.O", thumb: Rybryb },
-  { name: "Andrian Paul Sedigo", position: "P.I.O", thumb: Andrian },
+const officers: Officer[] = [
+  { name: "Jewel Cedrick Gesim", position: "President", thumb: Gesim },
+  { name: "Brian Keith Lisondra", position: "VP - Internal", thumb: Lisondra },
+  { name: "Jeremy Andy Ampatin", position: "VP - External", thumb: Ampatin },
+  { name: "Krisha Mae Gabuya", position: "Secretary", thumb: Gabuya },
+  { name: "Enrico Bacalso", position: "Treasurer", thumb: Bacalso },
+  { name: "Marianne Leigh Reyes", position: "Assistant Treasurer", thumb: Reyes },
+  { name: "Christine Lange", position: "Auditor", thumb: Lange },
+  { name: "Raymond Benedict Branzuela", position: "P.R.O", thumb: Branzuela },
+  { name: "Andrian Paul Sedigo", position: "P.I.O", thumb: Sedigo },
+  { name: "Maverick Fabroa", position: "Project Manager", thumb: Fabroa },
+  { name: "Michael Tonilon", position: "Developer", thumb: Tonilon },
 ];
 
 register();
@@ -188,9 +186,13 @@ onMounted(() => {
 
   Object.assign(swiper, {
     slidesPerView: 1,
-    spaceBetween: 0 ,
+    spaceBetween: 0,
     breakpoints: {
-      0: {
+      520: {
+        spaceBetween: 0,
+        slidesPerView: 1,
+      },
+      768: {
         spaceBetween: 0,
         slidesPerView: 2,
       },

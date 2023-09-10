@@ -34,7 +34,7 @@ export const SOCIAL_LINKS = [
 ];
 
 export const Config: Map = {
-  API_URL: process.env.NODE_ENV === "development" ? "http://127.0.0.1:3000" : window.location.origin + "/api",
+  API_URL: process.env.NODE_ENV === "development" ? `${location.protocol}//${location.hostname}:3000` : window.location.origin + "/api",
   initialHistoryLength: 0
 };
 

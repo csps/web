@@ -12,7 +12,7 @@
       <div class="w-full 2xl:w-3/4">
 
         <div class="flex flex-col-reverse 2xl:grid 2xl:grid-cols-6 gap-16 justify-center mt-10">
-          <div class="w-full flex-grow col-span-2">
+          <div class="w-full flex-grow col-span-2 px-4">
             <div v-if="isLoading" class="flex flex-col justify-center items-center gap-3 body-medium">
               <md-linear-progress indeterminate />
               <span>Fetching events and activities...</span>
@@ -75,6 +75,7 @@ import { Calendar } from 'v-calendar';
 import { useStore } from '~/store';
 import { Endpoints, makeRequest } from "~/network/request";
 import { PaginationRequest } from "~/types/request";
+import { getHumanDate } from "~/utils/date";
 import { EventEnum } from "~/types/models";
 import { toast } from "vue3-toastify";
 
@@ -139,9 +140,17 @@ function fetchEvents(search = "") {
       data.value = response.data.map(event => {
         attributes.value.push({
           key: event.id,
+          highlight: {
+            fillMode: 'light',
+          },
           customData: {
             title: event.title,
             class: 'bg-primary text-on-primary',
+          },
+          popover: {
+            label: event.title,
+            placement: 'top',
+            visibility: 'hover',
           },
           dates: new Date(event.date)
         });
@@ -149,7 +158,7 @@ function fetchEvents(search = "") {
         return {
           title: event.title,
           content: event.description,
-          date: event.date,
+          date: getHumanDate(new Date(event.date)),
           time: event.start_time.substring(0, 5) + " - " + event.end_time.substring(0, 5),
           location: event.venue,
           thumbnail: event.thumbnail,
@@ -218,7 +227,7 @@ function getYearMonth(year: number, month: number) {
   border-radius: 12px;
   width: 100%;
 
-  & .vc-highlight-bg-solid {
+  & .vc-highlight-bg-solid, & .vc-highlight-bg-light {
     @apply bg-transparent;
   }
  

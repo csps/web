@@ -67,21 +67,21 @@
       </h6>
 
       <div class="flex flex-col gap-6 mt-5">
-        <md-outlined-text-field @keydown.enter="submit" v-model.trim="receiptId" label="Receipt ID" prefix-text="CSPS">
+        <md-outlined-text-field @keydown.enter="submit" v-model.trim="receiptId" label="Receipt ID">
           <md-icon slot="leadingicon" v-html="icon('receipt', true)" />
         </md-outlined-text-field>
         <md-outlined-text-field @keydown.enter="submit" v-model.trim="studentId" label="Student ID" type="number">
           <md-icon slot="leadingicon" v-html="icon('badge', true)" />
         </md-outlined-text-field>
   
-        <md-filled-button @click="submit" :disabled="receiptId.length === 0 || studentId.length === 0">
-          View order
+        <md-filled-button @click="submit" :disabled="receiptId.length === 0 || studentId.length === 0 || isFetching">
+          {{ isFetching ? 'Finding order...' : 'View order' }}
         </md-filled-button>
   
         <p class="body-small text-center">
           Have an account? 
           <router-link :to="{ name: 'Login' }">
-            Click here
+            <span class="border-b border-outline-variant border-dashed">Click here</span>
           </router-link>
   
           to login  and view your orders!
@@ -113,6 +113,7 @@ import "@material/web/select/select-option";
 import CardOrder from "../admin/components/CardOrder.vue";
 import VPagination from "~/components/VPagination.vue";
 import { Endpoints, makeRequest } from "~/network/request";
+import { toast } from "vue3-toastify";
 
 const store = useStore();
 const router = useRouter();
@@ -120,6 +121,7 @@ const router = useRouter();
 const message = ref("");
 const receiptId = ref("");
 const studentId = ref("");
+const isFetching = ref(false);
 
 const data = ref({
   total: 0,
@@ -145,10 +147,6 @@ const allowedFilters = [
   FullOrderEnum.mode_of_payment,
   FullOrderEnum.variations_name,
 ];
-
-function submit() {
-  if (receiptId.value.length === 0 || studentId.value.length === 0) return;
-}
 
 watch([
   () => data.value.search,
@@ -184,8 +182,6 @@ function fetchOrders(search = "") {
     store.isLoading = false;
     data.value.orders = [];
 
-    console.log(response);
-
     if (response.success) {
       data.value.total = response.count || 0;
       data.value.orders = response.data;
@@ -196,6 +192,29 @@ function fetchOrders(search = "") {
   });
 }
 
+function submit() {
+  if (receiptId.value.length === 0 || studentId.value.length === 0) return;
+
+  isFetching.value = true;
+  store.isLoading = true;
+
+  const request: any = {
+    search_value: [receiptId.value, studentId.value],
+    search_column: [FullOrderEnum.receipt_id, FullOrderEnum.student_id],
+  };
+
+  makeRequest<FullOrderModel[]>("GET", Endpoints.Orders, request, response => {
+    isFetching.value = false;
+    store.isLoading = false;
+
+    if (response.success) {
+      goToReceipt(response.data[0].receipt_id);
+      return;
+    }
+
+    toast.warn(response.message);
+  });  
+}
 
 function goToReceipt(receipt: string) {
   router.push({ name: "Receipt", params: { receipt }});

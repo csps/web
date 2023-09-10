@@ -73,7 +73,7 @@
                 <span class="font-medium">{{ variation ? variation.stock : product?.stock }}</span> stocks left
               </span>
               <span class="text-error font-medium" v-else>
-                We're out of stock! :(
+                Out of stock
               </span>
             </p>
           </div>

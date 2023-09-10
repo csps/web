@@ -21,6 +21,7 @@
       <md-filled-text-field
         class="w-full"
         label="Value"
+        type="textarea"
         v-model.trim="newValue"
         :disabled="isLoading"
         @keydown.enter="submit"
@@ -106,7 +107,7 @@ function submit() {
           for (const key in response.data) {
             Env[key] = response.data[key];
           }
-
+          
           emit("done");
           close();
           return;
@@ -128,6 +129,8 @@ function submit() {
  * Close the dialog
  */
 function close() {
+  newName.value = "";
+  newValue.value = "";
   emit("update:modelValue", false);
 }
 </script>

@@ -40,7 +40,7 @@
 
     <!-- Message -->
     <Transition name="slide-fade" mode="out-in">
-      <div v-if="role" class="h-full bg-surface-variant dark:bg-surface-container-high px-6 mt-16 mb-16">
+      <div v-if="role && role !== '-' as Role" class="h-full bg-surface-variant dark:bg-surface-container-high px-6 mt-16 mb-16">
         <swiper-container
           ref="swiper"
           effect="cards"
@@ -111,13 +111,13 @@ import "@material/web/progress/linear-progress";
 import "@material/web/button/filled-button";
 import "@material/web/button/filled-tonal-button";
 import "@material/web/chips/filter-chip";
-import { getStore, removeStore, setStore } from '~/utils/storage';
+import { getStore, setStore } from '~/utils/storage';
 
 register();
 
 const swiper = ref();
 const waveEl = ref();
-const role = ref<Role | null>(getStore("msg_role") as Role || null);
+const role = ref<Role | null>(getStore("msg_role") as Role || "dean");
 const isShowMessage = ref(false);
 const announcements = ref<AnnouncementModel[]>([]);
 const isLoading = ref(true);
@@ -216,7 +216,7 @@ function showMessage(r: Role) {
     }
   
     if (role.value === null) {
-      removeStore("msg_role");
+      setStore("msg_role", "-");
       return;
     }
   

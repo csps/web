@@ -40,7 +40,7 @@
 
     <!-- Message -->
     <Transition name="slide-fade" mode="out-in">
-      <div v-show="role" class="h-full bg-surface-variant dark:bg-surface-container-high px-6 mt-16 mb-16">
+      <div v-if="role" class="h-full bg-surface-variant dark:bg-surface-container-high px-6 mt-16 mb-16">
         <swiper-container
           ref="swiper"
           effect="cards"
@@ -111,12 +111,13 @@ import "@material/web/progress/linear-progress";
 import "@material/web/button/filled-button";
 import "@material/web/button/filled-tonal-button";
 import "@material/web/chips/filter-chip";
+import { getStore, removeStore, setStore } from '~/utils/storage';
 
 register();
 
 const swiper = ref();
 const waveEl = ref();
-const role = ref<Role | null>("dean");
+const role = ref<Role | null>(getStore("msg_role") as Role || null);
 const isShowMessage = ref(false);
 const announcements = ref<AnnouncementModel[]>([]);
 const isLoading = ref(true);
@@ -168,6 +169,14 @@ onMounted(() => {
     message.value = response.message;
   });
 
+  if (role.value === 'dean') {
+    swiper.value?.swiper.slideTo(0);
+  }
+
+  if (role.value === 'adviser') {
+    swiper.value?.swiper.slideTo(1);
+  }
+
   // Add slide change event listener to swiper
   swiper.value?.addEventListener('slidechange', (event: any) => {
     if (event.detail[0].realIndex === 0) {
@@ -197,13 +206,22 @@ function showMessage(r: Role) {
   isShowMessage.value = true;
   role.value = role.value === r ? null : r;
 
-  if (r === "dean") {
-    swiper.value?.swiper.slideTo(0);
-  }
+  setTimeout(() => {
+    if (role.value === "dean") {
+      swiper.value?.swiper.slideTo(0);
+    }
+    
+    if (role.value === "adviser") {
+      swiper.value?.swiper.slideTo(1);
+    }
   
-  if (r === "adviser") {
-    swiper.value?.swiper.slideTo(1);
-  }
+    if (role.value === null) {
+      removeStore("msg_role");
+      return;
+    }
+  
+    setStore("msg_role", r);
+  }, 0);
 }
 </script>
 

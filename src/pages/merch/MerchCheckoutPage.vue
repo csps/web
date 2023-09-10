@@ -49,7 +49,7 @@
 
               <div v-if="!store.isLoggedIn" class="flex justify-end items-center text-on-surface-variant text-sm mt-3">
                 <label title="Your info will be saved locally in your browser" class="cursor-help">
-                  <md-checkbox @change="onSaveInfo" />
+                  <md-checkbox @change="onSaveInfo" :checked="isSaveInfo" />
                   <span class="ml-3 border-b border-dashed border-outline-variant">Save info for future transactions</span>
                 </label>
               </div>
@@ -242,6 +242,7 @@ onMounted(() => {
           course.value = parseInt(student.course);
           email.value = student.email_address;
           year.value = student.year_level;
+          isSaveInfo.value = true;
         }
       }, 0);
 

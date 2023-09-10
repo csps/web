@@ -2,7 +2,7 @@ import axios from "axios";
 import Endpoints from "./endpoints";
 
 import type { AxiosRequestConfig } from "axios";
-import { getLocal } from "~/utils/page";
+import { getStore } from "~/utils/storage";
 import { Config } from "~/config";
 
 /**
@@ -72,18 +72,18 @@ function makeRequest<T>(method: HttpMethod, endpoint: Endpoints, data: any, call
   }
 
   // If has admin token
-  if (getLocal("csps_token").length > 0) {
+  if (getStore("csps_token").length > 0) {
     // Add token to config
     config.headers = {
-      Authorization: `Bearer ${getLocal("csps_token")}`
+      Authorization: `Bearer ${getStore("csps_token")}`
     }
   }
 
   // If has student token
-  else if (getLocal("token").length > 0) {
+  else if (getStore("token").length > 0) {
     // Add token to config
     config.headers = {
-      Authorization: `Bearer ${getLocal("token")}`
+      Authorization: `Bearer ${getStore("token")}`
     }
   }
 

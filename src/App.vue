@@ -20,7 +20,7 @@
 import { useRoute } from "vue-router";
 import { Env } from './config';
 import { useStore } from './store';
-import { removeLocal } from './utils/page';
+import { removeStore } from './utils/storage';
 import { toast } from 'vue3-toastify';
 import { Endpoints, makeRequest } from './network/request';
 import { isAdminLoginValid, isLoginValid } from './utils/network';
@@ -59,7 +59,7 @@ makeRequest<any>("GET", Endpoints.Env, null, response => {
       }
 
       // If not valid, clear local storage
-      removeLocal("token");
+      removeStore("token");
       // Set logged out
       store.isLoggedIn = false;
     });
@@ -77,7 +77,7 @@ makeRequest<any>("GET", Endpoints.Env, null, response => {
       }
 
       // If not valid, clear local storage
-      removeLocal("csps_token");
+      removeStore("csps_token");
       // Set logged out
       store.isAdminLoggedIn = false;
     });
@@ -88,8 +88,8 @@ makeRequest<any>("GET", Endpoints.Env, null, response => {
   toast.error(response.message);
 
   if (response.data === "UNAUTHORIZED") {
-    removeLocal("token");
-    removeLocal("csps_token");
+    removeStore("token");
+    removeStore("csps_token");
     store.isLoggedIn = false;
     store.isAdminLoggedIn = false;
   }

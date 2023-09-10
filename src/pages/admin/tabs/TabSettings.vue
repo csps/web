@@ -13,7 +13,7 @@
 <script lang="ts" setup>
 import { icon } from "~/utils/icon";
 import { useDialog, useStore } from "~/store";
-import { removeLocal } from "~/utils/page";
+import { removeStore } from "~/utils/storage";
 import { useRouter } from "vue-router";
 
 import "@material/web/ripple/ripple";
@@ -38,7 +38,7 @@ const items: Item[] = [
           // Set loading to true
           store.isLoading = true;
           // Clear local storage
-          removeLocal("csps_token");
+          removeStore("csps_token");
           // Set logged out
           store.isAdminLoggedIn = false;
           // Redirect to login

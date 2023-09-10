@@ -102,7 +102,7 @@ import "@material/web/iconbutton/icon-button"
 
 import { getHistoryLength } from '~/utils/page';
 import { setDarkMode } from '~/utils/theme';
-import { getItem } from '~/utils/string';
+import { getStore } from '~/utils/storage';
 import { icon } from '~/utils/icon';
 
 defineProps({
@@ -113,7 +113,7 @@ defineProps({
 });
 
 onMounted(() => {
-  store.isDark = getItem("dark") === "1";
+  store.isDark = getStore("dark") === "1";
   setDarkMode(store.isDark);
 });
 

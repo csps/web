@@ -66,7 +66,7 @@ import { ref, watch } from "vue";
 import { icon } from '~/utils/icon';
 import { useRouter } from 'vue-router';
 import { useStore, useDialog } from '~/store';
-import { removeLocal } from '~/utils/page';
+import { removeStore } from '~/utils/storage';
 import { makeRequest, Endpoints } from "~/network/request";
 import { StudentEnum } from "~/types/models";
 import { toast } from "vue3-toastify";
@@ -116,7 +116,7 @@ function openLogoutDialog() {
       // Set loading to true
       store.isLoading = true;
       // Clear local storage
-      removeLocal("token");
+      removeStore("token");
       // Set logged out
       store.isLoggedIn = false;
       // Redirect to login

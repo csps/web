@@ -160,6 +160,7 @@ import { Endpoints, makeRequest } from "~/network/request";
 import { toCurrency } from "~/utils/string";
 import { getPhotoLink } from '~/utils/network';
 import { ModeOfPayment } from "~/types/enums";
+import { getStore, removeStore, setStore } from "~/utils/storage";
 import { toast } from "vue3-toastify";
 import { icon } from '~/utils/icon';
 import { useStore } from '~/store';
@@ -234,8 +235,8 @@ onMounted(() => {
 
       setTimeout(() => {
         // If there is a saved student info and is not logged in, load it
-        if (localStorage.getItem("student") && !store.isLoggedIn) {
-          const student = JSON.parse(atob(localStorage.getItem("student") || ""));
+        if (getStore("student") && !store.isLoggedIn) {
+          const student = JSON.parse(atob(getStore("student") || ""));
           firstName.value = student.first_name;
           lastName.value = student.last_name;
           studentId.value = student.student_id;
@@ -298,7 +299,7 @@ function placeOrder() {
 
   // If save info is checked, save the student info to local storage in base64 encoded string
   if (isSaveInfo.value) {
-    localStorage.setItem("student", btoa(JSON.stringify({
+    setStore("student", btoa(JSON.stringify({
       student_id: studentId.value,
       first_name: firstName.value,
       last_name: lastName.value,
@@ -310,7 +311,7 @@ function placeOrder() {
 
   // Otherwise, remove the student info from local storage
   else {
-    localStorage.removeItem("student");
+    removeStore("student");
   }
 
   if (mop.value === ModeOfPayment.GCASH) {

@@ -1,4 +1,4 @@
-import { setItem } from "./string";
+import { setStore } from "./storage";
 
 /**
  * Set dark mode based on user preference
@@ -15,6 +15,6 @@ export function setDarkMode(isDark: boolean) {
   document.documentElement.setAttribute("data-color-scheme", isDark ? "dark" : "light");
   document.documentElement.querySelector('meta[name="theme-color"]')?.setAttribute('content', isDark ? "#151216" : "#7F4894");
 
-  setItem("dark", isDark ? "1" : "0");
+  setStore("dark", isDark ? "1" : "0");
 }
 

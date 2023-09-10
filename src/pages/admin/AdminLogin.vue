@@ -66,7 +66,7 @@ import { toast } from "vue3-toastify";
 import { useStore } from "~/store";
 import { useRouter } from "vue-router";
 import { Endpoints, makeRequest } from "~/network/request";
-import { setLocal } from "~/utils/page";
+import { setStore } from "~/utils/storage";
 import sal from "sal.js";
 
 const store = useStore();
@@ -114,7 +114,7 @@ function login() {
     // if success
     if (response.success) {
       // Save token to local storage
-      setLocal("csps_token", response.data.token);
+      setStore("csps_token", response.data.token);
       // Set student
       store.admin = response.data.student;
       // Set is logged in to true

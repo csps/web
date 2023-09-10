@@ -1,7 +1,8 @@
 import type { RouteRecordRaw } from "vue-router";
 import { createRouter, createWebHistory } from "vue-router";
-import { setPageTitle, getHistoryLength, getLocal } from "~/utils/page";
+import { setPageTitle, getHistoryLength } from "~/utils/page";
 import { isAdminLoginValid, isLoginValid } from "~/utils/network";
+import { getStore } from "~/utils/storage";
 import { useStore } from "~/store";
 import { Config } from "~/config";
 
@@ -117,7 +118,7 @@ router.beforeEach((to, _from, next) => {
   // If going to route that requres auth
   if (to.meta.requiresAuth) {
     // CHeck for admin token
-    const token = getLocal("csps_token");
+    const token = getStore("csps_token");
 
     // If goiing to admin page
     if (to.name === "Admin" && !token) {

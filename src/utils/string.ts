@@ -11,20 +11,6 @@ export function getSvgData(svg: string) {
 }
 
 /**
- * Get value by key from localStorage
- */
-export function getItem(key: string) {
-  return localStorage.getItem(key);
-}
-
-/**
- * Set value by key to localStorage
- */
-export function setItem(key: string, value: string) {
-  return localStorage.setItem(key, value);
-}
-
-/**
  * Convert value to currency
  */
 export function toCurrency(value: string | number) {

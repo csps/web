@@ -1,6 +1,6 @@
 import { Endpoints, makeRequest } from "~/network/request";
 import { useStore } from "~/store";
-import { getLocal } from "./page";
+import { getStore } from "./storage";
 import { Config } from "~/config";
 
 /**
@@ -8,13 +8,13 @@ import { Config } from "~/config";
  */
 export function isLoginValid(callback: (valid: boolean) => void) {
   // If has no token, return false
-  if (!getLocal("token")) {
+  if (!getStore("token")) {
     callback(false);
     return;
   }
 
   // If has token, check if valid
-  makeRequest<StudentResponse>("GET", Endpoints.LoginToken, { token: getLocal("token") }, response => {
+  makeRequest<StudentResponse>("GET", Endpoints.LoginToken, { token: getStore("token") }, response => {
     // If logged in
     if (response.success) {
       // Get store 
@@ -32,13 +32,13 @@ export function isLoginValid(callback: (valid: boolean) => void) {
  */
 export function isAdminLoginValid(callback: (valid: boolean) => void) {
   // If has no token, return false
-  if (!getLocal("csps_token")) {
+  if (!getStore("csps_token")) {
     callback(false);
     return;
   }
 
   // If has token, check if valid
-  makeRequest<StudentResponse>("GET", Endpoints.AdminLoginToken, { token: getLocal("csps_token") }, response => {
+  makeRequest<StudentResponse>("GET", Endpoints.AdminLoginToken, { token: getStore("csps_token") }, response => {
     // If logged in
     if (response.success) {
       // Get store 

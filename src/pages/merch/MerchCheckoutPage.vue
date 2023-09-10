@@ -30,12 +30,12 @@
 
               <div class="grid grid-cols-1 xl:grid-cols-2 gap-6">
                 <md-filled-select v-if="!store.isLoggedIn" v-model="course" :disabled="store.isLoggedIn || isPlacingOrder" label="Course" quick>
-                  <md-icon slot="leadingicon" v-html="icon('school', true)"  />
-                  <md-select-option v-for="(course, id) in courses" :key="id" :value="id" :headline="course" />
+                  <md-icon slot="leadingicon" v-html="icon('school', true)" />
+                  <md-select-option v-for="(c, id) in courses" :key="id" :value="Number(id)" :headline="c" />
                 </md-filled-select>
                 <md-filled-select v-else v-model="course" label="Course" disabled quick>
                   <md-icon slot="leadingicon" v-html="icon('school', true)"  />
-                  <md-select-option :value="1" headline="BSCS" />
+                  <md-select-option :value="0" headline="BSCS" />
                 </md-filled-select>
 
                 <md-filled-select label="Year level" :disabled="store.isLoggedIn || isPlacingOrder" v-model="year" quick>
@@ -49,7 +49,7 @@
 
               <div v-if="!store.isLoggedIn" class="flex justify-end items-center text-on-surface-variant text-sm mt-3">
                 <label title="Your info will be saved locally in your browser" class="cursor-help">
-                  <md-checkbox />
+                  <md-checkbox @change="onSaveInfo" />
                   <span class="ml-3 border-b border-dashed border-outline-variant">Save info for future transactions</span>
                 </label>
               </div>
@@ -189,6 +189,7 @@ const year = ref();
 const email = ref();
 const quantity = ref(1);
 const screenshot = ref();
+const isSaveInfo = ref(false);
 const mop = ref(ModeOfPayment.WALK_IN);
 
 const isPlacingOrder = ref(false);
@@ -213,10 +214,12 @@ type OrderRequest = {
 };
 
 onMounted(() => {
+  // Set the quantity to the max quantity of the product
   quantity.value = store.checkoutDetails?.product.max_quantity || 1;
 
+  // If the user is logged in, set the student info to the logged in student
   if (store.isLoggedIn) {
-    course.value = 1;
+    course.value = 0; // BSCS
     firstName.value = store.student.first_name;
     lastName.value = store.student.last_name;
     studentId.value = store.student.student_id;
@@ -224,9 +227,24 @@ onMounted(() => {
     year.value = store.student.year_level;
   }
 
+  // Get the list of courses
   makeRequest("GET", Endpoints.Courses, null, response => {
     if (response.success) {
       courses.value = response.data;
+
+      setTimeout(() => {
+        // If there is a saved student info and is not logged in, load it
+        if (localStorage.getItem("student") && !store.isLoggedIn) {
+          const student = JSON.parse(atob(localStorage.getItem("student") || ""));
+          firstName.value = student.first_name;
+          lastName.value = student.last_name;
+          studentId.value = student.student_id;
+          course.value = parseInt(student.course);
+          email.value = student.email_address;
+          year.value = student.year_level;
+        }
+      }, 0);
+
       return;
     }
 
@@ -234,13 +252,21 @@ onMounted(() => {
   });
 });
 
+function onSaveInfo(ev: Event) {
+  isSaveInfo.value = (ev.target as HTMLInputElement).checked;
+}
+
 function placeOrder() {
   if (!store.checkoutDetails) {
     toast.error("No product to checkout!");
     return;
   }
 
-  // if (!canPlaceOrder.value) return;
+  if (!canPlaceOrder.value) {
+    toast.error("Please fill up all the required fields!");
+    return;
+  }
+
   store.isLoading = true;
   isPlacingOrder.value = true;
 
@@ -261,6 +287,23 @@ function placeOrder() {
     data.student_email = email.value;
     data.student_course = course.value;
     data.student_year = year.value;
+  }
+
+  // If save info is checked, save the student info to local storage in base64 encoded string
+  if (isSaveInfo.value) {
+    localStorage.setItem("student", btoa(JSON.stringify({
+      student_id: studentId.value,
+      first_name: firstName.value,
+      last_name: lastName.value,
+      email_address: email.value,
+      course: course.value,
+      year_level: year.value,
+    })));
+  }
+
+  // Otherwise, remove the student info from local storage
+  else {
+    localStorage.removeItem("student");
   }
 
   if (mop.value === ModeOfPayment.GCASH) {

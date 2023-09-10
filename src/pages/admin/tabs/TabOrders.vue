@@ -35,7 +35,7 @@
         <CardOrder :order="order" @click="goToOrder(order.receipt_id)" />
       </div>
     </div>
-    <div v-else class="flex justify-center mt-8 flex-grow">
+    <div v-else class="flex justify-center mt-8 flex-grow body-medium">
       {{ message || "Fetching orders..." }}
     </div>
 
@@ -68,7 +68,6 @@ import "@material/web/textfield/outlined-text-field";
 import "@material/web/select/outlined-select";
 import "@material/web/chips/filter-chip";
 import "@material/web/chips/chip-set";
-import "@material/web/select/outlined-select";
 import "@material/web/select/select-option";
 
 import CardOrder from "../components/CardOrder.vue";

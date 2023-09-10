@@ -9,7 +9,7 @@
           <component :is="Component" />
         </Transition>
       </router-view>
-      <VFooter :class="{ 'flex-grow': route.name === 'Admin' }" />
+      <VFooter :class="{ 'flex-grow': route.name === 'Admin' || (store.isLoggedIn && route.name === 'My Orders') }" />
     </div>
 
     <DialogMain />

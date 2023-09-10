@@ -5,8 +5,8 @@ export * from "./dialog"
 export const useStore = defineStore("global", () => {
   const errorMessage = "";
 
-  const isLoggedIn = false;
-  const isAdminLoggedIn = false;
+  const isLoggedIn = undefined as boolean | undefined;
+  const isAdminLoggedIn = undefined as boolean | undefined;
   const isLoading = true;
   const isShowBackButton = false;
   const isDark = false;

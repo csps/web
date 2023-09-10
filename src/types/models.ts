@@ -63,6 +63,7 @@ export enum ProductEnum {
   stock = "stock",
   price = "price",
   max_quantity = "max_quantity",
+  is_available = "is_available",
   date_stamp = "date_stamp",
 
   // Extra

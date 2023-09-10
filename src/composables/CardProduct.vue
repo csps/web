@@ -16,7 +16,8 @@
       <div class="content py-5">
         <p class="text-sm text-error mb-3" v-if="!product.stock || product.stock <= 0">Out of stock</p>
         <div class="w-full">
-          <h4>{{ product.name }}</h4>
+          <h5 class="label-large mb-3 text-secondary">Not yet available</h5>
+          <h4 class="title-medium">{{ product.name }}</h4>
           <h3>{{ toCurrency(product.price) }}</h3>
         </div>
       </div>
@@ -54,10 +55,6 @@ defineProps<{
 
     h4 {
       @apply text-on-surface-variant mb-1;
-    }
-
-    h3 {
-      @apply text-base;
     }
   }
 }

@@ -180,8 +180,8 @@ router.beforeEach((to, _from, next) => {
     return;
   }
 
-  // If checking out and no checkout details
-  if (to.name === "Checkout" && !useStore().checkoutDetails) {
+  // If checking out and no checkout details or product is not available
+  if (to.name === "Checkout" && (!useStore().checkoutDetails || !useStore().checkoutDetails?.product.is_available)) {
     // if has previous page
     if (_from.name) {
       // Go to previous page

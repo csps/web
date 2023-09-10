@@ -72,9 +72,9 @@
           </div>
 
           <div class="flex flex-col md:items-end justify-center gap-5">
-            <md-filled-button :disabled="!hasStock" @click="checkout">
+            <md-filled-button :disabled="!hasStock || !product?.is_available" @click="checkout">
               <md-icon v-if="hasStock" slot="icon" v-html="icon('shopping_cart_checkout')" />
-              {{ hasStock ? "Checkout" : "Out of stock" }}
+              {{ product?.is_available ? (hasStock ? "Checkout" : "Out of stock") : 'Not yet available' }}
             </md-filled-button>
           </div>
         </div>
@@ -164,6 +164,11 @@ onMounted(() => {
 function checkout() {
   if (!hasStock.value) {
     toast.error("Product is out of stock!");
+    return;
+  }
+
+  if (!product.value?.is_available) {
+    toast.error("Product is not available yet!");
     return;
   }
 

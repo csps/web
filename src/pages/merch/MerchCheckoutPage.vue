@@ -33,9 +33,9 @@
                   <md-icon slot="leadingicon" v-html="icon('school', true)" />
                   <md-select-option v-for="(c, id) in courses" :key="id" :value="Number(id)" :headline="c" />
                 </md-filled-select>
-                <md-filled-select v-else v-model="course" label="Course" disabled quick>
+                <md-filled-select v-else label="Course" disabled quick>
                   <md-icon slot="leadingicon" v-html="icon('school', true)"  />
-                  <md-select-option :value="0" headline="BSCS" />
+                  <md-select-option :value="0" headline="BSCS" selected />
                 </md-filled-select>
 
                 <md-filled-select label="Year level" :disabled="store.isLoggedIn || isPlacingOrder" v-model="year" quick>
@@ -195,7 +195,7 @@ const mop = ref(ModeOfPayment.WALK_IN);
 const isPlacingOrder = ref(false);
 
 const canPlaceOrder = computed(() => {
-  return firstName.value && lastName.value && studentId.value && email.value && email.value.includes("@") && course.value && year.value &&
+  return firstName.value && lastName.value && studentId.value && email.value && email.value.includes("@") && course.value !== undefined && year.value &&
     (mop.value === ModeOfPayment.WALK_IN || (mop.value === ModeOfPayment.GCASH && screenshot.value && screenshot.value instanceof File));
 });
 
@@ -263,10 +263,16 @@ function placeOrder() {
     return;
   }
 
+  if (!store.checkoutDetails.product.is_available) {
+    toast.error("Product is not available yet!");
+    return;
+  }
+
   if (!canPlaceOrder.value) {
     toast.error("Please fill up all the required fields!");
     return;
   }
+
 
   store.isLoading = true;
   isPlacingOrder.value = true;

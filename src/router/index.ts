@@ -117,18 +117,21 @@ router.beforeEach((to, _from, next) => {
 
   // If going to route that requres auth
   if (to.meta.requiresAuth) {
-    // CHeck for admin token
+    // Check for admin token
     const token = getStore("csps_token");
 
     // If goiing to admin page
     if (to.name === "Admin" && !token) {
-      // Go to login
       return next({ name: "Admin Login" });
     }
 
     // If going to admin login
     if (to.name === "Admin Login" && !token) {
-      // Go to login
+      return next();
+    }
+
+    // If going to profile and has logged in admin
+    if (to.name === 'Profile' && token) {
       return next();
     }
 

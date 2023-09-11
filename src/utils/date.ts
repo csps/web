@@ -65,12 +65,12 @@ export function getTime(date: Date) {
  */
 export function getHumanDate(date1: Date, date2?: Date | undefined) {
   const day1 = date1.getDate();
-  const month1 = getMonthName(date1.getMonth());
+  const month1 = getMonthName(date1.getMonth() + 1);
   const year1 = date1.getFullYear();
 
   if (date2) {
     const day2 = date2.getDate();
-    const month2 = getMonthName(date2.getMonth());
+    const month2 = getMonthName(date2.getMonth() + 1);
     const year2 = date2.getFullYear();
 
     if (month1 === month2 && year1 === year2 && day1 === day2) {

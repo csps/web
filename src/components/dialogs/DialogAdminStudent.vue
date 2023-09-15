@@ -67,16 +67,7 @@
         <md-icon slot="leadingicon" v-html="icon('mail', true)" />
       </md-filled-text-field>
 
-      <md-filled-text-field
-        class="w-full"
-        label="Password"
-        type="password"
-        supporting-text="Password will be auto-generated and will be sent to the student's email"
-        disabled
-      >
-        <md-icon slot="leadingicon" v-html="icon('lock', true)" />
-      </md-filled-text-field>
-
+      <p class="text-outline body-small">Note: Password will be auto-generated and will be sent to the student's email.</p>
     </div>
     <div class="space-x-1" slot="actions">
       <md-text-button @click="close" :disabled="isLoading">Cancel</md-text-button>
@@ -101,7 +92,7 @@ import { Endpoints, makeRequest } from "~/network/request";
 import { Env } from "~/config";
 import { useDialog } from "~/store";
 
-const emit = defineEmits(["update:modelValue"]);
+const emit = defineEmits(["update:modelValue", "done"]);
 const props = defineProps<{
   modelValue: boolean;
   student?: StudentModel
@@ -187,18 +178,21 @@ function submit() {
     if (response.success) {
       store.isLoading = true;
       toast.success(response.message);
+      emit("done");
 
       makeRequest<any>("GET", Endpoints.Env, null, response => {
         store.isLoading = false;
+        close(true);
 
         if (response.success) {
           for (const key in response.data) {
             Env[key] = response.data[key];
           }
+
+          return;
         }
   
         toast.error(response.message);
-        close();
       });
 
       return;
@@ -212,10 +206,9 @@ function submit() {
 /**
  * Close the dialog
  */
-function close() {
+function close(bypass = false) {
   if (isLoading.value) return;
-
-  if (studentID.value || firstName.value || lastName.value || email.value) {
+  if ((studentID.value || firstName.value || lastName.value || email.value) && !bypass) {
     dialog.open(`Cancel ${props.student ? 'edit' : 'add'} student?`, "You have unsaved changes. Are you sure you want to close this dialog?", {
       text: "Yes, cancel",
       click() {

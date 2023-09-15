@@ -50,7 +50,7 @@
       @change="p => data.page = p"
     />
 
-    <DialogAdminStudent v-model="isDialogOpen" />
+    <DialogAdminStudent v-model="isDialogOpen" @done="fetchStudents" />
   </div>
 </template>
 
@@ -105,6 +105,8 @@ function fetchStudents(search = "") {
   const request: any = {
     search_value: [search, ...data.value.filterYear],
     search_column: [data.value.column, ...Array(data.value.filterYear.length).fill(StudentEnum.year_level)],
+    sort_column: StudentEnum.last_name,
+    sort_type: "ASC",
     page: data.value.page,
     limit: Env.admin_students_per_page
   };

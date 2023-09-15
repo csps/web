@@ -84,6 +84,15 @@
       >
         <md-menu-item :headline="link.name" />
       </router-link>
+      <router-link v-if="store.isLoggedIn" to="/profile" tabindex="-1">
+        <md-menu-item headline="Profile" />
+      </router-link>
+      <router-link v-else-if="!store.isAdminLoggedIn" to="/login" tabindex="-1">
+        <md-menu-item headline="Login" />
+      </router-link>
+      <router-link v-if="store.isAdminLoggedIn" to="/admin" tabindex="-1">
+        <md-menu-item headline="Admin" />
+      </router-link>
     </md-menu>
   </div>
 </template>

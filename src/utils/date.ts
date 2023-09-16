@@ -50,10 +50,17 @@ export function getMonthCategory(data: any[], date: string, i: number) {
  * Get time string
  * @param date Date to check
  */
-export function getTime(date: Date) {
-  const hours = date.getHours();
-  const minutes = date.getMinutes();
-  const ampm = hours >= 12 ? 'pm' : 'am';
+export function getTime(date: Date | string) {
+  let hours = 0;
+  let minutes = 0;
+
+  if (typeof date === 'string') {
+    const s = date.split(':');
+    hours = parseInt(s[0]);
+    minutes = parseInt(s[1]);
+  }
+
+  const ampm = hours >= 12 ? 'PM' : 'AM';
 
   return `${hours === 0 ? 12 : (hours > 12 ? hours - 12 : hours)}:${minutes < 10 ? '0' + minutes : minutes} ${ampm}`;
 }

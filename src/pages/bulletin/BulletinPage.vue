@@ -75,7 +75,7 @@ import { Calendar } from 'v-calendar';
 import { useStore } from '~/store';
 import { Endpoints, makeRequest } from "~/network/request";
 import { PaginationRequest } from "~/types/request";
-import { getHumanDate } from "~/utils/date";
+import { getHumanDate, getTime } from "~/utils/date";
 import { EventEnum } from "~/types/models";
 import { toast } from "vue3-toastify";
 
@@ -159,7 +159,7 @@ function fetchEvents(search = "") {
           title: event.title,
           content: event.description,
           date: getHumanDate(new Date(event.date)),
-          time: event.start_time.substring(0, 5) + " - " + event.end_time.substring(0, 5),
+          time: getTime(event.start_time.substring(0, 5)) + " - " + getTime(event.end_time.substring(0, 5)),
           location: event.venue,
           thumbnail: event.thumbnail,
         };

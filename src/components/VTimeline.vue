@@ -10,7 +10,7 @@
           <h3 class="flex items-center mb-1 text-lg font-semibold text-primary">
             {{ item.title }}
           </h3>
-          <time class="mb-2 body-small font-medium leading-none text-outline flex items-center gap-2">
+          <time class="mb-2 body-small font-medium leading-none text-outline flex items-center gap-2 whitespace-nowrap">
             {{ item.date }}
           </time>
         </div>
@@ -25,9 +25,9 @@
           {{ item.location }}
         </div>
 
-        <!-- <div class="mt-3 body-medium">
-          {{ item.content }} Hide for now
-        </div> -->
+        <div class="mt-3 body-medium">
+          {{ item.content }}
+        </div>
       </div>
     </li>
   </ol>

@@ -24,7 +24,7 @@
     </div>
 
     <div v-if="data.products.length > 0" class="space-y-3 mt-5 w-full lg:w-3/4 xl:w-1/2 3xl:w-1/3">
-      <CardProduct v-for="product in data.products" :key="product.id" :product="product" />
+      <CardProduct v-for="product in data.products" @click="onProductClick(product)" :key="product.id" :product="product" />
     </div>
     <div v-else class="flex justify-center mt-8 flex-grow body-medium">
       {{ message || "Fetching products..." }}
@@ -39,7 +39,7 @@
       @change="p => data.page = p"
     />
 
-    <DialogAdminProducts v-model="isDialogOpen" />
+    <DialogAdminProducts v-model="isDialogOpen" :product="selectedProduct" @done="fetchProducts" />
   </div>
 </template>
 
@@ -61,6 +61,7 @@ const store = useStore();
 const isDialogOpen = ref(false);
 const isLoading = ref(false);
 const message = ref("");
+const selectedProduct = ref<ProductModel | undefined>();
 
 const data = ref({
   total: 0,
@@ -68,6 +69,12 @@ const data = ref({
   search: "",
   products: [] as ProductModel[],
   column: ProductEnum.name
+});
+
+watch(isDialogOpen, v => {
+  if (!v) {
+    selectedProduct.value = undefined;
+  }
 });
 
 watch([
@@ -106,4 +113,8 @@ function fetchProducts(search = "") {
   });
 }
 
+function onProductClick(product: ProductModel) {
+  selectedProduct.value = product;
+  isDialogOpen.value = true;
+}
 </script>

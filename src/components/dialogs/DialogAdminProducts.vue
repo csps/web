@@ -5,7 +5,7 @@
     :scrim-click-action="null"
     :escape-key-action="null"
   >
-    <div slot="headline">{{ product ? 'Updaate' : 'Add' }} Product</div>
+    <div slot="headline">{{ product ? 'Update' : 'Add' }} Product</div>
     <div slot="content" class="space-y-5">
       <md-filled-text-field
         class="w-full"
@@ -65,17 +65,14 @@ import { ProductEnum } from "~/types/models";
 const emit = defineEmits(["update:modelValue", "done"]);
 const props = defineProps<{
   modelValue: boolean;
-  product?: {
-    name: string,
-    description: string
-  }
+  product?: ProductModel
 }>();
 
 const isLoading = ref(false);
 const isDialogOpen = computed(() => props.modelValue);
 const canAdd = computed(() => name.value && description.value && price.value > 0 && stock.value >= 0 && max_quantity.value > 0);
 const thumbnail = ref();
-const name = ref("");
+const name = ref();
 const description = ref();
 const price = ref(0);
 const max_quantity = ref(1);
@@ -83,7 +80,12 @@ const stock = ref(0);
 
 watch(isDialogOpen, (value) => {
   if (value) {
+    name.value = props.product?.name;
     description.value = props.product?.description;
+    price.value = props.product?.price || 0;
+    max_quantity.value = props.product?.max_quantity || 1;
+    stock.value = props.product?.stock || 0;
+    thumbnail.value = props.product?.thumbnail;
   }
 });
 
@@ -103,6 +105,11 @@ function submit() {
     stock: stock.value,
     variations: "", // TODO: Add variations
   };
+
+  if (props.product) {
+    data.thumbnail = thumbnail.value;
+    data.id = props.product.id;
+  }
 
   if (thumbnail.value) {
     data[ProductEnum.thumbnail] = thumbnail.value;

@@ -24,7 +24,13 @@
     </div>
 
     <div v-if="data.products.length > 0" class="space-y-3 mt-5 w-full lg:w-3/4 xl:w-1/2 3xl:w-1/3">
-      <CardProduct v-for="product in data.products" @click="onProductClick(product)" :key="product.id" :product="product" />
+      <CardProduct
+        v-for="product in data.products"
+        :key="product.id"
+        :product="product"
+        @edit="() => onProductClick(product)"
+        @status="onStatusChange"
+      />
     </div>
     <div v-else class="flex justify-center mt-8 flex-grow body-medium">
       {{ message || "Fetching products..." }}
@@ -56,6 +62,7 @@ import { Endpoints, makeRequest } from "~/network/request";
 import CardProduct from "../components/CardProduct.vue";
 import DialogAdminProducts from "~/components/dialogs/DialogAdminProducts.vue";
 import VPagination from "~/components/VPagination.vue";
+import { toast } from "vue3-toastify";
 
 const store = useStore();
 const isDialogOpen = ref(false);
@@ -116,5 +123,26 @@ function fetchProducts(search = "") {
 function onProductClick(product: ProductModel) {
   selectedProduct.value = product;
   isDialogOpen.value = true;
+}
+
+function onStatusChange(id: number) {
+  if (!id) {
+    toast.warn("Product ID is empty!");
+    return;
+  }
+
+  store.isLoading = true;
+
+  makeRequest("PUT", Endpoints.ProductsIdStatus, { id }, response => {
+    store.isLoading = false;
+
+    if (response.success) {
+      toast.success(response.message);
+      return;
+    }
+
+    message.value = response.message;
+    toast.error(response.message);
+  });
 }
 </script>

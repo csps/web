@@ -117,31 +117,37 @@ router.beforeEach((to, _from, next) => {
   // If going to route that requres auth
   if (to.meta.requiresAuth) {
     // Check for admin token
-    const token = getStore("csps_token");
+    const adminToken = getStore("csps_token");
+    const studentToken = getStore("token");
 
     // If goiing to admin page
-    if (to.name === "Admin" && !token) {
+    if (to.name === "Admin" && !adminToken) {
       return next({ name: "Admin Login" });
     }
 
     // If going to admin login
-    if (to.name === "Admin Login" && !token) {
+    if (to.name === "Admin Login" && !adminToken) {
       return next();
+    }
+
+    // If going to profile and no student token
+    if (to.name === 'Profile' && !studentToken) {
+      return next({ name: "Login" });
     }
 
     // If going to profile and has logged in admin
-    if (to.name === 'Profile' && token) {
+    if (to.name === 'Profile' && adminToken) {
       return next();
     }
 
-    // If going to student login or profile and has admin token
-    if (["Login", "Profile"].includes(to.name as string) && !!token) {
+    // If going to student login or profile and has admin adminToken
+    if (["Login", "Profile"].includes(to.name as string) && !!adminToken) {
       // Go to admin
       return next({ name: "Admin" });
     }
 
-    // If has token
-    if (!!token) {
+    // If has adminToken
+    if (!!adminToken) {
       isAdminLoginValid(isAdminLoginValid => {
         // If is valid
         if (isAdminLoginValid) {
@@ -181,6 +187,10 @@ router.beforeEach((to, _from, next) => {
     });
 
     return;
+  }
+
+  if (to.name === "Login" && useStore().isLoggedIn) {
+    return next({ name: "Home" });
   }
 
   // If checking out and no checkout details or product is not available

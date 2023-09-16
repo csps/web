@@ -21,9 +21,12 @@ export const NAV_LINKS: {
   icon: Icon
 }[] = [
   { name: 'Home', path: '/', icon: "home" },
-  { name: 'About Us', path: '/about', icon: "diversity" },
-  { name: 'Bulletin Board', path: '/bulletin', icon: "calendar_month" },
+  { name: 'About', path: '/about', icon: "diversity" },
+  { name: 'Bulletin', path: '/bulletin', icon: "calendar_month" },
   { name: 'Merch', path: '/merch', icon: "store" },
+  { name: 'Profile', path: '/profile', icon: "person" },
+  { name: 'Login', path: '/login', icon: "login" },
+  { name: 'Admin', path: '/admin', icon: "security" },
 ];
 
 export const SOCIAL_LINKS = [

@@ -1,6 +1,6 @@
 <template>
   <div class="bg-surface-container-low dark:bg-surface rounded-2xl p-7">
-    <div class="flex justify-between items-center mb-5">
+    <div class="flex justify-between items-center mb-7">
       <div class="flex items-center gap-3">
         <div>
           <img width="38" :src="favicon" alt="CSPS" />
@@ -21,7 +21,7 @@
       </div>
     </div>
 
-    <h3 class="title-large font-medium mb-1">{{ data.title }}</h3>
+    <h3 class="title-large font-medium mb-3">{{ data.title }}</h3>
     <div class="body-medium">
       {{ data.content }}
     </div>

@@ -26,12 +26,11 @@
       <!-- Navigation Links -->
       <div class="flex items-center gap-5 flex-grow justify-end">
 
-        <div class="xl:flex justify-end space-x-5 hidden">
+        <div class="2xl:flex justify-end space-x-2 hidden">
           <router-link v-for="link in NAV_LINKS" :key="link.path" :to="link.path" tabindex="-1">
-            <md-icon-button :title="link.name" :selected="link.path === route.path">
-              <md-icon slot="selected" class="text-primary" v-html="icon(link.icon)" />
-              <md-icon v-html="icon(link.icon, true)" />
-            </md-icon-button>
+            <md-filled-tonal-button>
+              {{ link.name }}
+            </md-filled-tonal-button>
           </router-link>
 
           <router-link v-if="store.isLoggedIn" to="/profile" tabindex="-1">
@@ -40,12 +39,10 @@
               <md-icon v-html="icon('person', true)" />
             </md-icon-button>
           </router-link>
-
-          <router-link v-else-if="!store.isAdminLoggedIn" to="/login" tabindex="-1">
-            <md-icon-button title="Login" :selected="route.path === '/login'">
-              <md-icon slot="selected" class="text-primary" v-html="icon('login')" />
-              <md-icon v-html="icon('login')" />
-            </md-icon-button>
+          <router-link v-else to="/login" tabindex="-1">
+            <md-filled-tonal-button title="Login">
+              Login
+            </md-filled-tonal-button>
           </router-link>
 
           <router-link v-if="store.isAdminLoggedIn" to="/admin" tabindex="-1">
@@ -59,7 +56,7 @@
         <md-switch @change="onThemeChange" :selected="store.isDark" icons />
 
         <!-- Drawer Button -->
-        <div class="flex justify-end xl:hidden">
+        <div class="flex justify-end 2xl:hidden">
           <md-icon-button id="appbar-menu" @click="isMenuOpen = !isMenuOpen">
             <md-icon v-html="icon('menu')" />
           </md-icon-button>
@@ -111,6 +108,8 @@ import "@material/web/switch/switch";
 import "@material/web/icon/icon";
 import "@material/web/menu/menu";
 import "@material/web/menu/menu-item";
+import "@material/web/chips/filter-chip";
+import "@material/web/button/filled-tonal-button";
 import "@material/web/iconbutton/icon-button"
 
 import { getHistoryLength } from '~/utils/page';

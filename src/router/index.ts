@@ -19,7 +19,6 @@ const routes: RouteRecordRaw[] = [
     path: "/login",
     name: "Login",
     component: () => import("../pages/login/LoginPage.vue"),
-    meta: { requiresAuth: true }
   },
   {
     path: "/merch",

@@ -16,7 +16,7 @@
       <div class="content py-5">
         <p class="text-sm text-error mb-3" v-if="!product.stock || product.stock <= 0">Out of stock</p>
         <div class="w-full">
-          <h5 class="label-large mb-3 text-secondary">Not yet available</h5>
+          <h5 class="label-large mb-3 text-secondary" v-if="!product.is_available">Not yet available</h5>
           <h4 class="title-medium">{{ product.name }}</h4>
           <h3>{{ toCurrency(product.price) }}</h3>
         </div>

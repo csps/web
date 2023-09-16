@@ -42,13 +42,13 @@
       </md-filled-text-field>
 
       <!-- Year level -->
-      <md-filled-select label="Year level" v-model="year" quick>
+      <md-filled-text-field
+        label="Year level"
+        :value="mapYear(store.student.year_level)"
+        readonly disabled
+      >
         <md-icon slot="leadingicon" v-html="icon('school', true)" />
-        <md-select-option :value="1" headline="1st year" />
-        <md-select-option :value="2" headline="2nd year" />
-        <md-select-option :value="3" headline="3rd year" />
-        <md-select-option :value="4" headline="4th year" />
-      </md-filled-select>
+      </md-filled-text-field>
 
       <!-- Logout -->
       <div class="flex justify-between gap-2">
@@ -62,49 +62,25 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, watch } from "vue";
+import { ref } from "vue";
 import { icon } from '~/utils/icon';
 import { useRouter } from 'vue-router';
 import { useStore, useDialog } from '~/store';
 import { removeStore } from '~/utils/storage';
-import { makeRequest, Endpoints } from "~/network/request";
-import { StudentEnum } from "~/types/models";
-import { toast } from "vue3-toastify";
 import Strings from '~/config/strings';
 
-import "@material/web/textfield/filled-text-field";
 import "@material/web/button/text-button";
-import "@material/web/select/filled-select";
 import "@material/web/button/filled-button";
-import "@material/web/select/select-option"
+import "@material/web/textfield/filled-text-field";
 
 import DialogChangePassword from "~/components/dialogs/DialogChangePassword.vue";
+import { mapYear } from "~/utils/page";
 
 const store = useStore();
 const dialog = useDialog();
 const router = useRouter();
 
 const isDialogOpen = ref(false);
-const year = ref(store.student.year_level);
-
-watch(year, v => {
-  store.isLoading = true;
-
-  makeRequest("PUT", Endpoints.StudentsKey, {
-    key: StudentEnum.year_level,
-    value: v
-  }, response => {
-    store.isLoading = false;
-
-    toast(response.message, {
-      type: response.success ? "success" : "error"
-    });
-
-    if (response.success) {
-      store.student.year_level = v;
-    }
-  });
-});
 
 /**
  * Open logout dialog

@@ -73,7 +73,7 @@
       menu-corner="START_END"
     >
       <router-link
-        v-for="link in NAV_LINKS"
+        v-for="link in NAV_LINKS.slice(0, 4)"
         :key="link.path"
         :to="link.path"
       >

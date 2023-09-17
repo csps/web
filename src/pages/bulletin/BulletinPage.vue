@@ -6,23 +6,12 @@
     </div>
 
     <div v-else class="container mx-auto px-6 flex flex-col items-center">
-      <h2 class="title-large font-semibold text-on-surface-variant">Events & Activities</h2>
-      <p class="title-small text-outline text-center">Check out our bulletin board for a list of upcoming events and activities!</p>
-
+      
       <div class="w-full 2xl:w-3/4">
+        <h2 class="title-large font-semibold text-on-surface-variant text-center md:text-left">Events & Activities</h2>
+        <p class="title-small text-outline text-center md:text-left">Check out our bulletin board for a list of upcoming events and activities!</p>
 
-        <div class="flex flex-col-reverse 2xl:grid 2xl:grid-cols-6 gap-16 justify-center mt-10">
-          <div class="w-full flex-grow col-span-2 px-4">
-            <div v-if="isLoading" class="flex flex-col justify-center items-center gap-3 body-medium">
-              <md-linear-progress indeterminate />
-              <span>Fetching events and activities...</span>
-            </div>
-            <div class="bg-surface-container-low p-10 rounded-3xl text-center text-on-surface-variant  body-medium flex justify-center items-center" v-else-if="message.length > 0">
-              {{ message }}
-            </div>
-            <VTimeline v-else :data="data" />
-          </div>
-  
+        <div class="flex flex-col-reverse md:flex-col 2xl:grid 2xl:grid-cols-6 gap-16 justify-center mt-10">
           <div class="hidden md:block col-span-4">
             <Calendar
               ref="c1"
@@ -50,6 +39,17 @@
                 </div>
               </template>
             </Calendar>
+          </div>
+
+          <div class="w-full flex-grow col-span-2 px-4">
+            <div v-if="isLoading" class="flex flex-col justify-center items-center gap-3 body-medium">
+              <md-linear-progress indeterminate />
+              <span>Fetching events and activities...</span>
+            </div>
+            <div class="bg-surface-container-low p-10 rounded-3xl text-center text-on-surface-variant  body-medium flex justify-center items-center" v-else-if="message.length > 0">
+              {{ message }}
+            </div>
+            <VTimeline v-else :data="data" />
           </div>
   
           <div class="md:hidden flex justify-center">
@@ -120,7 +120,6 @@ function fetchEvents(search = "") {
     sort_type: "ASC",
   };
 
-
   makeRequest<EventModel[]>("GET", Endpoints.Events, request, response => {
     isLoading.value = false;
     store.isLoading = false;
@@ -167,7 +166,7 @@ function fetchEvents(search = "") {
 
       attributes.value.push({
         key: 'today1',
-        highlight: true,
+        dot: true,
         dates: new Date(),
         popover: {
           label: 'Today',
@@ -226,6 +225,10 @@ function getYearMonth(year: number, month: number) {
 
   border-radius: 12px;
   width: 100%;
+
+  .vc-dots {
+    @apply hidden;
+  }
 
   & .vc-highlight-bg-solid, & .vc-highlight-bg-light {
     @apply bg-transparent;

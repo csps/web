@@ -92,7 +92,7 @@ const isLoading = ref(true);
 const order = ref<FullOrderModel>();
 const href = encodeURIComponent(window.location.href);
 
-makeRequest<FullOrderModel>("GET", Endpoints.OrdersReceipt, { receipt: route.params.receipt }, response => {
+makeRequest<FullOrderModel>("GET", Endpoints.OrdersUnique, { uniqueId: route.params.uniqueId }, response => {
   isLoading.value = false;
 
   if (response.success) {

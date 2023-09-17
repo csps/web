@@ -326,7 +326,7 @@ function placeOrder() {
       toast.success(response.message);
 
       router.replace({ name: "Receipt", params: {
-        receipt: response.data
+        uniqueId: response.data
       }});
 
       return;

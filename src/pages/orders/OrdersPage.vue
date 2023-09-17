@@ -40,7 +40,10 @@
         <div v-if="data.orders.length > 0" class="space-y-3 mt-8 w-full lg:w-2/3 xl:w-1/2 2xl:w-2/5">
           <div v-for="(order, i) in data.orders" :key="order.id">
             <p class="label-large font-medium text-on-surface-variant mb-3 text-left" v-if="getMonthCategory(order, i)">{{ getMonthCategory(order, i) }}</p>
-            <CardOrder :order="order" @click="goToReceipt(order.receipt_id)" />
+
+            <router-link :to="{ name: 'Receipt', params: { uniqueId: order.unique_id }}">
+              <CardOrder :order="order" />
+            </router-link>
           </div>
         </div>
         <div v-else class="flex justify-center mt-8 flex-grow body-medium">
@@ -100,6 +103,8 @@ import { FullOrderEnum } from "~/types/models";
 import { OrderStatus } from "~/types/enums";
 import { capitalize } from "~/utils/string";
 import { getMonthYear } from "~/utils/date";
+import { Endpoints, makeRequest } from "~/network/request";
+import { toast } from "vue3-toastify";
 
 import "@material/web/icon/icon";
 import "@material/web/progress/linear-progress";
@@ -112,8 +117,6 @@ import "@material/web/select/select-option";
 
 import CardOrder from "../admin/components/CardOrder.vue";
 import VPagination from "~/components/VPagination.vue";
-import { Endpoints, makeRequest } from "~/network/request";
-import { toast } from "vue3-toastify";
 
 const store = useStore();
 const router = useRouter();
@@ -208,7 +211,7 @@ function submit() {
     store.isLoading = false;
 
     if (response.success) {
-      goToReceipt(response.data[0].receipt_id);
+      goToReceipt(response.data[0].unique_id);
       return;
     }
 

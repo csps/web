@@ -31,6 +31,11 @@ const routes: RouteRecordRaw[] = [
     component: () => import("../pages/orders/OrdersPage.vue"),
   },
   {
+    path: "/orders/receipt/:uniqueId",
+    name: "Receipt",
+    component: () => import("../pages/orders/OrdersPageReceipt.vue")
+  },
+  {
     path: "/merch/:id",
     name: "Product",
     component: () => import("../pages/merch/MerchProductPage.vue")
@@ -39,11 +44,6 @@ const routes: RouteRecordRaw[] = [
     path: "/merch/:id/checkout",
     name: "Checkout",
     component: () => import("../pages/merch/MerchCheckoutPage.vue")
-  },
-  {
-    path: "/merch/receipt/:receipt",
-    name: "Receipt",
-    component: () => import("../pages/merch/MerchReceiptPage.vue")
   },
   {
     path: "/bulletin",

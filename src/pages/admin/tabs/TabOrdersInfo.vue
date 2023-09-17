@@ -155,7 +155,7 @@ onMounted(() => {
 
   // Fetch order
   makeRequest<FullOrderModel>("GET", Endpoints.OrdersReceipt, {
-    receipt: route.params.receipt
+    receiptId: route.params.receipt
   }, response => {
     isLoading.value = false;
     store.isLoading = false;

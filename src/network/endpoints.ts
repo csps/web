@@ -28,7 +28,8 @@ enum Endpoints {
   OrdersKey = "/orders/:id/:key",
   QRCode = "/qrcode/:q",
   QRCodeDark = "/qrcode/:q/dark",
-  OrdersReceipt = "/orders/receipt/:receipt",
+  OrdersUnique = "/orders/unique/:uniqueId",
+  OrdersReceipt = "/orders/receipt/:receiptId",
 }
 
 export default Endpoints;

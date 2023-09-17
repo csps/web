@@ -78,6 +78,8 @@ declare global {
   
   type OrderModel = {
     id: number;
+    receipt_id: string;
+    unique_id: string;
     student_id: string;
     products_id: number;
     variations_id: number;
@@ -94,6 +96,7 @@ declare global {
   type NonBscsOrderModel = {
     id: number;
     receipt_id: string;
+    unique_id: string;
     products_id: number;
     variations_id: number;
     quantity: number;
@@ -116,6 +119,7 @@ declare global {
     id: string;
     thumbnail: number;
     receipt_id: string;
+    unique_id: string;
     products_id: number;
     product_name: string;
     product_price: number;

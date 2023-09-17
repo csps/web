@@ -154,7 +154,6 @@
 </template>
 
 <script lang="ts" setup>
-import { useRouter } from "vue-router";
 import { computed, onMounted, ref } from "vue";
 import { Endpoints, makeRequest } from "~/network/request";
 import { toCurrency } from "~/utils/string";
@@ -163,7 +162,7 @@ import { ModeOfPayment } from "~/types/enums";
 import { getStore, removeStore, setStore } from "~/utils/storage";
 import { toast } from "vue3-toastify";
 import { icon } from '~/utils/icon';
-import { useStore } from '~/store';
+import { useStore, useDialog } from '~/store';
 import { Env } from "~/config";
 
 import VImage from '~/components/VImage.vue';
@@ -177,9 +176,10 @@ import "@material/web/select/select-option";
 import "@material/web/button/filled-button";
 import "@material/web/checkbox/checkbox";
 import "@material/web/radio/radio";
+import router from "~/router";
 
 const store = useStore();
-const router = useRouter();
+const dialog = useDialog();
 const courses = ref();
 
 const firstName = ref();
@@ -323,11 +323,16 @@ function placeOrder() {
     isPlacingOrder.value = false;
 
     if (response.success) {
-      toast.success(response.message);
-
-      router.replace({ name: "Receipt", params: {
-        uniqueId: response.data
-      }});
+      const [ title, message ] = response.message.split("_");
+      
+      dialog.open(title, message, {
+        text: "Gotchu",
+        click() {
+          dialog.hide();
+        }
+      }, null, () => {
+        router.replace({ name: "Merch" });
+      });
 
       return;
     }

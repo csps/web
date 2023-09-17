@@ -109,23 +109,21 @@
           </div>
 
           <div class="bg-surface-container p-10 rounded-2xl flex flex-col gap-6">
-            <div class="flex justify-center gap-5 text-on-surface-variant label-large">
-              <label>
-                <md-radio
-                  :disabled="isPlacingOrder"
-                  :checked="mop === ModeOfPayment.WALK_IN"
-                  @click="mop = ModeOfPayment.WALK_IN"
-                />
-                <span class="ml-2">Walk-in</span>
-              </label>
-              <label>
-                <md-radio
-                  :disabled="isPlacingOrder"
-                  :checked="mop === ModeOfPayment.GCASH"
-                  @click="mop = ModeOfPayment.GCASH"
-                />
-                <span class="ml-2">GCash</span>
-              </label>
+            <div class="flex justify-center gap-2 text-on-surface-variant label-large">
+              <md-filter-chip
+                :disabled="isPlacingOrder"
+                :selected="mop === ModeOfPayment.WALK_IN"
+                @click.prevent="mop = ModeOfPayment.WALK_IN"
+                label="Walk-in"
+                elevated
+              />
+
+              <!-- Disabled for now -->
+              <md-filter-chip
+                disabled
+                label="GCash"
+                elevated
+              />
             </div>
 
             <p class="text-center body-medium">{{ mop === ModeOfPayment.WALK_IN ? Env.checkout_walk_in_message : Env.checkout_gcash_message }}</p>
@@ -168,6 +166,7 @@ import { Env } from "~/config";
 import VImage from '~/components/VImage.vue';
 import ImageTemplate from '~/composables/ImageTemplate.vue';
 import CSPSGcash from "~/assets/img/csps_gcash.png";
+import router from "~/router";
 
 import "@material/web/textfield/filled-text-field";
 import "@material/web/select/filled-select";
@@ -175,8 +174,7 @@ import "@material/web/select/outlined-select";
 import "@material/web/select/select-option";
 import "@material/web/button/filled-button";
 import "@material/web/checkbox/checkbox";
-import "@material/web/radio/radio";
-import router from "~/router";
+import "@material/web/chips/filter-chip";
 
 const store = useStore();
 const dialog = useDialog();

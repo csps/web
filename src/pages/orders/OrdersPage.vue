@@ -219,8 +219,8 @@ function submit() {
   });  
 }
 
-function goToReceipt(receipt: string) {
-  router.push({ name: "Receipt", params: { receipt }});
+function goToReceipt(uniqueId: string) {
+  router.push({ name: "Receipt", params: { uniqueId }});
 }
 
 function onFilter(status: OrderStatus) {

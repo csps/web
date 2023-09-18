@@ -34,7 +34,6 @@ const routes: RouteRecordRaw[] = [
     path: "/orders/:uniqueId",
     name: "My Order",
     component: () => import("../pages/orders/OrdersInfo.vue"),
-    meta: { requiresAuth: true }
   },
   {
     path: "/merch/:id",

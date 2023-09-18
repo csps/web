@@ -51,7 +51,7 @@
         <div>Status</div>
         <div>{{ mapOrderStatusLabel(order?.status) }}</div>
         <div>Date Completed</div>
-        <div class="text-outline">{{ order?.status === OrderStatus.COMPLETED || status === OrderStatus.COMPLETED ? (order?.edit_date ? getReadableDate(order.edit_date) : 'Invalid date') : '...' }}</div>
+        <div class="text-outline">{{ order?.status === OrderStatus.COMPLETED || status === OrderStatus.COMPLETED ? (order?.status_updated ? getReadableDate(order.status_updated) : 'Invalid date') : '...' }}</div>
       </div>
 
       <div class="flex justify-between mt-5 w-full bg-surface-container p-6 rounded-2xl text-on-surface-variant">
@@ -251,7 +251,7 @@ function processData(response: ServerResponse<FullOrderModel>) {
 function updateStatus(orderId: string, toStatus: OrderStatus) {
   store.isLoading = true;
 
-  makeRequest("PUT", Endpoints.OrdersKey, {
+  makeRequest<string>("PUT", Endpoints.OrdersKey, {
     id: orderId,
     key: OrderEnum.status,
     value: toStatus
@@ -263,6 +263,10 @@ function updateStatus(orderId: string, toStatus: OrderStatus) {
     if (response.success) {
       if (toStatus === OrderStatus.COMPLETED) {
         isCompleted.value = true;
+
+        if (order.value) {
+          order.value.status_updated = response.data;
+        }
       }
 
       toast.success(response.message);

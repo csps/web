@@ -63,7 +63,7 @@
     </div>
 
     <md-menu
-      fixed quick
+      fixed
       :open="isMenuOpen"
       anchor="appbar-menu"
       @closed="isMenuOpen = false"

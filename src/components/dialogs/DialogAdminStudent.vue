@@ -25,7 +25,6 @@
           v-model="year"
           :disabled="isLoading"
           @keydown.enter="submit"
-          quick
         >
           <md-icon slot="leadingicon" v-html="icon('school', true)" />
           <md-select-option :value="1" headline="1st year" />

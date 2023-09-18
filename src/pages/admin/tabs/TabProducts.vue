@@ -12,7 +12,7 @@
       >
         <md-icon slot="leadingicon" v-html="icon('search')" />
       </md-outlined-text-field>
-      <md-outlined-select v-model="data.column" label="Filter by" class="dense" quick>
+      <md-outlined-select v-model="data.column" label="Filter by" class="dense">
         <md-icon slot="leadingicon" v-html="icon('filter_list', true)" />
         <md-select-option
           v-for="option in ProductEnum"

@@ -29,16 +29,16 @@
               </md-filled-text-field>
 
               <div class="grid grid-cols-1 xl:grid-cols-2 gap-6">
-                <md-filled-select v-if="!store.isLoggedIn" v-model="course" :disabled="store.isLoggedIn || isPlacingOrder" label="Course" quick>
+                <md-filled-select v-if="!store.isLoggedIn" v-model="course" :disabled="store.isLoggedIn || isPlacingOrder" label="Course">
                   <md-icon slot="leadingicon" v-html="icon('school', true)" />
                   <md-select-option v-for="(c, id) in courses" :key="id" :value="Number(id)" :headline="c" />
                 </md-filled-select>
-                <md-filled-select v-else label="Course" disabled quick>
+                <md-filled-select v-else label="Course" disabled>
                   <md-icon slot="leadingicon" v-html="icon('school', true)"  />
                   <md-select-option :value="0" headline="BSCS" selected />
                 </md-filled-select>
 
-                <md-filled-select label="Year level" :disabled="store.isLoggedIn || isPlacingOrder" v-model="year" quick>
+                <md-filled-select label="Year level" :disabled="store.isLoggedIn || isPlacingOrder" v-model="year">
                   <md-icon slot="leadingicon" v-html="icon('school', true)" />
                   <md-select-option :value="1" headline="1st year" />
                   <md-select-option :value="2" headline="2nd year" />
@@ -86,7 +86,7 @@
                 </div>
               </div>
               <div class="flex justify-end">
-                <md-outlined-select :disabled="isPlacingOrder" v-model="quantity" label="Quantity" class="w-min" quick>
+                <md-outlined-select :disabled="isPlacingOrder" v-model="quantity" label="Quantity" class="w-min">
                   <md-select-option
                     v-for="i in store.checkoutDetails.product.max_quantity"
                     :key="i"

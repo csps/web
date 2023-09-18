@@ -12,7 +12,7 @@
           <h5 class="title-small w-full text-left">{{ order?.date_stamp ? getReadableDate(order?.date_stamp) : 'Invalid date' }}</h5>
         </div>
         <div>
-          <md-outlined-select v-if="route.params.reference" v-model="status" label="Status" :disabled="isCompleted" quick>
+          <md-outlined-select v-if="route.params.reference" v-model="status" label="Status" @change.prevent="onStatuChange" :disabled="isCompleted" quick>
             <md-select-option
               v-for="option in statuses"
               :key="option.value"
@@ -96,10 +96,10 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted, watch } from 'vue';
+import { ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import { toast } from 'vue3-toastify';
-import { useStore } from '~/store';
+import { useStore, useDialog } from '~/store';
 import { Endpoints, makeRequest } from '~/network/request';
 import { getPhotoLink } from '~/utils/network';
 import { Fancybox } from "@fancyapps/ui";
@@ -120,14 +120,17 @@ import "@fancyapps/ui/dist/fancybox/fancybox.css";
 
 import VImage from '~/components/VImage.vue';
 import ImageTemplate from '~/composables/ImageTemplate.vue';
+import Strings from '~/config/strings';
 
 const route = useRoute();
 const store = useStore();
+const dialog = useDialog();
 const isLoading = ref(true);
 const order = ref<FullOrderModel>();
-const status = ref();
 const isCompleted = ref(false);
 const courses = ref();
+const status = ref();
+const currentStatus = ref();
 
 const statuses = [
   { value: OrderStatus.PENDING_PAYMENT, label: "Pending" },
@@ -137,17 +140,6 @@ const statuses = [
   { value: OrderStatus.REMOVED, label: "Removed" },
   { value: OrderStatus.REJECTED, label: "Rejected" },
 ];
-
-watch(status, (v, before) => {
-  if (order.value?.id && before !== undefined) {
-    updateStatus(order.value.id, v);
-    return;
-  }
-
-  if (order.value?.id === undefined) {
-    toast.error("ID is null");
-  }
-});
 
 onMounted(() => {
   store.isLoading = true;
@@ -177,6 +169,37 @@ onMounted(() => {
   });
 });
 
+function onStatuChange(ev: { target: { value: OrderStatus }}) {
+  status.value = currentStatus.value;
+
+  if (order.value?.id === undefined) {
+    toast.error("ID is null");
+  }
+
+  if (ev.target.value === OrderStatus.COMPLETED) {
+    dialog.open(Strings.ORDER_UPDATE_STATUS_COMPLETE_TITLE, Strings.ORDER_UPDATE_STATUS_COMPLETE_MESSAGE, {
+      text: "Yes, complete order",
+      click() {
+        dialog.hide();
+        updateStatus(order.value!.id, OrderStatus.COMPLETED);
+      }
+    }, {
+      text: "No, cancel",
+      click() {
+        dialog.hide();
+        status.value = currentStatus.value;
+      }
+    });
+
+    return;
+  }
+
+  if (order.value?.id && ev.target.value !== undefined) {
+    updateStatus(order.value.id, ev.target.value);
+    return;
+  }
+}
+
 /**
  * Process order data
  */
@@ -187,6 +210,7 @@ function processData(response: ServerResponse<FullOrderModel>) {
   if (response.success) {
     order.value = response.data;
     status.value = order.value.status;
+    currentStatus.value = order.value.status;
 
     if (order.value.status === OrderStatus.COMPLETED) {
       isCompleted.value = true;
@@ -224,18 +248,20 @@ function processData(response: ServerResponse<FullOrderModel>) {
 /**
  * Update order status
  */
-function updateStatus(orderId: string, status: OrderStatus) {
+function updateStatus(orderId: string, toStatus: OrderStatus) {
   store.isLoading = true;
 
   makeRequest("PUT", Endpoints.OrdersKey, {
     id: orderId,
     key: OrderEnum.status,
-    value: status
+    value: toStatus
   }, response => {
     store.isLoading = false;
+    currentStatus.value = toStatus;
+    status.value = toStatus;
 
     if (response.success) {
-      if (status === OrderStatus.COMPLETED) {
+      if (toStatus === OrderStatus.COMPLETED) {
         isCompleted.value = true;
       }
 

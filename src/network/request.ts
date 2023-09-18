@@ -71,8 +71,8 @@ function makeRequest<T>(method: HttpMethod, endpoint: Endpoints, data: any, call
     config.data = data;
   }
 
-  // If has admin token
-  if (getStore("csps_token").length > 0) {
+  // If has admin token and in admin panel
+  if (getStore("csps_token").length > 0 && window.location.href.includes("/admin")) {
     // Add token to config
     config.headers = {
       Authorization: `Bearer ${getStore("csps_token")}`

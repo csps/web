@@ -8,11 +8,11 @@
     <div v-else class="flex flex-col justify-center items-center w-full lg:w-3/4 xl:w-1/2">
       <div class="flex justify-between items-center w-full mb-5">
         <div>
-          <h2 class="font-semibold title-large mb-1 text-primary w-full text-left">Order #{{ route.params.receipt }}</h2>
+          <h2 class="font-semibold title-large mb-1 text-primary w-full text-left">Order #{{ route.params.reference || order?.reference }}</h2>
           <h5 class="title-small w-full text-left">{{ order?.date_stamp ? getReadableDate(order?.date_stamp) : 'Invalid date' }}</h5>
         </div>
         <div>
-          <md-outlined-select v-model="status" label="Status" :disabled="isCompleted" quick>
+          <md-outlined-select v-if="route.params.reference" v-model="status" label="Status" :disabled="isCompleted" quick>
             <md-select-option
               v-for="option in statuses"
               :key="option.value"
@@ -40,7 +40,7 @@
         <div v-if="order?.mode_of_payment === ModeOfPayment.WALK_IN">Walk-in</div>
         <div v-else>
           <a
-            :href="getPhotoLink(order?.receipt_id || 0, true)"
+            :href="getPhotoLink(order?.reference || 0, true)"
             class="border-b border-dashed border-outline"
             title="View submitted receipt"
             data-fancybox
@@ -151,48 +151,20 @@ watch(status, (v, before) => {
 
 onMounted(() => {
   store.isLoading = true;
-  setPageTitle("Order #" + route.params.receipt);
+
+  // If using unique ID
+  if (route.params.uniqueId) {
+    // Fetch order
+    makeRequest<FullOrderModel>("GET", Endpoints.OrdersUnique, {
+      uniqueId: route.params.uniqueId
+    }, processData);
+    return;
+  }
 
   // Fetch order
-  makeRequest<FullOrderModel>("GET", Endpoints.OrdersReceipt, {
-    receiptId: route.params.receipt
-  }, response => {
-    isLoading.value = false;
-    store.isLoading = false;
-
-    if (response.success) {
-      order.value = response.data;
-      status.value = order.value.status;
-
-      if (order.value.status === OrderStatus.COMPLETED) {
-        isCompleted.value = true;
-      }
-
-      setTimeout(() => {
-        Fancybox.bind("[data-fancybox]", {
-          Toolbar: {
-            display: {
-              left: ["infobar"],
-              middle: [
-                "zoomIn", "zoomOut", "toggle1to1", 
-                "rotateCCW", "rotateCW", "flipX", "flipY",
-              ],
-              right: [
-                "iterateZoom",
-                "download",
-                "fullscreen",
-                "close"
-              ]
-            }
-          }
-        });
-      }, 0);
-
-      return;
-    }
-
-    toast.error(response.message);
-  });
+  makeRequest<FullOrderModel>("GET", Endpoints.OrdersReference, {
+    reference: route.params.reference
+  }, processData);
 
   // Fetch courses
   makeRequest("GET", Endpoints.Courses, null, response => {
@@ -204,6 +176,50 @@ onMounted(() => {
     toast.error(response.message);
   });
 });
+
+/**
+ * Process order data
+ */
+function processData(response: ServerResponse<FullOrderModel>) {
+  isLoading.value = false;
+  store.isLoading = false;
+
+  if (response.success) {
+    order.value = response.data;
+    status.value = order.value.status;
+
+    if (order.value.status === OrderStatus.COMPLETED) {
+      isCompleted.value = true;
+    }
+
+    // Set page title
+    setPageTitle("Order #" + order.value.reference);
+    // Bind fancybox
+    setTimeout(() => {
+      Fancybox.bind("[data-fancybox]", {
+        Toolbar: {
+          display: {
+            left: ["infobar"],
+            middle: [
+              "zoomIn", "zoomOut", "toggle1to1", 
+              "rotateCCW", "rotateCW", "flipX", "flipY",
+            ],
+            right: [
+              "iterateZoom",
+              "download",
+              "fullscreen",
+              "close"
+            ]
+          }
+        }
+      });
+    }, 0);
+
+    return;
+  }
+
+  toast.error(response.message);
+}
 
 /**
  * Update order status

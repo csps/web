@@ -32,7 +32,7 @@
     <div v-if="data.orders.length > 0" class="space-y-3 mt-8 w-full lg:w-2/3 xl:w-1/2 2xl:w-2/5">
       <div v-for="(order, i) in data.orders" :key="order.id">
         <p class="label-large font-medium text-on-surface-variant mb-3 text-left" v-if="getMonthCategory(order, i)">{{ getMonthCategory(order, i) }}</p>
-        <CardOrder :order="order" @click="goToOrder(order.receipt_id)" />
+        <CardOrder :order="order" @click="goToOrder(order.reference)" />
       </div>
     </div>
     <div v-else class="flex justify-center mt-8 flex-grow body-medium">
@@ -79,7 +79,7 @@ const data = ref({
   page: 1,
   search: "",
   filterStatus: [OrderStatus.PENDING_PAYMENT],
-  column: FullOrderEnum.receipt_id,
+  column: FullOrderEnum.reference,
 });
 
 const message = ref("");
@@ -97,7 +97,7 @@ const status = [
 ];
 
 const allowedFilters = [
-  FullOrderEnum.receipt_id,
+  FullOrderEnum.reference,
   FullOrderEnum.student_id,
   FullOrderEnum.first_name,
   FullOrderEnum.last_name,
@@ -118,8 +118,8 @@ watch([
 
 onMounted(fetchOrders);
 
-function goToOrder(receipt: string) {
-  router.push({ name: "Order", params: { receipt}});
+function goToOrder(reference: string) {
+  router.push({ name: "Order", params: { reference }});
 }
 
 function fetchOrders(search = "") {

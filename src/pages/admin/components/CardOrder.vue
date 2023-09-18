@@ -18,8 +18,8 @@
           <div>
             <h3 class="body-medium font-medium mb-2 flex items-center gap-1">
               <md-icon class="w-4 h-4 text-primary" v-html="icon('receipt', true)" />
-              <span class="text-primary">{{ order.receipt_id.substring(0, 12) }}</span>
-              <span class="text-secondary">{{ order.receipt_id.substring(12) }}</span>
+              <span class="text-primary">{{ order.reference.substring(0, 12) }}</span>
+              <span class="text-secondary">{{ order.reference.substring(12) }}</span>
             </h3>
             <h3 class="body-medium font-medium mb-1">{{ order.product_name }}</h3>
             <h5 class="body-small">{{ order.variations_name || 'Standard' }}</h5>

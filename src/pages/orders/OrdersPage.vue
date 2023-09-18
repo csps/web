@@ -41,7 +41,7 @@
           <div v-for="(order, i) in data.orders" :key="order.id">
             <p class="label-large font-medium text-on-surface-variant mb-3 text-left" v-if="getMonthCategory(order, i)">{{ getMonthCategory(order, i) }}</p>
 
-            <router-link :to="{ name: 'Receipt', params: { uniqueId: order.unique_id }}">
+            <router-link :to="{ name: 'My Order', params: { uniqueId: order.unique_id }}">
               <CardOrder :order="order" />
             </router-link>
           </div>
@@ -66,18 +66,18 @@
         My orders
       </h2>
       <h6 class="text-sm">
-        To view your orders, please enter your receipt and student ID.
+        To view your orders, please enter your reference number and student ID.
       </h6>
 
       <div class="flex flex-col gap-6 mt-5">
-        <md-outlined-text-field @keydown.enter="submit" v-model.trim="receiptId" label="Receipt ID">
+        <md-outlined-text-field @keydown.enter="submit" v-model.trim="reference" label="Reference No.">
           <md-icon slot="leadingicon" v-html="icon('receipt', true)" />
         </md-outlined-text-field>
         <md-outlined-text-field @keydown.enter="submit" v-model.trim="studentId" label="Student ID" type="number">
           <md-icon slot="leadingicon" v-html="icon('badge', true)" />
         </md-outlined-text-field>
   
-        <md-filled-button @click="submit" :disabled="receiptId.length === 0 || studentId.length === 0 || isFetching">
+        <md-filled-button @click="submit" :disabled="reference.length === 0 || studentId.length === 0 || isFetching">
           {{ isFetching ? 'Finding order...' : 'View order' }}
         </md-filled-button>
   
@@ -122,7 +122,7 @@ const store = useStore();
 const router = useRouter();
 
 const message = ref("");
-const receiptId = ref("");
+const reference = ref("");
 const studentId = ref("");
 const isFetching = ref(false);
 
@@ -132,7 +132,7 @@ const data = ref({
   page: 1,
   search: "",
   filterStatus: [OrderStatus.PENDING_PAYMENT],
-  column: FullOrderEnum.receipt_id,
+  column: FullOrderEnum.reference,
 });
 
 const status = [
@@ -145,7 +145,7 @@ const status = [
 ];
 
 const allowedFilters = [
-  FullOrderEnum.receipt_id,
+  FullOrderEnum.reference,
   FullOrderEnum.product_name,
   FullOrderEnum.mode_of_payment,
   FullOrderEnum.variations_name,
@@ -196,14 +196,14 @@ function fetchOrders(search = "") {
 }
 
 function submit() {
-  if (receiptId.value.length === 0 || studentId.value.length === 0) return;
+  if (reference.value.length === 0 || studentId.value.length === 0) return;
 
   isFetching.value = true;
   store.isLoading = true;
 
   const request: any = {
-    search_value: [receiptId.value, studentId.value],
-    search_column: [FullOrderEnum.receipt_id, FullOrderEnum.student_id],
+    search_value: [reference.value, studentId.value],
+    search_column: [FullOrderEnum.reference, FullOrderEnum.student_id],
   };
 
   makeRequest<FullOrderModel[]>("GET", Endpoints.Orders, request, response => {
@@ -211,16 +211,12 @@ function submit() {
     store.isLoading = false;
 
     if (response.success) {
-      goToReceipt(response.data[0].unique_id);
+      router.push({ name: "My Order", params: { uniqueId: response.data[0].unique_id }});
       return;
     }
 
     toast.warn(response.message);
   });  
-}
-
-function goToReceipt(uniqueId: string) {
-  router.push({ name: "Receipt", params: { uniqueId }});
 }
 
 function onFilter(status: OrderStatus) {

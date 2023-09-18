@@ -14,8 +14,8 @@ enum Endpoints {
   Products = "/products",
   PhotosId = "/photos/:id",
   PhotosIdRaw = "/photos/:id/raw",
-  ReceiptId = "/photos/:id/receipt",
-  ReceiptIdRaw = "/photos/:id/receipt/raw",
+  ReferenceId = "/photos/:id/reference",
+  ReferenceIdRaw = "/photos/:id/reference/raw",
   StudentsKey = "/students/:key",
   Students = "/students",
   Announcements = "/announcements",
@@ -29,7 +29,7 @@ enum Endpoints {
   QRCode = "/qrcode/:q",
   QRCodeDark = "/qrcode/:q/dark",
   OrdersUnique = "/orders/unique/:uniqueId",
-  OrdersReceipt = "/orders/receipt/:receiptId",
+  OrdersReference = "/orders/reference/:reference",
 }
 
 export default Endpoints;

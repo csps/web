@@ -78,7 +78,7 @@ declare global {
   
   type OrderModel = {
     id: number;
-    receipt_id: string;
+    reference: string;
     unique_id: string;
     student_id: string;
     products_id: number;
@@ -95,7 +95,7 @@ declare global {
   
   type NonBscsOrderModel = {
     id: number;
-    receipt_id: string;
+    reference: string;
     unique_id: string;
     products_id: number;
     variations_id: number;
@@ -118,7 +118,7 @@ declare global {
   type FullOrderModel = {
     id: string;
     thumbnail: number;
-    receipt_id: string;
+    reference: string;
     unique_id: string;
     products_id: number;
     product_name: string;
@@ -150,8 +150,9 @@ declare global {
     date_stamp: string;
   }
   
-  type ReceiptModel = {
+  type GCashUpploadsModel = {
     id: number;
+    reference: string;
     name?: string;
     type: string;
     data: Buffer;

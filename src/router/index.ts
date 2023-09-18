@@ -31,9 +31,10 @@ const routes: RouteRecordRaw[] = [
     component: () => import("../pages/orders/OrdersPage.vue"),
   },
   {
-    path: "/orders/receipt/:uniqueId",
-    name: "Receipt",
-    component: () => import("../pages/orders/OrdersPageReceipt.vue")
+    path: "/orders/:uniqueId",
+    name: "My Order",
+    component: () => import("../pages/orders/OrdersInfo.vue"),
+    meta: { requiresAuth: true }
   },
   {
     path: "/merch/:id",
@@ -77,9 +78,9 @@ const routes: RouteRecordRaw[] = [
     meta: { requiresAuth: true }
   },
   {
-    path: "/admin/orders/:receipt",
+    path: "/admin/orders/:reference",
     name: "Order",
-    component: () => import("../pages/admin/tabs/TabOrdersInfo.vue"),
+    component: () => import("../pages/orders/OrdersInfo.vue"),
     meta: { requiresAuth: true }
   },
   {

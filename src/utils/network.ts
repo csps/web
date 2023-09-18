@@ -54,10 +54,10 @@ export function isAdminLoginValid(callback: (valid: boolean) => void) {
 /**
  * Get the photo link
  * @param id Photo ID
- * @param isReceipt If the photo is a receipt
+ * @param isReference If the photo is a reference
  */
-export function getPhotoLink(id: number | string, isReceipt = false) {
-  return Config.API_URL + Endpoints[isReceipt ? 'ReceiptIdRaw' : "PhotosIdRaw"].replace(":id", id.toString());
+export function getPhotoLink(id: number | string, isReference = false) {
+  return Config.API_URL + Endpoints[isReference ? 'ReferenceIdRaw' : "PhotosIdRaw"].replace(":id", id.toString());
 }
 
 /**

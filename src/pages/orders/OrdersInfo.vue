@@ -257,10 +257,11 @@ function updateStatus(orderId: string, toStatus: OrderStatus) {
     value: toStatus
   }, response => {
     store.isLoading = false;
-    currentStatus.value = toStatus;
-    status.value = toStatus;
 
     if (response.success) {
+      currentStatus.value = toStatus;
+      status.value = toStatus;
+
       if (toStatus === OrderStatus.COMPLETED) {
         isCompleted.value = true;
 

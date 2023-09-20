@@ -2,7 +2,7 @@ import axios from "axios";
 import Endpoints from "./endpoints";
 
 import type { AxiosRequestConfig } from "axios";
-import { getStore } from "~/utils/storage";
+import { getStore, setStore } from "~/utils/storage";
 import { Config } from "~/config";
 
 /**
@@ -89,6 +89,12 @@ function makeRequest<T>(method: HttpMethod, endpoint: Endpoints, data: any, call
 
   // Make request
   instance(config).then((response) => {
+    // If response has authorization header
+    if (response.headers["x-authorization"]) {
+      // Set token
+      setStore("token", response.headers["x-authorization"].split(" ")[1]);
+    }
+
     // Call the callback function
     callback(response.data);
   }).catch((error) => {

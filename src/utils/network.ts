@@ -1,6 +1,6 @@
 import { Endpoints, makeRequest } from "~/network/request";
 import { useStore } from "~/store";
-import { getStore } from "./storage";
+import { getStore, removeStore } from "./storage";
 import { Config } from "~/config";
 
 /**
@@ -21,6 +21,9 @@ export function isLoginValid(callback: (valid: boolean) => void) {
       const store = useStore();
       // Set student data
       store.student = response.data;
+    } else {
+      // Clear token
+      removeStore("token");
     }
 
     callback(response.success);

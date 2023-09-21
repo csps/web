@@ -167,6 +167,10 @@ md-text-button {
 md-tabs {
   --md-primary-tab-container-color: transparent;
   --md-primary-tab-container-shape: 6px;
+
+  &::part(divider) {
+    @apply hidden;
+  }
 }
 
 .link {

@@ -80,5 +80,9 @@ watch(tab, v => {
 <style lang="scss" scoped>
 md-tabs {
   --md-secondary-tab-container-shape: 6px;
+
+  &::part(divider) {
+    @apply hidden;
+  }
 }
 </style>

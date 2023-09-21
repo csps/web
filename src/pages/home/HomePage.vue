@@ -117,7 +117,7 @@ import "@material/web/chips/filter-chip";
 register();
 
 const waveEl = ref();
-const role = ref<Role | null>(getStore("msg_role") as Role || "dean");
+const role = ref<Role | null>(getStore("home_msg_role") as Role || "dean");
 const isShowMessage = ref(false);
 const announcements = ref<AnnouncementModel[]>([]);
 const isLoading = ref(true);
@@ -218,11 +218,11 @@ function showMessage(r: Role) {
     }
   
     if (role.value === null) {
-      setStore("msg_role", "-");
+      setStore("home_msg_role", "-");
       return;
     }
   
-    setStore("msg_role", r);
+    setStore("home_msg_role", r);
   }, 0);
 }
 

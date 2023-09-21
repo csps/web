@@ -114,7 +114,7 @@ function login() {
     // if success
     if (response.success) {
       // Save token to local storage
-      setStore("csps_token", response.data.token);
+      setStore("adm_token", response.data.token);
       // Set student
       store.admin = response.data.student;
       // Set is logged in to true

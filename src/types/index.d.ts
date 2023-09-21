@@ -230,6 +230,8 @@ declare global {
     location?: string,
     link?: string
   }
+
+  type StoreKeys = "dark" | "std_token" | "adm_token" | "home_msg_role" | "login_id" | "student";
 }
 
 export {};

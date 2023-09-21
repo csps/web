@@ -92,7 +92,7 @@ function openLogoutDialog() {
       // Set loading to true
       store.isLoading = true;
       // Clear local storage
-      removeStore("token");
+      removeStore("std_token");
       // Set logged out
       store.isLoggedIn = false;
       // Redirect to login

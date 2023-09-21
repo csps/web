@@ -59,7 +59,7 @@ makeRequest<any>("GET", Endpoints.Env, null, response => {
       }
 
       // If not valid, clear local storage
-      removeStore("token");
+      removeStore("std_token");
       // Set logged out
       store.isLoggedIn = false;
     });
@@ -77,7 +77,7 @@ makeRequest<any>("GET", Endpoints.Env, null, response => {
       }
 
       // If not valid, clear local storage
-      removeStore("csps_token");
+      removeStore("adm_token");
       // Set logged out
       store.isAdminLoggedIn = false;
     });
@@ -88,8 +88,8 @@ makeRequest<any>("GET", Endpoints.Env, null, response => {
   toast.error(response.message);
 
   if (response.data === "UNAUTHORIZED") {
-    removeStore("token");
-    removeStore("csps_token");
+    removeStore("std_token");
+    removeStore("adm_token");
     store.isLoggedIn = false;
     store.isAdminLoggedIn = false;
   }

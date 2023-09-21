@@ -72,18 +72,18 @@ function makeRequest<T>(method: HttpMethod, endpoint: Endpoints, data: any, call
   }
 
   // If has admin token and in admin panel
-  if (getStore("csps_token").length > 0 && window.location.href.includes("/admin")) {
+  if (getStore("adm_token").length > 0 && window.location.href.includes("/admin")) {
     // Add token to config
     config.headers = {
-      Authorization: `Bearer ${getStore("csps_token")}`
+      Authorization: `Bearer ${getStore("adm_token")}`
     }
   }
 
   // If has student token
-  else if (getStore("token").length > 0) {
+  else if (getStore("std_token").length > 0) {
     // Add token to config
     config.headers = {
-      Authorization: `Bearer ${getStore("token")}`
+      Authorization: `Bearer ${getStore("std_token")}`
     }
   }
 
@@ -92,7 +92,7 @@ function makeRequest<T>(method: HttpMethod, endpoint: Endpoints, data: any, call
     // If response has authorization header
     if (response.headers["x-authorization"]) {
       // Set token
-      setStore("token", response.headers["x-authorization"].split(" ")[1]);
+      setStore("std_token", response.headers["x-authorization"].split(" ")[1]);
     }
 
     // Call the callback function

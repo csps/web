@@ -117,8 +117,8 @@ router.beforeEach((to, _from, next) => {
   // If going to route that requres auth
   if (to.meta.requiresAuth) {
     // Check for admin token
-    const adminToken = getStore("csps_token");
-    const studentToken = getStore("token");
+    const adminToken = getStore("adm_token");
+    const studentToken = getStore("std_token");
 
     // If goiing to admin page
     if (to.name === "Admin" && !adminToken) {

@@ -8,13 +8,13 @@ import { Config } from "~/config";
  */
 export function isLoginValid(callback: (valid: boolean) => void) {
   // If has no token, return false
-  if (!getStore("token")) {
+  if (!getStore("std_token")) {
     callback(false);
     return;
   }
 
   // If has token, check if valid
-  makeRequest<StudentResponse>("GET", Endpoints.LoginToken, { token: getStore("token") }, response => {
+  makeRequest<StudentResponse>("GET", Endpoints.LoginToken, { token: getStore("std_token") }, response => {
     // If logged in
     if (response.success) {
       // Get store 
@@ -23,7 +23,7 @@ export function isLoginValid(callback: (valid: boolean) => void) {
       store.student = response.data;
     } else {
       // Clear token
-      removeStore("token");
+      removeStore("std_token");
     }
 
     callback(response.success);
@@ -35,13 +35,13 @@ export function isLoginValid(callback: (valid: boolean) => void) {
  */
 export function isAdminLoginValid(callback: (valid: boolean) => void) {
   // If has no token, return false
-  if (!getStore("csps_token")) {
+  if (!getStore("adm_token")) {
     callback(false);
     return;
   }
 
   // If has token, check if valid
-  makeRequest<StudentResponse>("GET", Endpoints.AdminLoginToken, { token: getStore("csps_token") }, response => {
+  makeRequest<StudentResponse>("GET", Endpoints.AdminLoginToken, { token: getStore("adm_token") }, response => {
     // If logged in
     if (response.success) {
       // Get store 

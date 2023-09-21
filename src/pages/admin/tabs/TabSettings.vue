@@ -38,7 +38,7 @@ const items: Item[] = [
           // Set loading to true
           store.isLoading = true;
           // Clear local storage
-          removeStore("csps_token");
+          removeStore("adm_token");
           // Set logged out
           store.isAdminLoggedIn = false;
           // Redirect to login

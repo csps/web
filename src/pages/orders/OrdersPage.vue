@@ -61,16 +61,22 @@
       </div>
     </div>
 
-    <div v-else>
+    <div class="px-6" v-else>
       <h2 class="text-2xl md:text-3xl font-semibold mb-1 text-left">
         My orders
       </h2>
-      <h6 class="text-sm">
+      <h6 class="text-xs">
         To view your orders, please enter your reference number and student ID.
       </h6>
 
-      <div class="flex flex-col gap-6 mt-5">
-        <md-outlined-text-field @keydown.enter="submit" v-model.trim="reference" label="Reference No.">
+      <div class="flex flex-col gap-6 mt-8">
+        <md-outlined-text-field
+          v-model.trim="reference"
+          label="Reference No."
+          prefix-text="CSPS"
+          @keydown.enter="submit"
+          @paste="onPaste"
+        >
           <md-icon slot="leadingicon" v-html="icon('receipt', true)" />
         </md-outlined-text-field>
         <md-outlined-text-field @keydown.enter="submit" v-model.trim="studentId" label="Student ID" type="number">
@@ -202,7 +208,7 @@ function submit() {
   store.isLoading = true;
 
   const request: any = {
-    search_value: [reference.value, studentId.value],
+    search_value: ["CSPS" + reference.value, studentId.value],
     search_column: [FullOrderEnum.reference, FullOrderEnum.student_id],
   };
 
@@ -246,5 +252,30 @@ function getMonthCategory(date: FullOrderModel, i: number) {
   }
     
   return "";
+}
+
+/**
+ * Handle pasting of reference number
+ */
+function onPaste(e: ClipboardEvent) {
+  if (!e.clipboardData) return;
+
+  e.preventDefault();
+  e.stopPropagation();
+
+  // Get pasted data via clipboard API
+  const text = (e.clipboardData.getData("text/plain") || "").trim();
+  // Discard if empty
+  if (text.length === 0) return;
+
+  // If pasted text starts with CSPS
+  if (text.startsWith("CSPS")) {
+    // Remove CSPS prefix and set the value
+    reference.value = text.replace("CSPS", "");
+    return;
+  }
+
+  // otherwise, append the text
+  reference.value += text;
 }
 </script>

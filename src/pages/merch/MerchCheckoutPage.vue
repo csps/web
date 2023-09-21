@@ -29,7 +29,7 @@
               </md-filled-text-field>
 
               <div class="grid grid-cols-1 xl:grid-cols-2 gap-6">
-                <md-filled-select v-if="!store.isLoggedIn" v-model="course" :disabled="store.isLoggedIn || isPlacingOrder" label="Course">
+                <md-filled-select class="dense" v-if="!store.isLoggedIn" v-model="course" :disabled="store.isLoggedIn || isPlacingOrder" label="Course">
                   <md-icon slot="leadingicon" v-html="icon('school', true)" />
                   <md-select-option v-for="(c, id) in courses" :key="id" :value="Number(id)" :headline="c" />
                 </md-filled-select>

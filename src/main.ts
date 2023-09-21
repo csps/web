@@ -1,6 +1,7 @@
 import { createApp } from 'vue'
 import { createPinia } from "pinia";
 import Vue3Toastify, { type ToastContainerOptions } from 'vue3-toastify';
+import "element-internals-polyfill";
 
 import App from './App.vue'
 import router from './router'

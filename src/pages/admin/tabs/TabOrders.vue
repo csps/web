@@ -59,6 +59,7 @@ import { FullOrderEnum } from "~/types/models";
 import { OrderStatus } from "~/types/enums";
 import { getMonthYear } from "~/utils/date";
 import { capitalize } from "~/utils/string";
+import { getStore, setStore } from "~/utils/storage";
 import { useStore } from "~/store";
 import { Env } from "~/config";
 
@@ -78,7 +79,7 @@ const data = ref({
   orders: [] as FullOrderModel[],
   page: 1,
   search: "",
-  filterStatus: [OrderStatus.PENDING_PAYMENT],
+  filterStatus: getStore("tabs_orders_status") ? JSON.parse(getStore("tabs_orders_status")) : [OrderStatus.PENDING_PAYMENT],
   column: FullOrderEnum.reference,
 });
 
@@ -113,6 +114,7 @@ watch([
   () => data.value.filterStatus,
   () => data.value.page,
 ], v => {
+  setStore("tabs_orders_status", JSON.stringify(data.value.filterStatus));
   fetchOrders(v[0]);
 });
 

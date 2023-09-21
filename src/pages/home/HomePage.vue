@@ -211,18 +211,15 @@ function showMessage(r: Role) {
 
     if (role.value === "dean") {
       swiper?.slideTo(0);
+      return;
     }
     
     if (role.value === "adviser") {
       swiper?.slideTo(1);
-    }
-  
-    if (role.value === null) {
-      setStore("home_msg_role", "-");
       return;
     }
-  
-    setStore("home_msg_role", r);
+
+    setStore("home_msg_role", "-");
   }, 0);
 }
 
@@ -239,14 +236,17 @@ function bindSwiper() {
   (swiper as any).addEventListener('slidechange', (event: any) => {
     if (event.detail[0].realIndex === 0) {
       role.value = "dean";
+      setStore("home_msg_role", "dean");
       return;
     }
-
+    
     if (event.detail[0].realIndex === 1) {
       role.value = "adviser";
+      setStore("home_msg_role", "adviser");
       return;
     }
 
+    setStore("home_msg_role", "-");
     role.value = null;
   });
 

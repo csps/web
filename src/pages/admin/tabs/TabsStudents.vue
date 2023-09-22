@@ -34,7 +34,7 @@
       />
     </div>
 
-    <div v-if="data.students.length > 0" class="space-y-3 mt-5 w-full lg:w-3/4 2xl:w-1/2">
+    <div v-if="data.students.length > 0" class="space-y-3 mt-5 w-full md:w-3/4 lg:w-1/2 2xl:w-1/3">
       <CardStudent v-for="student in data.students" :key="student.id" :student="student" />
     </div>
     <div v-else class="flex justify-center mt-8 flex-grow">

@@ -18,7 +18,7 @@
       </md-outlined-select>
     </div>
 
-    <div class="flex justify-center items-center flex-wrap gap-2 mt-4">
+    <div class="flex justify-center items-center flex-wrap gap-2 mt-4 px-6">
       <md-filter-chip
         v-for="s in status"
         elevated
@@ -29,7 +29,7 @@
       />
     </div>
 
-    <div v-if="data.orders.length > 0" class="space-y-3 mt-8 w-full lg:w-2/3 xl:w-1/2 2xl:w-2/5">
+    <div v-if="data.orders.length > 0" class="space-y-3 mt-8 w-full md:w-3/4 lg:w-1/2 2xl:w-1/3">
       <div v-for="(order, i) in data.orders" :key="order.id">
         <p class="label-large font-medium text-on-surface-variant mb-3 text-left" v-if="getMonthCategory(order, i)">{{ getMonthCategory(order, i) }}</p>
         <CardOrder :order="order" @click="goToOrder(order.reference)" />

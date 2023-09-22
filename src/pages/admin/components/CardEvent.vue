@@ -6,7 +6,7 @@
         <div class="flex justify-between gap-6 w-full">
           <div class="flex gap-6">
             <div class="text-primary">
-              <h3 class="headline-small font-bold">{{ event.date.substring(8, 10) }}</h3>
+              <h3 class="headline-small text-center font-bold">{{ event.date.substring(8, 10) }}</h3>
               <h5 class="text-center font-medium title-medium">{{ getMonthName(parseInt(event.date.substring(5, 7))).toUpperCase() }}</h5>
             </div>  
             <div class="flex flex-col gap-1 justify-center">

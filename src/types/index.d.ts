@@ -231,6 +231,12 @@ declare global {
     link?: string
   }
 
+  type NavigationRailItem = {
+    id: string,
+    title: string,
+    icon: Icon,
+  }
+
   type StoreKeys = "dark" | "std_token" | "adm_token" | "home_msg_role" |
     "login_id" | "student" | "tabs_orders_status";
 }

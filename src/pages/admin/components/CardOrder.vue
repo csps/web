@@ -29,7 +29,7 @@
             <h3 class="label-medium mt-0.5 font-medium text-outline">
               {{ mapOrderStatusLabel(order.status) }}
             </h3>
-            <span class="text-outline">{{ getReadableDate(order.date_stamp) }}</span>
+            <span class="text-outline">{{ getReadableDate(order.date_stamp, true) }}</span>
           </div>
         </div>
       </div>

@@ -7,7 +7,7 @@
       <h6 class="label-medium">{{ getReadableDate(data.date_stamp) }}</h6>
     </div>
 
-    <div class="body-medium">
+    <div class="body-small">
       {{ data.content }}
     </div>
   </div>

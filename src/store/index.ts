@@ -4,6 +4,8 @@ export * from "./dialog"
 
 export const useStore = defineStore("global", () => {
   const errorMessage = "";
+  const selectedRail = "dashboard";
+  const rails: NavigationRailItem[] = [];
 
   const isLoggedIn = undefined as boolean | undefined;
   const isAdminLoggedIn = undefined as boolean | undefined;
@@ -34,6 +36,6 @@ export const useStore = defineStore("global", () => {
 
   return {
     isShowBackButton, isDark, isLoggedIn, student, isLoading, errorMessage,
-    checkoutDetails, admin, isAdminLoggedIn
+    checkoutDetails, admin, isAdminLoggedIn, rails, selectedRail
   }
 });

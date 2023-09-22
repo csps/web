@@ -109,6 +109,15 @@ img {
   @apply bg-error-container text-on-error-container;
 }
 
+.hide-scrollbar {
+  @apply px-6;
+
+  &::-webkit-scrollbar {
+    width: 0 !important;
+    height: 0 !important;
+  }
+}
+
 md-filled-button, md-text-button,
 md-outlined-button, md-filled-tonal-button,
 md-elevated-button {

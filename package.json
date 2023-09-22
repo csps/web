@@ -19,7 +19,7 @@
   },
   "dependencies": {
     "@fancyapps/ui": "^5.0.22",
-    "@material-symbols/svg-700": "^0.12.0",
+    "@material-symbols/svg-700": "^0.13.0",
     "@material/web": "^1.0.0-pre.17",
     "animejs": "^3.2.1",
     "axios": "^1.5.0",
@@ -30,7 +30,7 @@
     "typed.js": "^2.0.16",
     "v-calendar": "^3.0.3",
     "vue": "^3.3.4",
-    "vue-router": "^4.2.4",
+    "vue-router": "^4.2.5",
     "vue3-toastify": "^0.1.13"
   },
   "devDependencies": {

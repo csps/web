@@ -2,14 +2,24 @@
   <div class="min-h-screen">
     <md-linear-progress class="fixed right-0 left-0 top-0 min-w-full z-[1]" :indeterminate="store.isLoading" />
 
-    <div class="flex flex-col min-h-screen justify-between">
-      <VAppBar transparent />
-      <router-view v-slot="{ Component }">
-        <Transition name="slide-fade" mode="out-in">
-          <component :is="Component" />
-        </Transition>
-      </router-view>
-      <VFooter :class="{ 'flex-grow': route.name === 'Admin' || (store.isLoggedIn && route.name === 'My Orders') }" />
+    <div>
+      <VNavigationRail
+        :class="{ 'translate-x-0': route.path.startsWith('/admin') }"
+        class="hidden md:block fixed top-0 bottom-0 -translate-x-[80px]"
+        :selected="store.selectedRail"
+        :destinations="store.rails"
+        @select="id => store.selectedRail = id"
+      />
+      
+      <div class="flex flex-col min-h-screen justify-between">
+        <VAppBar :class="{ 'pl-0 md:pl-[80px]': route.path.startsWith('/admin') }" transparent />
+        <router-view v-slot="{ Component }">
+          <Transition name="slide-fade" mode="out-in">
+            <component :is="Component" />
+          </Transition>
+        </router-view>
+        <VFooter :class="{ 'flex-grow': route.name === 'Admin' || (store.isLoggedIn && route.name === 'My Orders') }" />
+      </div>
     </div>
 
     <DialogMain />
@@ -30,6 +40,7 @@ import "@material/web/progress/linear-progress";
 import VAppBar from './components/VAppBar.vue';
 import VFooter from './components/VFooter.vue';
 import DialogMain from './components/dialogs/DialogMain.vue';
+import VNavigationRail from "./components/VNavigationRail.vue";
 
 // Get store
 const store = useStore();
@@ -94,6 +105,4 @@ makeRequest<any>("GET", Endpoints.Env, null, response => {
     store.isAdminLoggedIn = false;
   }
 });
-
-
 </script>

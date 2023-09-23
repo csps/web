@@ -29,8 +29,8 @@
       />
     </div>
 
-    <div v-if="data.orders.length > 0" class="space-y-3 mt-8 w-full md:w-3/4 lg:w-1/2 2xl:w-1/3">
-      <div v-for="(order, i) in data.orders" :key="order.id">
+    <div v-if="data.orders.length > 0" class="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-3">
+      <div v-for="(order, i) in data.orders" class="flex flex-col justify-end" :key="order.id">
         <p class="label-large font-medium text-on-surface-variant mb-3 text-left" v-if="getMonthCategory(order, i)">{{ getMonthCategory(order, i) }}</p>
         <CardOrder :order="order" @click="goToOrder(order.reference)" />
       </div>

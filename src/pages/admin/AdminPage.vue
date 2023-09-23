@@ -1,7 +1,7 @@
 <template>
   <div class="h-full">
     <div>
-      <div class="flex justify-center mt-5 h-full">
+      <div class="flex justify-center mt-5 h-full md:pl-[80px] transition-[padding_0.21s_ease_in_out]">
         <Transition name="slide-fade" mode="out-in">
           <TabDashboard v-if="store.selectedRail === 'dashboard'" />
           <TabAnnouncements v-else-if="store.selectedRail === 'announcements'" />

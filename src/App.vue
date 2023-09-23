@@ -4,7 +4,7 @@
 
     <div>
       <VNavigationRail
-        :class="{ 'translate-x-0': route.path.startsWith('/admin') }"
+        :class="{ 'translate-x-0': route.path.startsWith('/admin') && charCount('/', route.path) === 2 }"
         class="hidden md:block fixed top-0 bottom-0 -translate-x-[80px]"
         :selected="store.selectedRail"
         :destinations="store.rails"
@@ -12,7 +12,7 @@
       />
       
       <div class="flex flex-col min-h-screen justify-between">
-        <VAppBar :class="{ 'pl-0 md:pl-[80px]': route.path.startsWith('/admin') }" transparent />
+        <VAppBar :class="{ 'pl-0 md:pl-[80px]': route.path.startsWith('/admin') && charCount('/', route.path) === 2 }" transparent />
         <router-view v-slot="{ Component }">
           <Transition name="slide-fade" mode="out-in">
             <component :is="Component" />
@@ -34,6 +34,7 @@ import { removeStore } from './utils/storage';
 import { toast } from 'vue3-toastify';
 import { Endpoints, makeRequest } from './network/request';
 import { isAdminLoginValid, isLoginValid } from './utils/network';
+import { charCount } from "./utils/string";
 
 import "@material/web/progress/linear-progress";
 

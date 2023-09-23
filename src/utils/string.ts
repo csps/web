@@ -23,3 +23,10 @@ export function toCurrency(value: string | number) {
 export function capitalize(text: string) {
   return text.replace(/_/g, " ").replace(/\w\S*/g, (w) => (w.replace(/^\w/, (c) => c.toUpperCase())));
 }
+
+/**
+ * Get the number of times a character appears in a string 
+ */
+export function charCount(needle: string, haystack: string) {
+  return haystack.split(needle).length - 1;
+}

@@ -237,8 +237,8 @@ declare global {
     icon: Icon,
   }
 
-  type StoreKeys = "dark" | "std_token" | "adm_token" | "home_msg_role" |
-    "login_id" | "student" | "tabs_orders_status";
+  type StoreKeys = "dark" | "std_token" | "adm_token" | "home_msg_role" | "login_id" | "student" |
+    "tabs_orders_status" | "tabs_orders_page";
 }
 
 export {};

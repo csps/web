@@ -77,7 +77,7 @@ import VPagination from "~/components/VPagination.vue";
 const data = ref({
   total: 0,
   orders: [] as FullOrderModel[],
-  page: 1,
+  page: getStore("tabs_orders_page") ? parseInt(getStore("tabs_orders_page")) : 1,
   search: "",
   filterStatus: getStore("tabs_orders_status") ? JSON.parse(getStore("tabs_orders_status")) : [OrderStatus.PENDING_PAYMENT],
   column: FullOrderEnum.reference,
@@ -153,6 +153,7 @@ function fetchOrders(search = "") {
     if (response.success) {
       data.value.total = response.count || 0;
       data.value.orders = response.data;
+      setStore("tabs_orders_page", `${request.page}`);
       return;
     }
 

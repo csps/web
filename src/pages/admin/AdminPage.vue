@@ -25,6 +25,7 @@
 import { watch } from "vue";
 import { useRouter } from "vue-router";
 import { useStore } from "~/store";
+import { removeStore } from "~/utils/storage";
 
 import "@material/web/tabs/tabs";
 import "@material/web/icon/icon";
@@ -57,6 +58,7 @@ store.rails = [
 store.selectedRail = router.currentRoute.value.params.tab as string;
 
 watch(() => store.selectedRail,  v => {
+  removeStore("tabs_orders_page");
   router.push({ name: "Admin", params: { tab: v } });
 });
 </script>

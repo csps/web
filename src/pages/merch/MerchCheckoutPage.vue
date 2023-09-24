@@ -213,9 +213,6 @@ type OrderRequest = {
 };
 
 onMounted(() => {
-  // Set the quantity to the max quantity of the product
-  quantity.value = store.checkoutDetails?.product.max_quantity || 1;
-
   // If the user is logged in, set the student info to the logged in student
   if (store.isLoggedIn) {
     course.value = 0; // BSCS
@@ -271,7 +268,6 @@ function placeOrder() {
     toast.error("Please fill up all the required fields!");
     return;
   }
-
 
   store.isLoading = true;
   isPlacingOrder.value = true;

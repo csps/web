@@ -52,6 +52,8 @@
         <div>{{ mapOrderStatusLabel(order?.status) }}</div>
         <div>Date Completed</div>
         <div class="text-outline">{{ order?.status === OrderStatus.COMPLETED || status === OrderStatus.COMPLETED ? (order?.status_updated ? getReadableDate(order.status_updated) : 'Invalid date') : '...' }}</div>
+        <div>Quantity</div>
+        <div>{{ order?.quantity }}</div>
       </div>
 
       <div class="flex justify-between mt-5 w-full bg-surface-container p-6 rounded-2xl text-on-surface-variant">
@@ -63,7 +65,7 @@
             <h5 class="text-xs">{{ order?.variations_name || 'Standard' }}</h5>
           </div>
 
-          <h3 class="text-sm">
+          <h3 class="body-medium">
             {{ toCurrency(order?.product_price || 0) }}
             
             <div class="text-outline inline-block ml-[1px]">

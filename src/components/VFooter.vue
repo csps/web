@@ -1,8 +1,8 @@
 <template>
-  <div class="flex items-end z-" :class="{ 'bg-surface-variant dark:bg-surface-container-high': route.name === 'Home' }">
+  <div class="flex items-end pointer-events-none" :class="{ 'bg-surface-variant dark:bg-surface-container-high': route.name === 'Home' }">
     <footer class="w-screen px-6 py-12 flex flex-col justify-center z-[1000] text-on-surface-variant">
       <div class="flex flex-col justify-center items-center gap-x-10 gap-y-2">
-        <div class="flex flex-col">
+        <div class="flex flex-col pointer-events-auto">
           <div class="flex items-center justify-center space-x-5 mt-2 mb-2" tabindex="-1">
             <a class="relative outline-none w-6 h-6" v-for="(link, i) in links" :href="link.href" :key="i" target="_blank">
               <md-focus-ring />

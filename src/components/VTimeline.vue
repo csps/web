@@ -7,7 +7,7 @@
 
       <div class="flex-grow">
         <div class="flex justify-between gap-5">
-          <h3 class="flex items-center mb-1 text-lg font-semibold text-secondary">
+          <h3 class="flex items-center mb-1 text-lg font-semibold text-primary">
             {{ item.title }}
           </h3>
           <time class="mb-2 body-small font-medium leading-none text-outline flex items-center gap-2 whitespace-nowrap">
@@ -15,15 +15,15 @@
           </time>
         </div>
 
-        <time class="mb-2 body-small leading-none text-outline flex items-center gap-1">
-          <md-icon class="w-3.5 h-3.5" v-html="icon('schedule', true)" />
-          {{ item.time }}
-        </time>
-
-        <div class="mb-2 body-small leading-none text-outline flex items-center gap-1">
+        <div class="mb-2 body-small leading-none text-outline flex items-center gap-1" :title="item.location">
           <md-icon class="w-3.5 h-3.5" v-html="icon('location_on', true)" />
           {{ item.location }}
         </div>
+
+        <time class="mb-2 body-small leading-none text-outline flex items-center gap-1" :title="item.time">
+          <md-icon class="w-3.5 h-3.5" v-html="icon('schedule', true)" />
+          {{ item.time }}
+        </time>
 
         <div class="mt-3 body-medium">
           {{ item.content }}

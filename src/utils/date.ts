@@ -63,9 +63,13 @@ export function getTime(date: Date | string) {
     hours = parseInt(s[0]);
     minutes = parseInt(s[1]);
   }
+  
+  if (date instanceof Date) {
+    hours = date.getHours();
+    minutes = date.getMinutes();
+  }
 
   const ampm = hours >= 12 ? 'PM' : 'AM';
-
   return `${hours === 0 ? 12 : (hours > 12 ? hours - 12 : hours)}:${minutes < 10 ? '0' + minutes : minutes} ${ampm}`;
 }
 

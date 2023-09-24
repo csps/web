@@ -77,7 +77,7 @@
               @click="togglePopover"
               readonly
               :disabled="!date || isLoading"
-              v-model.trim="startTimeText"
+              :value="startTimeText"
               @keydown.enter="submit"
             >
               <md-icon slot="leadingicon" v-html="icon('event', true)" />
@@ -100,7 +100,7 @@
               @click="togglePopover"
               readonly
               :disabled="!date || isLoading"
-              v-model.trim="endTimeText"
+              :value="endTimeText"
               @keydown.enter="submit"
             >
               <md-icon slot="leadingicon" v-html="icon('event', true)" />
@@ -176,7 +176,7 @@ const endTimeText = ref("");
 
 watch(date, v => {
   dateText.value = v ? getHumanDate(v) : "";
-  
+
   if (!startTime.value) {
     startTime.value = new Date();
     startTime.value.setHours(8, 0);

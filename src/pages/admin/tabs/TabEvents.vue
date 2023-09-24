@@ -23,7 +23,7 @@
       </md-outlined-select>
     </div>
 
-    <div v-if="data.events.length > 0" class="w-full md:w-3/4 2xl:w-1/2 mt-8 grid grid-cols-1 lg:grid-cols-2 gap-3">
+    <div v-if="data.events.length > 0" class="w-full md:w-3/4 2xl:w-2/3 3xl:w-1/2 mt-8 grid grid-cols-1 lg:grid-cols-2 gap-3">
       <div v-for="event in data.events" :key="event.id" class="flex flex-col justify-end">
         <CardEvent class="h-full" :event="event" />
       </div>

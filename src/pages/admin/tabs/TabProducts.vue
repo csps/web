@@ -45,7 +45,11 @@
       @change="p => data.page = p"
     />
 
-    <DialogAdminProducts v-model="isDialogOpen" :product="selectedProduct" @done="fetchProducts" />
+    <DialogAdminProducts
+      v-model="isDialogOpen"
+      :product="selectedProduct"
+      @done="fetchProducts"
+    />
   </div>
 </template>
 

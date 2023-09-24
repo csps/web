@@ -133,8 +133,12 @@ md-filled-button {
   box-shadow: 0 0 75px -20px var(--md-sys-color-primary);
 }
 
-md-outlined-field, md-filled-field {
-  --_label-text-type: var(--md-outlined-field-label-text-type, 400 1rem / 1.5rem var(--md-ref-typeface-plain, 'Poppins'));
+md-filled-text-field {
+  --md-filled-field-content-size: 15px;
+}
+
+md-outlined-text-field {
+  --md-outlined-field-content-size: 15px;
 }
 
 md-outlined-select.dense::part(menu), md-filled-select.dense::part(menu) {

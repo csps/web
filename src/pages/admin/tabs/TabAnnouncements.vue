@@ -23,8 +23,13 @@
       </md-outlined-select>
     </div>
 
-    <div v-if="data.announcements.length > 0" class="space-y-3 mt-5 w-full lg:w-3/4 xl:w-1/2 3xl:w-1/3">
-      <CardAnnouncement v-for="announcement in data.announcements" :key="announcement.id" :data="announcement" />
+    <div v-if="data.announcements.length > 0" class="w-full 2xl:w-2/3 3xl:w-1/2 mt-8 grid grid-cols-1 lg:grid-cols-2 gap-3">
+      <CardAnnouncement
+        v-for="announcement in data.announcements"
+        :key="announcement.id"
+        :data="announcement"
+        @click="onEdit(announcement)"
+      />
     </div>
     <div v-else class="flex justify-center mt-8 flex-grow body-medium">
       {{ message || "Fetching announcements..." }}
@@ -39,7 +44,11 @@
       @change="p => data.page = p"
     />
 
-    <DialogAdminAnnouncement v-model="isDialogOpen" :announcement="announcement" @done="fetchAnnouncements" />
+    <DialogAdminAnnouncement
+      v-model="isDialogOpen"
+      :announcement="announcement"
+      @done="fetchAnnouncements"
+    />
   </div>
 </template>
 
@@ -60,7 +69,7 @@ import VPagination from "~/components/VPagination.vue";
 
 const store = useStore();
 const isDialogOpen = ref(false);
-const announcement = ref();
+const announcement = ref<AnnouncementModel>();
 const isLoading = ref(false);
 const message = ref("");
 
@@ -108,5 +117,10 @@ function fetchAnnouncements(search = "") {
 
     message.value = response.message;
   });
+}
+
+function onEdit(data: AnnouncementModel) {
+  announcement.value = data;
+  isDialogOpen.value = true;
 }
 </script>

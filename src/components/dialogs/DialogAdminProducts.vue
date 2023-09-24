@@ -60,7 +60,6 @@ import { ref, computed, watch } from "vue";
 import { toast } from "vue3-toastify";
 import { icon } from "~/utils/icon";
 import { Endpoints, makeRequest } from "~/network/request";
-import { ProductEnum } from "~/types/models";
 
 const emit = defineEmits(["update:modelValue", "done"]);
 const props = defineProps<{
@@ -111,10 +110,6 @@ function submit() {
     data.id = props.product.id;
   }
 
-  if (thumbnail.value) {
-    data[ProductEnum.thumbnail] = thumbnail.value;
-  }
-  
   // Send the request
   makeRequest(props.product ? "PUT" : "POST", props.product ? Endpoints.ProductsId : Endpoints.Products, data, response => {
     // Set loading to false

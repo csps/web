@@ -6,7 +6,7 @@
     </div>
 
     <div v-else class="flex flex-col justify-center items-center w-full lg:w-3/4 xl:w-1/2">
-      <div class="flex justify-between items-center w-full mb-5">
+      <div class="flex gap-5 flex-col md:flex-row justify-between w-full mb-5">
         <div>
           <h2 class="font-semibold title-large mb-1 text-primary w-full text-left">Order #{{ route.params.reference || order?.reference }}</h2>
           <h5 class="title-small w-full text-left">{{ order?.date_stamp ? getReadableDate(order?.date_stamp) : 'Invalid date' }}</h5>
@@ -286,7 +286,7 @@ function updateStatus(orderId: string, toStatus: OrderStatus) {
   @apply grid grid-cols-2 w-full mt-5 gap-2;
 
   & > div:nth-child(even) {
-    @apply text-right;
+    @apply text-right break-words;
   }
 }
 </style>

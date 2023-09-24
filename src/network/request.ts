@@ -89,10 +89,16 @@ function makeRequest<T>(method: HttpMethod, endpoint: Endpoints, data: any, call
 
   // Make request
   instance(config).then((response) => {
-    // If response has authorization header
-    if (response.headers["x-authorization"]) {
+    // If response has student authorization header
+    if (response.headers["x-std-authorization"]) {
       // Set token
-      setStore("std_token", response.headers["x-authorization"].split(" ")[1]);
+      setStore("std_token", response.headers["x-std-authorization"].split(" ")[1]);
+    }
+
+    // If response has admin authorization header
+    if (response.headers["x-adm-authorization"]) {
+      // Set token
+      setStore("adm_token", response.headers["x-adm-authorization"].split(" ")[1]);
     }
 
     // Call the callback function

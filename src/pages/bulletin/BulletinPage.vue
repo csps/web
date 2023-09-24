@@ -6,16 +6,15 @@
     </div>
 
     <div v-else class="container mx-auto px-6 flex flex-col items-center">
-      
-      <div class="w-full 2xl:w-3/4">
+      <div class="w-full lg:w-3/4 xl:w-3/5 2xl:w-full 3xl:w-4/5">
         <h2 class="title-large font-semibold text-on-surface-variant text-center md:text-left">Events & Activities</h2>
         <p class="title-small text-outline text-center md:text-left">Check out our bulletin board for a list of upcoming events and activities!</p>
 
-        <div class="flex flex-col-reverse md:flex-col 2xl:grid 2xl:grid-cols-6 gap-16 justify-center mt-10">
-          <div class="hidden md:block col-span-4">
+        <div class="flex flex-col-reverse md:flex-col 2xl:grid 2xl:grid-cols-6 gap-16 justify-center mt-6">
+          <div class="hidden md:block col-span-4 rounded-xl shadow-lg dark:shadow-surface-container-low">
             <Calendar
               ref="c1"
-              @did-move="($event: Event) => onChange($event, 1)"
+              @update:pages="($event: Event) => onChange($event, 1)"
               class="custom-calendar w-full"
               :masks="{ weekdays: 'WWW' }"
               :attributes="attributes"
@@ -25,7 +24,7 @@
             >
               <template v-slot:day-content="{ day, attributes }">
                 <div class="flex flex-col h-full z-10 overflow-hidden">
-                  <span class="day-label title-small text-on-surface-variant">{{ day.day }}</span>
+                  <span class="day-label body-large font-medium text-secondary p-1.5">{{ day.day }}</span>
                   <div class="flex-grow overflow-y-auto overflow-x-auto">
                     <p
                       v-for="attr in attributes"
@@ -42,19 +41,24 @@
           </div>
 
           <div class="w-full flex-grow col-span-2 px-4">
-            <div v-if="isLoading" class="flex flex-col justify-center items-center gap-3 body-medium">
-              <md-linear-progress indeterminate />
-              <span>Fetching events and activities...</span>
-            </div>
-            <div class="bg-surface-container-low p-10 rounded-3xl text-center text-on-surface-variant  body-medium flex justify-center items-center" v-else-if="message.length > 0">
-              {{ message }}
-            </div>
-            <div v-else>
-              <VTimeline :data="data" />
-              <div class="my-8" />
-              
-              <Transition name="slide-fade" mode="out-in">
-                <div v-if="nowEvent" class="flex items-center gap-1 bg-surface-container p-5 rounded-lg text-on-surface-variant font-medium">
+            <Transition name="slide-fade" mode="out-in">
+              <div v-if="isLoading" class="flex flex-col justify-center items-center gap-3 body-medium">
+                <md-linear-progress indeterminate />
+                <span>Fetching events and activities...</span>
+              </div>
+              <div v-else-if="message.length > 0" class="bg-surface-container-low p-10 rounded-3xl text-center text-on-surface-variant body-medium flex justify-center items-center">
+                {{ message }}
+              </div>
+              <div v-else>
+                <h3 class="mb-8 title-large font-semibold text-left -translate-x-3 text-secondary flex items-center">
+                  <md-icon class="mr-2" v-html="icon('event')" />
+                  {{ monthYear }}
+                </h3>
+  
+                <VTimeline :data="data" />
+                <div class="my-8" />
+                
+                <div v-if="nowEvent" class="flex items-center gap-1 bg-surface-container-low p-5 rounded-lg text-on-surface-variant font-medium">
                   <md-icon class="mr-2" v-html="icon('campaign')" />
                   Happening Now:
                   <span
@@ -66,7 +70,7 @@
                     {{ nowEvent.title }}!
                   </span>
                 </div>
-                <div v-else-if="nextEvent" class="flex items-center gap-1 bg-surface-container p-5 rounded-lg text-on-surface-variant font-medium">
+                <div v-else-if="nextEvent" class="flex items-center gap-1 bg-surface-container-low p-5 rounded-lg text-on-surface-variant font-medium">
                   <md-icon class="mr-2" v-html="icon('campaign')" />
                   Next event:
                   <span
@@ -78,11 +82,11 @@
                     {{ nextEvent.title }}!
                   </span>
                 </div>
-                <div v-else class="bg-surface-container p-5 rounded-lg text-on-surface-variant font-medium">
+                <div v-else class="bg-surface-container-low p-5 rounded-lg text-on-surface-variant font-medium">
                   There are no upcoming events yet. Stay tuned!
                 </div>
-              </Transition>
-            </div>
+              </div>
+            </Transition>
           </div>
   
           <div class="md:hidden flex justify-center">
@@ -108,7 +112,7 @@ import { Calendar } from 'v-calendar';
 import { useStore } from '~/store';
 import { Endpoints, makeRequest } from "~/network/request";
 import { PaginationRequest } from "~/types/request";
-import { getHumanDate, getTime, isSameDate } from "~/utils/date";
+import { getHumanDate, getTime, getMonthName, isSameDate } from "~/utils/date";
 import { EventEnum } from "~/types/models";
 import { toast } from "vue3-toastify";
 
@@ -131,10 +135,12 @@ const year = ref(new Date().getFullYear());
 const month = ref(new Date().getMonth());
 const nowEvent = ref<EventModel>();
 const nextEvent = ref<EventModel>();
+const monthYear = ref("");
 
 onMounted(() => {
-  fetchEvents(getYearMonth(year.value, month.value + 1));
   getNextEvent();
+  fetchEvents(getYearMonth(year.value, month.value + 1));
+  monthYear.value = getMonthName(month.value + 1, false) + " " + year.value;
 });
 
 watch([year, month], ([y, m]) => {
@@ -163,6 +169,7 @@ function fetchEvents(search = "") {
     isLoading.value = false;
     store.isLoading = false;
     isRootLoading.value = false;
+
     attributes.value = [
       {
         key: 'today',
@@ -233,6 +240,10 @@ let x: number, y: number;
  * On date change
  */
 function onChange(e: any, c: number) {
+  if (!c1.value || !c2.value) {
+    return;
+  }
+
   if (e.length === 0) {
     toast.error("Can't get date. Please try again. :(");
     return;
@@ -253,6 +264,8 @@ function onChange(e: any, c: number) {
     x = 0;
     y = 0;
   }
+
+  monthYear.value = e[0].title;
 }
 
 /**
@@ -292,6 +305,10 @@ function onNextEventClick() {
   border-radius: 12px;
   width: 100%;
 
+  *::-webkit-scrollbar {
+    width: 0px !important;
+  }
+
   .vc-dots {
     @apply hidden;
   }
@@ -326,16 +343,28 @@ function onNextEventClick() {
 
     &.weekday-1,
     &.weekday-7 {
-      @apply bg-surface-container;
+      @apply bg-surface-container-high;
+    }
+
+    &.weekday-1 {
+      @apply rounded-bl-lg;;
+    }
+    
+    &.weekday-7 {
+      @apply rounded-br-lg;;
     }
 
     &:not(.on-bottom) {
-      @apply border-b border-outline-variant;
+      @apply border-outline-variant border-b;;
     }
 
     &:not(.on-right) {
-      @apply border-r border-outline-variant;
+      @apply border-outline-variant border-r;
     }
+  }
+  
+  .vc-week:last-child .vc-day {
+    @apply border-b-0;
   }
 
   & .vc-day-dots {

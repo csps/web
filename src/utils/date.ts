@@ -1,4 +1,5 @@
 const months3 = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
 /**
  * Convert date to readable format
@@ -17,10 +18,13 @@ export function getReadableDate(date: string, shortMonth = false) {
  * Convert date to month and year format
  * @param date YYYY-MM-DD HH:MM:SS format
  */
-export function getMonthYear(date: string) {
-  const dateObj = new Date(date);
-  const month = dateObj.toLocaleString('default', { month: 'long' });
-  const year = dateObj.getFullYear();
+export function getMonthYear(date: string | Date) {
+  if (typeof date === 'string') {
+    date = new Date(date);
+  }
+
+  const month = date.toLocaleString('default', { month: 'long' });
+  const year = date.getFullYear();
   return `${month} ${year}`;
 }
 
@@ -116,8 +120,8 @@ export function toISOTime(date: Date) {
 /**
  * Get month name
  */
-export function getMonthName(month: number) {
-  return months3[month - 1];
+export function getMonthName(month: number, short = true) {
+  return short ? months3[month - 1] : months[month - 1];
 }
 
 /**

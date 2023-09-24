@@ -23,15 +23,12 @@
       </md-outlined-select>
     </div>
 
-    <div v-if="data.events.length > 0" class="space-y-3 mt-8 w-full lg:w-2/3 xl:w-1/2 2xl:w-2/5">
-      <div v-for="(event, i) in data.events" :key="event.id">
-        <p class="label-large font-medium text-on-surface-variant mb-3 text-left" v-if="getMonthCategory(data.events, event.date_stamp, i)">
-          {{ getMonthCategory(data.events, event.date_stamp, i) }}
-        </p>
-
-        <CardEvent :event="event" />
+    <div v-if="data.events.length > 0" class="w-full md:w-3/4 2xl:w-1/2 mt-8 grid grid-cols-1 lg:grid-cols-2 gap-3">
+      <div v-for="event in data.events" :key="event.id" class="flex flex-col justify-end">
+        <CardEvent class="h-full" :event="event" />
       </div>
     </div>
+
     <div v-else class="flex justify-center mt-8 flex-grow body-medium">
       {{ message || "Fetching events..." }}
     </div>
@@ -55,8 +52,8 @@ import { onMounted, ref, watch } from "vue";
 import { icon } from "~/utils/icon";
 import { EventEnum } from "~/types/models";
 import { capitalize } from "~/utils/string";
-import { getMonthCategory } from "~/utils/date";
 import { Endpoints, makeRequest } from "~/network/request";
+import { getStore, setStore } from "~/utils/storage";
 import { useStore } from "~/store";
 import { Env } from "~/config";
 
@@ -71,7 +68,7 @@ const store = useStore();
 
 const data = ref({
   total: 0,
-  page: 1,
+  page: getStore("tabs_events_page") ? parseInt(getStore("tabs_events_page")) : 1,
   search: "",
   events: [] as EventModel[],
   column: EventEnum.title
@@ -108,6 +105,7 @@ function fetchEvents(search = "") {
     if (response.success) {
       data.value.total = response.count || 0;
       data.value.events = response.data;
+      setStore("tabs_events_page", `${request.page}`);
       return;
     }
 

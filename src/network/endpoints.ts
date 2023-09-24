@@ -21,6 +21,7 @@ enum Endpoints {
   Announcements = "/announcements",
   AnnouncementsId = "/announcements/:id",
   Events = "/events",
+  EventsNext = "/events/next",
   Env = "/env",
   EnvKey = "/env/:key",
   Courses = "/courses",

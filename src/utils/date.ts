@@ -120,6 +120,16 @@ export function getMonthName(month: number) {
   return months3[month - 1];
 }
 
+/**
+ * Compare two dates if they are the same
+ * @param date1 Date
+ * @param date2 Date
+ */
+export function isSameDate(date1: Date, date2: Date) {
+  return date1.getFullYear() === date2.getFullYear() &&
+    date1.getMonth() === date2.getMonth() &&
+    date1.getDate() === date2.getDate();
+}
 
 /**
  * Normalize number

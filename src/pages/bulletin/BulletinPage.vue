@@ -49,7 +49,40 @@
             <div class="bg-surface-container-low p-10 rounded-3xl text-center text-on-surface-variant  body-medium flex justify-center items-center" v-else-if="message.length > 0">
               {{ message }}
             </div>
-            <VTimeline v-else :data="data" />
+            <div v-else>
+              <VTimeline :data="data" />
+              <div class="my-8" />
+              
+              <Transition name="slide-fade" mode="out-in">
+                <div v-if="nowEvent" class="flex items-center gap-1 bg-surface-container p-5 rounded-lg text-on-surface-variant font-medium">
+                  <md-icon class="mr-2" v-html="icon('campaign')" />
+                  Happening Now:
+                  <span
+                    @click="onNextEventClick"
+                    class="text-primary border-b border-dashed border-primary"
+                    :title="getHumanDate(new Date(nowEvent.date))"
+                    role="button"
+                  >
+                    {{ nowEvent.title }}!
+                  </span>
+                </div>
+                <div v-else-if="nextEvent" class="flex items-center gap-1 bg-surface-container p-5 rounded-lg text-on-surface-variant font-medium">
+                  <md-icon class="mr-2" v-html="icon('campaign')" />
+                  Next event:
+                  <span
+                    @click="onNextEventClick"
+                    class="text-primary border-b border-dashed border-primary"
+                    :title="getHumanDate(new Date(nextEvent.date))"
+                    role="button"
+                  >
+                    {{ nextEvent.title }}!
+                  </span>
+                </div>
+                <div v-else class="bg-surface-container p-5 rounded-lg text-on-surface-variant font-medium">
+                  There are no upcoming events yet. Stay tuned!
+                </div>
+              </Transition>
+            </div>
           </div>
   
           <div class="md:hidden flex justify-center">
@@ -75,14 +108,16 @@ import { Calendar } from 'v-calendar';
 import { useStore } from '~/store';
 import { Endpoints, makeRequest } from "~/network/request";
 import { PaginationRequest } from "~/types/request";
-import { getHumanDate, getTime } from "~/utils/date";
+import { getHumanDate, getTime, isSameDate } from "~/utils/date";
 import { EventEnum } from "~/types/models";
 import { toast } from "vue3-toastify";
 
 import VTimeline from '~/components/VTimeline.vue';
 
 import "@material/web/progress/linear-progress";
+import "@material/web/icon/icon";
 import 'v-calendar/style.css';
+import { icon } from "~/utils/icon";
 
 const c1 = ref();
 const c2 = ref();
@@ -94,9 +129,12 @@ const attributes = ref<any[]>([]);
 const data = ref<TimelineData[]>([]);
 const year = ref(new Date().getFullYear());
 const month = ref(new Date().getMonth());
+const nowEvent = ref<EventModel>();
+const nextEvent = ref<EventModel>();
 
 onMounted(() => {
   fetchEvents(getYearMonth(year.value, month.value + 1));
+  getNextEvent();
 });
 
 watch([year, month], ([y, m]) => {
@@ -111,6 +149,7 @@ function fetchEvents(search = "") {
   isLoading.value = true;
   message.value = "";
 
+  const date = new Date();
   const request: PaginationRequest = {
     page: 1,
     search_value: [search],
@@ -131,12 +170,14 @@ function fetchEvents(search = "") {
           title: 'Today',
           class: 'bg-surface-variant text-on-surface-variant',
         },
-        dates: new Date()
+        dates: date
       }
     ];
 
     if (response.success) {
       data.value = response.data.map(event => {
+        const eventDate = new Date(event.date);
+
         attributes.value.push({
           key: event.id,
           highlight: {
@@ -151,8 +192,12 @@ function fetchEvents(search = "") {
             placement: 'top',
             visibility: 'hover',
           },
-          dates: new Date(event.date)
+          dates: eventDate
         });
+
+        if (isSameDate(date, eventDate)) {
+          nowEvent.value = event;
+        }
 
         return {
           title: event.title,
@@ -215,6 +260,27 @@ function onChange(e: any, c: number) {
  */
 function getYearMonth(year: number, month: number) {
   return year + "-" + (month < 10 ? "0" + month : month);
+}
+
+function getNextEvent() {
+  makeRequest<EventModel>("GET", Endpoints.EventsNext, null, response => {
+    if (response.success) {
+      nextEvent.value = response.data;
+      return;
+    }
+
+    toast.warn(response.message);
+  });;
+}
+
+function onNextEventClick() {
+  if (!nextEvent.value?.date) {
+    toast.warn("No upcoming event yet. :(")
+    return;
+  }
+
+  const date = new Date(nextEvent.value.date);
+  c1.value.move({ year: date.getFullYear(), month: date.getMonth() + 1 });
 }
 </script>
 

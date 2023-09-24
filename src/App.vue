@@ -4,7 +4,7 @@
 
     <div>
       <VNavigationRail
-        :class="{ 'translate-x-0': route.path.startsWith('/admin') && charCount('/', route.path) === 2 }"
+        :class="{ 'translate-x-0': route.path.startsWith('/admin') && charCount('/', route.path) === 2 && !route.path.endsWith('/login') }"
         class="hidden md:block fixed top-0 bottom-0 -translate-x-[80px]"
         :selected="store.selectedRail"
         :destinations="store.rails"
@@ -12,7 +12,7 @@
       />
       
       <div class="flex flex-col min-h-screen justify-between">
-        <VAppBar :class="{ 'pl-0 md:pl-[80px]': route.path.startsWith('/admin') && charCount('/', route.path) === 2 }" transparent />
+        <VAppBar :class="{ 'pl-0 md:pl-[80px]': route.path.startsWith('/admin') && charCount('/', route.path) === 2 && !route.path.endsWith('/login') }" transparent />
         <router-view v-slot="{ Component }">
           <Transition name="slide-fade" mode="out-in">
             <component :is="Component" />

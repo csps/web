@@ -2,7 +2,7 @@
   <div class="product overflow-hidden">
     <md-ripple />
     <router-link :to="'/merch/' + product.id" tabindex="-1" :title="'View ' + product.name">
-      <div class="flex h-64 w-64 items-center justify-center foreground object">
+      <div class="flex h-64 w-64 items-center justify-center foreground object py-2">
         <VImage
           class="rounded-xl"
           v-if="product?.thumbnail && product.thumbnail > 0"
@@ -45,6 +45,7 @@ defineProps<{
 <style lang="scss" scoped>
 .product {
   @apply flex flex-col justify-between relative bg-surface-container-low rounded-xl w-min;
+  animation: glow 1.5s ease-in-out infinite alternate;
 
   .foreground {
     @apply bg-surface-container rounded-xl;

@@ -6,7 +6,7 @@
       <VNavigationRail
         :class="{ 'translate-x-0': route.path.startsWith('/admin') && charCount('/', route.path) === 2 && !route.path.endsWith('/login') }"
         class="hidden md:block fixed top-0 bottom-0 -translate-x-[80px]"
-        :selected="store.selectedRail"
+        :selected="route.params.tab as string"
         :destinations="store.rails"
         @select="id => store.selectedRail = id"
       />

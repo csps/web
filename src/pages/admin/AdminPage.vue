@@ -1,16 +1,27 @@
 <template>
   <div class="h-full">
+    <div class="md:container mx-auto md:px-6 block md:hidden">
+      <div class="overflow-x-scroll">
+        <md-tabs :selected="tabs.findIndex(t => t.id === route.params.tab)">
+          <md-secondary-tab v-for="t in tabs" :key="t.title" @click="tab = t.id">
+            <md-icon slot="icon" v-html="icon(t.icon)" />
+            {{ t.title }}
+          </md-secondary-tab>
+        </md-tabs>
+      </div>
+    </div>
+
     <div>
       <div class="flex justify-center mt-5 h-full md:pl-[80px] transition-[padding_0.21s_ease_in_out]">
         <Transition name="slide-fade" mode="out-in">
-          <TabDashboard v-if="store.selectedRail === 'dashboard'" />
-          <TabAnnouncements v-else-if="store.selectedRail === 'announcements'" />
-          <TabEvents v-else-if="store.selectedRail === 'events'" />
-          <TabProducts v-else-if="store.selectedRail === 'products'" />
-          <TabStudents v-else-if="store.selectedRail === 'students'" />
-          <TabOrders v-else-if="store.selectedRail === 'orders'" />
-          <TabSettings v-else-if="store.selectedRail === 'settings'" />  
-          <TabEnvironment v-else-if="store.selectedRail === 'env'" />
+          <TabDashboard v-if="route.params.tab === 'dashboard'" />
+          <TabAnnouncements v-else-if="route.params.tab === 'announcements'" />
+          <TabEvents v-else-if="route.params.tab === 'events'" />
+          <TabProducts v-else-if="route.params.tab === 'products'" />
+          <TabStudents v-else-if="route.params.tab === 'students'" />
+          <TabOrders v-else-if="route.params.tab === 'orders'" />
+          <TabSettings v-else-if="route.params.tab === 'settings'" />  
+          <TabEnvironment v-else-if="route.params.tab === 'env'" />
   
           <div class="flex justify-center items-center" v-else>
             Tab not found!
@@ -22,10 +33,11 @@
 </template>
 
 <script lang="ts" setup>
-import { watch } from "vue";
-import { useRouter } from "vue-router";
+import { ref, watch } from "vue";
+import { useRoute, useRouter } from "vue-router";
 import { useStore } from "~/store";
 import { removeStore } from "~/utils/storage";
+import { Icon, icon } from "~/utils/icon";
 
 import "@material/web/tabs/tabs";
 import "@material/web/icon/icon";
@@ -40,10 +52,16 @@ import TabAnnouncements from "./tabs/TabAnnouncements.vue";
 import TabEvents from "./tabs/TabEvents.vue";
 import TabProducts from "./tabs/TabProducts.vue";
 
+type Tab = {
+  id: string;
+  icon: Icon;
+  title: string;
+};
+
+const route = useRoute();
 const router = useRouter();
 const store = useStore();
-
-store.rails = [
+const tabs: Tab[] = [
   { id: "dashboard", icon: "dashboard", title: "Dashboard" },
   { id: "announcements", icon: "campaign", title: "Announce" },
   { id: "events", icon: "event", title: "Events" },
@@ -54,12 +72,20 @@ store.rails = [
   { id: "settings", icon: "settings", title: "Settings" },
 ];
 
+const tab = ref(route.params.tab);
+// Set tabs
+store.rails = tabs;
 // Set selected rail
 store.selectedRail = router.currentRoute.value.params.tab as string;
 
-watch(() => store.selectedRail,  v => {
+watch(() => store.selectedRail, tab => {
   removeStore("tabs_orders_page");
-  router.push({ name: "Admin", params: { tab: v } });
+  router.push({ name: "Admin", params: { tab }});
+});
+
+watch(tab, tab => {
+  removeStore("tabs_orders_page");
+  router.push({ name: "Admin", params: { tab }});
 });
 </script>
 

@@ -31,7 +31,7 @@
               <div class="grid grid-cols-1 xl:grid-cols-2 gap-6">
                 <md-filled-select class="dense" v-if="!store.isLoggedIn" v-model="course" :disabled="store.isLoggedIn || isPlacingOrder" label="Course">
                   <md-icon slot="leadingicon" v-html="icon('school', true)" />
-                  <md-select-option v-for="(c, id) in courses" :key="id" :value="Number(id)" :headline="c" />
+                  <md-select-option v-for="(c, id) in store.courses" :key="id" :value="Number(id)" :headline="c" />
                 </md-filled-select>
                 <md-filled-select v-else label="Course" disabled>
                   <md-icon slot="leadingicon" v-html="icon('school', true)"  />
@@ -178,7 +178,6 @@ import "@material/web/chips/filter-chip";
 
 const store = useStore();
 const dialog = useDialog();
-const courses = ref();
 
 const firstName = ref();
 const lastName = ref();
@@ -223,30 +222,19 @@ onMounted(() => {
     year.value = store.student.year_level;
   }
 
-  // Get the list of courses
-  makeRequest("GET", Endpoints.Courses, null, response => {
-    if (response.success) {
-      courses.value = response.data;
-
-      setTimeout(() => {
-        // If there is a saved student info and is not logged in, load it
-        if (getStore("student") && !store.isLoggedIn) {
-          const student = JSON.parse(atob(getStore("student") || ""));
-          firstName.value = student.first_name;
-          lastName.value = student.last_name;
-          studentId.value = student.student_id;
-          course.value = parseInt(student.course);
-          email.value = student.email_address;
-          year.value = student.year_level;
-          isSaveInfo.value = true;
-        }
-      }, 0);
-
-      return;
+  setTimeout(() => {
+    // If there is a saved student info and is not logged in, load it
+    if (getStore("student") && !store.isLoggedIn) {
+      const student = JSON.parse(atob(getStore("student") || ""));
+      firstName.value = student.first_name;
+      lastName.value = student.last_name;
+      studentId.value = student.student_id;
+      course.value = parseInt(student.course);
+      email.value = student.email_address;
+      year.value = student.year_level;
+      isSaveInfo.value = true;
     }
-
-    toast.error(response.message);
-  });
+  }, 0);
 });
 
 function onSaveInfo(ev: Event) {

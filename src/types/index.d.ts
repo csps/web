@@ -238,7 +238,7 @@ declare global {
   }
 
   type StoreKeys = "dark" | "std_token" | "adm_token" | "home_msg_role" | "login_id" | "student" |
-    "tabs_orders_status" | "tabs_orders_page" | "tabs_events_page";
+    "tabs_orders_status" | "tabs_orders_page" | "tabs_events_page" | "tabs_orders_sort" | "tabs_orders_column";
 }
 
 export {};

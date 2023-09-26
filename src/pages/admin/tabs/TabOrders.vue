@@ -6,16 +6,36 @@
         :label="'Search ' + capitalize(data.column)"
       >
         <md-icon slot="leadingicon" v-html="icon('search')" />
+        <md-icon-button id="orders-sort-menu" class="mr-2" slot="trailingicon" title="Filter by" @click.stop="isMenuOpen = !isMenuOpen">
+          <md-icon v-html="icon('filter_list')" />
+        </md-icon-button>
       </md-outlined-text-field>
-      <md-outlined-select v-model="data.column" label="Filter by" class="dense">
-        <md-icon slot="leadingicon" v-html="icon('filter_list', true)" />
-        <md-select-option
+
+      <div class="flex justify-end items-center">
+        <md-filled-tonal-button @click="data.sortDir = (data.sortDir === 'DESC' ? 'ASC' : 'DESC')">
+          <md-icon slot="icon" v-html="icon(data.sortDir === 'DESC' ? 'arrow_upward' : 'arrow_downward')" />
+          Sort {{ data.sortDir }}
+        </md-filled-tonal-button>
+      </div>
+
+      <md-menu
+        fixed
+        :open="isMenuOpen"
+        anchor="orders-sort-menu"
+        @closed="isMenuOpen = false"
+        class="min-w-min"
+        y-offset="8"
+        anchor-corner="END_END"
+        menu-corner="START_END"
+      >
+        <md-menu-item
           v-for="option in allowedFilters"
           :key="option"
           :value="option"
+          @click="data.column = option"
           :headline="capitalize(option)"
         />
-      </md-outlined-select>
+      </md-menu>
     </div>
 
     <div class="flex justify-center items-center flex-wrap gap-2 mt-4 px-6">
@@ -30,8 +50,7 @@
     </div>
 
     <div v-if="data.orders.length > 0" class="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-3">
-      <div v-for="(order, i) in data.orders" class="flex flex-col justify-end" :key="order.id">
-        <p class="label-large font-medium text-on-surface-variant mb-3 text-left" v-if="getMonthCategory(order, i)">{{ getMonthCategory(order, i) }}</p>
+      <div v-for="order in data.orders" class="flex flex-col" :key="order.id">
         <CardOrder :order="order" @click="goToOrder(order.reference)" />
       </div>
     </div>
@@ -57,18 +76,19 @@ import { useRouter } from "vue-router";
 import { Endpoints, makeRequest } from "~/network/request";
 import { FullOrderEnum } from "~/types/models";
 import { OrderStatus } from "~/types/enums";
-import { getMonthYear } from "~/utils/date";
 import { capitalize } from "~/utils/string";
 import { getStore, setStore } from "~/utils/storage";
 import { useStore } from "~/store";
 import { Env } from "~/config";
 
 import "@material/web/button/filled-button";
+import "@material/web/button/filled-tonal-button";
 import "@material/web/progress/linear-progress";
 import "@material/web/textfield/outlined-text-field";
 import "@material/web/select/outlined-select";
 import "@material/web/chips/filter-chip";
 import "@material/web/chips/chip-set";
+import "@material/web/iconbutton/icon-button";
 import "@material/web/select/select-option";
 
 import CardOrder from "../components/CardOrder.vue";
@@ -80,13 +100,15 @@ const data = ref({
   page: getStore("tabs_orders_page") ? parseInt(getStore("tabs_orders_page")) : 1,
   search: "",
   filterStatus: getStore("tabs_orders_status") ? JSON.parse(getStore("tabs_orders_status")) : [OrderStatus.PENDING_PAYMENT],
-  column: FullOrderEnum.reference,
+  column: getStore("tabs_orders_column") ? getStore("tabs_orders_column") : FullOrderEnum.reference,
+  sortDir: getStore("tabs_orders_sort") ? getStore("tabs_orders_sort") : "DESC",
 });
 
 const message = ref("");
-const isLoading = ref(true);
 const store = useStore();
 const router = useRouter();
+const isLoading = ref(true);
+const isMenuOpen = ref(false);
 
 const status = [
   { value: OrderStatus.PENDING_PAYMENT, label: "Pending" },
@@ -113,6 +135,7 @@ watch([
   () => data.value.column,
   () => data.value.filterStatus,
   () => data.value.page,
+  () => data.value.sortDir,
 ], v => {
   setStore("tabs_orders_status", JSON.stringify(data.value.filterStatus));
   fetchOrders(v[0]);
@@ -132,8 +155,8 @@ function fetchOrders(search = "") {
     search_value: [search, ...data.value.filterStatus],
     search_column: [data.value.column, ...Array(data.value.filterStatus.length).fill(FullOrderEnum.status)],
     page: data.value.page,
-    sort_column: FullOrderEnum.date_stamp,
-    sort_type: "DESC",
+    sort_column: data.value.column,
+    sort_type: data.value.sortDir,
     limit: Env.admin_orders_per_page
   };
 
@@ -154,6 +177,8 @@ function fetchOrders(search = "") {
       data.value.total = response.count || 0;
       data.value.orders = response.data;
       setStore("tabs_orders_page", `${request.page}`);
+      setStore("tabs_orders_column", data.value.column);
+      setStore("tabs_orders_sort", data.value.sortDir);
       return;
     }
 
@@ -172,21 +197,5 @@ function onFilter(status: OrderStatus) {
 
   data.value.filterStatus.splice(index, 1);
   data.value.filterStatus = [...data.value.filterStatus];
-}
-
-function getMonthCategory(date: FullOrderModel, i: number) {
-  const value = getMonthYear(date.date_stamp);
-
-  if (i === 0) {
-    return value;
-  }
-
-  const prev = data.value.orders[i - 1];
-
-  if (getMonthYear(prev.date_stamp) !== value) {
-    return value;
-  }
-    
-  return "";
 }
 </script>

@@ -14,7 +14,7 @@
           <div class="hidden md:block col-span-4 rounded-xl shadow-lg dark:shadow-surface-container-low">
             <Calendar
               ref="c1"
-              @update:pages="($event: Event) => onChange($event, 1)"
+              @did-move="($event: Event) => onChange($event, 1)"
               class="custom-calendar w-full"
               :masks="{ weekdays: 'WWW' }"
               :attributes="attributes"

@@ -89,6 +89,12 @@ watch([
   fetchAnnouncements(v[0]);
 });
 
+watch(isDialogOpen, v => {
+  if (!v) {
+    announcement.value = undefined;
+  }
+});
+
 onMounted(fetchAnnouncements);
 
 function fetchAnnouncements(search = "") {

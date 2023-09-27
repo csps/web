@@ -16,7 +16,7 @@
         @keydown.enter="submit"
         required
       >
-        <md-icon slot="leadingicon" v-html="icon('lock', true)" />
+        <md-icon slot="leading-icon" v-html="icon('lock', true)" />
       </md-filled-text-field>
       <md-filled-text-field
         class="w-full"
@@ -27,7 +27,7 @@
         @keydown.enter="submit"
         required
       >
-        <md-icon slot="leadingicon" v-html="icon('lock', true)" />
+        <md-icon slot="leading-icon" v-html="icon('lock', true)" />
       </md-filled-text-field>
     </div>
     <div class="space-x-1" slot="actions">

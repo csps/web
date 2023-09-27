@@ -49,6 +49,16 @@ const route = useRoute();
 
 store.isLoading = true;
 
+// Fetch courses
+makeRequest<string[]>("GET", Endpoints.Courses, null, response => {
+  if (response.success) {
+    store.courses = response.data;
+    return;
+  }
+
+  toast.error(response.message);
+});
+
 makeRequest<any>("GET", Endpoints.Env, null, response => {
   store.isLoading = false;
 

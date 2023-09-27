@@ -3,7 +3,7 @@
 
     <div class="flex items-center justify-center mb-2 gap-5">
       <md-outlined-text-field v-model="search" label="Search variable">
-        <md-icon slot="leadingicon" v-html="icon('search')" />
+        <md-icon slot="leading-icon" v-html="icon('search')" />
       </md-outlined-text-field>
 
       <md-filled-button @click="onAddEnvClick">

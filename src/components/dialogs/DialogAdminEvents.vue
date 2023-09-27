@@ -15,7 +15,7 @@
         :disabled="isLoading"
         @keydown.enter="submit"
       >
-        <md-icon slot="leadingicon" v-html="icon('campaign', true)" />
+        <md-icon slot="leading-icon" v-html="icon('campaign', true)" />
       </md-filled-text-field>
       <md-filled-text-field
         class="w-full"
@@ -25,7 +25,7 @@
         :disabled="isLoading"
         @keydown.enter="submit"
       >
-        <md-icon slot="leadingicon" v-html="icon('tune', true)" />
+        <md-icon slot="leading-icon" v-html="icon('tune', true)" />
       </md-filled-text-field>
       
       <div class="grid grid-cols-2 gap-5">
@@ -36,7 +36,7 @@
           :disabled="isLoading"
           @keydown.enter="submit"
         >
-          <md-icon slot="leadingicon" v-html="icon('location_on', true)" />
+          <md-icon slot="leading-icon" v-html="icon('location_on', true)" />
         </md-filled-text-field>
   
         <DatePicker
@@ -57,7 +57,7 @@
               :disabled="isLoading"
               @keydown.enter="submit"
             >
-              <md-icon slot="leadingicon" v-html="icon('event', true)" />
+              <md-icon slot="leading-icon" v-html="icon('event', true)" />
             </md-filled-text-field>
           </template>
         </DatePicker>
@@ -80,7 +80,7 @@
               :value="startTimeText"
               @keydown.enter="submit"
             >
-              <md-icon slot="leadingicon" v-html="icon('event', true)" />
+              <md-icon slot="leading-icon" v-html="icon('event', true)" />
             </md-filled-text-field>
           </template>
         </DatePicker>
@@ -103,7 +103,7 @@
               :value="endTimeText"
               @keydown.enter="submit"
             >
-              <md-icon slot="leadingicon" v-html="icon('event', true)" />
+              <md-icon slot="leading-icon" v-html="icon('event', true)" />
             </md-filled-text-field>
           </template>
         </DatePicker>

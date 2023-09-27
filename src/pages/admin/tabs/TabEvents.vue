@@ -10,16 +10,17 @@
         v-model="data.search"
         :label="'Search ' + capitalize(data.column)"
       >
-        <md-icon slot="leadingicon" v-html="icon('search')" />
+        <md-icon slot="leading-icon" v-html="icon('search')" />
       </md-outlined-text-field>
       <md-outlined-select v-model="data.column" label="Filter by" class="dense">
-        <md-icon slot="leadingicon" v-html="icon('filter_list', true)" />
+        <md-icon slot="leading-icon" v-html="icon('filter_list', true)" />
         <md-select-option
           v-for="option in EventEnum"
           :key="option"
           :value="option"
-          :headline="capitalize(option)"
-        />
+        >
+          <span slot="headline">{{ capitalize(option) }}</span>
+        </md-select-option>
       </md-outlined-select>
     </div>
 

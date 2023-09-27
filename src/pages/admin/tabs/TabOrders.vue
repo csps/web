@@ -1,14 +1,34 @@
 <template>
-  <div class="flex flex-col justify-center items-center w-full px-6 container mx-auto h-full">
+  <div class="flex flex-col justify-center items-center w-full px-6 container mx-auto h-full relative">
     <div class="flex items-center gap-3">
       <md-outlined-text-field
         v-model="data.search"
         :label="'Search ' + capitalize(data.column)"
       >
-        <md-icon slot="leadingicon" v-html="icon('search')" />
-        <md-icon-button id="orders-sort-menu" class="mr-2" slot="trailingicon" title="Filter by" @click.stop="isMenuOpen = !isMenuOpen">
-          <md-icon v-html="icon('filter_list')" />
-        </md-icon-button>
+        <md-icon slot="leading-icon" v-html="icon('search')" />
+        <div class="relative" slot="trailing-icon">
+          <md-icon-button id="orders-sort-menu" class="mr-2" title="Filter by" @click.stop="isMenuOpen = !isMenuOpen">
+            <md-icon v-html="icon('filter_list')" />
+          </md-icon-button>
+          <md-menu
+            :open="isMenuOpen"
+            anchor="orders-sort-menu"
+            @closed="isMenuOpen = false"
+            class="min-w-min"
+            y-offset="8"
+            anchor-corner="end-end"
+            menu-corner="start-end"
+          >
+            <md-menu-item
+              v-for="option in allowedFilters"
+              :key="option"
+              :value="option"
+              @click="data.column = option"
+            >
+              <span class="whitespace-nowrap">{{ capitalize(option) }}</span>
+            </md-menu-item>
+          </md-menu>
+        </div>
       </md-outlined-text-field>
 
       <div class="flex justify-end items-center">
@@ -18,30 +38,11 @@
         </md-filled-tonal-button>
       </div>
 
-      <md-menu
-        fixed
-        :open="isMenuOpen"
-        anchor="orders-sort-menu"
-        @closed="isMenuOpen = false"
-        class="min-w-min"
-        y-offset="8"
-        anchor-corner="END_END"
-        menu-corner="START_END"
-      >
-        <md-menu-item
-          v-for="option in allowedFilters"
-          :key="option"
-          :value="option"
-          @click="data.column = option"
-          :headline="capitalize(option)"
-        />
-      </md-menu>
     </div>
 
     <div class="flex justify-center items-center flex-wrap gap-2 mt-4 px-6">
       <md-filter-chip
         v-for="s in status"
-        elevated
         :key="s.value"
         :selected="data.filterStatus.includes(s.value)"
         :label="s.label"

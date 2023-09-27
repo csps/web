@@ -1,5 +1,6 @@
 <template>
   <md-dialog
+    ref="dialogStudent"
     :open="isDialogOpen"
     @close="close"
     :scrim-click-action="isLoading ? '' : 'close'"
@@ -16,7 +17,7 @@
           :disabled="isLoading"
           @keydown.enter="submit"
         >
-          <md-icon slot="leadingicon" v-html="icon('badge', true)" />
+          <md-icon slot="leading-icon" v-html="icon('badge', true)" />
         </md-filled-text-field>
 
         <md-filled-select
@@ -26,11 +27,20 @@
           :disabled="isLoading"
           @keydown.enter="submit"
         >
-          <md-icon slot="leadingicon" v-html="icon('school', true)" />
-          <md-select-option :value="1" headline="1st year" />
-          <md-select-option :value="2" headline="2nd year" />
-          <md-select-option :value="3" headline="3rd year" />
-          <md-select-option :value="4" headline="4th year" />
+          <md-icon slot="leading-icon" v-html="icon('school', true)" />
+
+          <md-select-option :value="1" :selected="year === 1">
+            <span slot="headline">1st year</span>
+          </md-select-option>
+          <md-select-option :value="2" :selected="year === 2">
+            <span slot="headline">2nd year</span>
+          </md-select-option>
+          <md-select-option :value="3" :selected="year === 3">
+            <span slot="headline">3rd year</span>
+          </md-select-option>
+          <md-select-option :value="4" :selected="year === 4">
+            <span slot="headline">4th year</span>
+          </md-select-option>
         </md-filled-select>
 
         <md-filled-text-field
@@ -40,7 +50,7 @@
           :disabled="isLoading"
           @keydown.enter="submit"
         >
-          <md-icon slot="leadingicon" v-html="icon('account_circle', true)" />
+          <md-icon slot="leading-icon" v-html="icon('account_circle', true)" />
         </md-filled-text-field> 
   
         <md-filled-text-field
@@ -50,7 +60,7 @@
           :disabled="isLoading"
           @keydown.enter="submit"
         >
-          <md-icon slot="leadingicon" v-html="icon('account_circle', true)" />
+          <md-icon slot="leading-icon" v-html="icon('account_circle', true)" />
         </md-filled-text-field>
 
       </div>
@@ -63,7 +73,7 @@
         :disabled="isLoading"
         @keydown.enter="submit"
       >
-        <md-icon slot="leadingicon" v-html="icon('mail', true)" />
+        <md-icon slot="leading-icon" v-html="icon('mail', true)" />
       </md-filled-text-field>
 
       <p class="text-outline body-small">Note: Password will be auto-generated and will be sent to the student's email.</p>
@@ -101,6 +111,7 @@ const store = useStore();
 const isLoading = ref(false);
 const isDialogOpen = computed(() => props.modelValue);
 const dialog = useDialog();
+const dialogStudent = ref();
 
 const firstName = ref("");
 const lastName = ref("");
@@ -116,6 +127,11 @@ watch(isDialogOpen, (value) => {
     year.value = props.student?.year_level ? parseInt(props.student.year_level) : 1;
     studentID.value = props.student?.student_id || "";
   }
+
+  setTimeout(() => {
+    dialogStudent.value.shadowRoot.querySelector(".scroller").setAttribute("style", "overflow: visible;");
+    dialogStudent.value.shadowRoot.querySelector(".container").setAttribute("style", "overflow: visible;");
+  }, 0);
 });
 
 /**

@@ -17,8 +17,9 @@
               v-for="option in statuses"
               :key="option.value"
               :value="option.value"
-              :headline="option.label"
-            />
+            >
+              <span slot="headline">{{ option.label }}</span>
+            </md-select-option>
           </md-outlined-select>
         </div>
       </div>
@@ -33,7 +34,7 @@
         <div>Student ID</div>
         <div>{{ order?.student_id }}</div>
         <div>Course</div>
-        <div>{{ order?.course == 0 ? 'BSCS' : order?.course && courses ? courses[order?.course] : "Unknown" }} {{ order?.year_level }}</div>
+        <div>{{ order?.course == 0 ? 'BSCS' : order?.course && store.courses ? store.courses[order?.course] : "Unknown" }} {{ order?.year_level }}</div>
         <div>Remarks</div>
         <div>{{ order?.user_remarks || "Empty" }}</div>
         <div>Mode of Payment</div>
@@ -130,7 +131,6 @@ const dialog = useDialog();
 const isLoading = ref(true);
 const order = ref<FullOrderModel>();
 const isCompleted = ref(false);
-const courses = ref();
 const status = ref();
 const currentStatus = ref();
 
@@ -159,16 +159,6 @@ onMounted(() => {
   makeRequest<FullOrderModel>("GET", Endpoints.OrdersReference, {
     reference: route.params.reference
   }, processData);
-
-  // Fetch courses
-  makeRequest("GET", Endpoints.Courses, null, response => {
-    if (response.success) {
-      courses.value = response.data;
-      return;
-    }
-
-    toast.error(response.message);
-  });
 });
 
 function onStatuChange(ev: { target: { value: OrderStatus }}) {

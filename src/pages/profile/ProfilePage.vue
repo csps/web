@@ -10,7 +10,7 @@
           :value="store.student.first_name"
           readonly disabled
         >
-          <md-icon slot="leadingicon" v-html="icon('person', true)" />
+          <md-icon slot="leading-icon" v-html="icon('person', true)" />
         </md-filled-text-field>
     
         <!-- Last name -->
@@ -19,7 +19,7 @@
           :value="store.student.last_name"
           readonly disabled
         >
-          <md-icon slot="leadingicon" v-html="icon('person', true)" />
+          <md-icon slot="leading-icon" v-html="icon('person', true)" />
         </md-filled-text-field>
       </div>
 
@@ -29,7 +29,7 @@
         :value="store.student.student_id"
         readonly disabled
       >
-        <md-icon slot="leadingicon" v-html="icon('badge', true)" />
+        <md-icon slot="leading-icon" v-html="icon('badge', true)" />
       </md-filled-text-field>
   
       <!-- Email -->
@@ -38,7 +38,7 @@
         :value="store.student.email_address"
         readonly disabled
       >
-        <md-icon slot="leadingicon" v-html="icon('mail', true)" />
+        <md-icon slot="leading-icon" v-html="icon('mail', true)" />
       </md-filled-text-field>
 
       <!-- Year level -->
@@ -47,7 +47,7 @@
         :value="mapYear(store.student.year_level)"
         readonly disabled
       >
-        <md-icon slot="leadingicon" v-html="icon('school', true)" />
+        <md-icon slot="leading-icon" v-html="icon('school', true)" />
       </md-filled-text-field>
 
       <!-- Logout -->

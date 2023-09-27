@@ -16,7 +16,7 @@
         :disabled="isLoading"
         @keydown.enter="submit"
       >
-        <md-icon slot="leadingicon" v-html="icon('tune', true)" />
+        <md-icon slot="leading-icon" v-html="icon('tune', true)" />
       </md-filled-text-field>
       <md-filled-text-field
         class="w-full"
@@ -26,7 +26,7 @@
         :disabled="isLoading"
         @keydown.enter="submit"
       >
-        <md-icon slot="leadingicon" v-html="icon('tune', true)" />
+        <md-icon slot="leading-icon" v-html="icon('tune', true)" />
       </md-filled-text-field>
     </div>
     <div class="space-x-1" slot="actions">

@@ -15,35 +15,47 @@
             <div class="flex flex-col gap-6 flex-grow">
               <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <md-filled-text-field :disabled="isPlacingOrder" v-model="firstName" :readonly="store.isLoggedIn" label="First name">
-                  <md-icon slot="leadingicon" v-html="icon('person', true)"  />
+                  <md-icon slot="leading-icon" v-html="icon('person', true)"  />
                 </md-filled-text-field>
                 <md-filled-text-field :disabled="isPlacingOrder" v-model="lastName" :readonly="store.isLoggedIn" label="Last name">
-                  <md-icon slot="leadingicon" v-html="icon('person', true)"  />
+                  <md-icon slot="leading-icon" v-html="icon('person', true)"  />
                 </md-filled-text-field>
               </div>
               <md-filled-text-field :disabled="isPlacingOrder" v-model="studentId" :readonly="store.isLoggedIn" type="number" min="0" label="Student ID">
-                <md-icon slot="leadingicon" v-html="icon('badge', true)"  />
+                <md-icon slot="leading-icon" v-html="icon('badge', true)"  />
               </md-filled-text-field>
               <md-filled-text-field :disabled="isPlacingOrder" v-model="email" :readonly="store.isLoggedIn" type="email" label="Email">
-                <md-icon slot="leadingicon" v-html="icon('mail', true)"  />
+                <md-icon slot="leading-icon" v-html="icon('mail', true)"  />
               </md-filled-text-field>
 
               <div class="grid grid-cols-1 xl:grid-cols-2 gap-6">
                 <md-filled-select class="dense" v-if="!store.isLoggedIn" v-model="course" :disabled="store.isLoggedIn || isPlacingOrder" label="Course">
-                  <md-icon slot="leadingicon" v-html="icon('school', true)" />
-                  <md-select-option v-for="(c, id) in store.courses" :key="id" :value="Number(id)" :headline="c" />
+                  <md-icon slot="leading-icon" v-html="icon('school', true)" />
+                  <md-select-option v-for="(c, id) in store.courses" :key="id" :value="Number(id)">
+                    <span slot="headline">{{ c }}</span>
+                  </md-select-option>
                 </md-filled-select>
                 <md-filled-select v-else label="Course" disabled>
-                  <md-icon slot="leadingicon" v-html="icon('school', true)"  />
-                  <md-select-option :value="0" headline="BSCS" selected />
+                  <md-icon slot="leading-icon" v-html="icon('school', true)"  />
+                  <md-select-option :value="0" selected>
+                    <span slot="headline">BSCS</span>
+                  </md-select-option>
                 </md-filled-select>
 
                 <md-filled-select label="Year level" :disabled="store.isLoggedIn || isPlacingOrder" v-model="year">
-                  <md-icon slot="leadingicon" v-html="icon('school', true)" />
-                  <md-select-option :value="1" headline="1st year" />
-                  <md-select-option :value="2" headline="2nd year" />
-                  <md-select-option :value="3" headline="3rd year" />
-                  <md-select-option :value="4" headline="4th year" />
+                  <md-icon slot="leading-icon" v-html="icon('school', true)" />
+                  <md-select-option :value="1" :selected="year === 1">
+                    <span slot="headline">1st year</span>
+                  </md-select-option>
+                  <md-select-option :value="2" :selected="year === 2">
+                    <span slot="headline">2nd year</span>
+                  </md-select-option>
+                  <md-select-option :value="3" :selected="year === 3">
+                    <span slot="headline">3rd year</span>
+                  </md-select-option>
+                  <md-select-option :value="4" :selected="year === 4">
+                    <span slot="headline">4th year</span>
+                  </md-select-option>
                 </md-filled-select>
               </div>
 
@@ -91,8 +103,9 @@
                     v-for="i in store.checkoutDetails.product.max_quantity"
                     :key="i"
                     :value="i"
-                    :headline="i"
-                  />
+                  >
+                    <span slot="headline">{{ i }}</span>
+                  </md-select-option>
                 </md-outlined-select>
               </div>
             </div>
@@ -115,14 +128,12 @@
                 :selected="mop === ModeOfPayment.WALK_IN"
                 @click.prevent="mop = ModeOfPayment.WALK_IN"
                 label="Walk-in"
-                elevated
               />
 
               <!-- Disabled for now -->
               <md-filter-chip
                 disabled
                 label="GCash"
-                elevated
               />
             </div>
 
@@ -219,7 +230,7 @@ onMounted(() => {
     lastName.value = store.student.last_name;
     studentId.value = store.student.student_id;
     email.value = store.student.email_address;
-    year.value = store.student.year_level;
+    year.value = parseInt(store.student.year_level);
   }
 
   setTimeout(() => {
@@ -231,7 +242,7 @@ onMounted(() => {
       studentId.value = student.student_id;
       course.value = parseInt(student.course);
       email.value = student.email_address;
-      year.value = student.year_level;
+      year.value = parseInt(student.year_level);
       isSaveInfo.value = true;
     }
   }, 0);

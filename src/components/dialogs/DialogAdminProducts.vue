@@ -14,7 +14,7 @@
         :disabled="isLoading"
         @keydown.enter="submit"
       >
-        <md-icon slot="leadingicon" v-html="icon('deployed_code', true)" />
+        <md-icon slot="leading-icon" v-html="icon('deployed_code', true)" />
       </md-filled-text-field>
       <md-filled-text-field
         class="w-full"
@@ -24,21 +24,21 @@
         :disabled="isLoading"
         @keydown.enter="submit"
       >
-        <md-icon slot="leadingicon" v-html="icon('tune', true)" />
+        <md-icon slot="leading-icon" v-html="icon('tune', true)" />
       </md-filled-text-field>
 
       <div class="grid grid-cols-2  gap-5">
         <md-filled-text-field v-model="stock" label="Stock" type="number">
-          <md-icon slot="leadingicon" v-html="icon('tune', true)" />
+          <md-icon slot="leading-icon" v-html="icon('tune', true)" />
         </md-filled-text-field>
 
         <md-filled-text-field v-model="price" label="Price" type="number">
-          <md-icon slot="leadingicon" v-html="icon('tune', true)" />
+          <md-icon slot="leading-icon" v-html="icon('tune', true)" />
         </md-filled-text-field>
       </div>
 
       <md-filled-text-field v-model="max_quantity" label="Max quantity" type="number" class="w-full">
-        <md-icon slot="leadingicon" v-html="icon('tune', true)" />
+        <md-icon slot="leading-icon" v-html="icon('tune', true)" />
       </md-filled-text-field>
   
       <input @change="onFilePut" type="file" class="mt-5 file-input" pattern="image/*" accept="image/*" />

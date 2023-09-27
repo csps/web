@@ -10,23 +10,23 @@
         v-model="data.search"
         :label="'Search ' + capitalize(data.column)"
       >
-        <md-icon slot="leadingicon" v-html="icon('search')" />
+        <md-icon slot="leading-icon" v-html="icon('search')" />
       </md-outlined-text-field>
       <md-outlined-select v-model="data.column" label="Filter by" class="dense">
-        <md-icon slot="leadingicon" v-html="icon('filter_list', true)" />
+        <md-icon slot="leading-icon" v-html="icon('filter_list', true)" />
         <md-select-option
           v-for="option in StudentEnum"
           :key="option"
           :value="option"
-          :headline="capitalize(option)"
-        />
+        >
+          <span slot="headline">{{ capitalize(option) }}</span>
+        </md-select-option>
       </md-outlined-select>
     </div>
     
     <div class="flex justify-center items-center flex-wrap gap-2 mt-4">
       <md-filter-chip
       v-for="year in 4"
-        elevated
         :key="year"
         :selected="data.filterYear.includes(year)"
         :label="mapYear(year)"

@@ -17,7 +17,7 @@
         @keydown.enter="submit"
         required
       >
-        <md-icon slot="leadingicon" v-html="icon('badge', true)" />
+        <md-icon slot="leading-icon" v-html="icon('badge', true)" />
       </md-filled-text-field>
     </div>
     <div class="space-x-1" slot="actions">

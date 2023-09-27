@@ -54,41 +54,48 @@
         <md-switch @change="onThemeChange" :selected="store.isDark" icons />
 
         <!-- Drawer Button -->
-        <div class="flex justify-end xl:hidden">
+        <div class="flex justify-end xl:hidden relative">
           <md-icon-button id="appbar-menu" @click="isMenuOpen = !isMenuOpen">
             <md-icon v-html="icon('menu')" />
           </md-icon-button>
+
+          <md-menu
+            :open="isMenuOpen"
+            anchor="appbar-menu"
+            @closed="isMenuOpen = false"
+            class="min-w-min"
+            y-offset="8"
+            anchor-corner="end-end"
+            menu-corner="start-end"
+          >
+            <router-link
+              v-for="link in NAV_LINKS.slice(0, 4)"
+              :key="link.path"
+              :to="link.path"
+            >
+              <md-menu-item>
+                <span slot="headline">{{ link.name }}</span>
+              </md-menu-item>
+            </router-link>
+            <router-link v-if="store.isLoggedIn" to="/profile" tabindex="-1">
+              <md-menu-item>
+                <span slot="headline">Profile</span>
+              </md-menu-item>
+            </router-link>
+            <router-link v-else-if="!store.isAdminLoggedIn" to="/login" tabindex="-1">
+              <md-menu-item>
+                <span slot="headline">Login</span>
+              </md-menu-item>
+            </router-link>
+            <router-link v-if="store.isAdminLoggedIn" to="/admin" tabindex="-1">
+              <md-menu-item>
+                <span slot="headline">Admin</span>
+              </md-menu-item>
+            </router-link>
+          </md-menu>
         </div>
       </div>
     </div>
-
-    <md-menu
-      fixed
-      :open="isMenuOpen"
-      anchor="appbar-menu"
-      @closed="isMenuOpen = false"
-      class="min-w-min"
-      y-offset="8"
-      anchor-corner="END_END"
-      menu-corner="START_END"
-    >
-      <router-link
-        v-for="link in NAV_LINKS.slice(0, 4)"
-        :key="link.path"
-        :to="link.path"
-      >
-        <md-menu-item :headline="link.name" />
-      </router-link>
-      <router-link v-if="store.isLoggedIn" to="/profile" tabindex="-1">
-        <md-menu-item headline="Profile" />
-      </router-link>
-      <router-link v-else-if="!store.isAdminLoggedIn" to="/login" tabindex="-1">
-        <md-menu-item headline="Login" />
-      </router-link>
-      <router-link v-if="store.isAdminLoggedIn" to="/admin" tabindex="-1">
-        <md-menu-item headline="Admin" />
-      </router-link>
-    </md-menu>
   </div>
 </template>
 

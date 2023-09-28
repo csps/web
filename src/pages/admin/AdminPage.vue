@@ -1,7 +1,7 @@
 <template>
   <div class="h-full">
     <div class="md:container mx-auto md:px-6 block md:hidden">
-      <div class="overflow-x-scroll">
+      <div class="overflow-x-scrol hide-scrollbarl">
         <md-tabs :selected="tabs.findIndex(t => t.id === route.params.tab)">
           <md-secondary-tab v-for="t in tabs" :key="t.title" @click="tab = t.id">
             <md-icon slot="icon" v-html="icon(t.icon)" />

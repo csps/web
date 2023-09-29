@@ -28,7 +28,7 @@
     </div>
 
     <DialogAdminEnv v-model="isDialogOpen" :name="name" :value="value" @done="onDone" />
-  </div>  
+  </div>
 </template>
 
 <script lang="ts" setup>

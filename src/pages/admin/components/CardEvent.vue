@@ -16,7 +16,6 @@
               <h5 class="text-outline flex items-center body-small gap-1">
                 <md-icon class="w-5 h-5" v-html="icon('location_on')" /> {{ event.venue }}
               </h5>
-              <p class="text-secondary body-small text-justify mt-3">{{ event.description }}</p>
             </div>
           </div>
           <div class="mt-0.5 body-small flex flex-col justify-between items-end">

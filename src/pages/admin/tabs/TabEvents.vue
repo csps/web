@@ -1,31 +1,46 @@
 <template>
   <div class="flex flex-col justify-center items-center w-full px-6 container mx-auto h-full">
-    <md-filled-button @click="isDialogOpen = true" class="mb-5">
-      <md-icon slot="icon" v-html="icon('add')" />
-      Add event
-    </md-filled-button>
-
     <div class="flex items-center gap-3">
       <md-outlined-text-field
         v-model="data.search"
         :label="'Search ' + capitalize(data.column)"
       >
         <md-icon slot="leading-icon" v-html="icon('search')" />
+
+        <div slot="trailing-icon">
+          <div class="relative">
+            <md-icon-button id="events-sort-menu" class="mr-2" title="Filter by" @click.stop="isMenuOpen = !isMenuOpen">
+              <md-icon v-html="icon('filter_list')" />
+            </md-icon-button>
+            <md-menu
+              :open="isMenuOpen"
+              anchor="events-sort-menu"
+              @closed="isMenuOpen = false"
+              class="min-w-min"
+              y-offset="8"
+              anchor-corner="end-end"
+              menu-corner="start-end"
+            >
+              <md-menu-item
+                v-for="option in EventEnum"
+                :key="option"
+                :value="option"
+                @click="data.column = option"
+              >
+                <span class="whitespace-nowrap">{{ capitalize(option) }}</span>
+              </md-menu-item>
+            </md-menu>
+          </div>
+
+          <md-icon-button class="mr-2" title="Add student" @click="isDialogOpen = true">
+            <md-icon v-html="icon('add')" />
+          </md-icon-button>
+        </div>
       </md-outlined-text-field>
-      <md-outlined-select v-model="data.column" label="Filter by" class="dense">
-        <md-icon slot="leading-icon" v-html="icon('filter_list', true)" />
-        <md-select-option
-          v-for="option in EventEnum"
-          :key="option"
-          :value="option"
-        >
-          <span slot="headline">{{ capitalize(option) }}</span>
-        </md-select-option>
-      </md-outlined-select>
     </div>
 
-    <div v-if="data.events.length > 0" class="w-full md:w-3/4 2xl:w-2/3 3xl:w-1/2 mt-8 grid grid-cols-1 lg:grid-cols-2 gap-3">
-      <div v-for="event in data.events" :key="event.id" class="flex flex-col justify-end">
+    <div v-if="data.events.length > 0" class="w-full 2xl:w-2/3 3xl:w-3/5 mt-8 grid grid-cols-1 lg:grid-cols-2 gap-3">
+      <div v-for="event in data.events" :key="event.id">
         <CardEvent class="h-full" :event="event" />
       </div>
     </div>
@@ -65,6 +80,7 @@ import DialogAdminEvents from "~/components/dialogs/DialogAdminEvents.vue";
 const message = ref();
 const isDialogOpen = ref(false);
 const isLoading = ref(false);
+const isMenuOpen = ref(false);
 const store = useStore();
 
 const data = ref({

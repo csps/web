@@ -9,12 +9,12 @@
 
         <div slot="trailing-icon">
           <div class="relative">
-            <md-icon-button id="orders-sort-menu" class="mr-2" title="Filter by" @click.stop="isMenuOpen = !isMenuOpen">
+            <md-icon-button id="students-sort-menu" class="mr-2" title="Filter by" @click.stop="isMenuOpen = !isMenuOpen">
               <md-icon v-html="icon('filter_list')" />
             </md-icon-button>
             <md-menu
               :open="isMenuOpen"
-              anchor="orders-sort-menu"
+              anchor="students-sort-menu"
               @closed="isMenuOpen = false"
               class="min-w-min"
               y-offset="8"

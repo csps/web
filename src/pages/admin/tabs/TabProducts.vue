@@ -1,27 +1,42 @@
 <template>
   <div class="flex flex-col justify-center items-center w-full px-6 container mx-auto h-full">
-    <md-filled-button @click="isDialogOpen = true" class="mb-5">
-      <md-icon slot="icon" v-html="icon('add')" />
-      Add Product
-    </md-filled-button>
-
     <div class="flex items-center gap-3">
       <md-outlined-text-field
         v-model="data.search"
         :label="'Search ' + capitalize(data.column)"
       >
         <md-icon slot="leading-icon" v-html="icon('search')" />
+
+        <div slot="trailing-icon">
+          <div class="relative">
+            <md-icon-button id="students-sort-menu" class="mr-2" title="Filter by" @click.stop="isMenuOpen = !isMenuOpen">
+              <md-icon v-html="icon('filter_list')" />
+            </md-icon-button>
+            <md-menu
+              :open="isMenuOpen"
+              anchor="students-sort-menu"
+              @closed="isMenuOpen = false"
+              class="min-w-min"
+              y-offset="8"
+              anchor-corner="end-end"
+              menu-corner="start-end"
+            >
+              <md-menu-item
+                v-for="option in ProductEnum"
+                :key="option"
+                :value="option"
+                @click="data.column = option"
+              >
+                <span class="whitespace-nowrap">{{ capitalize(option) }}</span>
+              </md-menu-item>
+            </md-menu>
+          </div>
+
+          <md-icon-button class="mr-2" title="Add student" @click="isDialogOpen = true">
+            <md-icon v-html="icon('add')" />
+          </md-icon-button>
+        </div>
       </md-outlined-text-field>
-      <md-outlined-select v-model="data.column" label="Filter by" class="dense">
-        <md-icon slot="leading-icon" v-html="icon('filter_list', true)" />
-        <md-select-option
-          v-for="option in ProductEnum"
-          :key="option"
-          :value="option"
-        >
-          <span slot="headline">{{ capitalize(option) }}</span>
-        </md-select-option>
-      </md-outlined-select>
     </div>
 
     <div v-if="data.products.length > 0" class="space-y-3 mt-5 w-full lg:w-3/4 xl:w-1/2 3xl:w-1/3">
@@ -72,6 +87,7 @@ import { toast } from "vue3-toastify";
 const store = useStore();
 const isDialogOpen = ref(false);
 const isLoading = ref(false);
+const isMenuOpen = ref(false);
 const message = ref("");
 const selectedProduct = ref<ProductModel | undefined>();
 

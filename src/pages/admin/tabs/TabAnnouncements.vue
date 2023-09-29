@@ -1,27 +1,42 @@
 <template>
   <div class="flex flex-col justify-center items-center w-full px-6 container mx-auto h-full">
-    <md-filled-button @click="isDialogOpen = true" class="mb-5">
-      <md-icon slot="icon" v-html="icon('add')" />
-      Add Announcement
-    </md-filled-button>
-
     <div class="flex items-center gap-3">
       <md-outlined-text-field
         v-model="data.search"
         :label="'Search ' + capitalize(data.column)"
       >
         <md-icon slot="leading-icon" v-html="icon('search')" />
+
+        <div slot="trailing-icon">
+          <div class="relative">
+            <md-icon-button id="announcements-sort-menu" class="mr-2" title="Filter by" @click.stop="isMenuOpen = !isMenuOpen">
+              <md-icon v-html="icon('filter_list')" />
+            </md-icon-button>
+            <md-menu
+              :open="isMenuOpen"
+              anchor="announcements-sort-menu"
+              @closed="isMenuOpen = false"
+              class="min-w-min"
+              y-offset="8"
+              anchor-corner="end-end"
+              menu-corner="start-end"
+            >
+              <md-menu-item
+                v-for="option in AnnouncementEnum"
+                :key="option"
+                :value="option"
+                @click="data.column = option"
+              >
+                <span class="whitespace-nowrap">{{ capitalize(option) }}</span>
+              </md-menu-item>
+            </md-menu>
+          </div>
+
+          <md-icon-button class="mr-2" title="Add announcement" @click="isDialogOpen = true">
+            <md-icon v-html="icon('add')" />
+          </md-icon-button>
+        </div>
       </md-outlined-text-field>
-      <md-outlined-select v-model="data.column" label="Filter by" class="dense">
-        <md-icon slot="leading-icon" v-html="icon('filter_list', true)" />
-        <md-select-option
-          v-for="option in AnnouncementEnum"
-          :key="option"
-          :value="option"
-        >
-          <span slot="headline">{{ capitalize(option) }}</span>
-        </md-select-option>
-      </md-outlined-select>
     </div>
 
     <div v-if="data.announcements.length > 0" class="w-full 2xl:w-2/3 3xl:w-1/2 mt-8 grid grid-cols-1 lg:grid-cols-2 gap-3">
@@ -72,6 +87,7 @@ const store = useStore();
 const isDialogOpen = ref(false);
 const announcement = ref<AnnouncementModel>();
 const isLoading = ref(false);
+const isMenuOpen = ref(false);
 const message = ref("");
 
 const data = ref({

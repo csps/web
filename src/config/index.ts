@@ -14,7 +14,6 @@ interface StringMap {
   [key: string]: string
 }
 
-
 export const NAV_LINKS: {
   name: string,
   path: string,
@@ -22,6 +21,7 @@ export const NAV_LINKS: {
 }[] = [
   { name: 'Home', path: '/', icon: "home" },
   { name: 'About', path: '/about', icon: "diversity" },
+  { name: "Forum", path: '/forum', icon: "forum" },
   { name: 'Bulletin', path: '/bulletin', icon: "calendar_month" },
   { name: 'Merch', path: '/merch', icon: "store" },
   { name: 'Profile', path: '/profile', icon: "person" },

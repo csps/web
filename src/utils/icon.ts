@@ -144,6 +144,9 @@ import ArrowUpwardOutlined from "@material-symbols/svg-700/rounded/arrow_upward.
 import ArrowDownward from "@material-symbols/svg-700/rounded/arrow_downward-fill.svg?raw";
 import ArrowDownwardOutlined from "@material-symbols/svg-700/rounded/arrow_downward.svg?raw";
 
+import Forum from "@material-symbols/svg-700/rounded/forum-fill.svg?raw";
+import ForumOutlined from "@material-symbols/svg-700/rounded/forum.svg?raw";
+
 // Icon type
 export type Icon = "arrow_back" | "menu" | "photo_camera" | "favorite" |
   "arrow_forward" | "verified" | "lock" | "visibility" | "visibility_off" | 
@@ -152,7 +155,8 @@ export type Icon = "arrow_back" | "menu" | "photo_camera" | "favorite" |
   "shopping_cart_checkout" | "ballot" | "deployed_code" | "steppers" | "search" |
   "person" | "security" | "settings" | "tune" | "receipt" | "more_vert" | "check" |
   "groups" | "chevron_right" | "filter_list" | "chevron_left" | "campaign" | "event" |
-  "location_on" | "schedule" | "calendar_month" | "arrow_upward" | "arrow_downward";
+  "location_on" | "schedule" | "calendar_month" | "arrow_upward" | "arrow_downward" |
+  "forum";
 
 /**
  * Material Icon
@@ -254,7 +258,9 @@ export function icon(name: Icon, outlined: boolean = false) {
   if (name === "arrow_upward") return outlined ? ArrowUpwardOutlined : ArrowUpward;
   // Arrow Downward
   if (name === "arrow_downward") return outlined ? ArrowDownwardOutlined : ArrowDownward;
-
+  // Forum
+  if (name === "forum") return outlined ? ForumOutlined : Forum;
+  
   // Default
   return null;
 }

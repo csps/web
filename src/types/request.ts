@@ -30,6 +30,7 @@ export type ProductRequest = {
 }
 
 export type EventRequest = {
+  id?: number;
   title: string;
   description: string;
   venue: string;

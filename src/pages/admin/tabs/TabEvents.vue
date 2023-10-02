@@ -41,7 +41,7 @@
 
     <div v-if="data.events.length > 0" class="w-full 2xl:w-2/3 3xl:w-3/5 mt-8 grid grid-cols-1 lg:grid-cols-2 gap-3">
       <div v-for="event in data.events" :key="event.id">
-        <CardEvent class="h-full" :event="event" />
+        <CardEvent class="h-full" :event="event" @click="onEdit(event)" />
       </div>
     </div>
 
@@ -58,7 +58,11 @@
       @change="p => data.page = p"
     />
 
-    <DialogAdminEvents v-model="isDialogOpen" @done="fetchEvents" />
+    <DialogAdminEvents
+      v-model="isDialogOpen"
+      :event="event"
+      @done="fetchEvents"
+    />
   </div>
 </template>
 
@@ -81,6 +85,7 @@ const message = ref();
 const isDialogOpen = ref(false);
 const isLoading = ref(false);
 const isMenuOpen = ref(false);
+const event = ref<EventModel>();
 const store = useStore();
 
 const data = ref({
@@ -97,6 +102,12 @@ watch([
   () => data.value.page,
 ], v => {
   fetchEvents(v[0]);
+});
+
+watch(isDialogOpen, v => {
+  if (!v) {
+    event.value = undefined;
+  }
 });
 
 onMounted(fetchEvents);
@@ -128,5 +139,10 @@ function fetchEvents(search = "") {
 
     message.value = response.message;
   });
+}
+
+function onEdit(data: EventModel) {
+  event.value = data;
+  isDialogOpen.value = true;
 }
 </script>

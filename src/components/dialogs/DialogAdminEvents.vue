@@ -6,7 +6,7 @@
     :scrim-click-action="isLoading ? '' : 'close'"
     :escape-key-action="isLoading ? '' : 'close'"
   >
-    <div slot="headline">Add Event</div>
+    <div slot="headline">{{ event ? 'Update' : 'Add' }} Event</div>
     <div slot="content" class="space-y-5 relative z-[100000]">
       <md-filled-text-field
         class="w-full"
@@ -109,12 +109,13 @@
         </DatePicker>
       </div>
 
-      <input @change="onFilePut" type="file" class="mt-5 file-input" pattern="image/*" accept="image/*" />
+      <!-- Hidden for now  -->
+      <!-- <input @change="onFilePut" type="file" class="mt-5 file-input" pattern="image/*" accept="image/*" /> -->
     </div>
-    <div class="space-x-1" slot="actions">
+    <div class="space-x-1" slot="actions">  
       <md-text-button @click="close" :disabled="isLoading">Cancel</md-text-button>
       <md-text-button @click="submit" :disabled="isLoading" autofocus>
-        {{ isLoading ? 'Adding...' : 'Add' }}
+        {{ event ? (isLoading ? "Updating..." : "Update") : (isLoading ? 'Adding...' : 'Add') }}
       </md-text-button>
     </div>
   </md-dialog>
@@ -150,21 +151,19 @@ let attributes = [
 ];
 
 const emit = defineEmits(["update:modelValue", "done"]);
-const props = defineProps({
-  modelValue: {
-    type: Boolean,
-    required: true,
-  }
-});
+const props = defineProps<{
+  modelValue: boolean,
+  event?: EventModel
+}>()
 
 const store = useStore();
 const isLoading = ref(false);
 const isDialogOpen = computed(() => props.modelValue);
 
 const dialog = ref();
-const title = ref("");
-const description = ref("");
-const venue = ref("");
+const title = ref();
+const description = ref();
+const venue = ref();
 const date = ref();
 const startTime = ref();
 const endTime = ref();
@@ -197,11 +196,41 @@ watch(endTime, v => {
 });
 
 // Mausab najud
-watch(isDialogOpen, () => {
+watch(isDialogOpen, v => {
   setTimeout(() => {
     dialog.value.shadowRoot.querySelector(".scroller").setAttribute("style", "overflow: visible;");
     dialog.value.shadowRoot.querySelector(".container").setAttribute("style", "overflow: visible;");
-  }, 0)
+  }, 0);
+
+  if (v) {
+    title.value = props.event?.title;
+    description.value = props.event?.description;
+    venue.value = props.event?.venue;
+    date.value = props.event?.date ? new Date(props.event?.date) : undefined;
+
+    if (props.event?.start_time) {
+      const chunks = props.event?.start_time.split(":");
+      const hours = parseInt(chunks[0]);
+      const minutes = parseInt(chunks[1]);
+
+      startTime.value = new Date(props.event?.date);
+      startTime.value.setHours(hours, minutes);
+    }
+
+    if (props.event?.end_time) {
+      const chunks = props.event?.end_time.split(":");
+      const hours = parseInt(chunks[0]);
+      const minutes = parseInt(chunks[1]);
+
+      endTime.value = new Date(props.event?.date);
+      endTime.value.setHours(hours, minutes);
+    }
+
+    if (!props.event) {
+      startTimeText.value = "";
+      endTimeText.value = "";
+    }
+  }
 });
 
 function submit() {
@@ -223,8 +252,12 @@ function submit() {
     data.thumbnail = thumbnail.value;
   }
 
+  if (props.event) {
+    data.id = props.event.id;
+  }
+
   // Send the request
-  makeRequest("POST", Endpoints.Events, data, response => {
+  makeRequest(props.event ? "PUT" : "POST", props.event ? Endpoints.EventsId : Endpoints.Events, data, response => {
     // Set loading to false
     isLoading.value = false;
     store.isLoading = false;
@@ -242,21 +275,29 @@ function submit() {
   });
 }
 
-function onFilePut(event: Event) {
-  const file = (event.target as HTMLInputElement).files?.[0];
-  
-  if (!file) {
-    thumbnail.value = undefined;
-    return;
-  }
-
-  thumbnail.value = file;
-}
+// function onFilePut(event: Event) {
+//   const file = (event.target as HTMLInputElement).files?.[0];
+//   if (!file) {
+//     thumbnail.value = undefined;
+//     return;
+//   }
+//   thumbnail.value = file;
+// }
 
 /**
  * Close the dialog
  */
 function close() {
+  setTimeout(() => {
+    title.value = "";
+    description.value = "";
+    venue.value = "";
+    date.value = undefined;
+    startTime.value = "";
+    endTime.value = "";
+    dateText.value = "";
+  }, 50);
+
   emit("update:modelValue", false);
 }
 </script>

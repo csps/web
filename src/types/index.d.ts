@@ -24,10 +24,21 @@ declare global {
     variant?: ProductVariationModel,
     product: ProductModel
   }
-  
-  /**
-   * Response Types
-   */
+
+  // Table types
+
+  type TableHeader = {
+    id: string,
+    text: string,
+    min?: boolean
+  }
+
+  type TableData = {
+    id: string,
+    data: string
+  }
+
+  // Response Types
 
   type StudentResponse = {
     id: number;
@@ -44,10 +55,6 @@ declare global {
     student: Student;
   }
   
-  /**
-   * Models
-   */
-
   type AnnouncementModel = {
     id: number,
     admin_student_id: string,

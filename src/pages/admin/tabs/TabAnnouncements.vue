@@ -46,6 +46,7 @@
         }))"
 
         @edit="announcement = $event; isDialogOpen = true"
+        @delete="deleteAnnouncement($event)"
       />
     </div>
 
@@ -63,8 +64,9 @@ import { icon } from "~/utils/icon";
 import { AnnouncementEnum } from "~/types/models";
 import { capitalize } from "~/utils/string";
 import { Env } from "~/config";
-import { useStore } from "~/store";
+import { useStore, useDialog } from "~/store";
 import { Endpoints, makeRequest } from "~/network/request";
+import { toast } from "vue3-toastify";
 import type { PaginationRequest } from "~/types/request";
 
 import "@material/web/icon/icon";
@@ -76,6 +78,7 @@ import DialogAdminAnnouncement from "~/components/dialogs/DialogAdminAnnouncemen
 import { getReadableDate } from "~/utils/date";
 
 const store = useStore();
+const dialog = useDialog();
 const isMenuOpen = ref(false);
 const isDialogOpen = ref(false);
 const isLoading = ref(false);
@@ -129,6 +132,29 @@ function fetchAnnouncements(search = "") {
     }
 
     message.value = response.message;
+  });
+}
+
+function deleteAnnouncement(announcement: AnnouncementModel) {
+  dialog.open("Delete Announcement", "Are you sure you want to delete this announcement?", {
+    text: "Delete",
+    click() {
+      store.isLoading = true;
+    
+      makeRequest<AnnouncementModel>("DELETE", Endpoints.AnnouncementsId, announcement, response => {
+        store.isLoading = false;
+        dialog.hide();
+        
+        if (response.success) {
+          fetchAnnouncements();
+          toast.success(response.message);
+          return;
+        }
+    
+        message.value = response.message;
+        toast.error(response.message);
+      });
+    }
   });
 }
 </script>

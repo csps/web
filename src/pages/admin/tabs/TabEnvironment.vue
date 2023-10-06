@@ -1,33 +1,33 @@
 <template>
-  <div class="px-6">
+  <div class="px-6 w-full xl md:w-3/4">
 
-    <div class="flex items-center justify-center mb-2 gap-5">
-      <md-outlined-text-field v-model="search" label="Search variable">
-        <md-icon slot="leading-icon" v-html="icon('search')" />
-      </md-outlined-text-field>
+    <div class="flex justify-between items-center gap-3 mb-5">
+      <div class="flex items-center gap-3 text-2xl font-medium text-on-surface-variant">
+        <h2>Variables</h2>
+        <md-assist-chip label="Add" aria-label="Add environment variables" title="Add environment variables" @click="isDialogOpen = true">
+          <md-icon slot="icon" v-html="icon('add')" />
+        </md-assist-chip>
+      </div>
 
-      <md-filled-button @click="onAddEnvClick">
-        <md-icon slot="icon" v-html="icon('add')" />
-        Add variable
-      </md-filled-button>
+      <md-outlined-text-field
+        v-model="search"
+        label="Search variable"
+      />
     </div>
 
-    <div class="flex justify-center">
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-5 w-full lg:w-3/4">
-        <div v-for="item in list" :key="item[0]" @click="onEnvClick(item)" class="item text-on-surface-variant" role="button">
-          <md-ripple />
-          <div class="flex justify-between gap-6 items-center overflow-hidden whitespace-nowrap text-ellipsis">
-            <div>
-              <h3 class="title-small font-medium mb-1">
-                {{ capitalize(item[0].toString()) }}
-              </h3>
-              <div class="body-small overflow-hidden whitespace-nowrap text-ellipsis max-w-[200px]">
-                {{ item[1] }}
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+    <div class="mt-5">
+      <VTable
+        :headers="headers"
+        :data="list.map(v => {
+          return {
+            key: capitalize(v[0]),
+            value: v[1].toString(),
+          };
+        })"
+
+        @edit="onEnvClick"
+        no-delete
+      />
     </div>
 
     <DialogAdminEnv v-model="isDialogOpen" :name="name" :value="value" @done="onDone" />
@@ -36,6 +36,7 @@
 
 <script lang="ts" setup>
 import "@material/web/icon/icon";
+import "@material/web/chips/assist-chip";
 import "@material/web/button/filled-button";
 import "@material/web/textfield/outlined-text-field";
 
@@ -44,6 +45,7 @@ import { Env } from "~/config";
 import { icon } from "~/utils/icon";
 import { capitalize } from "~/utils/string";
 
+import VTable from "~/components/VTable.vue";
 import DialogAdminEnv from "~/components/dialogs/DialogAdminEnv.vue";
 
 const isDialogOpen = ref(false);
@@ -74,18 +76,19 @@ watch(search, v => {
   list.value = Object.entries(Env);
 });
 
-function onEnvClick(item: [string, string | number]) {
-  name.value = item[0];
-  value.value = item[1].toString();
+const headers: TableHeader[] = [
+  { id: "key", text: "Key" },
+  { id: "value", text: "Value" },
+];
+
+function onEnvClick(item: { key: string, value: string }) {
+  name.value = item.key;
+  value.value = item.value;
   isDialogOpen.value = true;
 }
 
 function onDone() {
   list.value = Object.entries(Env);
-}
-
-function onAddEnvClick() {
-  isDialogOpen.value = true;
 }
 </script>
 

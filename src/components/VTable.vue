@@ -32,7 +32,7 @@
           <td v-if="!noAction" class="td-cell w-0">
             <div class="flex gap-3">
               <md-assist-chip @click="emit('edit', row)" label="Edit" />
-              <md-assist-chip @click="emit('delete', row)" label="Delete" />
+              <md-assist-chip v-if="!noDelete" @click="emit('delete', row)" label="Delete" />
             </div>
           </td>
         </tr>
@@ -47,9 +47,11 @@ import "@material/web/chips/assist-chip";
 withDefaults(defineProps<{
   headers: TableHeader[],
   data: any[],
-  noAction?: boolean
+  noAction?: boolean,
+  noDelete?: boolean
 }>(), {
-  noAction: false
+  noAction: false,
+  noDelete: false
 });
 
 const emit = defineEmits(["edit", "delete"]);

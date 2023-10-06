@@ -13,15 +13,18 @@
     </div>
 
     <div class="flex justify-center">
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-5 w-full md:w-3/4">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-5 w-full lg:w-3/4">
         <div v-for="item in list" :key="item[0]" @click="onEnvClick(item)" class="item text-on-surface-variant" role="button">
           <md-ripple />
-          <div class="flex justify-between gap-6 items-center">
+          <div class="flex justify-between gap-6 items-center overflow-hidden whitespace-nowrap text-ellipsis">
             <div>
-              <h3 class="title-small font-medium mb-1">{{ capitalize(item[0].toString()) }}</h3>
-              <p class="body-small">{{ item[1] }}</p>
+              <h3 class="title-small font-medium mb-1">
+                {{ capitalize(item[0].toString()) }}
+              </h3>
+              <div class="body-small overflow-hidden whitespace-nowrap text-ellipsis max-w-[200px]">
+                {{ item[1] }}
+              </div>
             </div>
-            <md-icon v-html="icon('chevron_right')" />
           </div>
         </div>
       </div>

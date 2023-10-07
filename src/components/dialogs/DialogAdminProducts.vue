@@ -105,6 +105,10 @@ function submit() {
     variations: "", // TODO: Add variations
   };
 
+  if (thumbnail.value) {
+    data.thumbnail = thumbnail.value;
+  }
+
   if (props.product) {
     data.thumbnail = thumbnail.value;
     data.id = props.product.id;

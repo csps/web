@@ -3,6 +3,7 @@ import { defineStore } from "pinia";
 export * from "./dialog"
 
 export const useStore = defineStore("global", () => {
+  const isServerAvailable = true;
   const errorMessage = "";
   const selectedRail = "dashboard";
   const rails: NavigationRailItem[] = [];
@@ -37,6 +38,7 @@ export const useStore = defineStore("global", () => {
 
   return {
     isShowBackButton, isDark, isLoggedIn, student, isLoading, errorMessage,
-    checkoutDetails, admin, isAdminLoggedIn, rails, selectedRail, courses
+    checkoutDetails, admin, isAdminLoggedIn, rails, selectedRail, courses,
+    isServerAvailable
   }
 });

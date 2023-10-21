@@ -2,6 +2,7 @@ import axios from "axios";
 import Endpoints from "./endpoints";
 
 import type { AxiosRequestConfig } from "axios";
+import { useStore } from "~/store";
 import { getStore, setStore } from "~/utils/storage";
 import { Config } from "~/config";
 
@@ -104,6 +105,11 @@ function makeRequest<T>(method: HttpMethod, endpoint: Endpoints, data: any, call
     // Call the callback function
     callback(response.data);
   }).catch((error) => {
+    // Detect if server is available
+    if (error.code === "ERR_NETWORK" || error.response.headers['content-type'].indexOf('application/json') === -1) {
+      useStore().isServerAvailable = false;
+    }
+
     // If has custom message
     if (error.response && ((error.response?.data) as any).message) {
       error.message = ((error.response?.data) as any).message;

@@ -147,6 +147,9 @@ import ArrowDownwardOutlined from "@material-symbols/svg-700/rounded/arrow_downw
 import Forum from "@material-symbols/svg-700/rounded/forum-fill.svg?raw";
 import ForumOutlined from "@material-symbols/svg-700/rounded/forum.svg?raw";
 
+import Error from "@material-symbols/svg-700/rounded/error-fill.svg?raw";
+import ErrorOutlined from "@material-symbols/svg-700/rounded/error.svg?raw";
+
 // Icon type
 export type Icon = "arrow_back" | "menu" | "photo_camera" | "favorite" |
   "arrow_forward" | "verified" | "lock" | "visibility" | "visibility_off" | 
@@ -156,7 +159,7 @@ export type Icon = "arrow_back" | "menu" | "photo_camera" | "favorite" |
   "person" | "security" | "settings" | "tune" | "receipt" | "more_vert" | "check" |
   "groups" | "chevron_right" | "filter_list" | "chevron_left" | "campaign" | "event" |
   "location_on" | "schedule" | "calendar_month" | "arrow_upward" | "arrow_downward" |
-  "forum";
+  "forum" | "error";
 
 /**
  * Material Icon
@@ -260,6 +263,8 @@ export function icon(name: Icon, outlined: boolean = false) {
   if (name === "arrow_downward") return outlined ? ArrowDownwardOutlined : ArrowDownward;
   // Forum
   if (name === "forum") return outlined ? ForumOutlined : Forum;
+  // Error
+  if (name === "error") return outlined ? ErrorOutlined : Error;
   
   // Default
   return null;

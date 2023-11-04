@@ -28,7 +28,7 @@
         <md-icon slot="leading-icon" v-html="icon('tune', true)" />
       </md-filled-text-field>
       
-      <div v-if="(announcement?.photos_id || 0) > 0" class="flex justify-center mt-6" :class="{ 'mb-4': preservePhoto }">
+      <div v-if="announcement?.photos_hash" class="flex justify-center mt-6" :class="{ 'mb-4': preservePhoto }">
         <label>
           <md-checkbox @change="onCheckboxChange" :checked="preservePhoto" />
           <span class="ml-4">Preserve photo</span>
@@ -36,8 +36,8 @@
       </div>
       
       <Transition name="slide-fade" mode="out-in">
-        <div v-if="!preservePhoto || !announcement?.photos_id" class="mt-5">
-          <p v-if="(announcement?.photos_id || 0) > 0" class="mb-2 text-on-surface-variant body-small text-center">Note: If you don't attach a photo, the current photo will be removed.</p>
+        <div v-if="!preservePhoto || !announcement?.photos_hash" class="mt-5">
+          <p v-if="announcement?.photos_hash" class="mb-2 text-on-surface-variant body-small text-center">Note: If you don't attach a photo, the current photo will be removed.</p>
           <input @change="onFilePut" type="file" class="file-input" pattern="image/*" accept="image/*" />
         </div>
       </Transition>
@@ -94,7 +94,7 @@ function submit() {
   const data: AnnouncementRequest = {
     title: title.value,
     content: content.value,
-    preservePhoto: preservePhoto.value && (props.announcement?.photos_id || 0) > 0
+    preservePhoto: preservePhoto.value && !!props.announcement?.photos_hash
   };
 
   if (props.announcement) {

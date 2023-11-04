@@ -26,8 +26,8 @@
       {{ data.content }}
     </div>
 
-    <div v-if="data.photos_id" class="flex justify-center items-center mt-5">
-      <VImage class="rounded-xl w-full" :src="getPhotoLink(data.photos_id)" :alt="data.title" dynamic />
+    <div v-if="data.photos_hash" class="flex justify-center items-center mt-5">
+      <VImage class="rounded-xl w-full" :src="getPhotoLink(data.photos_hash)" :alt="data.title" dynamic />
     </div>
   </div>
 </template>

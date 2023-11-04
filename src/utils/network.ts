@@ -56,11 +56,11 @@ export function isAdminLoginValid(callback: (valid: boolean) => void) {
 
 /**
  * Get the photo link
- * @param id Photo ID
+ * @param has Photo hash
  * @param isReference If the photo is a reference
  */
-export function getPhotoLink(id: number | string, isReference = false) {
-  return Config.API_URL + Endpoints[isReference ? 'ReferenceIdRaw' : "PhotosIdRaw"].replace(":id", id.toString());
+export function getPhotoLink(hash: any, isReference = false) {
+  return Config.API_URL + Endpoints[isReference ? 'ReferenceHash' : "PhotosHash"].replace(":hash", hash);
 }
 
 /**

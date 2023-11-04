@@ -3,7 +3,7 @@ export enum AnnouncementEnum {
   admin_student_id = "admin_student_id",
   title = "title",
   content = "content",
-  photos_id = "photos_id",
+  photos_hash = "photos_hash",
   date_stamp = "date_stamp",
 }
 

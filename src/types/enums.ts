@@ -29,3 +29,9 @@ export enum ModeOfPayment {
   WALK_IN = 1,
   GCASH = 2
 }
+
+// Auth Type
+export enum AuthType {
+  STUDENT,
+  ADMIN
+}

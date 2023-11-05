@@ -22,7 +22,7 @@ const instance = axios.create({
  * @param data The data to send. 
  * @param callback The callback to call when the request is done. 
  */
-function makeRequest<T>(method: HttpMethod, endpoint: Endpoints, data: any, callback: (response: ServerResponse<T>) => void) {
+function makeRequest<T, U>(method: HttpMethod, endpoint: Endpoints, data: U, callback: (response: ServerResponse<T>) => void) {
   // URL
   let url: string = endpoint;
 
@@ -50,7 +50,7 @@ function makeRequest<T>(method: HttpMethod, endpoint: Endpoints, data: any, call
     // For every data
     for (const key in data) {
       if (typeof data[key] === "object") {
-        data[key] = JSON.stringify(data[key]);
+        (data as any)[key] = JSON.stringify(data[key]);
       }
     }
 
@@ -64,7 +64,7 @@ function makeRequest<T>(method: HttpMethod, endpoint: Endpoints, data: any, call
 
     // For every data
     for (const key in data) {
-      formData.append(key, typeof data === "object" ? JSON.stringify(data) : data);
+      formData.append(key, typeof data === "object" ? JSON.stringify(data) : data as any);
     }
 
     // Add data to config

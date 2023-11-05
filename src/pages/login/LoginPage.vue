@@ -83,6 +83,8 @@ import { useStore } from "~/store";
 import { useRouter } from "vue-router";
 import { Endpoints, makeRequest } from "~/network/request";
 import { getStore, removeStore, setStore } from "~/utils/storage";
+import { AuthType } from "~/types/enums";
+import { LoginRequest } from "~/types/request";
 import sal from "sal.js";
 
 import DialogForgotPasswordVue from "~/components/dialogs/DialogForgotPassword.vue";
@@ -124,8 +126,9 @@ function login() {
   store.isLoading = true;
   
   // Make request to server
-  makeRequest<LoginResponse>("POST", Endpoints.Login, {
-    id: id.value,
+  makeRequest<StudentModel, LoginRequest>("POST", Endpoints.Login, {
+    type: AuthType.STUDENT,
+    student_id: id.value,
     password: password.value
   }, (response) => {
     isLoggingIn.value = false;
@@ -134,19 +137,15 @@ function login() {
     // if success
     if (response.success) {
       // If remember me is checked, save to local storage
+      // If not, remove from local storage
       if (isRememberMe.value) {
         setStore("login_id", id.value);
-      } 
-      
-      // If not, remove from local storage
-      else {
+      } else {
         removeStore("login_id");
       }
 
-      // Save token to local storage
-      setStore("std_token", response.data.token);
       // Set student
-      store.student = response.data.student;
+      store.student = response.data;
       // Set is logged in to true
       store.isLoggedIn = true;
       // Redirect to home page

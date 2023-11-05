@@ -49,11 +49,6 @@ declare global {
     email_address: string;
     date_stamp: string;
   }
-
-  type LoginResponse = {
-    token: string;
-    student: Student;
-  }
   
   type AnnouncementModel = {
     id: number,

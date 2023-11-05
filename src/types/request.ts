@@ -1,3 +1,5 @@
+import { AuthType } from "./enums";
+
 export type AnnouncementRequest = {
   id?: number,
   title: string,
@@ -49,4 +51,10 @@ export type EventRequest = {
   start_time: string;
   end_time: string;
   thumbnail?: File
+}
+
+export type LoginRequest = {
+  type: AuthType,
+  student_id: string,
+  password: string
 }

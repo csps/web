@@ -1,6 +1,6 @@
 :root {
   --md-source: #4A2558;
-  --md-ref-typeface-plain: "Poppins";
+  --md-ref-typeface-plain: "Roboto";
 
   /* primary */
   --md-ref-palette-primary0: #000000;
@@ -378,4 +378,8 @@
   --md-sys-typescale-title-small-font-size: 14px;
   --md-sys-typescale-title-small-line-height: 20px;
   --md-sys-typescale-title-small-letter-spacing: 0.10px;
+}
+
+md-primary-tab {
+  --md-ref-typeface-plain: "Poppins";
 }

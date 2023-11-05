@@ -1,54 +1,54 @@
 <template>
   <div class="flex flex-col text-on-surface-variant items-center gap-5 w-full h-full px-6">
-    <div class="grid grid-cols-1 gap-6 justify-center w-full sm:w-3/4 md:w-2/3 lg:w-1/2 2xl:w-1/3 3xl:w-1/4 bg-surface-container-low p-10 rounded-2xl">
+    <div class="grid grid-cols-1 gap-6 justify-center w-full sm:w-3/4 md:w-3/5 lg:w-2/5 2xl:w-1/3 3xl:w-1/4 bg-surface-container-low p-10 rounded-2xl">
       <h3 class="headline-small font-medium mb-1">Profile</h3>
   
       <div class="grid grid-cols-2 gap-5">
         <!-- First name -->
-        <md-filled-text-field
+        <md-outlined-text-field
           label="First name"
           :value="store.user.first_name"
-          readonly disabled
+          readonly
         >
           <md-icon slot="leading-icon" v-html="icon('person', true)" />
-        </md-filled-text-field>
+        </md-outlined-text-field>
     
         <!-- Last name -->
-        <md-filled-text-field
+        <md-outlined-text-field
           label="Last name"
           :value="store.user.last_name"
-          readonly disabled
+          readonly
         >
           <md-icon slot="leading-icon" v-html="icon('person', true)" />
-        </md-filled-text-field>
+        </md-outlined-text-field>
       </div>
 
       <!-- Student ID -->
-      <md-filled-text-field
+      <md-outlined-text-field
         label="Student ID"
         :value="store.user.student_id"
-        readonly disabled
+        readonly
       >
         <md-icon slot="leading-icon" v-html="icon('badge', true)" />
-      </md-filled-text-field>
+      </md-outlined-text-field>
   
       <!-- Email -->
-      <md-filled-text-field
+      <md-outlined-text-field
         label="Email"
         :value="store.user.email_address"
-        readonly disabled
+        readonly
       >
         <md-icon slot="leading-icon" v-html="icon('mail', true)" />
-      </md-filled-text-field>
+      </md-outlined-text-field>
 
       <!-- Year level -->
-      <md-filled-text-field
+      <md-outlined-text-field
         label="Year level"
         :value="mapYear(store.user.year_level)"
-        readonly disabled
+        readonly
       >
         <md-icon slot="leading-icon" v-html="icon('school', true)" />
-      </md-filled-text-field>
+      </md-outlined-text-field>
 
       <!-- Logout -->
       <div class="flex justify-between gap-2">
@@ -70,7 +70,7 @@ import Strings from '~/config/strings';
 
 import "@material/web/button/text-button";
 import "@material/web/button/filled-button";
-import "@material/web/textfield/filled-text-field";
+import "@material/web/textfield/outlined-text-field";
 
 import DialogChangePassword from "~/components/dialogs/DialogChangePassword.vue";
 import { mapYear } from "~/utils/page";

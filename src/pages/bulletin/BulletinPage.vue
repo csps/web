@@ -113,6 +113,7 @@ import { useStore } from '~/store';
 import { Endpoints, makeRequest } from "~/network/request";
 import { getHumanDate, getTime, getMonthName, isSameDate } from "~/utils/date";
 import { createPagination } from "~/utils/pagination";
+import { PaginationOutput } from "~/types/request";
 import { EventEnum } from "~/types/models";
 import { toast } from "vue3-toastify";
 import { icon } from "~/utils/icon";
@@ -169,7 +170,7 @@ function fetchEvents(search = "") {
     },
   });
 
-  makeRequest<EventModel[]>("GET", Endpoints.Events, request, response => {
+  makeRequest<EventModel[], PaginationOutput>("GET", Endpoints.Events, request, response => {
     isLoading.value = false;
     store.isLoading = false;
     isRootLoading.value = false;
@@ -280,13 +281,11 @@ function getYearMonth(year: number, month: number) {
 }
 
 function getNextEvent() {
-  makeRequest<EventModel>("GET", Endpoints.EventsNext, null, response => {
+  makeRequest<EventModel, null>("GET", Endpoints.EventsNext, null, response => {
     if (response.success) {
       nextEvent.value = response.data;
       return;
     }
-
-    toast.warn(response.message);
   });;
 }
 

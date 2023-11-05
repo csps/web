@@ -26,7 +26,7 @@
       <!-- Navigation Links -->
       <div class="flex items-center gap-5 flex-grow justify-end">
         <div class="xl:flex justify-end space-x-2 hidden">
-          <md-tabs :selected="NAV_LINKS.findIndex(t => t.name === route.name)">
+          <md-tabs :activeTabIndex="NAV_LINKS.findIndex(t => t.name === route.name)">
             <md-primary-tab v-for="link in NAV_LINKS.slice(0, 5)" :key="link.path" tabindex="-1" @click="router.push({ path: link.path })">
               <router-link class="link" :to="link.path">
                 {{ link.name }}

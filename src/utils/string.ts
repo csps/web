@@ -30,3 +30,11 @@ export function capitalize(text: string) {
 export function charCount(needle: string, haystack: string) {
   return haystack.split(needle).length - 1;
 }
+
+/**
+ * Convert string to base64
+ * @param str string to convert
+ */
+export function tb64(str: string) {
+  return btoa(str).replace(/=/g, '');
+}

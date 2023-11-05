@@ -1,3 +1,6 @@
+import type { PaginationRequest } from "~/types/request";
+import { tb64 } from "./string";
+
 const getRange = (start: number, end: number) => {
   return Array.from(Array(end - start + 1), (_, i) => start + i);
 }
@@ -45,4 +48,30 @@ export const pagination = (currentPage: number, pageCount: number): (string|numb
   }
 
   return pages;
+}
+
+/**
+ * Create pagination
+ * @param pagination 
+ */
+export function createPagination(pagination: PaginationRequest) {
+  const out: Record<string, string> = {};
+
+  if (pagination.page) {
+    out.page = pagination.page.toString();
+  }
+
+  if (pagination.limit) {
+    out.limit = pagination.limit.toString();
+  }
+
+  if (pagination.sort) {
+    out.sort = tb64(`${pagination.sort.key}:${pagination.sort.type}`);
+  } 
+
+  if (pagination.search) {
+    out.search = tb64(JSON.stringify(pagination.search));
+  }
+
+  return out;
 }

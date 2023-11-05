@@ -12,12 +12,23 @@ export type PhotoRequest = {
 }
 
 export type PaginationRequest = {
-  sort_column?: string;
-  sort_type?: 'ASC' | 'DESC';
-  search_column?: string[];
-  search_value?: string[];
-  page?: number | string;
-  limit?: number | string;
+  sort?: {
+    key: string;
+    type: 'ASC' | 'DESC';
+  },
+  search?: {
+    key: string[];
+    value: string[];
+  },
+  page?: number;
+  limit?: number;
+};
+
+export type PaginationOutput = {
+  sort?: string,
+  search?: string,
+  page?: string;
+  limit?: string;
 };
 
 export type ProductRequest = {

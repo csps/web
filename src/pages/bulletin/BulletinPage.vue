@@ -111,17 +111,17 @@ import { onMounted, ref, watch } from "vue";
 import { Calendar } from 'v-calendar';
 import { useStore } from '~/store';
 import { Endpoints, makeRequest } from "~/network/request";
-import { PaginationRequest } from "~/types/request";
 import { getHumanDate, getTime, getMonthName, isSameDate } from "~/utils/date";
+import { createPagination } from "~/utils/pagination";
 import { EventEnum } from "~/types/models";
 import { toast } from "vue3-toastify";
+import { icon } from "~/utils/icon";
 
 import VTimeline from '~/components/VTimeline.vue';
 
 import "@material/web/progress/linear-progress";
 import "@material/web/icon/icon";
 import 'v-calendar/style.css';
-import { icon } from "~/utils/icon";
 
 const c1 = ref();
 const c2 = ref();
@@ -156,14 +156,18 @@ function fetchEvents(search = "") {
   message.value = "";
 
   const date = new Date();
-  const request: PaginationRequest = {
+  const request = createPagination({
     page: 1,
-    search_value: [search],
-    search_column: [EventEnum.date],
     limit: -1,
-    sort_column: EventEnum.date,
-    sort_type: "ASC",
-  };
+    search: {
+      key: [EventEnum.date],
+      value: [search],
+    },
+    sort : {
+      key: EventEnum.date,
+      type: "ASC",
+    },
+  });
 
   makeRequest<EventModel[]>("GET", Endpoints.Events, request, response => {
     isLoading.value = false;

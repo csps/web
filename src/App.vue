@@ -30,10 +30,9 @@
 import { useRoute } from "vue-router";
 import { Env } from './config';
 import { useStore } from './store';
-import { removeStore } from './utils/storage';
 import { toast } from 'vue3-toastify';
 import { Endpoints, makeRequest } from './network/request';
-import { isAdminLoginValid, isLoginValid } from './utils/network';
+import { isLoginValid } from './utils/network';
 import { charCount } from "./utils/string";
 
 import "@material/web/progress/linear-progress";
@@ -50,7 +49,7 @@ const route = useRoute();
 store.isLoading = true;
 
 // Fetch courses
-makeRequest<string[]>("GET", Endpoints.Courses, null, response => {
+makeRequest<string[], null>("GET", Endpoints.Courses, null, response => {
   if (response.success) {
     store.courses = response.data;
     return;
@@ -59,12 +58,14 @@ makeRequest<string[]>("GET", Endpoints.Courses, null, response => {
   toast.error(response.message);
 });
 
-makeRequest<any>("GET", Endpoints.Env, null, response => {
+makeRequest<Record<string, string> | string, null>("GET", Endpoints.Env, null, response => {
   store.isLoading = false;
 
   if (response.success) {
-    for (const key in response.data) {
-      Env[key] = response.data[key];
+    if (typeof response.data !== "string") {
+      for (const key in response.data) {
+        Env[key] = response.data[key];
+      }
     }
 
     // Check if login is valid
@@ -76,32 +77,11 @@ makeRequest<any>("GET", Endpoints.Env, null, response => {
       if (valid) {
         // Set logged in
         store.isLoggedIn = true;
-        // return
         return;
       }
 
-      // If not valid, clear local storage
-      removeStore("std_token");
       // Set logged out
       store.isLoggedIn = false;
-    });
-
-    isAdminLoginValid(isAdminLoginValid => {
-      /// Set loading to false
-      store.isLoading = false;
-
-      // If is valid
-      if (isAdminLoginValid) {
-        // Set admin logged in
-        store.isAdminLoggedIn = true;
-        // return
-        return;
-      }
-
-      // If not valid, clear local storage
-      removeStore("adm_token");
-      // Set logged out
-      store.isAdminLoggedIn = false;
     });
 
     return;
@@ -110,8 +90,6 @@ makeRequest<any>("GET", Endpoints.Env, null, response => {
   toast.error(response.message);
 
   if (response.data === "UNAUTHORIZED") {
-    removeStore("std_token");
-    removeStore("adm_token");
     store.isLoggedIn = false;
     store.isAdminLoggedIn = false;
   }

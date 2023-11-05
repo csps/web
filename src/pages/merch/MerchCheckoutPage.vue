@@ -226,11 +226,11 @@ onMounted(() => {
   // If the user is logged in, set the student info to the logged in student
   if (store.isLoggedIn) {
     course.value = 0; // BSCS
-    firstName.value = store.student.first_name;
-    lastName.value = store.student.last_name;
-    studentId.value = store.student.student_id;
-    email.value = store.student.email_address;
-    year.value = parseInt(store.student.year_level);
+    firstName.value = store.user.first_name;
+    lastName.value = store.user.last_name;
+    studentId.value = store.user.student_id;
+    email.value = store.user.email_address;
+    year.value = parseInt(store.user.year_level);
   }
 
   setTimeout(() => {

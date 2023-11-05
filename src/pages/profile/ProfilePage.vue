@@ -7,7 +7,7 @@
         <!-- First name -->
         <md-filled-text-field
           label="First name"
-          :value="store.student.first_name"
+          :value="store.user.first_name"
           readonly disabled
         >
           <md-icon slot="leading-icon" v-html="icon('person', true)" />
@@ -16,7 +16,7 @@
         <!-- Last name -->
         <md-filled-text-field
           label="Last name"
-          :value="store.student.last_name"
+          :value="store.user.last_name"
           readonly disabled
         >
           <md-icon slot="leading-icon" v-html="icon('person', true)" />
@@ -26,7 +26,7 @@
       <!-- Student ID -->
       <md-filled-text-field
         label="Student ID"
-        :value="store.student.student_id"
+        :value="store.user.student_id"
         readonly disabled
       >
         <md-icon slot="leading-icon" v-html="icon('badge', true)" />
@@ -35,7 +35,7 @@
       <!-- Email -->
       <md-filled-text-field
         label="Email"
-        :value="store.student.email_address"
+        :value="store.user.email_address"
         readonly disabled
       >
         <md-icon slot="leading-icon" v-html="icon('mail', true)" />
@@ -44,7 +44,7 @@
       <!-- Year level -->
       <md-filled-text-field
         label="Year level"
-        :value="mapYear(store.student.year_level)"
+        :value="mapYear(store.user.year_level)"
         readonly disabled
       >
         <md-icon slot="leading-icon" v-html="icon('school', true)" />
@@ -66,7 +66,6 @@ import { ref } from "vue";
 import { icon } from '~/utils/icon';
 import { useRouter } from 'vue-router';
 import { useStore, useDialog } from '~/store';
-import { removeStore } from '~/utils/storage';
 import Strings from '~/config/strings';
 
 import "@material/web/button/text-button";
@@ -91,8 +90,8 @@ function openLogoutDialog() {
     click: () => {
       // Set loading to true
       store.isLoading = true;
-      // Clear local storage
-      removeStore("std_token");
+      // Remove token cookie
+      document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
       // Set logged out
       store.isLoggedIn = false;
       // Redirect to login

@@ -2,7 +2,6 @@ import axios from "axios";
 import Endpoints from "./endpoints";
 
 import type { AxiosRequestConfig } from "axios";
-import { getStore, setStore } from "~/utils/storage";
 import { Config } from "~/config";
 
 /**
@@ -10,6 +9,7 @@ import { Config } from "~/config";
  */
 const instance = axios.create({
   baseURL: `${Config.API_URL}`,
+  withCredentials: true,
   headers: {
     "Content-Type": "multipart/form-data",
   }
@@ -69,38 +69,10 @@ function makeRequest<T, U>(method: HttpMethod, endpoint: Endpoints, data: U, cal
 
     // Add data to config
     config.data = data;
-  }
-
-  // If has admin token and in admin panel
-  if (getStore("adm_token").length > 0 && window.location.href.includes("/admin")) {
-    // Add token to config
-    config.headers = {
-      Authorization: `Bearer ${getStore("adm_token")}`
-    }
-  }
-
-  // If has student token
-  else if (getStore("std_token").length > 0) {
-    // Add token to config
-    config.headers = {
-      Authorization: `Bearer ${getStore("std_token")}`
-    }
-  }
+  }  
 
   // Make request
   instance(config).then((response) => {
-    // If response has student authorization header
-    if (response.headers["x-std-authorization"]) {
-      // Set token
-      setStore("std_token", response.headers["x-std-authorization"].split(" ")[1]);
-    }
-
-    // If response has admin authorization header
-    if (response.headers["x-adm-authorization"]) {
-      // Set token
-      setStore("adm_token", response.headers["x-adm-authorization"].split(" ")[1]);
-    }
-
     // Call the callback function
     callback(response.data);
   }).catch((error) => {

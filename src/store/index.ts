@@ -15,17 +15,9 @@ export const useStore = defineStore("global", () => {
   const isDark = false;
 
   let checkoutDetails: CheckoutDetails | undefined;
-  const student: StudentResponse = {
-    id: 0,
-    student_id: "",
-    email_address: "",
-    first_name: "",
-    last_name: "",
-    year_level: "",
-    date_stamp: "",
-  };
 
-  const admin: StudentResponse = {
+  const role = -1;
+  const user: StudentResponse = {
     id: 0,
     student_id: "",
     email_address: "",
@@ -36,7 +28,7 @@ export const useStore = defineStore("global", () => {
   };
 
   return {
-    isShowBackButton, isDark, isLoggedIn, student, isLoading, errorMessage,
-    checkoutDetails, admin, isAdminLoggedIn, rails, selectedRail, courses
+    isShowBackButton, isDark, isLoggedIn, isLoading, errorMessage, role,
+    checkoutDetails, user, isAdminLoggedIn, rails, selectedRail, courses
   }
 });

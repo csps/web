@@ -1,10 +1,10 @@
 import type { RouteRecordRaw } from "vue-router";
 import { createRouter, createWebHistory } from "vue-router";
 import { setPageTitle, getHistoryLength } from "~/utils/page";
-import { isAdminLoginValid, isLoginValid } from "~/utils/network";
-import { getStore } from "~/utils/storage";
+import { isLoginValid } from "~/utils/network";
 import { useStore } from "~/store";
 import { Config } from "~/config";
+import { AuthType } from "~/types/enums";
 
 /**
  * The routes of the application.
@@ -117,72 +117,42 @@ const router = createRouter({
  */
 router.beforeEach((to, _from, next) => {
   // Set loading to true
-  useStore().isLoading = true;
+  const store = useStore();
+  store.isLoading = true;
 
   // If going to route that requres auth
   if (to.meta.requiresAuth) {
-    // Check for admin token
-    const adminToken = getStore("adm_token");
-    const studentToken = getStore("std_token");
-
-    // If goiing to admin page
-    if (to.name === "Admin" && !adminToken) {
-      return next({ name: "Admin Login" });
-    }
-
-    // If going to admin login
-    if (to.name === "Admin Login" && !adminToken) {
-      return next();
-    }
-
-    // If going to profile and no student token
-    if (to.name === 'Profile' && !studentToken) {
-      return next({ name: "Login" });
-    }
-
-    // If going to profile and has logged in admin
-    if (to.name === 'Profile' && adminToken) {
-      return next();
-    }
-
-    // If going to student login or profile and has admin adminToken
-    if (["Login", "Profile"].includes(to.name as string) && !!adminToken) {
-      // Go to admin
-      return next({ name: "Admin" });
-    }
-
-    // If has adminToken
-    if (!!adminToken) {
-      isAdminLoginValid(isAdminLoginValid => {
-        // If is valid
-        if (isAdminLoginValid) {
-          // Get store
-          const store = useStore();
-          // Set logged in
-          store.isAdminLoggedIn = true;
-          // Go to route
-          return next();
-        }
-
-        // If going to login
-        if (to.name === "Admin Login") return next();
-        // Otherwise, return to login
-        next({ name: "Admin Login" });
-      });
-
-      return;
-    }
-
-    // Check if login is valid
-    isLoginValid(valid => {
+     // Check if login is valid
+     isLoginValid(valid => {
       // If is valid
       if (valid) {
         // Get store
         const store = useStore();
         // Set logged in
         store.isLoggedIn = true;
-        // Go to route
+        
+        // If going to admin page with student role
+        if ((to.name === "Admin" || to.name === "Admin Login") && store.role === AuthType.STUDENT) {
+          return next({ name: "Home" });
+        }
+
+        // If going to profile and no student token
+        if (to.name === 'Profile' && store.role !== AuthType.STUDENT) {
+          return next({ name: "Login" });
+        }
+        
+        // If going to student login or profile and has admin adminToken
+        if (["Login", "Profile"].includes(to.name as string) && store.role === AuthType.ADMIN) {
+          // Go to admin
+          return next({ name: "Admin" });
+        }
+
         return next();
+      }
+
+      // If going to admin page with no role
+      if (to.name === "Admin") {
+        return next({ name: "Admin Login" });
       }
 
       // If going to login
@@ -190,7 +160,7 @@ router.beforeEach((to, _from, next) => {
       // Otherwise, return to login
       next({ name: "Login" });
     });
-
+   
     return;
   }
 
@@ -220,7 +190,7 @@ router.afterEach((to, from) => {
   // Get store 
   const store = useStore();
   // Set page title
-  setPageTitle(to.name === "Profile" ? (store.student.first_name + " " + store.student.last_name) : to.name as string);
+  setPageTitle(to.name === "Profile" ? (store.user.first_name + " " + store.user.last_name) : to.name as string);
   // Set loading to false
   store.isLoading = false;
 

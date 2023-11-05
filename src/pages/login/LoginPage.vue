@@ -2,10 +2,10 @@
   <div class="container mx-auto px-6 py-12 flex items-center">
     <div class="flex items-center justify-center w-full h-full">
       <div class="">
-        <h2 class="text-2xl md:text-3xl font-semibold mb-1 text-on-surface-variant" data-sal="zoom-in">
+        <h2 class="text-2xl md:text-3xl font-semibold mb-1 text-on-surface-variant">
           Welcome back, <span class="text-primary">ComSciPeepS</span>!
         </h2>
-        <h6 class="text-sm" data-sal="zoom-in" data-sal-delay="50">
+        <h6 class="text-sm">
           To login, please enter your credentials.
         </h6>
 
@@ -18,8 +18,6 @@
             hasLeadingIcon="true"
             @keydown.enter="login"
             v-model.trim="id"
-            data-sal="zoom-in"
-            data-sal-delay="100"
             required
           >
             <md-icon slot="leading-icon" v-html="icon('badge', true)" />
@@ -31,8 +29,6 @@
             :type="isPasswordVisible ? 'text' : 'password'"
             v-model.trim="password"
             @keydown.enter="login"
-            data-sal="zoom-in"
-            data-sal-delay="150"
             required
           >
             <md-icon slot="leading-icon" v-html="icon('lock', true)" />
@@ -43,7 +39,7 @@
           </md-outlined-text-field>
         </div>
 
-        <div class="flex justify-between items-center my-3" data-sal="zoom-in" data-sal-delay="200">
+        <div class="flex justify-between items-center my-3">
           <label class="flex items-center gap-3 text-sm">
             <md-checkbox @change="isRememberMe = !isRememberMe" :checked="isRememberMe" :disabled="isLoggingIn" />
             Remember Me
@@ -53,7 +49,7 @@
           </md-text-button>
         </div>
 
-        <div class="flex justify-center" data-sal="zoom-in" data-sal-delay="250">
+        <div class="flex justify-center">
           <md-filled-button @click="login" class="w-full" :disabled="isLoggingIn">
             {{ isLoggingIn ? 'Logging in...' : 'Login' }}
           </md-filled-button>
@@ -76,7 +72,7 @@ import "@material/web/button/text-button";
 import "@material/web/checkbox/checkbox";
 import "@material/web/divider/divider";
 
-import { ref, onMounted } from "vue";
+import { ref } from "vue";
 import { icon } from "~/utils/icon";
 import { toast } from "vue3-toastify";
 import { useStore } from "~/store";
@@ -85,7 +81,6 @@ import { Endpoints, makeRequest } from "~/network/request";
 import { getStore, removeStore, setStore } from "~/utils/storage";
 import { AuthType } from "~/types/enums";
 import { LoginRequest } from "~/types/request";
-import sal from "sal.js";
 
 import DialogForgotPasswordVue from "~/components/dialogs/DialogForgotPassword.vue";
 
@@ -99,10 +94,6 @@ const isLoggingIn = ref(false);
 const isPasswordVisible = ref(false);
 const isForgotDialogOpen = ref(false);
 const isRememberMe = ref(getStore("login_id").length > 0);
-
-onMounted(() => {
-  sal();
-});
 
 /**
  * Login to the system
@@ -145,7 +136,7 @@ function login() {
       }
 
       // Set student
-      store.student = response.data;
+      store.user = response.data;
       // Set is logged in to true
       store.isLoggedIn = true;
       // Redirect to home page

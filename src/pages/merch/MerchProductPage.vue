@@ -131,11 +131,11 @@ const isLoading = ref(true);
 
 watch(variation, v => {
   if (v === undefined) {
-    photo.value = product.value?.thumbnail || 0;
+    photo.value = product.value?.photos_hash || 0;
     return;
   }
 
-  photo.value = v.photos_id || 0;
+  photo.value = v.photos_hash || 0;
 });
 
 onMounted(() => {
@@ -143,7 +143,7 @@ onMounted(() => {
   store.isLoading = true;
 
   // Get product by id
-  makeRequest<ProductModel>("GET", Endpoints.ProductsId, {
+  makeRequest<ProductModel, { id: string | string[] }>("GET", Endpoints.ProductsId, {
     id: route.params.id,
   }, response => {
     // Set loading to false
@@ -163,9 +163,9 @@ onMounted(() => {
     mop.value = product.value.stock > 0 ? ModeOfPayment.WALK_IN : -1;
 
     // If has thumbnail
-    if (product.value.thumbnail && product.value.thumbnail > 0) {
+    if (product.value.photos_hash) {
       // Set photo
-      photo.value = product.value.thumbnail;
+      photo.value = product.value.photos_hash;
 
       // Bind fancybox
       setTimeout(() => {

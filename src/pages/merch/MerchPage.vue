@@ -63,7 +63,7 @@ const message = ref("");
 const products = ref<ProductModel[]>([]);
 
 onMounted(() => {
-  makeRequest<ProductModel[]>("GET", Endpoints.Products, null, response => {
+  makeRequest<ProductModel[], null>("GET", Endpoints.Products, null, response => {
     isLoading.value = false;
 
     if (response.success) {

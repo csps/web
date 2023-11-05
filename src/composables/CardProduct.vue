@@ -5,11 +5,11 @@
       <div class="flex h-64 w-64 items-center justify-center foreground object py-2">
         <VImage
           class="rounded-xl"
-          v-if="product?.thumbnail && product.thumbnail > 0"
-          :src="getPhotoLink(product.thumbnail)"
+          v-if="product?.photos_hash"
+          :src="getPhotoLink(product.photos_hash)"
           :alt="product.name"
         />
-    
+
         <ImageTemplate class="h-full" v-else />
       </div>
   

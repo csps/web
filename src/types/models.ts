@@ -48,7 +48,7 @@ export enum ProductVariationEnum {
   products_id = "products_id",
   variations_id = "variations_id",
   stock = "stock",
-  photos_id = "photos_id",
+  photos_hash = "photos_hash",
 
   // Extra
   name = "name",
@@ -57,7 +57,8 @@ export enum ProductVariationEnum {
 export enum ProductEnum {
   id = "id",
   name = "name",
-  thumbnail = "thumbnail",
+  slug = "slug",
+  photos_hash = "photos_hash",
   description = "description",
   likes = "likes",
   stock = "stock",

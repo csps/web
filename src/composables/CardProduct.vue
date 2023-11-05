@@ -1,7 +1,7 @@
 <template>
   <div class="product overflow-hidden">
     <md-ripple />
-    <router-link :to="'/merch/' + product.id" tabindex="-1" :title="'View ' + product.name">
+    <router-link :to="'/merch/' + product.slug" tabindex="-1" :title="'View ' + product.name">
       <div class="flex h-64 w-64 items-center justify-center foreground object py-2">
         <VImage
           class="rounded-xl"

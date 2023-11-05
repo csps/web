@@ -25,7 +25,7 @@
         <div class="rounded-2xl px-6 flex justify-center items-center h-full">
           <div class="h-[400px] w-[400px]">
             <a
-              v-if="photo > 0"
+              v-if="photo"
               :href="getPhotoLink(photo)"
               title="View product"
               data-fancybox
@@ -142,9 +142,9 @@ onMounted(() => {
   // Set loading to true
   store.isLoading = true;
 
-  // Get product by id
-  makeRequest<ProductModel, { id: string | string[] }>("GET", Endpoints.ProductsId, {
-    id: route.params.id,
+  // Get product by slug name
+  makeRequest<ProductModel, { slug: string | string[] }>("GET", Endpoints.ProductsSlug, {
+    slug: route.params.slug,
   }, response => {
     // Set loading to false
     store.isLoading = false;

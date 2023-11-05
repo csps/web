@@ -36,12 +36,12 @@ const routes: RouteRecordRaw[] = [
     component: () => import("../pages/orders/OrdersInfo.vue"),
   },
   {
-    path: "/merch/:id",
+    path: "/merch/:slug",
     name: "Product",
     component: () => import("../pages/merch/MerchProductPage.vue")
   },
   {
-    path: "/merch/:id/checkout",
+    path: "/merch/:slug/checkout",
     name: "Checkout",
     component: () => import("../pages/merch/MerchCheckoutPage.vue")
   },

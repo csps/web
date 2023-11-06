@@ -79,8 +79,8 @@
 
             <div class="w-32 h-32">
               <VImage
-                v-if="(store.checkoutDetails.variant?.photos_id && store.checkoutDetails.variant?.photos_id > 0) || (store.checkoutDetails.product?.thumbnail && store.checkoutDetails.product?.thumbnail > 0)"
-                :src="getPhotoLink(store.checkoutDetails.variant?.photos_id ? store.checkoutDetails.variant.photos_id : store.checkoutDetails.product.thumbnail || -1)"
+                v-if="store.checkoutDetails.variant?.photos_hash || store.checkoutDetails.product?.photos_hash"
+                :src="getPhotoLink(store.checkoutDetails.variant?.photos_hash || store.checkoutDetails.product.photos_hash)"
                 :alt="store.checkoutDetails.variant?.name || store.checkoutDetails.product?.name"
                 class="!w-32 !h-32"
               />
@@ -311,7 +311,7 @@ function placeOrder() {
     data.proof = screenshot.value;
   }
 
-  makeRequest<string>("POST", Endpoints.Orders, data, response => {  
+  makeRequest<string, OrderRequest>("POST", Endpoints.Orders, data, response => {  
     store.isLoading = false;
     isPlacingOrder.value = false;
 

@@ -3,7 +3,7 @@
  */
 enum Endpoints {
   Login = "/login",
-  ForgotPassword = "/forgot-password",
+  ForgotPassword = "/forgot",
   ResetPassword = "/reset-password",
   ResetPasswordToken = "/reset-password/:token",
   ProductsSlug = "/products/:slug",

@@ -9,10 +9,11 @@
     <div slot="content">
       <p class="mb-3">Enter your student ID and we'll send you an email to reset your password.</p>
       <md-filled-text-field
+        autocomplete
         class="w-full"
         label="Student ID"
         v-model.trim="studentID"
-        maxLength="8"
+        type="number"
         :disabled="isLoading"
         @keydown.enter="submit"
         required
@@ -22,7 +23,7 @@
     </div>
     <div class="space-x-1" slot="actions">
       <md-text-button @click="close" :disabled="isLoading">Cancel</md-text-button>
-      <md-text-button @click="submit" :disabled="studentID.length !== 8 || isLoading" autofocus>
+      <md-text-button @click="submit" :disabled="isLoading" autofocus>
         {{ isLoading ? "Sending..." : "Send" }}
       </md-text-button>
     </div>
@@ -45,7 +46,7 @@ const props = defineProps({
   },
 });
 
-const studentID = ref("");
+const studentID = ref();
 const isLoading = ref(false);
 const isDialogOpen = computed(() => props.modelValue);
 
@@ -65,7 +66,7 @@ function submit() {
   }
 
   // If student ID length is not 8 or contains non-numeric characters
-  if (studentID.value.length !== 8 || !/^\d+$/.test(studentID.value)) {
+  if (!/^\d+$/.test(studentID.value)) {
     toast.info("Invalid student ID");
     isLoading.value = false;
     return;
@@ -94,6 +95,7 @@ function submit() {
  * Close the dialog
  */
 function close() {
+  studentID.value = "";
   emit("update:modelValue", false);
 }
 </script>

@@ -59,7 +59,7 @@
     </div>
 
     <!-- Forgot Password dialog -->
-    <DialogForgotPasswordVue v-model="isForgotDialogOpen" />
+    <DialogForgotPassword v-model="isForgotDialogOpen" />
   </div>
 </template>
 
@@ -82,7 +82,7 @@ import { getStore, removeStore, setStore } from "~/utils/storage";
 import { AuthType } from "~/types/enums";
 import { LoginRequest } from "~/types/request";
 
-import DialogForgotPasswordVue from "~/components/dialogs/DialogForgotPassword.vue";
+import DialogForgotPassword from "~/components/dialogs/DialogForgotPassword.vue";
 
 const store = useStore();
 const router = useRouter();

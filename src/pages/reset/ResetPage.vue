@@ -13,7 +13,7 @@
     </div>
 
     <!-- Is success -->
-    <div v-else>
+    <div class="w-full sm:w-3/4 lg:w-3/5 xl:w-1/3 2xl:w-1/4" v-else>
       <h2 class="text-2xl md:text-3xl font-semibold mb-1 text-on-surface-variant">Reset your password</h2>
       <h6 class="mb-8 text-sm">Create a new password that you'll remember.</h6>
 

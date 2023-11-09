@@ -4,8 +4,8 @@
 enum Endpoints {
   Login = "/login",
   ForgotPassword = "/forgot",
-  ResetPassword = "/reset-password",
-  ResetPasswordToken = "/reset-password/:token",
+  ResetPassword = "/reset",
+  ResetPasswordToken = "/reset/:token",
   ProductsSlug = "/products/:slug",
   Products = "/products",
   PhotosHash = "/photos/:hash",

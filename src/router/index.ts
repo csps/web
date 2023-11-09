@@ -67,7 +67,7 @@ const routes: RouteRecordRaw[] = [
     meta: { requiresAuth: true }
   },
   {
-    path: "/reset-password/:token",
+    path: "/reset/:token",
     name: "Reset password",
     component: () => import("../pages/reset/ResetPage.vue")
   },

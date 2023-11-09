@@ -29,7 +29,7 @@
           required
         >
           <md-icon slot="leading-icon" v-html="icon('lock', true)" />
-          <md-icon-button slot="trailing-icon" @click="isPassVisible = !isPassVisible" toggle>
+          <md-icon-button slot="trailing-icon" tabindex="-1" @click="isPassVisible = !isPassVisible" toggle>
             <md-icon v-html="icon('visibility_off', true)" />
             <md-icon slot="selected" v-html="icon('visibility', true)" />
           </md-icon-button>
@@ -46,7 +46,7 @@
           required
         >
           <md-icon slot="leading-icon" v-html="icon('lock', true)" />
-          <md-icon-button slot="trailing-icon" @click="isConfirmPassVisible = !isConfirmPassVisible" toggle>
+          <md-icon-button slot="trailing-icon" tabindex="-1" @click="isConfirmPassVisible = !isConfirmPassVisible" toggle>
             <md-icon v-html="icon('visibility_off', true)" />
             <md-icon slot="selected" v-html="icon('visibility', true)" />
           </md-icon-button>
@@ -58,9 +58,15 @@
         </md-filled-button>
       </div>
 
-      <p class="text-secondary text-center mt-7" v-if="isSuccess">
-        {{ message }}
-      </p>
+      <div class="text-secondary text-center mt-7" v-if="isSuccess">
+        <p class="mb-5">{{ message }}</p>
+
+        <router-link to="/login">
+          <md-filled-tonal-button>
+            Go to login
+          </md-filled-tonal-button>
+        </router-link>
+      </div>
     </div>
   </div>
 </template>
@@ -69,6 +75,7 @@
 import "@material/web/progress/linear-progress";
 import "@material/web/textfield/outlined-text-field";
 import "@material/web/button/filled-button";
+import "@material/web/button/filled-tonal-button";
 
 import { Endpoints, makeRequest } from "~/network/request";
 import { ref, onMounted } from "vue";

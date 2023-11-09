@@ -4,7 +4,7 @@
 
 @import url("./toast.scss");
 @import url("./theme/theme.scss");
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap');
 
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
@@ -122,7 +122,7 @@ img {
 md-filled-button, md-text-button,
 md-outlined-button, md-filled-tonal-button,
 md-elevated-button {
-  --_label-text-type: var(--md-text-button-label-text-type, var(--md-sys-typescale-label-large, 500 0.875rem / 1.25rem var(--md-ref-typeface-plain, 'Poppins')));
+  --_label-text-type: var(--md-text-button-label-text-type, var(--md-sys-typescale-label-large, 500 0.875rem / 1.25rem var(--md-ref-typeface-plain, 'Inter')));
   
   &.secondary {
     --md-sys-color-primary: var(--md-sys-color-outline);
@@ -133,13 +133,8 @@ md-filled-button {
   @apply rounded-full;
   box-shadow: 0 0 75px -20px var(--md-sys-color-primary);
 }
-
-md-filled-text-field {
-  --md-filled-field-content-size: 15px;
-}
-
-md-outlined-text-field {
-  --md-outlined-field-content-size: 15px;
+ 
+md-filled-text-field, md-outlined-text-field {
 }
 
 md-outlined-select.dense::part(menu), md-filled-select.dense::part(menu) {

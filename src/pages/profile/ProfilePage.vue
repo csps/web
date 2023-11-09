@@ -5,50 +5,50 @@
   
       <div class="grid grid-cols-2 gap-5">
         <!-- First name -->
-        <md-outlined-text-field
+        <md-filled-text-field
           label="First name"
           :value="store.user.first_name"
           readonly
         >
           <md-icon slot="leading-icon" v-html="icon('person', true)" />
-        </md-outlined-text-field>
+        </md-filled-text-field>
     
         <!-- Last name -->
-        <md-outlined-text-field
+        <md-filled-text-field
           label="Last name"
           :value="store.user.last_name"
           readonly
         >
           <md-icon slot="leading-icon" v-html="icon('person', true)" />
-        </md-outlined-text-field>
+        </md-filled-text-field>
       </div>
 
       <!-- Student ID -->
-      <md-outlined-text-field
+      <md-filled-text-field
         label="Student ID"
         :value="store.user.student_id"
         readonly
       >
         <md-icon slot="leading-icon" v-html="icon('badge', true)" />
-      </md-outlined-text-field>
+      </md-filled-text-field>
   
       <!-- Email -->
-      <md-outlined-text-field
+      <md-filled-text-field
         label="Email"
         :value="store.user.email_address"
         readonly
       >
         <md-icon slot="leading-icon" v-html="icon('mail', true)" />
-      </md-outlined-text-field>
+      </md-filled-text-field>
 
       <!-- Year level -->
-      <md-outlined-text-field
+      <md-filled-text-field
         label="Year level"
         :value="mapYear(store.user.year_level)"
         readonly
       >
         <md-icon slot="leading-icon" v-html="icon('school', true)" />
-      </md-outlined-text-field>
+      </md-filled-text-field>
 
       <!-- Logout -->
       <div class="flex justify-between gap-2">
@@ -70,7 +70,7 @@ import Strings from '~/config/strings';
 
 import "@material/web/button/text-button";
 import "@material/web/button/filled-button";
-import "@material/web/textfield/outlined-text-field";
+import "@material/web/textfield/filled-text-field";
 
 import DialogChangePassword from "~/components/dialogs/DialogChangePassword.vue";
 import { mapYear } from "~/utils/page";

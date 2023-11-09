@@ -8,7 +8,7 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        'sans': ['Poppins', 'sans-serif'],
+        'sans': ['Inter', 'Roboto', 'sans-serif'],
       },
       screens: {
         '3xl': '1920px',

@@ -10,7 +10,7 @@
         </h6>
 
         <div class="flex flex-col gap-1 mt-10 mb-6">
-          <md-outlined-text-field
+          <md-filled-text-field
             :disabled="isLoggingIn"
             label="Student ID"
             type="text"
@@ -21,9 +21,9 @@
             required
           >
             <md-icon slot="leading-icon" v-html="icon('badge', true)" />
-          </md-outlined-text-field>
+          </md-filled-text-field>
 
-          <md-outlined-text-field
+          <md-filled-text-field
             :disabled="isLoggingIn"
             label="Password"
             :type="isPasswordVisible ? 'text' : 'password'"
@@ -32,11 +32,11 @@
             required
           >
             <md-icon slot="leading-icon" v-html="icon('lock', true)" />
-            <md-icon-button slot="trailing-icon" @click="isPasswordVisible = !isPasswordVisible" toggle>
+            <md-icon-button slot="trailing-icon" tabindex="-1" @click="isPasswordVisible = !isPasswordVisible" toggle>
               <md-icon v-html="icon('visibility_off', true)" />
               <md-icon slot="selected" v-html="icon('visibility', true)" />
             </md-icon-button>
-          </md-outlined-text-field>
+          </md-filled-text-field>
         </div>
 
         <div class="flex justify-between items-center my-3">
@@ -49,8 +49,8 @@
           </md-text-button>
         </div>
 
-        <div class="flex justify-center">
-          <md-filled-button @click="login" class="w-full" :disabled="isLoggingIn">
+        <div class="flex justify-end">
+          <md-filled-button @click="login" class="w-1/3 hover:w-full transition-all duration-200 ease-in-out" :disabled="isLoggingIn">
             {{ isLoggingIn ? 'Logging in...' : 'Login' }}
           </md-filled-button>
         </div>
@@ -65,9 +65,9 @@
 
 <script lang="ts" setup>
 import "@material/web/textfield/filled-text-field";
-import "@material/web/textfield/outlined-text-field";
 import "@material/web/iconbutton/icon-button";
 import "@material/web/button/filled-button";
+import "@material/web/button/filled-tonal-button";
 import "@material/web/button/text-button";
 import "@material/web/checkbox/checkbox";
 import "@material/web/divider/divider";

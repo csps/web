@@ -35,7 +35,7 @@ function loaded() {
 }
 </script>
 
-<syle lang="scss" scoped>
+<style lang="scss" scoped>
 md-circular-progress {
   --md-circular-progress-size: 48px;
   --md-circular-progress-active-indicator-width: 10;
@@ -44,4 +44,4 @@ md-circular-progress {
 img {
   @apply rounded-xl;
 }
-</syle>
+</style>

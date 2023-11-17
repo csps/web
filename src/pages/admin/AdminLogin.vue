@@ -9,8 +9,8 @@
           Unauthorized access is prohibited.
         </h6>
 
-        <div class="flex flex-col gap-1 my-10">
-          <md-outlined-text-field
+        <div class="flex flex-col gap-1 mt-5 mb-5">
+          <md-filled-text-field
             :disabled="isLoggingIn"
             label="Student ID"
             type="text"
@@ -23,9 +23,9 @@
             required
           >
             <md-icon slot="leading-icon" v-html="icon('badge', true)" />
-          </md-outlined-text-field>
+          </md-filled-text-field>
 
-          <md-outlined-text-field
+          <md-filled-text-field
             :disabled="isLoggingIn"
             label="Password"
             :type="isPasswordVisible ? 'text' : 'password'"
@@ -40,11 +40,11 @@
               <md-icon v-html="icon('visibility_off', true)" />
               <md-icon slot="selected" v-html="icon('visibility', true)" />
             </md-icon-button>
-          </md-outlined-text-field>
+          </md-filled-text-field>
         </div>
 
-        <div class="flex justify-center" data-sal="zoom-in" data-sal-delay="250">
-          <md-filled-button @click="login" class="w-full" :disabled="isLoggingIn">
+        <div class="flex justify-end" data-sal="zoom-in" data-sal-delay="250">
+          <md-filled-button @click="login" :disabled="isLoggingIn">
             {{ isLoggingIn ? 'Logging in...' : 'Login' }}
           </md-filled-button>
         </div>
@@ -56,7 +56,7 @@
 </template>
 
 <script lang="ts" setup>
-import "@material/web/textfield/outlined-text-field";
+import "@material/web/textfield/filled-text-field";
 import "@material/web/iconbutton/icon-button";
 import "@material/web/button/filled-button";
 
@@ -66,8 +66,9 @@ import { toast } from "vue3-toastify";
 import { useStore } from "~/store";
 import { useRouter } from "vue-router";
 import { Endpoints, makeRequest } from "~/network/request";
-import { setStore } from "~/utils/storage";
+import { LoginRequest } from "~/types/request";
 import sal from "sal.js";
+import { AuthType } from "~/types/enums";
 
 const store = useStore();
 const router = useRouter();
@@ -104,8 +105,9 @@ function login() {
   store.isLoading = true;
   
   // Make request to server
-  makeRequest<LoginResponse>("POST", Endpoints.AdminLogin, {
-    id: id.value,
+  makeRequest<StudentModel, LoginRequest>("POST", Endpoints.Login, {
+    type: AuthType.ADMIN,
+    student_id: id.value,
     password: password.value
   }, (response) => {
     isLoggingIn.value = false;
@@ -113,10 +115,9 @@ function login() {
 
     // if success
     if (response.success) {
-      // Save token to local storage
-      setStore("adm_token", response.data.token);
-      // Set student
-      store.admin = response.data.student;
+      // Set admin
+      store.admin = response.data;
+      store.role = AuthType.ADMIN;
       // Set is logged in to true
       store.isAdminLoggedIn = true;
       // Redirect to home page

@@ -27,8 +27,19 @@ export const useStore = defineStore("global", () => {
     date_stamp: "",
   };
 
+  const admin: StudentResponse = {
+    id: 0,
+    student_id: "",
+    email_address: "",
+    first_name: "",
+    last_name: "",
+    year_level: "",
+    date_stamp: "",
+  };
+
   return {
     isShowBackButton, isDark, isLoggedIn, isLoading, errorMessage, role,
-    checkoutDetails, user, isAdminLoggedIn, rails, selectedRail, courses
+    checkoutDetails, user, isAdminLoggedIn, rails, selectedRail, courses,
+    admin
   }
 });

@@ -6,8 +6,8 @@
           <img width="38" :src="favicon" alt="CSPS" />
         </div>
         <div>
-          <h4 class="title-medium flex items-center gap-1.5 mb-0.5">
-            <span>Administrator</span>
+          <h4 class="body-large flex items-center gap-1.5 mb-0.5">
+            <span class="font-medium">Administrator</span>
             <md-icon class="verified" v-html="icon('verified')" title="Verified" />
           </h4>
           <h6 class="label-medium">{{ getReadableDate(data.date_stamp) }}</h6>

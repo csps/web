@@ -93,6 +93,7 @@ function openLogoutDialog() {
       // Remove token cookie
       document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
       // Set logged out
+      store.role = -1;
       store.isLoggedIn = false;
       // Redirect to login
       router.push({ name: "Login" });

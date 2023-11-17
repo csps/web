@@ -17,10 +17,10 @@
         </div>
 
         <h2 class="headline-medium font-semibold text-on-surface-variant" data-sal="zoom-in">
-          {{ store.isLoggedIn ? `Hello, ${store.user.first_name} ${store.user.last_name}` : store.isLoggedIn === undefined ? '' : "Dive into the world of Computer Science" }}
+          {{ store.isLoggedIn ? `Hello, ${store.user.first_name} ${store.user.last_name}` : "Dive into the world of Computer Science" }}
         </h2>
 
-        <h5 v-if="typeof store.isLoggedIn === 'boolean' && !store.isLoggedIn" class="title-medium text-on-surface-variant mt-2 mb-4" data-sal="zoom-in">
+        <h5 v-if="!store.isLoggedIn" class="title-medium text-on-surface-variant mt-2 mb-4" data-sal="zoom-in">
           Connect, collaborate, and Grow Together
         </h5>
 

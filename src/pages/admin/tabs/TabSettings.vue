@@ -13,7 +13,6 @@
 <script lang="ts" setup>
 import { icon } from "~/utils/icon";
 import { useDialog, useStore } from "~/store";
-import { removeStore } from "~/utils/storage";
 import { useRouter } from "vue-router";
 
 import "@material/web/ripple/ripple";
@@ -37,10 +36,11 @@ const items: Item[] = [
         click: () => {
           // Set loading to true
           store.isLoading = true;
-          // Clear local storage
-          removeStore("adm_token");
           // Set logged out
+          store.role = -1;
           store.isAdminLoggedIn = false;
+          // Remove token cookie
+          document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
           // Redirect to login
           router.push({ name: "Admin Login" });
           // Set loading to false

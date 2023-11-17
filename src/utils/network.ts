@@ -1,24 +1,41 @@
 import { Endpoints, makeRequest } from "~/network/request";
 import { useStore } from "~/store";
 import { Config } from "~/config";
+import { AuthType } from "~/types/enums";
 
 /**
  * Check if the login is valid.
  */
-export function isLoginValid(callback: (valid: boolean) => void) {
-  // If has token, check if valid
-  makeRequest<StudentResponse, null>("GET", Endpoints.Login, null, response => {
-    // If logged in
-    if (response.success) {
-      // Get store 
-      const store = useStore();
-      // Set student data
-      store.user = response.data;
-      // Role
-      store.role = response.count || 0; // 1 = admin, 0 = student
-    }
+export function validateLogin(): Promise<boolean> {
+  return new Promise((resolve) => {
+    // If has token, check if valid
+    makeRequest<StudentResponse, null>("GET", Endpoints.Login, null, response => {
+      // If logged in
+      if (response.success) {
+        // Get store 
+        const store = useStore();
+        // Role
+        store.role = response.count || AuthType.STUDENT; // 1 = admin, 0 = student
+  
+        // If student
+        if (store.role === AuthType.STUDENT) {
+          // Set student data
+          store.user = response.data;
+          store.isLoggedIn = true;
+          store.isAdminLoggedIn = false;
+        }
+  
+        // If admin
+        if (store.role === AuthType.ADMIN) {
+          // Set admin data
+          store.admin = response.data;
+          store.isAdminLoggedIn = true;
+          store.isLoggedIn = false;
+        }
+      }
 
-    callback(response.success);
+      resolve(response.success);
+    });
   });
 }
 

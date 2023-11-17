@@ -32,7 +32,6 @@ import { Env } from './config';
 import { useStore } from './store';
 import { toast } from 'vue3-toastify';
 import { Endpoints, makeRequest } from './network/request';
-import { isLoginValid } from './utils/network';
 import { charCount } from "./utils/string";
 
 import "@material/web/progress/linear-progress";
@@ -67,22 +66,6 @@ makeRequest<Record<string, string> | string, null>("GET", Endpoints.Env, null, r
         Env[key] = response.data[key];
       }
     }
-
-    // Check if login is valid
-    isLoginValid(valid => {
-      // Set loading to false
-      store.isLoading = false;
-
-      // If is valid
-      if (valid) {
-        // Set logged in
-        store.isLoggedIn = true;
-        return;
-      }
-
-      // Set logged out
-      store.isLoggedIn = false;
-    });
 
     return;
   }

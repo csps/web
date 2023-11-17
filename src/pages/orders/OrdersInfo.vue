@@ -149,15 +149,15 @@ onMounted(() => {
   // If using unique ID
   if (route.params.uniqueId) {
     // Fetch order
-    makeRequest<FullOrderModel>("GET", Endpoints.OrdersUnique, {
-      uniqueId: route.params.uniqueId
+    makeRequest<FullOrderModel, { uniqueId: string }>("GET", Endpoints.OrdersUnique, {
+      uniqueId: route.params.uniqueId as string
     }, processData);
     return;
   }
 
   // Fetch order
-  makeRequest<FullOrderModel>("GET", Endpoints.OrdersReference, {
-    reference: route.params.reference
+  makeRequest<FullOrderModel, { reference: string }>("GET", Endpoints.OrdersReference, {
+    reference: route.params.reference as string
   }, processData);
 });
 
@@ -243,7 +243,7 @@ function processData(response: ServerResponse<FullOrderModel>) {
 function updateStatus(orderId: string, toStatus: OrderStatus) {
   store.isLoading = true;
 
-  makeRequest<string>("PUT", Endpoints.OrdersKey, {
+  makeRequest<string, { id: string, key: string, value: OrderStatus }>("PUT", Endpoints.OrdersKey, {
     id: orderId,
     key: OrderEnum.status,
     value: toStatus

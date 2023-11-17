@@ -9,12 +9,12 @@
       <h3 class="text-center headline-small mb-5 font-medium">My orders</h3>
       <div class="flex flex-col justify-center items-center w-full px-6 container mx-auto h-full">
         <div class="flex items-center gap-3">
-          <md-outlined-text-field
+          <md-filled-text-field
             v-model="data.search"
             :label="'Search ' + capitalize(data.column)"
           >
             <md-icon slot="leading-icon" v-html="icon('search')" />
-          </md-outlined-text-field>
+          </md-filled-text-field>
           <md-outlined-select v-model="data.column" label="Filter by" class="dense">
             <md-icon slot="leading-icon" v-html="icon('filter_list', true)" />
             <md-select-option
@@ -70,7 +70,7 @@
       </h6>
 
       <div class="flex flex-col gap-6 mt-8">
-        <md-outlined-text-field
+        <md-filled-text-field
           v-model.trim="reference"
           label="Reference No."
           prefix-text="CSPS"
@@ -78,10 +78,10 @@
           @paste="onPaste"
         >
           <md-icon slot="leading-icon" v-html="icon('receipt', true)" />
-        </md-outlined-text-field>
-        <md-outlined-text-field @keydown.enter="submit" v-model.trim="studentId" label="Student ID" type="number">
+        </md-filled-text-field>
+        <md-filled-text-field @keydown.enter="submit" v-model.trim="studentId" label="Student ID" type="number">
           <md-icon slot="leading-icon" v-html="icon('badge', true)" />
-        </md-outlined-text-field>
+        </md-filled-text-field>
   
         <md-filled-button @click="submit" :disabled="reference.length === 0 || studentId.length === 0 || isFetching">
           {{ isFetching ? 'Finding order...' : 'View order' }}
@@ -114,7 +114,7 @@ import { toast } from "vue3-toastify";
 
 import "@material/web/icon/icon";
 import "@material/web/progress/linear-progress";
-import "@material/web/textfield/outlined-text-field";
+import "@material/web/textfield/filled-text-field";
 import "@material/web/button/filled-button";
 import "@material/web/select/outlined-select";
 import "@material/web/chips/filter-chip";

@@ -50,7 +50,7 @@
         </div>
 
         <div class="flex justify-end">
-          <md-filled-button @click="login" class="w-1/3 hover:w-full transition-all duration-200 ease-in-out" :disabled="isLoggingIn">
+          <md-filled-button @click="login" class="w-1/3" :disabled="isLoggingIn">
             {{ isLoggingIn ? 'Logging in...' : 'Login' }}
           </md-filled-button>
         </div>
@@ -137,6 +137,7 @@ function login() {
 
       // Set student
       store.user = response.data;
+      store.role = AuthType.STUDENT;
       // Set is logged in to true
       store.isLoggedIn = true;
       // Redirect to home page

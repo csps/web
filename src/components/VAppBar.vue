@@ -38,7 +38,7 @@
                 Profile
               </router-link>
             </md-primary-tab>
-            <md-primary-tab v-show="!store.isLoggedIn" @click="router.push({ path: '/login' })">
+            <md-primary-tab v-show="!store.isLoggedIn && !store.isAdminLoggedIn" @click="router.push({ path: '/login' })">
               <router-link class="link" to="/login" tabindex="-1">
                 Login
               </router-link>

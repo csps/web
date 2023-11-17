@@ -101,7 +101,7 @@ function submit() {
       store.isLoading = true;
       toast.success(response.message);
 
-      makeRequest<any>("GET", Endpoints.Env, null, response => {
+      makeRequest<any, null>("GET", Endpoints.Env, null, response => {
         store.isLoading = false;
 
         if (response.success) {

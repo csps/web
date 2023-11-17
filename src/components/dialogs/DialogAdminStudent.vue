@@ -195,7 +195,7 @@ function submit() {
       toast.success(response.message);
       emit("done");
 
-      makeRequest<any>("GET", Endpoints.Env, null, response => {
+      makeRequest<Record<string, string>, null>("GET", Endpoints.Env, null, response => {
         store.isLoading = false;
         close(true);
 

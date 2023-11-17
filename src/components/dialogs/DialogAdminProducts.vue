@@ -70,7 +70,7 @@ const props = defineProps<{
 const isLoading = ref(false);
 const isDialogOpen = computed(() => props.modelValue);
 const canAdd = computed(() => name.value && description.value && price.value > 0 && stock.value >= 0 && max_quantity.value > 0);
-const thumbnail = ref();
+const photos_hash = ref();
 const name = ref();
 const description = ref();
 const price = ref(0);
@@ -84,7 +84,7 @@ watch(isDialogOpen, (value) => {
     price.value = props.product?.price || 0;
     max_quantity.value = props.product?.max_quantity || 1;
     stock.value = props.product?.stock || 0;
-    thumbnail.value = props.product?.thumbnail;
+    photos_hash.value = props.product?.photos_hash;
   }
 });
 
@@ -105,17 +105,17 @@ function submit() {
     variations: "", // TODO: Add variations
   };
 
-  if (thumbnail.value) {
-    data.thumbnail = thumbnail.value;
+  if (photos_hash.value) {
+    data.photos_hash = photos_hash.value;
   }
 
   if (props.product) {
-    data.thumbnail = thumbnail.value;
-    data.id = props.product.id;
+    data.photos_hash = photos_hash.value;
+    data.slug = props.product.slug;
   }
 
   // Send the request
-  makeRequest(props.product ? "PUT" : "POST", props.product ? Endpoints.ProductsId : Endpoints.Products, data, response => {
+  makeRequest(props.product ? "PUT" : "POST", props.product ? Endpoints.ProductsSlug : Endpoints.Products, data, response => {
     // Set loading to false
     isLoading.value = false;
 
@@ -143,11 +143,11 @@ function onFilePut(event: Event) {
   const file = (event.target as HTMLInputElement).files?.[0];
   
   if (!file) {
-    thumbnail.value = undefined;
+    photos_hash.value = undefined;
     return;
   }
 
-  thumbnail.value = file;
+  photos_hash.value = file;
 }
 </script>
 

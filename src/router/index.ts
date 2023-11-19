@@ -121,24 +121,19 @@ router.beforeEach(async (to, _from, next) => {
   const store = useStore();
   store.isLoading = true;
 
-  // Is login valid
-  const isLoginValid = await validateLogin();
-
-  // If going to student login page with admin role
-  if (to.name === 'Login' && store.role === AuthType.ADMIN) {
-    return next({ name: "Home" });
-  }
-
-  // If going to admin page with student role
-  if ((to.name === "Admin" || to.name === "Admin Login") && store.role === AuthType.STUDENT) {
-    toast.warning("You are not allowed to access this page.");
-    return next({ name: "Home" })
-  }
-
   // If going to route that requres auth
   if (to.meta.requiresAuth) {
+    // Is login valid
+    const isLoginValid = await validateLogin();
+    
     // If is valid
     if (isLoginValid) {
+      // If going to admin page with student role
+      if ((to.name === "Admin" || to.name === "Admin Login") && store.role === AuthType.STUDENT) {
+        toast.warning("You are not allowed to access this page.");
+        return next({ name: "Home" })
+      }
+
       // If going to profile and no student token
       if (to.name === 'Profile' && store.role === AuthType.ADMIN) {
         return next({ name: "Home" });
@@ -157,14 +152,27 @@ router.beforeEach(async (to, _from, next) => {
     // Otherwise, return to login
     next({ name: "Login" });
   }
-  
-  // If going to student login page with student role
-  if (to.name === "Login" && store.role === AuthType.STUDENT) {
-    return next({ name: "Home" });
+
+  // If going to login
+  if (to.name === "Login" || to.name === "Admin Login") {
+    // Is login valid
+    const isLoginValid = await validateLogin();
+    // If not valid
+    if (!isLoginValid) return next();
+
+    // If going to login with admin role
+    if (store.role === AuthType.ADMIN) {
+      return next({ name: "Admin", params: { tab: "dashboard" }});
+    }
+
+    // If going to login with student role
+    if (store.role === AuthType.STUDENT) {
+      return next({ name: "Home" });
+    }
   }
 
   // If checking out and no checkout details or product is not available
-  if (to.name === "Checkout" && (!useStore().checkoutDetails || !useStore().checkoutDetails?.product.is_available)) {
+  if (to.name === "Checkout" && (!store.checkoutDetails || !store.checkoutDetails?.product.is_available)) {
     // if has previous page
     if (_from.name) {
       // Go to previous page

@@ -12,7 +12,10 @@
           </div>
   
           <div class="bg-surface-container p-10 rounded-xl">
-            <div class="flex flex-col gap-6 flex-grow">
+            <md-filled-text-field :disabled="isPlacingOrder" v-model="studentId" :readonly="store.isLoggedIn" maxlength="8" label="Student ID">
+              <md-icon slot="leading-icon" v-html="icon('badge', true)"  />
+            </md-filled-text-field>
+            <div class="flex flex-col gap-6 flex-grow mt-2">
               <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <md-filled-text-field :disabled="isPlacingOrder" v-model="firstName" :readonly="store.isLoggedIn" label="First name">
                   <md-icon slot="leading-icon" v-html="icon('person', true)"  />
@@ -21,9 +24,6 @@
                   <md-icon slot="leading-icon" v-html="icon('person', true)"  />
                 </md-filled-text-field>
               </div>
-              <md-filled-text-field :disabled="isPlacingOrder" v-model="studentId" :readonly="store.isLoggedIn" type="number" min="0" label="Student ID">
-                <md-icon slot="leading-icon" v-html="icon('badge', true)"  />
-              </md-filled-text-field>
               <md-filled-text-field :disabled="isPlacingOrder" v-model="email" :readonly="store.isLoggedIn" type="email" label="Email">
                 <md-icon slot="leading-icon" v-html="icon('mail', true)"  />
               </md-filled-text-field>
@@ -154,6 +154,10 @@
               <md-filled-button :disabled="!canPlaceOrder || isPlacingOrder" @click="placeOrder">
                 {{ isPlacingOrder ? 'Placing order...' : 'Place order' }}
               </md-filled-button>
+
+              <p class="mt-5 text-xs text-error" :class="{ 'hidden': canPlaceOrder }">
+                Please enter your details to place your order.
+              </p>
             </div>
           </div>
         </div>
@@ -204,8 +208,10 @@ const mop = ref(ModeOfPayment.WALK_IN);
 const isPlacingOrder = ref(false);
 
 const canPlaceOrder = computed(() => {
-  return firstName.value && lastName.value && studentId.value && email.value && email.value.includes("@") && course.value !== undefined && year.value &&
-    (mop.value === ModeOfPayment.WALK_IN || (mop.value === ModeOfPayment.GCASH && screenshot.value && screenshot.value instanceof File));
+  return firstName.value && lastName.value && studentId.value && email.value &&
+    email.value.includes("@") && course.value !== undefined && year.value &&
+    (mop.value === ModeOfPayment.WALK_IN || (mop.value === ModeOfPayment.GCASH &&
+    screenshot.value && screenshot.value instanceof File));
 });
 
 type OrderRequest = {

@@ -33,6 +33,7 @@ import { useStore } from './store';
 import { toast } from 'vue3-toastify';
 import { Endpoints, makeRequest } from './network/request';
 import { charCount } from "./utils/string";
+import { validateLogin } from "./utils/network";
 
 import "@material/web/progress/linear-progress";
 
@@ -67,7 +68,7 @@ makeRequest<Record<string, string> | string, null>("GET", Endpoints.Env, null, r
       }
     }
 
-    return;
+    return validateLogin();
   }
 
   toast.error(response.message);

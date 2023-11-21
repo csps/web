@@ -20,6 +20,7 @@ const routes: RouteRecordRaw[] = [
     path: "/login",
     name: "Login",
     component: () => import("../pages/login/LoginPage.vue"),
+    meta: { requiresAuth: true }
   },
   {
     path: "/merch",
@@ -134,7 +135,17 @@ router.beforeEach(async (to, _from, next) => {
         return next({ name: "Home" })
       }
 
-      // If going to profile and no student token
+      // If going to login pages with an admin role
+      if ((to.name === "Login" || to.name === "Admin Login") && store.role === AuthType.ADMIN) {
+        return next({ name: "Admin", params: { tab: "dashboard" }});
+      }
+
+      // If going to home and has student role
+      if (to.name === "Login" && store.role === AuthType.STUDENT) {
+        return next({ name: "Home" });
+      }
+
+      // If going to profile and has admin role
       if (to.name === 'Profile' && store.role === AuthType.ADMIN) {
         return next({ name: "Home" });
       }
@@ -151,24 +162,6 @@ router.beforeEach(async (to, _from, next) => {
     if (to.name === "Login" || to.name === "Admin Login") return next();
     // Otherwise, return to login
     next({ name: "Login" });
-  }
-
-  // If going to login
-  if (to.name === "Login" || to.name === "Admin Login") {
-    // Is login valid
-    const isLoginValid = await validateLogin();
-    // If not valid
-    if (!isLoginValid) return next();
-
-    // If going to login with admin role
-    if (store.role === AuthType.ADMIN) {
-      return next({ name: "Admin", params: { tab: "dashboard" }});
-    }
-
-    // If going to login with student role
-    if (store.role === AuthType.STUDENT) {
-      return next({ name: "Home" });
-    }
   }
 
   // If checking out and no checkout details or product is not available

@@ -262,7 +262,7 @@ function onSaveInfo(ev: Event) {
 function placeOrder() {
   isConfirmingOrder.value = true;
 
-  dialog.open("Order confirmation", "All set to complete your order? Click 'Confirm' to proceed.", {
+  dialog.open("Confirm Order", "All set to complete your order? Click 'Confirm' to proceed.", {
     text: "Confirm",
     click() {
       if (!store.checkoutDetails) {

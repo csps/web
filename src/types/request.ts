@@ -20,7 +20,7 @@ export type PaginationRequest = {
   },
   search?: {
     key: string[];
-    value: string[];
+    value: any[];
   },
   page?: number;
   limit?: number;

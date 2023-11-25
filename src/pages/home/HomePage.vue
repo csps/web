@@ -96,6 +96,8 @@ import { register } from 'swiper/element/bundle';
 import { Endpoints, makeRequest } from '~/network/request';
 import { AnnouncementEnum } from '~/types/models';
 import { getStore, setStore } from '~/utils/storage';
+import { PaginationRequest } from '~/types/request';
+import { createPagination } from '~/utils/pagination';
 import wave from "~/utils/wave";
 import sal from "sal.js";
 
@@ -151,11 +153,15 @@ watch(() => store.isDark, v => {
 });
 
 onMounted(() => {
+  const request = createPagination({
+    sort: {
+      key: AnnouncementEnum.date_stamp,
+      type: "DESC"
+    }
+  });
+
   // Get announcements
-  makeRequest<AnnouncementModel[]>("GET", Endpoints.Announcements, {
-    sort_column: AnnouncementEnum.date_stamp,
-    sort_type: "DESC"
-  }, response => {
+  makeRequest<AnnouncementModel[], PaginationRequest>("GET", Endpoints.Announcements, request, response => {
     // Hide loading
     isLoading.value = false;
 

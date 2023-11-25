@@ -67,6 +67,8 @@ import { Env } from "~/config";
 import { useStore, useDialog } from "~/store";
 import { Endpoints, makeRequest } from "~/network/request";
 import { toast } from "vue3-toastify";
+import { getReadableDate } from "~/utils/date";
+import { createPagination } from "~/utils/pagination";
 import type { PaginationRequest } from "~/types/request";
 
 import "@material/web/icon/icon";
@@ -75,7 +77,6 @@ import "@material/web/textfield/outlined-text-field";
 
 import VTable from "~/components/VTable.vue";
 import DialogAdminAnnouncement from "~/components/dialogs/DialogAdminAnnouncement.vue";
-import { getReadableDate } from "~/utils/date";
 
 const store = useStore();
 const dialog = useDialog();
@@ -111,16 +112,20 @@ function fetchAnnouncements(search = "") {
   isLoading.value = true;
   store.isLoading = true;
 
-  const request: PaginationRequest = {
-    search_value: [search],
-    search_column: [data.value.column],
+  const request = createPagination({
     page: data.value.page,
-    limit: Env.admin_announcements_per_page,
-    sort_column: AnnouncementEnum.date_stamp,
-    sort_type: "DESC"
-  };
+    limit: Number(Env.admin_announcements_per_page),
+    search: {
+      key: [data.value.column],
+      value: [search]
+    },
+    sort: {
+      key: AnnouncementEnum.date_stamp,
+      type: "DESC"
+    }
+  });
 
-  makeRequest<AnnouncementModel[]>("GET", Endpoints.Announcements, request, response => {
+  makeRequest<AnnouncementModel[], PaginationRequest>("GET", Endpoints.Announcements, request, response => {
     isLoading.value = false;
     store.isLoading = false;
     data.value.announcements = [];
@@ -141,7 +146,7 @@ function deleteAnnouncement(announcement: AnnouncementModel) {
     click() {
       store.isLoading = true;
     
-      makeRequest<AnnouncementModel>("DELETE", Endpoints.AnnouncementsId, announcement, response => {
+      makeRequest<AnnouncementModel, AnnouncementModel>("DELETE", Endpoints.AnnouncementsId, announcement, response => {
         store.isLoading = false;
         dialog.hide();
         

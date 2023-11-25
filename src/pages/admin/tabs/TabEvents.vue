@@ -73,6 +73,7 @@ import { icon } from "~/utils/icon";
 import { EventEnum } from "~/types/models";
 import { capitalize } from "~/utils/string";
 import { Endpoints, makeRequest } from "~/network/request";
+import { createPagination } from "~/utils/pagination";
 import { getStore, setStore } from "~/utils/storage";
 import { useStore } from "~/store";
 import { Env } from "~/config";
@@ -116,16 +117,20 @@ function fetchEvents(search = "") {
   isLoading.value = true;
   store.isLoading = true;
 
-  const request: PaginationRequest = {
-    search_value: [search],
-    search_column: [data.value.column],
+  const request = createPagination({
+    limit: Number(Env.admin_events_per_page),
     page: data.value.page,
-    limit: Env.admin_events_per_page,
-    sort_column: EventEnum.date,
-    sort_type: "DESC"
-  };
+    search: {
+      key: [data.value.column],
+      value: [search]
+    },
+    sort: {
+      key: EventEnum.date,
+      type: "DESC"
+    }
+  });
 
-  makeRequest<EventModel[]>("GET", Endpoints.Events, request, response => {
+  makeRequest<EventModel[], PaginationRequest>("GET", Endpoints.Events, request, response => {
     isLoading.value = false;
     store.isLoading = false;
     data.value.events = [];

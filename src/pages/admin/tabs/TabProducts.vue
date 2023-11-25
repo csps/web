@@ -77,12 +77,14 @@ import { useStore } from "~/store";
 import { capitalize } from "~/utils/string";
 
 import { Env } from "~/config";
+import { toast } from "vue3-toastify";
 import { Endpoints, makeRequest } from "~/network/request";
+import { createPagination } from "~/utils/pagination";
+import { PaginationRequest } from "~/types/request";
 
 import CardProduct from "../components/CardProduct.vue";
 import DialogAdminProducts from "~/components/dialogs/DialogAdminProducts.vue";
 import VPagination from "~/components/VPagination.vue";
-import { toast } from "vue3-toastify";
 
 const store = useStore();
 const isDialogOpen = ref(false);
@@ -119,14 +121,16 @@ function fetchProducts(search = "") {
   isLoading.value = true;
   store.isLoading = true;
 
-  const request: any = {
-    search_value: [search],
-    search_column: [data.value.column],
+  const request = createPagination({
     page: data.value.page,
-    limit: Env.admin_products_per_page
-  };
+    limit: Number(Env.admin_products_per_page),
+    search: {
+      key: [data.value.column],
+      value: [search]
+    },
+  });
 
-  makeRequest<ProductModel[]>("GET", Endpoints.Products, request, response => {
+  makeRequest<ProductModel[], PaginationRequest>("GET", Endpoints.Products, request, response => {
     isLoading.value = false;
     store.isLoading = false;
     data.value.products = [];
@@ -146,15 +150,15 @@ function onProductClick(product: ProductModel) {
   isDialogOpen.value = true;
 }
 
-function onStatusChange(id: number) {
-  if (!id) {
-    toast.warn("Product ID is empty!");
+function onStatusChange(slug: string) {
+  if (!slug) {
+    toast.warn("Product slug is empty!");
     return;
   }
 
   store.isLoading = true;
 
-  makeRequest("PUT", Endpoints.ProductsIdStatus, { id }, response => {
+  makeRequest<undefined, { slug: string }>("PUT", Endpoints.ProductsSlug, { slug }, response => {
     store.isLoading = false;
 
     if (response.success) {

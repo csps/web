@@ -123,6 +123,8 @@ import "@material/web/select/select-option";
 
 import CardOrder from "../admin/components/CardOrder.vue";
 import VPagination from "~/components/VPagination.vue";
+import { createPagination } from "~/utils/pagination";
+import { PaginationRequest } from "~/types/request";
 
 const store = useStore();
 const router = useRouter();
@@ -171,14 +173,18 @@ onMounted(fetchOrders);
 function fetchOrders(search = "") {
   store.isLoading = true;
 
-  const request: any = {
-    search_value: [search, ...data.value.filterStatus],
-    search_column: [data.value.column, ...Array(data.value.filterStatus.length).fill(FullOrderEnum.status)],
+  const request = createPagination({
     page: data.value.page,
-    sort_column: FullOrderEnum.date_stamp,
-    sort_type: "DESC",
-    limit: 8
-  };
+    limit: 8,
+    search: {
+      key: [data.value.column, ...Array(data.value.filterStatus.length).fill(FullOrderEnum.status)],
+      value: [search, ...data.value.filterStatus]
+    },
+    sort: {
+      key: FullOrderEnum.date_stamp,
+      type: "DESC"
+    }
+  });
 
   if (data.value.filterStatus.length === 0) {
     message.value = "Select at least one status";
@@ -187,7 +193,7 @@ function fetchOrders(search = "") {
     return;
   }
 
-  makeRequest<FullOrderModel[]>("GET", Endpoints.Orders, request, response => {
+  makeRequest<FullOrderModel[], PaginationRequest>("GET", Endpoints.Orders, request, response => {
     store.isLoading = false;
     data.value.orders = [];
 
@@ -207,12 +213,14 @@ function submit() {
   isFetching.value = true;
   store.isLoading = true;
 
-  const request: any = {
-    search_value: ["CSPS" + reference.value, studentId.value],
-    search_column: [FullOrderEnum.reference, FullOrderEnum.student_id],
-  };
+  const request = createPagination({
+    search: {
+      key: [FullOrderEnum.reference, FullOrderEnum.student_id],
+      value: ["CSPS" + reference.value, studentId.value]
+    },
+  });
 
-  makeRequest<FullOrderModel[]>("GET", Endpoints.Orders, request, response => {
+  makeRequest<FullOrderModel[], PaginationRequest>("GET", Endpoints.Orders, request, response => {
     isFetching.value = false;
     store.isLoading = false;
 

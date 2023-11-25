@@ -81,6 +81,8 @@ import { capitalize } from '~/utils/string';
 import { useStore } from '~/store';
 import { Env } from '~/config';
 import { Endpoints, makeRequest } from '~/network/request';
+import { createPagination } from '~/utils/pagination';
+import { PaginationRequest } from '~/types/request';
 
 import "@material/web/icon/icon";
 import "@material/web/chips/filter-chip";
@@ -122,14 +124,18 @@ function fetchStudents(search = "") {
   isLoading.value = true;
   store.isLoading = true;
 
-  const request: any = {
-    search_value: [search, ...data.value.filterYear],
-    search_column: [data.value.column, ...Array(data.value.filterYear.length).fill(StudentEnum.year_level)],
-    sort_column: StudentEnum.last_name,
-    sort_type: "ASC",
+  const request = createPagination({
     page: data.value.page,
-    limit: Env.admin_students_per_page
-  };
+    limit: Number(Env.admin_students_per_page),
+    search: {
+      key: [data.value.column, ...Array(data.value.filterYear.length).fill(StudentEnum.year_level)],
+      value: [search, ...data.value.filterYear]
+    },
+    sort: {
+      key: StudentEnum.last_name,
+      type: "ASC"
+    }
+  });
 
   if (data.value.filterYear.length === 0) {
     message.value = "Select at least one status";
@@ -139,7 +145,7 @@ function fetchStudents(search = "") {
     return;
   }
 
-  makeRequest<StudentModel[]>("GET", Endpoints.Students, request, response => {
+  makeRequest<StudentModel[], PaginationRequest>("GET", Endpoints.Students, request, response => {
     isLoading.value = false;
     store.isLoading = false;
     data.value.students = [];

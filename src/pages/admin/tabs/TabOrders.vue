@@ -1,11 +1,18 @@
 <template>
-  <div class="w-full">
-    <div class="flex justify-center container mx-auto relative px-6">
-      <div class="flex items-center gap-3 py-2">
-        <md-outlined-text-field
-          v-model="data.search"
-          :label="'Search ' + capitalize(data.column)"
-        >
+  <div class="container mx-auto px-4">
+    <div class="flex items-center flex-col-reverse xl:flex-row justify-between gap-3">
+      <div class="overflow-x-scroll flex w-full gap-x-2 overflow-y-hidden items-end py-1">
+        <md-filter-chip
+          v-for="status in Object.values(OrderStatus).filter(s => typeof s === 'number')"
+          :key="status"
+          :selected="data.filterStatus.includes(status)"
+          :label="mapOrderStatusLabel(status as OrderStatus)"
+          @click="onFilter(status as OrderStatus)"
+          elevated
+        />
+      </div>
+      <div class="flex items-center gap-3 relative bottom-3">
+        <md-filled-text-field class="w-full" @keyup.enter="fetchOrders(data.search)" v-model="data.search" :label="capitalize(data.column)">
           <md-icon slot="leading-icon" v-html="icon('search')" />
           <div slot="trailing-icon">
             <div class="relative">
@@ -31,71 +38,93 @@
                 </md-menu-item>
               </md-menu>
             </div>
-            <md-icon-button class="mr-2" title="Sort direction" @click="data.sortDir = (data.sortDir === 'DESC' ? 'ASC' : 'DESC')">
-              <md-icon v-html="icon(data.sortDir === 'DESC' ? 'arrow_upward' : 'arrow_downward')" />
-            </md-icon-button>
           </div>
-        </md-outlined-text-field>
+        </md-filled-text-field>
+        <md-filled-button @click="fetchOrders(data.search)" :disabled="isLoading">
+          Search
+        </md-filled-button>
       </div>
     </div>
-  
-    <div class="flex mt-2 py-2 gap-2 justify-start lg:justify-center overflow-x-scroll px-6 hide-scrollbar">
-      <md-filter-chip
-        v-for="s in status"
-        :key="s.value"
-        :selected="data.filterStatus.includes(s.value)"
-        :label="s.label"
-        @click="onFilter(s.value)"
-        elevated
-      />
-    </div>
-  
-    <div class="flex justify-center flex-col items-center container mx-auto px-6">
-      <div v-if="data.orders.length > 0" class="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-3">
-        <div v-for="order in data.orders" class="flex flex-col" :key="order.id">
-          <CardOrder :order="order" @click="goToOrder(order.reference)" />
-        </div>
+
+    <div>
+      <VTable
+        :loading="isLoading"
+        :headers="headers"
+        :data="data.orders"
+        hoverable
+        no-action
+      >
+        <template v-slot:reference="{ row }: { row: FullOrderModel }">
+          <h3 class="body-medium font-medium mb-2 flex items-center gap-1">
+            <router-link :to="{ name: 'Order', params: { reference: row.reference }}">
+              <span class="border-b border-dashed border-primary">
+                <md-icon class="w-4 h-4 text-primary mr-1 pt-0.5" v-html="icon('receipt', true)" />
+                <span class="text-primary pe-1">{{ row.reference?.substring(0, 12) }}</span>
+                <span class="text-secondary">{{ row.reference?.substring(12) }}</span>
+              </span>
+            </router-link>
+          </h3>
+        </template>
+
+        <template v-slot:product_name="{ row }: { row: FullOrderModel }">
+          {{ row.product_name }} <span>&times; {{ row.quantity }}</span>
+        </template>
+
+        <template v-slot:product_price="{ row }: { row: FullOrderModel }">
+          &#8369;{{ row.product_price * row.quantity }}.00
+        </template>
+
+        <template v-slot:name="{ row }: { row: FullOrderModel }">
+          {{ row.first_name + ' ' + row.last_name }}
+        </template>
+
+        <template v-slot:status="{ row }: { row: FullOrderModel }">
+          <v-chip :status="mapOrderStatus(row.status)" :label="mapOrderStatusLabel(row.status)" />
+        </template>
+      </VTable>
+
+      <div v-if="message.length > 0 && data.orders.length === 0" class="flex justify-center py-4 text-error font-medium">
+        {{ message }}
       </div>
-      <div v-else class="flex justify-center mt-8 flex-grow body-medium">
-        {{ message || "Fetching orders..." }}
-      </div>
-  
+      
       <VPagination
         class="mt-5"
         v-if="data.orders.length > 0"
         :limit="parseInt(Env.admin_orders_per_page)"
         :page="data.page"
         :total="data.total"
-        @change="p => data.page = p"
+        @change="p => goToPage(p)"
       />
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
+import { onMounted, ref } from "vue";
+import { useStore } from "~/store";
+// import { useRouter } from "vue-router";
+import { getStore, setStore } from "~/utils/storage";
 import { icon } from "~/utils/icon";
-import { ref, onMounted, watch } from "vue";
-import { useRouter } from "vue-router";
-import { Endpoints, makeRequest } from "~/network/request";
+
+import "@material/web/icon/icon";
+import "@material/web/textfield/filled-text-field";
+import "@material/web/button/filled-button";
+import "@material/web/select/select-option";
+import "@material/web/chips/filter-chip";
+import VTable from "~/components/VTable.vue";
+import VPagination from "~/components/VPagination.vue";
+import VChip from "~/components/VChip.vue";
+
 import { FullOrderEnum } from "~/types/models";
 import { OrderStatus } from "~/types/enums";
 import { capitalize } from "~/utils/string";
-import { getStore, setStore } from "~/utils/storage";
-import { useStore } from "~/store";
 import { Env } from "~/config";
+import { Endpoints, makeRequest } from "~/network/request";
+import { PaginationRequest } from "~/types/request";
+import { createPagination } from "~/utils/pagination";
+import { mapOrderStatusLabel, mapOrderStatus } from "~/utils/page";
 
-import "@material/web/button/filled-button";
-import "@material/web/button/filled-tonal-button";
-import "@material/web/progress/linear-progress";
-import "@material/web/textfield/outlined-text-field";
-import "@material/web/select/outlined-select";
-import "@material/web/chips/filter-chip";
-import "@material/web/chips/chip-set";
-import "@material/web/iconbutton/icon-button";
-import "@material/web/select/select-option";
-
-import CardOrder from "../components/CardOrder.vue";
-import VPagination from "~/components/VPagination.vue";
+onMounted(fetchOrders);
 
 const data = ref({
   total: 0,
@@ -109,17 +138,18 @@ const data = ref({
 
 const message = ref("");
 const store = useStore();
-const router = useRouter();
+// const router = useRouter();
 const isLoading = ref(true);
 const isMenuOpen = ref(false);
+const isSearched = ref(false);
 
-const status = [
-  { value: OrderStatus.PENDING_PAYMENT, label: "Pending" },
-  { value: OrderStatus.COMPLETED, label: "Completed" },
-  { value: OrderStatus.CANCELLED_BY_USER, label: "Cancelled by user" },
-  { value: OrderStatus.CANCELLED_BY_ADMIN, label: "Cancelled by admin" },
-  { value: OrderStatus.REMOVED, label: "Removed" },
-  { value: OrderStatus.REJECTED, label: "Rejected" },
+const headers: TableHeader[] = [
+  { id: FullOrderEnum.reference, text: "Reference #" },
+  { id: FullOrderEnum.product_name, text: "Product" },
+  { id: "name", text: "Student Name" },
+  { id: FullOrderEnum.product_price, text: "Total", align: "right" },
+  { id: FullOrderEnum.status, text: "Status" },
+  { id: FullOrderEnum.date_stamp, text: "Created At" },
 ];
 
 const allowedFilters = [
@@ -133,35 +163,37 @@ const allowedFilters = [
   FullOrderEnum.variations_name,
 ];
 
-watch([
-  () => data.value.search,
-  () => data.value.column,
-  () => data.value.filterStatus,
-  () => data.value.page,
-  () => data.value.sortDir,
-], v => {
-  setStore("tabs_orders_status", JSON.stringify(data.value.filterStatus));
-  fetchOrders(v[0]);
-});
+// function goToOrder(reference: string) {
+//   router.push({ name: "Order", params: { reference }});
+// }
 
-onMounted(fetchOrders);
-
-function goToOrder(reference: string) {
-  router.push({ name: "Order", params: { reference }});
+function goToPage(page: number) {
+  data.value.page = page;
+  fetchOrders(isSearched ? data.value.search : "");
 }
 
 function fetchOrders(search = "") {
   isLoading.value = true;
   store.isLoading = true;
 
-  const request: any = {
-    search_value: [search, ...data.value.filterStatus],
-    search_column: [data.value.column, ...Array(data.value.filterStatus.length).fill(FullOrderEnum.status)],
+  if (!isSearched.value && search.length > 0) {
+    data.value.page = 1;
+  }
+
+  isSearched.value = search.length > 0;
+
+  const request: PaginationRequest = createPagination({
     page: data.value.page,
-    sort_column: data.value.column,
-    sort_type: data.value.sortDir,
-    limit: Env.admin_orders_per_page
-  };
+    limit: Number(Env.admin_orders_per_page),
+    search: {
+      key: [data.value.column, ...Array(data.value.filterStatus.length).fill(FullOrderEnum.status)],
+      value: [search, ...data.value.filterStatus],
+    },
+    sort: {
+      key: data.value.column,
+      type: data.value.sortDir as "ASC" | "DESC",
+    }
+  });
 
   if (data.value.filterStatus.length === 0) {
     message.value = "Select at least one status";
@@ -171,7 +203,7 @@ function fetchOrders(search = "") {
     return;
   }
 
-  makeRequest<FullOrderModel[]>("GET", Endpoints.Orders, request, response => {
+  makeRequest<FullOrderModel[], PaginationRequest>("GET", Endpoints.Orders, request, response => {
     isLoading.value = false;
     store.isLoading = false;
     data.value.orders = [];
@@ -179,6 +211,7 @@ function fetchOrders(search = "") {
     if (response.success) {
       data.value.total = response.count || 0;
       data.value.orders = response.data;
+      message.value = response.message;
       setStore("tabs_orders_page", `${request.page}`);
       setStore("tabs_orders_column", data.value.column);
       setStore("tabs_orders_sort", data.value.sortDir);
@@ -194,11 +227,10 @@ function onFilter(status: OrderStatus) {
 
   if (index === -1) {
     data.value.filterStatus.push(status);
-    data.value.filterStatus = [...data.value.filterStatus];
-    return;
+  } else {
+    data.value.filterStatus.splice(index, 1);
   }
 
-  data.value.filterStatus.splice(index, 1);
-  data.value.filterStatus = [...data.value.filterStatus];
+  fetchOrders(isSearched ? data.value.search : "");
 }
 </script>

@@ -8,7 +8,7 @@
             :key="header.id"
             scope="col"
             class="th-cell"
-            :class="header.min ? 'w-0' : 'max-w-[100px]'"
+            :class="mapAlign(header.align)"
           >
             {{ header.text }}
           </th>
@@ -24,9 +24,12 @@
             :key="header.id"
             :title="((row as Record<string, unknown>)[header.id] as string)"
             class="td-cell"
-            :class="header.min ? 'w-0' : 'max-w-[100px]'"
+            :class="mapAlign(header.align)"
           >
-            {{ (row as Record<string, unknown>)[header.id] }}
+            <div v-if="loading" class="skeleton" :style="'width: ' + (Math.random() * 100)  + '%'" />
+            <slot v-else :name="header.id" :row="row">
+              {{ (row as Record<string, unknown>)[header.id] }}
+            </slot>
           </td>
 
           <td v-if="!noAction" class="td-cell w-0">
@@ -47,14 +50,34 @@ import "@material/web/chips/assist-chip";
 withDefaults(defineProps<{
   headers: TableHeader[],
   data: any[],
+  loading?: boolean,
   noAction?: boolean,
-  noDelete?: boolean
+  noDelete?: boolean,
 }>(), {
   noAction: false,
-  noDelete: false
+  noDelete: false,
+  loading: false,
 });
 
 const emit = defineEmits(["edit", "delete"]);
+
+/**
+ * Maps the align prop to a tailwind class
+ */
+function mapAlign(align?: string) {
+  if (!align) return "";
+
+  switch (align) {
+    case "left":
+      return "text-start";
+    case "center":
+      return "text-center";
+    case "right":
+      return "text-right";
+  }
+
+  return "";
+}
 </script>
 
 <style lang="scss" scoped>
@@ -70,5 +93,9 @@ const emit = defineEmits(["edit", "delete"]);
 .th-cell {
   @apply px-6 py-3;
   @include truncate;
+}
+
+.skeleton {
+  @apply bg-surface-container-highest rounded-full animate-pulse h-[1rem] my-1.5;
 }
 </style>

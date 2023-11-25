@@ -30,7 +30,8 @@ declare global {
   type TableHeader = {
     id: string,
     text: string,
-    min?: boolean
+    min?: boolean,
+    align?: "left" | "right" | "center",
   }
 
   type TableData = {

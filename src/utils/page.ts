@@ -1,4 +1,4 @@
-import { OrderStatus } from "~/types/enums";
+import { OrderStatus, Status } from "~/types/enums";
 
 /**
  * Set page title
@@ -37,6 +37,26 @@ export function mapOrderStatusLabel(status: OrderStatus): string {
     default:
       return "Unknown";
   }
+}
+
+/**
+ * Convert order status to status
+ */
+export function mapOrderStatus(status: OrderStatus): Status {
+  switch (status) {
+    case OrderStatus.PENDING_PAYMENT:
+      return Status.WARNING;
+    case OrderStatus.COMPLETED:
+      return Status.SUCCESS;
+    case OrderStatus.CANCELLED_BY_USER:
+    case OrderStatus.CANCELLED_BY_ADMIN:
+      return Status.INFO;
+    case OrderStatus.REMOVED:
+    case OrderStatus.REJECTED:
+      return Status.ERROR;
+    }
+
+    return Status.INFO;
 }
 
 /**

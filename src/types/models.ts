@@ -104,14 +104,15 @@ export enum TutorialEnum {
 
 export enum FullOrderEnum {
   id = "id",
-  thumbnail = "thumbnail",
+  photos_hash = "photos_hash",
   reference = "reference",
+  unique_id = "unique_id",
   products_id = "products_id",
   product_name = "product_name",
   product_price = "product_price",
   variations_id = "variations_id",
   variations_name = "variations_name",
-  variations_photo_id = "variations_photo_id",
+  variations_photo_hash = "variations_photo_hash",
   quantity = "quantity",
   mode_of_payment = "mode_of_payment",
   student_id = "student_id",

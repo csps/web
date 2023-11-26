@@ -119,30 +119,31 @@ declare global {
   }
   
   type FullOrderModel = {
-    id: string;
-    thumbnail: number;
-    reference: string;
-    unique_id: string;
-    products_id: number;
-    product_name: string;
-    product_price: number;
-    variations_id: number;
-    variations_name: string;
-    variations_photo_id: number;
-    quantity: number;
-    mode_of_payment: ModeOfPayment;
-    student_id: string;
-    first_name: string;
-    last_name: string;
-    email_address: string;
-    course: number;
-    year_level: number;
-    status: OrderStatus;
-    user_remarks: string;
-    admin_remarks: string;
-    status_updated: string;
-    edit_date: string;
-    date_stamp: string;
+    id: string,
+    photos_hash: string,
+    reference: string,
+    unique_id: string,
+    products_id: number,
+    product_name: string,
+    product_price: number,
+    variations_id: number,
+    variations_name: string,
+    variations_photo_hash: number,
+    quantity: number,
+    mode_of_payment: ModeOfPayment,
+    student_id: string,
+    first_name: string,
+    last_name: string,
+    email_address: string,
+    course: number,
+    year_level: number,
+    status: OrderStatus,
+    user_remarks: string,
+    admin_remarks: string,
+    status_updated: string,
+    edit_date: string,
+    date_stamp: string,
+    is_guest: number, // Whether the student is guest (non-bscs) or not
   }
   
   type PhotoModel = {

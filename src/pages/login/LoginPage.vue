@@ -50,7 +50,7 @@
         </div>
 
         <div class="flex justify-end">
-          <md-filled-button @click="login" class="w-1/3" :disabled="isLoggingIn">
+          <md-filled-button @click="login" class="min-w-1/3" :disabled="isLoggingIn">
             {{ isLoggingIn ? 'Logging in...' : 'Login' }}
           </md-filled-button>
         </div>

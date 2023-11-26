@@ -6,13 +6,15 @@
     </div>
 
     <div v-else class="flex flex-col justify-center items-center w-full lg:w-3/4 xl:w-1/2">
-      <div class="flex gap-5 flex-col md:flex-row justify-between w-full mb-5">
+      <div class="flex gap-5 flex-col md:flex-row justify-between w-full mb-3">
         <div>
-          <h2 class="font-semibold title-large mb-1 text-primary w-full text-left">Order #{{ route.params.reference || order?.reference }}</h2>
+          <h2 class="font-semibold title-large mb-3 bg-secondary text-on-secondary rounded-lg px-2 w-full text-left">
+            Order #{{ route.params.reference || order?.reference }}
+          </h2>
           <h5 class="title-small w-full text-left">{{ order?.date_stamp ? getReadableDate(order?.date_stamp) : 'Invalid date' }}</h5>
         </div>
         <div>
-          <md-outlined-select v-if="route.params.reference" v-model="status" label="Status" @change.prevent="onStatuChange" :disabled="isCompleted">
+          <md-filled-select v-if="route.params.reference" v-model="status" label="Status" @change.prevent="onStatuChange" :disabled="isCompleted">
             <md-select-option
               v-for="option in statuses"
               :key="option.value"
@@ -20,7 +22,7 @@
             >
               <span slot="headline">{{ option.label }}</span>
             </md-select-option>
-          </md-outlined-select>
+          </md-filled-select>
         </div>
       </div>
 
@@ -75,11 +77,11 @@
           </h3>
         </div>
         <div>
-          <div class="h-24">
+          <div class="h-24 flex items-center">
             <VImage
-              v-if="(order?.thumbnail || 0) > 0 || (order?.variations_photo_id || 0) > 0"
-              :src="getPhotoLink(order?.variations_photo_id || order?.thumbnail || 0)"
-              :alt="order?.product_name || ''"
+              v-if="order?.photos_hash || order?.variations_photo_hash"
+              :src="getPhotoLink(order?.variations_photo_hash || order?.photos_hash)"
+              :alt="order?.product_name"
               :w-full="false"
               h-full
             />
@@ -88,11 +90,8 @@
         </div>
       </div>
 
-      <div class="flex justify-between w-full mt-5 body-large">
-        <div>Total</div>
-        <div class="font-medium text-primary">
-          {{ toCurrency((order?.product_price || 0) * (order?.quantity || 0)) }}
-        </div>
+      <div class="flex justify-end w-full mt-5 items-end gap-5 font-bold text-primary title-large">
+        {{ toCurrency((order?.product_price || 0) * (order?.quantity || 0)) }}
       </div>
     </div>
   </div>
@@ -117,7 +116,7 @@ import "@material/web/menu/menu";
 import "@material/web/menu/menu-item";
 import "@material/web/divider/divider";
 import "@material/web/progress/linear-progress";
-import "@material/web/select/outlined-select";
+import "@material/web/select/filled-select";
 import "@material/web/select/select-option";
 import "@fancyapps/ui/dist/fancybox/fancybox.css";
 
@@ -163,6 +162,8 @@ onMounted(() => {
 
 function onStatuChange(ev: { target: { value: OrderStatus }}) {
   status.value = currentStatus.value;
+
+  console.log(order.value);
 
   if (order.value?.id === undefined) {
     toast.error("ID is null");

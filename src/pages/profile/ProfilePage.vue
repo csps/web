@@ -85,7 +85,7 @@ const isDialogOpen = ref(false);
  * Open logout dialog
  */
 function openLogoutDialog() {
-  dialog.open(Strings.LOGOUT_DIALOG_TITLE, Strings.LOGOUT_DIALOG_MESSAGE, {
+  const id = dialog.open(Strings.LOGOUT_DIALOG_TITLE, Strings.LOGOUT_DIALOG_MESSAGE, {
     text: "Logout",
     click: () => {
       // Set loading to true
@@ -100,7 +100,7 @@ function openLogoutDialog() {
       // Set loading to false
       store.isLoading = false;
       // Close dialog
-      dialog.hide();
+      dialog.close(id);
     }
   });
 }

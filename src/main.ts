@@ -13,10 +13,12 @@ import '~/scss/main.scss'
 const app = createApp(App);
 const pinia = createPinia();
 
-app.use(pinia);
-app.use(router);
+// TODO: Remove any when types are fixed  
+ 
+app.use(pinia as any);
+app.use(router as any);
 
-app.use(Vue3Toastify, {
+app.use(Vue3Toastify as any, {
   position: 'bottom-right',
   clearOnUrlChange: false,
 } as ToastContainerOptions);

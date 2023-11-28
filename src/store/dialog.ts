@@ -1,16 +1,12 @@
 import { ref } from "vue";
 import { defineStore } from "pinia";
+import { v4 } from "uuid";
 
 /**
  * Dialog store
  */
 export const useDialog = defineStore("dialog", () => {
-  const show = ref(false);
-  const dialogTitle = ref("");
-  const dialogMessage = ref("");
-  const dialogOk = ref<DialogButton>();
-  const dialogCancel = ref<DialogButton |  null>();
-  const onDialogHide = ref<() => void>();
+  const queue = ref<DialogQueueItem[]>([]);
 
   /**
    * Shows a dialog with the specified title and message.
@@ -20,43 +16,51 @@ export const useDialog = defineStore("dialog", () => {
    * @param cancel Cancel button configuration
    */
   function open(title: string, message: string, ok?: DialogButton, cancel?: DialogButton | null, dialogHide?: () => void) {
+    // Generate dialog id
+    const id = v4();
+
     // If cancel button is not specified
     if (cancel === undefined) {
       // Set default cancel button
       cancel = {
         text: "Cancel",
-        click: () => {
-          // Hide dialog
-          hide();
-        }
+        click: () => close(id)
       }
     }
 
-    // Set dialog properties
-    show.value = true;
-    dialogTitle.value = title;
-    dialogMessage.value = message;
-    dialogCancel.value = cancel;
-    dialogOk.value = ok;
-    onDialogHide.value = dialogHide;
+    // Add dialog to queue
+    queue.value.push({ show: true, id, title, message, ok, cancel, dialogHide });
+    // Return dialog id
+    return id;
   }
 
   /**
-   * Hides the dialog.
+   * Close the dialog.
+   * @param id Dialog ID
    */
-  function hide() {
-    if (onDialogHide.value) {
-      onDialogHide.value();
+  function close(id: string) {
+   // Get dialog index
+    const index = queue.value.findIndex(dialog => dialog.id === id);
+    // If dialog is not found
+    if (index === -1) return;
+    // Hide dialog
+    queue.value[index].show = false;
+
+    // If dialog hide callback is specified
+    if (typeof queue.value[index].dialogHide === "function") {
+      // Call dialog hide callback
+      queue.value[index].dialogHide!();
     }
-    
-    show.value = false;
+
+    setTimeout(() => {
+      // Remove dialog from queue
+      queue.value.splice(index, 1);
+    }, 210);
   }
 
   return {
-    show, open, hide,
-    title: dialogTitle,
-    message: dialogMessage,
-    cancel: dialogCancel,
-    ok: dialogOk
-  }
+    open,
+    close,
+    queue
+  };
 });

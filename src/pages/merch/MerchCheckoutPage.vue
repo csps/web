@@ -262,9 +262,11 @@ function onSaveInfo(ev: Event) {
 function placeOrder() {
   isConfirmingOrder.value = true;
 
-  dialog.open("Confirm Order", "All set to complete your order? Click 'Confirm' to proceed.", {
+  const id = dialog.open("Confirm Order", "All set to complete your order? Click 'Confirm' to proceed.", {
     text: "Confirm",
     click() {
+      dialog.close(id);
+
       if (!store.checkoutDetails) {
         toast.error("No product to checkout!");
         return;
@@ -329,11 +331,11 @@ function placeOrder() {
 
         if (response.success) {
           const [ title, message ] = response.message.split("_");
-          
-          dialog.open(title, message, {
+
+          const id = dialog.open(title, message, {
             text: "Gotchu",
             click() {
-              dialog.hide();
+              dialog.close(id);
             }
           }, null, () => {
             router.replace({ name: "Merch" });
@@ -344,13 +346,11 @@ function placeOrder() {
 
         toast.error(response.message);
       });
-
-      dialog.hide();
     }
   }, {
     text: "Cancel",
     click() {
-      dialog.hide();
+      dialog.close(id);
     }
   }, () => {
     isConfirmingOrder.value = false;

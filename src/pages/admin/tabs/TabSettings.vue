@@ -31,7 +31,7 @@ const items: Item[] = [
   { 
     name: "Logout",
     onClick() {
-      dialog.open(Strings.LOGOUT_DIALOG_TITLE, Strings.LOGOUT_DIALOG_MESSAGE, {
+      const id = dialog.open(Strings.LOGOUT_DIALOG_TITLE, Strings.LOGOUT_DIALOG_MESSAGE, {
         text: "Logout",
         click: () => {
           // Set loading to true
@@ -46,7 +46,7 @@ const items: Item[] = [
           // Set loading to false
           store.isLoading = false;
           // Close dialog
-          dialog.hide();
+          dialog.close(id);
         }
       });
     }

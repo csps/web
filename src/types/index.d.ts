@@ -25,6 +25,16 @@ declare global {
     product: ProductModel
   }
 
+  type DialogQueueItem = {
+    id: string;
+    show: boolean,
+    title: string;
+    message: string;
+    ok?: DialogButton;
+    cancel?: DialogButton | null;
+    dialogHide?: () => void;
+  };
+
   // Table types
 
   type TableHeader = {

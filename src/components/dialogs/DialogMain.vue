@@ -1,12 +1,12 @@
 <template>
-  <md-dialog :open="dialog.show" @close="close">
-    <div slot="headline" class="w-full">{{ dialog.title }}</div>
+  <md-dialog :open="data.show" @close="close">
+    <div slot="headline" class="w-full">{{ data.title }}</div>
     <div slot="content">
-      {{ dialog.message }}
+      {{ data.message }}
     </div>
     <div class="space-x-1" slot="actions">
-      <md-text-button v-if="dialog.cancel" @click="dialog.cancel.click">{{ dialog.cancel.text }}</md-text-button>
-      <md-text-button @click="dialog.ok?.click" v-if="dialog.ok">{{ dialog.ok?.text }}</md-text-button>
+      <md-text-button v-if="data.cancel" @click="data.cancel.click">{{ data.cancel.text }}</md-text-button>
+      <md-text-button @click="data.ok?.click" v-if="data.ok">{{ data.ok?.text }}</md-text-button>
     </div>
   </md-dialog>
 </template>
@@ -15,11 +15,13 @@
 import "@material/web/dialog/dialog";
 import "@material/web/button/text-button";
 
-import { useDialog } from '~/store/dialog';
+defineProps<{
+  data: DialogQueueItem
+}>();
 
-const dialog = useDialog();
+const emit = defineEmits(["close"]);
 
 function close() {
-  dialog.hide();
+  emit("close");
 }
 </script>

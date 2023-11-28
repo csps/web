@@ -141,14 +141,14 @@ function fetchAnnouncements(search = "") {
 }
 
 function deleteAnnouncement(announcement: AnnouncementModel) {
-  dialog.open("Delete Announcement", "Are you sure you want to delete this announcement?", {
+  const id = dialog.open("Delete Announcement", "Are you sure you want to delete this announcement?", {
     text: "Delete",
     click() {
       store.isLoading = true;
     
       makeRequest<AnnouncementModel, AnnouncementModel>("DELETE", Endpoints.AnnouncementsId, announcement, response => {
         store.isLoading = false;
-        dialog.hide();
+        dialog.close(id);
         
         if (response.success) {
           fetchAnnouncements();

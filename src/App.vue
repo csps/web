@@ -22,15 +22,16 @@
       </div>
     </div>
 
-    <DialogMain />
+    <DialogMain v-for="data in dialogs" :key="data.id" :data="data" @close="data.cancel" />
   </div>
 </template>
 
 <script lang="ts" setup>
+import { watch, ref } from "vue";
 import { useRoute } from "vue-router";
 import { Env } from './config';
-import { useStore } from './store';
 import { toast } from 'vue3-toastify';
+import { useStore, useDialog } from './store';
 import { Endpoints, makeRequest } from './network/request';
 import { charCount } from "./utils/string";
 import { validateLogin } from "./utils/network";
@@ -45,8 +46,16 @@ import VNavigationRail from "./components/VNavigationRail.vue";
 // Get store
 const store = useStore();
 const route = useRoute();
+const dialog = useDialog();
 
 store.isLoading = true;
+
+// Queue of dialogs
+const dialogs = ref();
+
+watch(dialog.queue, q => {
+  dialogs.value = q;
+});
 
 // Fetch courses
 makeRequest<string[], null>("GET", Endpoints.Courses, null, response => {

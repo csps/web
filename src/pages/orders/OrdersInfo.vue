@@ -8,7 +8,7 @@
     <div v-else class="flex flex-col justify-center items-center w-full lg:w-3/4 xl:w-1/2">
       <div class="flex gap-5 flex-col md:flex-row justify-between w-full mb-3">
         <div>
-          <h2 class="font-semibold title-large mb-3 bg-secondary text-on-secondary rounded-lg px-2 w-full text-left">
+          <h2 class="font-semibold title-large mb-3 bg-secondary text-on-secondary rounded-md px-2 w-full text-left">
             Order #{{ route.params.reference || order?.reference }}
           </h2>
           <h5 class="title-small w-full text-left">{{ order?.date_stamp ? getReadableDate(order?.date_stamp) : 'Invalid date' }}</h5>
@@ -90,8 +90,9 @@
         </div>
       </div>
 
-      <div class="flex justify-end w-full mt-5 items-end gap-5 font-bold text-primary title-large">
-        {{ toCurrency((order?.product_price || 0) * (order?.quantity || 0)) }}
+      <div class="flex justify-end flex-col w-full mt-5 items-end gap-1">
+        <span class="font-medium">Total</span>
+        <span class="font-medium text-primary title-large">{{ toCurrency((order?.product_price || 0) * (order?.quantity || 0)) }}</span>
       </div>
     </div>
   </div>
@@ -110,7 +111,7 @@ import { getReadableDate } from '~/utils/date';
 import { mapOrderStatusLabel } from '~/utils/page';
 import { toCurrency } from '~/utils/string';
 import { ModeOfPayment, OrderStatus } from '~/types/enums';
-import { OrderEnum } from "~/types/models";
+import { OrderEnum } from '~/types/models';
 
 import "@material/web/menu/menu";
 import "@material/web/menu/menu-item";
@@ -163,23 +164,21 @@ onMounted(() => {
 function onStatuChange(ev: { target: { value: OrderStatus }}) {
   status.value = currentStatus.value;
 
-  console.log(order.value);
-
   if (order.value?.id === undefined) {
     toast.error("ID is null");
   }
 
   if (ev.target.value === OrderStatus.COMPLETED) {
-    dialog.open(Strings.ORDER_UPDATE_STATUS_COMPLETE_TITLE, Strings.ORDER_UPDATE_STATUS_COMPLETE_MESSAGE, {
+    const id = dialog.open(Strings.ORDER_UPDATE_STATUS_COMPLETE_TITLE, Strings.ORDER_UPDATE_STATUS_COMPLETE_MESSAGE, {
       text: "Yes, complete order",
       click() {
-        dialog.hide();
+        dialog.close(id);
         updateStatus(order.value!.id, OrderStatus.COMPLETED);
       }
     }, {
       text: "No, cancel",
       click() {
-        dialog.hide();
+        dialog.close(id);
         status.value = currentStatus.value;
       }
     });
@@ -241,21 +240,21 @@ function processData(response: ServerResponse<FullOrderModel>) {
 /**
  * Update order status
  */
-function updateStatus(orderId: string, toStatus: OrderStatus) {
+function updateStatus(orderId: string, newStatus: OrderStatus) {
   store.isLoading = true;
 
   makeRequest<string, { id: string, key: string, value: OrderStatus }>("PUT", Endpoints.OrdersKey, {
     id: orderId,
     key: OrderEnum.status,
-    value: toStatus
+    value: newStatus
   }, response => {
     store.isLoading = false;
 
     if (response.success) {
-      currentStatus.value = toStatus;
-      status.value = toStatus;
+      currentStatus.value = newStatus;
+      status.value = newStatus;
 
-      if (toStatus === OrderStatus.COMPLETED) {
+      if (newStatus === OrderStatus.COMPLETED) {
         isCompleted.value = true;
 
         if (order.value) {

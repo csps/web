@@ -5,8 +5,8 @@
       <div class="flex gap-5">
         <div class="w-16 h-16 overflow-hidden">
           <VImage
-            v-if="order.thumbnail > 0 || order.variations_photo_id > 0"
-            :src="getPhotoLink(order.variations_photo_id || order.thumbnail)"
+            v-if="order.variations_photo_hash || order.photos_hash"
+            :src="getPhotoLink(order.variations_photo_hash || order.photos_hash)"
             :alt="order.product_name"
             :w-full="false"
             h-full

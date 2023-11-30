@@ -49,6 +49,7 @@
         :headers="headers"
         :data="data.events"
         @edit="onEdit"
+        @delete="onDelete"
         hoverable
       >
         <template v-slot:date="{ row }: { row: EventModel }">
@@ -80,7 +81,7 @@
 
 <script lang="ts" setup>
 import { onMounted, ref, watch } from 'vue';
-import { useStore } from '~/store';
+import { useStore, useDialog } from '~/store';
 import { EventEnum } from '~/types/models';
 import { icon } from '~/utils/icon';
 import { getStore, setStore } from '~/utils/storage';
@@ -100,6 +101,7 @@ import "@material/web/textfield/filled-text-field";
 import VTable from '~/components/VTable.vue';
 import VPagination from "~/components/VPagination.vue";
 import DialogAdminEvents from "~/components/dialogs/DialogAdminEvents.vue";
+import { toast } from 'vue3-toastify';
 
 const data = ref({
   total: 0,
@@ -111,6 +113,7 @@ const data = ref({
 
 const message = ref("");
 const store = useStore();
+const dialog = useDialog();
 const isLoading = ref(true);
 const isMenuOpen = ref(false);
 const isDialogOpen = ref(false);
@@ -176,5 +179,27 @@ function fetchEvents(search = "") {
 function onEdit(data: EventModel) {
   event.value = data;
   isDialogOpen.value = true;
+}
+
+function onDelete(data: EventModel) {
+  const id = dialog.open("Delete Event?", "Deleting an event will remove it from the bulletin board calendar.", {
+    text: "Yes, Delete",
+    click() {
+      store.isLoading = true;
+
+      makeRequest("DELETE", Endpoints.EventsId, { id: data.id }, response => {
+        store.isLoading = false;
+
+        if (response.success) {
+          fetchEvents();
+          dialog.close(id);
+          toast.success(response.message);
+          return;
+        }
+
+        toast.error(response.message);
+      });
+    }
+  });
 }
 </script>

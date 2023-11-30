@@ -9,33 +9,39 @@
         </md-assist-chip>
       </div>
 
-      <md-outlined-text-field v-model="data.search" :label="'Search ' + capitalize(data.column)">
-        <div slot="trailing-icon">
-          <div class="relative">
-            <md-icon-button id="announcements-sort-menu" class="mr-2" title="Filter by" @click.stop="isMenuOpen = !isMenuOpen">
-              <md-icon v-html="icon('filter_list')" />
-            </md-icon-button>
-            <md-menu
-              :open="isMenuOpen"
-              anchor="announcements-sort-menu"
-              @closed="isMenuOpen = false"
-              class="min-w-min"
-              y-offset="8"
-              anchor-corner="end-end"
-              menu-corner="start-end"
-            >
-              <md-menu-item
-                v-for="option in AnnouncementEnum"
-                :key="option"
-                :value="option"
-                @click="data.column = option"
+      <div class="flex items-center gap-3">
+        <md-filled-text-field v-model="data.search" :label="'Search ' + capitalize(data.column)" @keyup.enter="fetchAnnouncements(data.search)">
+          <md-icon slot="leading-icon" v-html="icon('search')" />
+          <div slot="trailing-icon">
+            <div class="relative">
+              <md-icon-button id="announcements-sort-menu" class="mr-2" title="Filter by" @click.stop="isMenuOpen = !isMenuOpen">
+                <md-icon v-html="icon('filter_list')" />
+              </md-icon-button>
+              <md-menu
+                :open="isMenuOpen"
+                anchor="announcements-sort-menu"
+                @closed="isMenuOpen = false"
+                class="min-w-min"
+                y-offset="8"
+                anchor-corner="end-end"
+                menu-corner="start-end"
               >
-                <span class="whitespace-nowrap">{{ capitalize(option) }}</span>
-              </md-menu-item>
-            </md-menu>
+                <md-menu-item
+                  v-for="option in AnnouncementEnum"
+                  :key="option"
+                  :value="option"
+                  @click="data.column = option"
+                >
+                  <span class="whitespace-nowrap">{{ capitalize(option) }}</span>
+                </md-menu-item>
+              </md-menu>
+            </div>
           </div>
-        </div>
-      </md-outlined-text-field>
+        </md-filled-text-field>
+        <md-filled-button @click="fetchAnnouncements(data.search)" :disabled="isLoading">
+          Search
+        </md-filled-button>
+      </div>
     </div>
     <div>
       <VTable
@@ -48,6 +54,10 @@
         @edit="announcement = $event; isDialogOpen = true"
         @delete="deleteAnnouncement($event)"
       />
+
+      <div v-if="message.length > 0 && data.announcements.length === 0" class="flex justify-center py-4 text-error font-medium">
+        {{ message }}
+      </div>
     </div>
 
     <DialogAdminAnnouncement
@@ -73,7 +83,7 @@ import type { PaginationRequest } from "~/types/request";
 
 import "@material/web/icon/icon";
 import "@material/web/chips/assist-chip";
-import "@material/web/textfield/outlined-text-field";
+import "@material/web/textfield/filled-text-field";
 
 import VTable from "~/components/VTable.vue";
 import DialogAdminAnnouncement from "~/components/dialogs/DialogAdminAnnouncement.vue";

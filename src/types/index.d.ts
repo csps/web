@@ -79,7 +79,7 @@ declare global {
 
   type EventModel = {
     id: number;
-    thumbnail?: number;
+    photos_hash?: string;
     title: string;
     description: string;
     venue: string;

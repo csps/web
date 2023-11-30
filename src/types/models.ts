@@ -9,7 +9,7 @@ export enum AnnouncementEnum {
 
 export enum EventEnum {
   id = "id",
-  thumbnail = "thumbnail",
+  photos_hash = "photos_hash",
   title = "title",
   description = "description",
   venue = "venue",

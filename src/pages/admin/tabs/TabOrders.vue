@@ -102,15 +102,18 @@
 <script lang="ts" setup>
 import { onMounted, ref } from "vue";
 import { useStore } from "~/store";
-// import { useRouter } from "vue-router";
-import { getStore, setStore } from "~/utils/storage";
 import { icon } from "~/utils/icon";
+import { getStore, setStore } from "~/utils/storage";
 
 import "@material/web/icon/icon";
+import "@material/web/iconbutton/icon-button";
 import "@material/web/textfield/filled-text-field";
 import "@material/web/button/filled-button";
 import "@material/web/select/select-option";
 import "@material/web/chips/filter-chip";
+import "@material/web/menu/menu";
+import "@material/web/menu/menu-item";
+
 import VTable from "~/components/VTable.vue";
 import VPagination from "~/components/VPagination.vue";
 import VChip from "~/components/VChip.vue";
@@ -138,7 +141,6 @@ const data = ref({
 
 const message = ref("");
 const store = useStore();
-// const router = useRouter();
 const isLoading = ref(true);
 const isMenuOpen = ref(false);
 const isSearched = ref(false);
@@ -162,10 +164,6 @@ const allowedFilters = [
   FullOrderEnum.mode_of_payment,
   FullOrderEnum.variations_name,
 ];
-
-// function goToOrder(reference: string) {
-//   router.push({ name: "Order", params: { reference }});
-// }
 
 function goToPage(page: number) {
   data.value.page = page;

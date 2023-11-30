@@ -46,16 +46,16 @@
                 <md-linear-progress indeterminate />
                 <span>Fetching events and activities...</span>
               </div>
-              <div v-else-if="message.length > 0" class="bg-surface-container-low p-10 rounded-3xl text-center text-on-surface-variant body-medium flex justify-center items-center">
-                {{ message }}
-              </div>
               <div v-else>
                 <h3 class="mb-8 title-large font-semibold text-left -translate-x-3 text-secondary flex items-center">
                   <md-icon class="mr-2" v-html="icon('event')" />
                   {{ monthYear }}
                 </h3>
   
-                <VTimeline :data="data" />
+                <VTimeline v-if="data.length > 0" :data="data" />
+                <div class="text-on-surface-variant font-medium" v-else>
+                  No events found for this month.
+                </div>
                 <div class="my-8" />
                 
                 <div v-if="nowEvent" class="flex items-center gap-1 bg-surface-container-low p-5 rounded-lg text-on-surface-variant font-medium">
@@ -217,7 +217,7 @@ function fetchEvents(search = "") {
           date: getHumanDate(new Date(event.date)),
           time: getTime(event.start_time.substring(0, 5)) + " - " + getTime(event.end_time.substring(0, 5)),
           location: event.venue,
-          thumbnail: event.thumbnail,
+          photos_hash: event.photos_hash,
         };
       });
 
@@ -233,8 +233,8 @@ function fetchEvents(search = "") {
       return;
     }
 
+    data.value = [];
     message.value = response.message;
-    console.warn(response.message);
   });
 }
 

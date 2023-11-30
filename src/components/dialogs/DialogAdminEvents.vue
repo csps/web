@@ -11,6 +11,7 @@
       <md-filled-text-field
         class="w-full"
         label="Title"
+        required
         v-model.trim="title"
         :disabled="isLoading"
         @keydown.enter="submit"
@@ -34,6 +35,7 @@
           label="Venue"
           v-model.trim="venue"
           :disabled="isLoading"
+          required
           @keydown.enter="submit"
         >
           <md-icon slot="leading-icon" v-html="icon('location_on', true)" />
@@ -53,6 +55,7 @@
               label="Date"
               @click="togglePopover"
               readonly
+              required
               v-model.trim="dateText"
               :disabled="isLoading"
               @keydown.enter="submit"
@@ -234,6 +237,31 @@ watch(isDialogOpen, v => {
 });
 
 function submit() {
+  if (!title.value?.trim()) {
+    toast.error("Title is required");
+    return;
+  }
+
+  if (!venue.value?.trim()) {
+    toast.error("Venue is required");
+    return;
+  }
+
+  if (!date.value) {
+    toast.error("Date is required");
+    return;
+  }
+
+  if (!startTime.value) {
+    toast.error("Start time is required");
+    return;
+  }
+
+  if (!endTime.value) {
+    toast.error("End time is required");
+    return;
+  }
+
   // If already loading, return
   if (isLoading.value) return;
   isLoading.value = true;

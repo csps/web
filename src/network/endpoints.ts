@@ -4,26 +4,36 @@
 enum Endpoints {
   Login = "/login",
   ForgotPassword = "/forgot",
-  ResetPassword = "/reset",
-  ResetPasswordToken = "/reset/:token",
-  ProductsSlug = "/products/:slug",
-  Products = "/products",
+  Courses = "/courses",
+  
   PhotosHash = "/photos/:hash",
   ReferenceHash = "/photos/:hash/reference",
+
   StudentsKey = "/students/:key",
   Students = "/students",
+
   Announcements = "/announcements",
   AnnouncementsId = "/announcements/:id",
+
+  Env = "/env",
+  EnvKey = "/env/:key",
+
+  QRCode = "/qrcode/:q",
+  QRCodeDark = "/qrcode/:q/dark",
+
+  ResetPassword = "/reset",
+  ResetPasswordToken = "/reset/:token",
+
   Events = "/events",
   EventsId = "/events/:id",
   EventsNext = "/events/next",
-  Env = "/env",
-  EnvKey = "/env/:key",
-  Courses = "/courses",
+
+  Products = "/products",
+  ProductsSlug = "/products/:slug",
+  ProductsKey = "/products/:slug/:key",
+
   Orders = "/orders",
   OrdersKey = "/orders/:id/:key",
-  QRCode = "/qrcode/:q",
-  QRCodeDark = "/qrcode/:q/dark",
   OrdersUnique = "/orders/unique/:uniqueId",
   OrdersReference = "/orders/reference/:reference",
 }

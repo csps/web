@@ -1,71 +1,97 @@
 <template>
-  <div class="flex flex-col justify-center items-center w-full px-6 container mx-auto h-full">
-    <div class="flex items-center gap-3">
-      <md-outlined-text-field
-        v-model="data.search"
-        :label="'Search ' + capitalize(data.column)"
-      >
-        <md-icon slot="leading-icon" v-html="icon('search')" />
+  <div class="container mx-auto px-4">
+    <div class="flex items-center flex-col-reverse xl:flex-row justify-between gap-3 mb-3">
+      <div class="flex items-center gap-3 text-2xl font-medium text-on-surface-variant">
+        <h2>Products</h2>
+        <md-assist-chip label="Add" aria-label="Add product" title="Add product" @click="isDialogOpen = true">
+          <md-icon slot="icon" v-html="icon('add')" />
+        </md-assist-chip>
+      </div>
 
-        <div slot="trailing-icon">
-          <div class="relative">
-            <md-icon-button id="students-sort-menu" class="mr-2" title="Filter by" @click.stop="isMenuOpen = !isMenuOpen">
-              <md-icon v-html="icon('filter_list')" />
-            </md-icon-button>
-            <md-menu
-              :open="isMenuOpen"
-              anchor="students-sort-menu"
-              @closed="isMenuOpen = false"
-              class="min-w-min"
-              y-offset="8"
-              anchor-corner="end-end"
-              menu-corner="start-end"
-            >
-              <md-menu-item
-                v-for="option in ProductEnum"
-                :key="option"
-                :value="option"
-                @click="data.column = option"
+      <div class="flex items-center gap-3 relative bottom-2">
+        <md-filled-text-field  @keyup.enter="fetchProducts(data.search)" v-model="data.search" :label="capitalize(data.column)">
+          <md-icon slot="leading-icon" v-html="icon('search')" />
+          <div slot="trailing-icon">
+            <div class="relative">
+              <md-icon-button id="orders-sort-menu" class="mr-2" title="Filter by" @click.stop="isMenuOpen = !isMenuOpen">
+                <md-icon v-html="icon('filter_list')" />
+              </md-icon-button>
+              <md-menu
+                :open="isMenuOpen"
+                anchor="orders-sort-menu"
+                @closed="isMenuOpen = false"
+                class="min-w-min"
+                y-offset="8"
+                anchor-corner="end-end"
+                menu-corner="start-end"
               >
-                <span class="whitespace-nowrap">{{ capitalize(option) }}</span>
-              </md-menu-item>
-            </md-menu>
+                <md-menu-item
+                  v-for="option in ProductEnum"
+                  :key="option"
+                  :value="option"
+                  @click="data.column = option"
+                >
+                  <span class="whitespace-nowrap">{{ capitalize(option) }}</span>
+                </md-menu-item>
+              </md-menu>
+            </div>
           </div>
-
-          <md-icon-button class="mr-2" title="Add student" @click="isDialogOpen = true">
-            <md-icon v-html="icon('add')" />
-          </md-icon-button>
-        </div>
-      </md-outlined-text-field>
+        </md-filled-text-field>
+        <md-filled-button @click="fetchProducts(data.search)" :disabled="isLoading">
+          Search
+        </md-filled-button>
+      </div>
     </div>
 
-    <div v-if="data.products.length > 0" class="space-y-3 mt-5 w-full lg:w-3/4 xl:w-1/2 3xl:w-1/3">
-      <CardProduct
-        v-for="product in data.products"
-        :key="product.id"
-        :product="product"
-        @edit="() => onProductClick(product)"
-        @status="onStatusChange"
+    <div>
+      <VTable
+        :loading="isLoading"
+        :headers="headers"
+        :data="data.products"
+      >
+        <template v-slot:name="{ row }: { row: ProductModel }">
+          <div class="flex gap-2 items-center">
+            <img v-if="row.photos_hash" :src="getPhotoLink(row.photos_hash)" width="20" />
+            <span>{{ row.name }}</span>
+          </div>
+        </template>
+
+        <template v-slot:price="{ row }: { row: ProductModel }">
+          <span class="font-medium">
+            &#8369; {{ row.price }}
+          </span>
+        </template>
+
+        <template v-slot:stock="{ row }: { row: ProductModel }">
+          <span class="font-medium">
+            {{ row.stock }}
+          </span>
+        </template>
+
+        <template v-slot:is_available="{ row }: { row: ProductModel }">
+          <md-switch
+            icons
+            :selected="row.is_available"
+            @change="(e: any) =>
+              updateProductKey(row.slug, ProductEnum.is_available, e.target.selected ? '1' : '0')
+            "
+          />
+        </template>
+      </VTable>
+
+      <div v-if="message.length > 0 && data.products.length === 0" class="flex justify-center py-4 text-error font-medium">
+        {{ message }}
+      </div>
+
+      <VPagination
+        class="mt-5"
+        v-if="data.products.length > 0"
+        :limit="parseInt(Env.admin_products_per_page)"
+        :page="data.page"
+        :total="data.total"
+        @change="p => goToPage(p)"
       />
     </div>
-    <div v-else class="flex justify-center mt-8 flex-grow body-medium">
-      {{ message || "Fetching products..." }}
-    </div>
-
-    <VPagination
-      class="mt-5"
-      v-if="data.products.length > 0"
-      :limit="parseInt(Env.admin_products_per_page)"
-      :page="data.page"
-      :total="data.total"
-      @change="p => data.page = p"
-    />
-
-    <DialogAdminProducts
-      v-model="isDialogOpen"
-      :product="selectedProduct"
-      @done="fetchProducts"
-    />
   </div>
 </template>
 
@@ -75,6 +101,7 @@ import { ProductEnum } from "~/types/models";
 import { icon } from "~/utils/icon";
 import { useStore } from "~/store";
 import { capitalize } from "~/utils/string";
+import { getPhotoLink } from "~/utils/network";
 
 import { Env } from "~/config";
 import { toast } from "vue3-toastify";
@@ -82,16 +109,32 @@ import { Endpoints, makeRequest } from "~/network/request";
 import { createPagination } from "~/utils/pagination";
 import { PaginationRequest } from "~/types/request";
 
-import CardProduct from "../components/CardProduct.vue";
-import DialogAdminProducts from "~/components/dialogs/DialogAdminProducts.vue";
+import "@material/web/icon/icon";
+import "@material/web/menu/menu";
+import "@material/web/switch/switch";
+import "@material/web/menu/menu-item";
+import "@material/web/iconbutton/icon-button";
+import "@material/web/textfield/filled-text-field";
+
+import VTable from '~/components/VTable.vue';
 import VPagination from "~/components/VPagination.vue";
 
 const store = useStore();
+const message = ref("");
+const selectedProduct = ref<ProductModel | undefined>();
 const isDialogOpen = ref(false);
 const isLoading = ref(false);
 const isMenuOpen = ref(false);
-const message = ref("");
-const selectedProduct = ref<ProductModel | undefined>();
+const isSearched = ref(false);
+
+const headers: TableHeader[] = [
+  { id: ProductEnum.id, text: "#" },
+  { id: ProductEnum.name, text: "Name" },
+  { id: ProductEnum.description, text: "Description", max: 100 },
+  { id: ProductEnum.price, text: "Price", align: "right" },
+  { id: ProductEnum.stock, text: "Stocks", align: "right" },
+  { id: ProductEnum.is_available, text: "Status" },
+];
 
 const data = ref({
   total: 0,
@@ -107,15 +150,12 @@ watch(isDialogOpen, v => {
   }
 });
 
-watch([
-  () => data.value.search,
-  () => data.value.column,
-  () => data.value.page,
-], v => {
-  fetchProducts(v[0]);
-});
-
 onMounted(fetchProducts);
+
+function goToPage(page: number) {
+  data.value.page = page;
+  fetchProducts(isSearched ? data.value.search : "");
+}
 
 function fetchProducts(search = "") {
   isLoading.value = true;
@@ -145,12 +185,15 @@ function fetchProducts(search = "") {
   });
 }
 
-function onProductClick(product: ProductModel) {
-  selectedProduct.value = product;
-  isDialogOpen.value = true;
-}
+// function onProductClick(product: ProductModel) {
+//   selectedProduct.value = product;
+//   isDialogOpen.value = true;
+// }
 
-function onStatusChange(slug: string) {
+/**
+ * Update product
+ */
+function updateProductKey(slug: string, key: ProductEnum, value: string) {
   if (!slug) {
     toast.warn("Product slug is empty!");
     return;
@@ -158,7 +201,9 @@ function onStatusChange(slug: string) {
 
   store.isLoading = true;
 
-  makeRequest<undefined, { slug: string }>("PUT", Endpoints.ProductsSlug, { slug }, response => {
+  makeRequest<null, { slug: string, key: ProductEnum, value: string }>("PUT", Endpoints.ProductsKey, {
+    slug, key, value
+  }, response => {
     store.isLoading = false;
 
     if (response.success) {

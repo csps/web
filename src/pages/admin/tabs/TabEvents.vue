@@ -80,6 +80,7 @@
 </template>
 
 <script lang="ts" setup>
+import { toast } from 'vue3-toastify';
 import { onMounted, ref, watch } from 'vue';
 import { useStore, useDialog } from '~/store';
 import { EventEnum } from '~/types/models';
@@ -101,7 +102,6 @@ import "@material/web/textfield/filled-text-field";
 import VTable from '~/components/VTable.vue';
 import VPagination from "~/components/VPagination.vue";
 import DialogAdminEvents from "~/components/dialogs/DialogAdminEvents.vue";
-import { toast } from 'vue3-toastify';
 
 const data = ref({
   total: 0,

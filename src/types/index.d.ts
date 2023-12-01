@@ -40,7 +40,7 @@ declare global {
   type TableHeader = {
     id: string,
     text: string,
-    min?: boolean,
+    max?: number,
     align?: "left" | "right" | "center",
   }
 

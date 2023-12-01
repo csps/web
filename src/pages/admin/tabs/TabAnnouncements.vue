@@ -104,7 +104,7 @@ const data = ref({
 });
 
 const headers: TableHeader[] = [
-  { id: "id", text: "#", min: true },
+  { id: "id", text: "#" },
   { id: "title", text: "Title" },
   { id: "content", text: "Description" },
   { id: "date_stamp", text: "Created At" },

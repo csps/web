@@ -24,6 +24,7 @@
             :key="header.id"
             :title="((row as Record<string, unknown>)[header.id] as string)"
             class="td-cell"
+            :style="header.max ? 'max-width: ' + header.max + 'px' : ''"
             :class="mapAlign(header.align)"
           >
             <div v-if="loading" class="skeleton" :style="'width: ' + (Math.random() * 100)  + '%'" />

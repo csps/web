@@ -144,6 +144,12 @@ function fetchStudents(search = "") {
   isLoading.value = true;
   store.isLoading = true;
 
+  if (!isSearched.value && search.length > 0) {
+    data.value.page = 1;
+  }
+
+  isSearched.value = search.length > 0;
+
   const request = createPagination({
     page: data.value.page,
     limit: Number(Env.admin_students_per_page),

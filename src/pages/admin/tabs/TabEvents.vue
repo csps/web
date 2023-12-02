@@ -153,6 +153,8 @@ function fetchEvents(search = "") {
     data.value.page = 1;
   }
 
+  isSearched.value = search.length > 0;
+
   const request = createPagination({
     limit: Number(Env.admin_events_per_page),
     page: data.value.page,

@@ -3,10 +3,10 @@
     <div class="md:container mx-auto md:px-6 block md:hidden">
       <div class="overflow-x-scrol hide-scrollbarl">
         <md-tabs :selected="tabs.findIndex(t => t.id === route.params.tab)">
-          <md-secondary-tab v-for="t in tabs" :key="t.title" @click="tab = t.id">
+          <md-primary-tab v-for="t in tabs" :key="t.title" @click="tab = t.id">
             <md-icon slot="icon" v-html="icon(t.icon)" />
             {{ t.title }}
-          </md-secondary-tab>
+          </md-primary-tab>
         </md-tabs>
       </div>
     </div>
@@ -41,7 +41,7 @@ import { Icon, icon } from "~/utils/icon";
 
 import "@material/web/tabs/tabs";
 import "@material/web/icon/icon";
-import "@material/web/tabs/secondary-tab";
+import "@material/web/tabs/primary-tab";
 
 import TabOrders from "./tabs/TabOrders.vue";
 import TabStudents from "./tabs/TabsStudents.vue";
@@ -91,7 +91,7 @@ watch(tab, tab => {
 
 <style lang="scss" scoped>
 md-tabs {
-  --md-secondary-tab-container-shape: 6px;
+  --md-primary-tab-container-shape: 6px;
 
   &::part(divider) {
     @apply hidden;

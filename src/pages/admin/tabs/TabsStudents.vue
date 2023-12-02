@@ -1,13 +1,15 @@
 <template>
  <div class="container mx-auto px-4">
-    <div class="flex items-center flex-col-reverse xl:flex-row justify-between gap-3 mb-3">
-      <div class="flex items-center gap-3 text-2xl font-medium text-on-surface-variant">
-        <h2>Students</h2>
-        <md-assist-chip label="Add" aria-label="Add event" title="Add event" @click="isDialogOpen = true">
-          <md-icon slot="icon" v-html="icon('add')" />
-        </md-assist-chip>
+    <div class="flex justify-between items-center flex-col lg:flex-row gap-3 mb-3">
+      <div class="flex items-center flex-col lg:flex-row gap-3 text-2xl font-medium text-on-surface-variant">
+        <div class="flex gap-3 mb-2 lg:mb-0">
+          <h2>Students</h2>
+          <md-assist-chip label="Add" aria-label="Add event" title="Add event" @click="isDialogOpen = true">
+            <md-icon slot="icon" v-html="icon('add')" />
+          </md-assist-chip>
+        </div>
 
-        <div class="flex justify-center items-center flex-wrap gap-2">
+        <div class="flex justify-center items-center flex-wrap gap-2 mb-3 lg:mb-0">
           <md-filter-chip
             v-for="year in 4"
             :key="year"

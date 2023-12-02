@@ -1,7 +1,7 @@
 <template>
   <div class="container mx-auto px-4">
-    <div class="flex items-center flex-col-reverse xl:flex-row justify-between gap-3 mb-3">
-      <div class="flex items-center gap-3 text-2xl font-medium text-on-surface-variant">
+    <div class="flex justify-between items-center flex-col lg:flex-row gap-3 mb-3">
+      <div class="flex items-center gap-3 text-2xl font-medium text-on-surface-variant mb-3 lg:mb-0">
         <h2>Events</h2>
         <md-assist-chip label="Add" aria-label="Add event" title="Add event" @click="isDialogOpen = true">
           <md-icon slot="icon" v-html="icon('add')" />
@@ -52,6 +52,11 @@
         @delete="onDelete"
         hoverable
       >
+        <template v-slot:description="{ row }: { row: EventModel }">
+          <span v-if="row.description === ''" class="italic font text-on-surface-variant">(no description)</span>
+          <span v-else>{{ row.description }}</span>
+        </template>
+
         <template v-slot:date="{ row }: { row: EventModel }">
           {{ getHumanDate(new Date(row.date)) }}
         </template>

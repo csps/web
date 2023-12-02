@@ -1,6 +1,6 @@
 <template>
   <div class="container mx-auto px-4">
-    <div class="flex items-center flex-col-reverse xl:flex-row justify-between gap-3">
+    <div class="flex items-center flex-col-reverse xl:flex-row justify-between gap-3 mb-1">
       <div class="overflow-x-scroll flex w-full gap-x-2 overflow-y-hidden items-end py-1">
         <md-filter-chip
           v-for="status in Object.values(OrderStatus).filter(s => typeof s === 'number')"

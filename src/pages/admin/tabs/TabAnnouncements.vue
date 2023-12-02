@@ -1,8 +1,8 @@
 <template>
   <div class="container mx-auto px-6">
 
-    <div class="flex justify-between items-center gap-3 mb-5">
-      <div class="flex items-center gap-3 text-2xl font-medium text-on-surface-variant">
+    <div class="flex justify-between items-center flex-col lg:flex-row gap-3 mb-3">
+      <div class="flex items-center gap-3 text-2xl font-medium text-on-surface-variant mb-3">
         <h2>Announcements</h2>
         <md-assist-chip label="Add" aria-label="Add announcement" title="Add announcement" @click="isDialogOpen = true">
           <md-icon slot="icon" v-html="icon('add')" />
@@ -10,7 +10,7 @@
       </div>
 
       <div class="flex items-center gap-3">
-        <md-filled-text-field v-model="data.search" :label="'Search ' + capitalize(data.column)" @keyup.enter="fetchAnnouncements(data.search)">
+        <md-filled-text-field v-model="data.search" :label="capitalize(data.column)" @keyup.enter="fetchAnnouncements(data.search)">
           <md-icon slot="leading-icon" v-html="icon('search')" />
           <div slot="trailing-icon">
             <div class="relative">

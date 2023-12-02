@@ -1,7 +1,7 @@
 <template>
   <div class="container mx-auto px-4">
-    <div class="flex items-center flex-col-reverse xl:flex-row justify-between gap-3 mb-3">
-      <div class="flex items-center gap-3 text-2xl font-medium text-on-surface-variant">
+    <div class="flex justify-between items-center flex-col lg:flex-row gap-3 mb-3">
+      <div class="flex items-center gap-3 text-2xl font-medium text-on-surface-variant mb-3 lg:mb-0">
         <h2>Products</h2>
         <md-assist-chip label="Add" aria-label="Add product" title="Add product" @click="isDialogOpen = true">
           <md-icon slot="icon" v-html="icon('add')" />

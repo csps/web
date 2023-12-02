@@ -58,6 +58,15 @@
       <div v-if="message.length > 0 && data.announcements.length === 0" class="flex justify-center py-4 text-error font-medium">
         {{ message }}
       </div>
+
+      <VPagination
+        class="mt-5"
+        v-if="data.announcements.length > 0"
+        :limit="parseInt(Env.admin_announcements_per_page)"
+        :page="data.page"
+        :total="data.total"
+        @change="p => goToPage(p)"
+      />
     </div>
 
     <DialogAdminAnnouncement
@@ -86,6 +95,7 @@ import "@material/web/chips/assist-chip";
 import "@material/web/textfield/filled-text-field";
 
 import VTable from "~/components/VTable.vue";
+import VPagination from "~/components/VPagination.vue";
 import DialogAdminAnnouncement from "~/components/dialogs/DialogAdminAnnouncement.vue";
 
 const store = useStore();
@@ -93,6 +103,7 @@ const dialog = useDialog();
 const isMenuOpen = ref(false);
 const isDialogOpen = ref(false);
 const isLoading = ref(false);
+const isSearched = ref(false);
 const announcement = ref<AnnouncementModel>();
 const message = ref("");
 const data = ref({
@@ -118,9 +129,20 @@ watch(isDialogOpen, v => {
 
 onMounted(fetchAnnouncements);
 
+function goToPage(page: number) {
+  data.value.page = page;
+  fetchAnnouncements(isSearched ? data.value.search : "");
+}
+
 function fetchAnnouncements(search = "") {
   isLoading.value = true;
   store.isLoading = true;
+  
+  if (!isSearched.value && search.length > 0) {
+    data.value.page = 1;
+  }
+
+  isSearched.value = search.length > 0;
 
   const request = createPagination({
     page: data.value.page,

@@ -96,6 +96,7 @@ import { Env } from '~/config';
 import "@material/web/icon/icon";
 import "@material/web/menu/menu";
 import "@material/web/menu/menu-item";
+import "@material/web/chips/assist-chip";
 import "@material/web/iconbutton/icon-button";
 import "@material/web/textfield/filled-text-field";
 

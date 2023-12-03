@@ -7,27 +7,38 @@
   >
     <div slot="headline">{{ product ? 'Update' : 'Add' }} Product</div>
     <div slot="content" class="space-y-5">
-      <md-filled-text-field
-        class="w-full"
-        label="Name"
-        v-model.trim="name"
-        :disabled="isLoading"
-        @keydown.enter="submit"
-      >
-        <md-icon slot="leading-icon" v-html="icon('deployed_code', true)" />
-      </md-filled-text-field>
+      <div class="grid grid-cols-2 gap-5">
+        <md-filled-text-field
+          class="w-full"
+          label="Name"
+          v-model.trim="name"
+          :disabled="isLoading"
+          @keyup.enter="submit"
+        >
+          <md-icon slot="leading-icon" v-html="icon('deployed_code', true)" />
+        </md-filled-text-field>
+        <md-filled-text-field
+          class="w-full"
+          label="URL Slug"
+          v-model.trim="slug"
+          :disabled="isLoading"
+          @keyup.enter="submit"
+        >
+          <md-icon slot="leading-icon" v-html="icon('link', true)" />
+        </md-filled-text-field>
+      </div>
       <md-filled-text-field
         class="w-full"
         label="Description"
         type="textarea"
         v-model.trim="description"
         :disabled="isLoading"
-        @keydown.enter="submit"
+        @keyup.enter="submit"
       >
         <md-icon slot="leading-icon" v-html="icon('tune', true)" />
       </md-filled-text-field>
 
-      <div class="grid grid-cols-2  gap-5">
+      <div class="grid grid-cols-2 gap-5">
         <md-filled-text-field v-model="stock" label="Stock" type="number">
           <md-icon slot="leading-icon" v-html="icon('tune', true)" />
         </md-filled-text-field>
@@ -69,10 +80,13 @@ const props = defineProps<{
 
 const isLoading = ref(false);
 const isDialogOpen = computed(() => props.modelValue);
-const canAdd = computed(() => name.value && description.value && price.value > 0 && stock.value >= 0 && max_quantity.value > 0);
-const photos_hash = ref();
+const canAdd = computed(() => name.value && description.value && price.value > 0 && stock.value >= 0 && max_quantity.value > 0 && slug.value);
+const request_photo = ref();
 const name = ref();
+const slug = ref();
+const currentSlug = ref();
 const description = ref();
+const photos_hash = ref("");
 const price = ref(0);
 const max_quantity = ref(1);
 const stock = ref(0);
@@ -84,7 +98,9 @@ watch(isDialogOpen, (value) => {
     price.value = props.product?.price || 0;
     max_quantity.value = props.product?.max_quantity || 1;
     stock.value = props.product?.stock || 0;
-    photos_hash.value = props.product?.photos_hash;
+    slug.value = props.product?.slug || "";
+    currentSlug.value = props.product?.slug || "";
+    photos_hash.value = props.product?.photos_hash || "";
   }
 });
 
@@ -102,16 +118,14 @@ function submit() {
     description: description.value,
     price: price.value,
     stock: stock.value,
-    variations: "", // TODO: Add variations
+    photos_hash: photos_hash.value,
+    variations: "",
+    slug: currentSlug.value,
+    slug_input: slug.value,
   };
 
-  if (photos_hash.value) {
-    data.photos_hash = photos_hash.value;
-  }
-
-  if (props.product) {
-    data.photos_hash = photos_hash.value;
-    data.slug = props.product.slug;
+  if (request_photo.value) {
+    data.request_photo = request_photo.value;
   }
 
   // Send the request
@@ -143,11 +157,11 @@ function onFilePut(event: Event) {
   const file = (event.target as HTMLInputElement).files?.[0];
   
   if (!file) {
-    photos_hash.value = undefined;
+    request_photo.value = undefined;
     return;
   }
 
-  photos_hash.value = file;
+  request_photo.value = file;
 }
 </script>
 

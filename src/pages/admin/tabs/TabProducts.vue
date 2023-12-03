@@ -48,6 +48,8 @@
         :loading="isLoading"
         :headers="headers"
         :data="data.products"
+        @edit="onEdit"
+        no-delete
       >
         <template v-slot:name="{ row }: { row: ProductModel }">
           <div class="flex gap-2 items-center">
@@ -91,6 +93,12 @@
         :total="data.total"
         @change="p => goToPage(p)"
       />
+
+      <DialogAdminProducts
+        v-model="isDialogOpen"
+        :product="selectedProduct"
+        @done="fetchProducts"
+      />
     </div>
   </div>
 </template>
@@ -118,6 +126,7 @@ import "@material/web/textfield/filled-text-field";
 
 import VTable from '~/components/VTable.vue';
 import VPagination from "~/components/VPagination.vue";
+import DialogAdminProducts from "~/components/dialogs/DialogAdminProducts.vue";
 
 const store = useStore();
 const message = ref("");
@@ -191,10 +200,13 @@ function fetchProducts(search = "") {
   });
 }
 
-// function onProductClick(product: ProductModel) {
-//   selectedProduct.value = product;
-//   isDialogOpen.value = true;
-// }
+/**
+ * Edit product
+ */
+function onEdit(product: ProductModel) {
+  selectedProduct.value = product;
+  isDialogOpen.value = true;
+}
 
 /**
  * Update product

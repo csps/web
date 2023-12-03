@@ -82,6 +82,7 @@ const isLoading = ref(false);
 const isDialogOpen = computed(() => props.modelValue);
 const canAdd = computed(() => name.value && description.value && price.value > 0 && stock.value >= 0 && max_quantity.value > 0 && slug.value);
 const request_photo = ref();
+
 const name = ref();
 const slug = ref();
 const currentSlug = ref();
@@ -121,7 +122,7 @@ function submit() {
     photos_hash: photos_hash.value,
     variations: "",
     slug: currentSlug.value,
-    slug_input: slug.value,
+    new_slug: slug.value
   };
 
   if (request_photo.value) {
@@ -150,6 +151,7 @@ function submit() {
  * Close the dialog
  */
 function close() {
+  request_photo.value = null;
   emit("update:modelValue", false);
 }
 

@@ -139,6 +139,7 @@ const isSearched = ref(false);
 const headers: TableHeader[] = [
   { id: ProductEnum.id, text: "#" },
   { id: ProductEnum.name, text: "Name" },
+  { id: ProductEnum.slug, text: "URL Slug" },
   { id: ProductEnum.description, text: "Description", max: 100 },
   { id: ProductEnum.price, text: "Price", align: "right" },
   { id: ProductEnum.stock, text: "Stocks", align: "right" },

@@ -27,25 +27,31 @@
       <div class="flex items-center gap-5 flex-grow justify-end">
         <div class="xl:flex justify-end space-x-2 hidden">
           <md-tabs :activeTabIndex="NAV_LINKS.findIndex(t => t.name === route.name)">
-            <md-primary-tab v-for="link in NAV_LINKS.slice(0, 5)" :key="link.path" tabindex="-1" @click="router.push({ path: link.path })">
+            <md-primary-tab
+              v-for="(link, i) in NAV_LINKS.slice(0, 4)"
+              :key="link.path"
+              tabindex="-1"
+              @click="router.push({ path: link.path })"
+              :title="link.name"
+            >
               <router-link class="link" :to="link.path">
-                {{ link.name }}
+                <md-icon v-html="icon(link.icon, NAV_LINKS.findIndex(t => t.name === route.name) !== i)" />
               </router-link>
             </md-primary-tab>
 
-            <md-primary-tab v-show="store.isLoggedIn" @click="router.push({ path: '/profile' })">
+            <md-primary-tab title="Profile" v-show="store.isLoggedIn" @click="router.push({ path: '/profile' })">
               <router-link class="link" to="/profile" tabindex="-1">
-                Profile
+                <md-icon v-html="icon('person')" />
               </router-link>
             </md-primary-tab>
-            <md-primary-tab v-show="!store.isLoggedIn && !store.isAdminLoggedIn" @click="router.push({ path: '/login' })">
+            <md-primary-tab title="Login" v-show="!store.isLoggedIn && !store.isAdminLoggedIn" @click="router.push({ path: '/login' })">
               <router-link class="link" to="/login" tabindex="-1">
-                Login
+                <md-icon v-html="icon('login')" />
               </router-link>
             </md-primary-tab>
-            <md-primary-tab v-show="store.isAdminLoggedIn" @click="router.push({ path: '/admin' })">
+            <md-primary-tab title="Admin" v-show="store.isAdminLoggedIn" @click="router.push({ path: '/admin' })">
               <router-link class="link" to="/admin" tabindex="-1">
-                Admin
+                <md-icon v-html="icon('account_circle')" />
               </router-link>
             </md-primary-tab>
           </md-tabs>
@@ -173,7 +179,7 @@ md-text-button {
 
 md-tabs {
   --md-primary-tab-container-color: transparent;
-  --md-primary-tab-container-shape: 6px;
+  --md-primary-tab-container-shape: 8px;
 
   &::part(divider) {
     @apply hidden;

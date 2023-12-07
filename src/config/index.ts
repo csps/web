@@ -20,9 +20,9 @@ export const NAV_LINKS: {
   icon: Icon
 }[] = [
   { name: 'Home', path: '/', icon: "home" },
-  { name: 'About', path: '/about', icon: "diversity" },
-  { name: "Forum", path: '/forum', icon: "forum" },
-  { name: 'Bulletin', path: '/bulletin', icon: "calendar_month" },
+  { name: 'About', path: '/about', icon: "atr" },
+  // { name: "Forum", path: '/forum', icon: "forum" },
+  { name: 'Bulletin', path: '/bulletin', icon: "event" },
   { name: 'Merch', path: '/merch', icon: "store" },
   { name: 'Profile', path: '/profile', icon: "person" },
   { name: 'Login', path: '/login', icon: "login" },

@@ -47,7 +47,6 @@ import { ref, computed } from "vue";
 import { toast } from "vue3-toastify";
 import { icon } from "~/utils/icon";
 import { Endpoints, makeRequest } from "~/network/request";
-import { StudentEnum } from "~/types/models";
 
 const emit = defineEmits(["update:modelValue"]);
 const props = defineProps({
@@ -84,10 +83,9 @@ function submit() {
   isLoading.value = true;
   
   // Send the request
-  makeRequest("PUT", Endpoints.StudentsKey, { 
-    key: StudentEnum.password,
-    newpass: newPassword.value,
-    cnfpass: confirmPassword.value
+  makeRequest("PUT", Endpoints.StudentsPassword, { 
+    pass1: newPassword.value,
+    pass2: confirmPassword.value
   }, response => {
     // Set loading to false
     isLoading.value = false;

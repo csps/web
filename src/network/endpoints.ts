@@ -9,6 +9,7 @@ enum Endpoints {
   PhotosHash = "/photos/:hash",
   ReferenceHash = "/photos/:hash/reference",
 
+  StudentsPassword = "/students/password",
   StudentsKey = "/students/:key",
   Students = "/students",
 

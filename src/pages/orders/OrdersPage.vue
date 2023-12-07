@@ -15,7 +15,7 @@
           >
             <md-icon slot="leading-icon" v-html="icon('search')" />
           </md-filled-text-field>
-          <md-outlined-select v-model="data.column" label="Filter by" class="dense">
+          <md-filled-select v-model="data.column" label="Filter by" class="dense">
             <md-icon slot="leading-icon" v-html="icon('filter_list', true)" />
             <md-select-option
               v-for="option in allowedFilters"
@@ -24,7 +24,7 @@
             >
               <span slot="headline">{{ capitalize(option) }}</span>
             </md-select-option>
-          </md-outlined-select>
+          </md-filled-select>
         </div>
 
         <div class="flex justify-center items-center flex-wrap gap-2 mt-4">
@@ -116,7 +116,7 @@ import "@material/web/icon/icon";
 import "@material/web/progress/linear-progress";
 import "@material/web/textfield/filled-text-field";
 import "@material/web/button/filled-button";
-import "@material/web/select/outlined-select";
+import "@material/web/select/filled-select";
 import "@material/web/chips/filter-chip";
 import "@material/web/chips/chip-set";
 import "@material/web/select/select-option";

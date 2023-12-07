@@ -119,7 +119,7 @@ import "@material/web/chips/filter-chip";
 register();
 
 const waveEl = ref();
-const role = ref<Role | null>(getStore("home_msg_role") as Role || "dean");
+const role = ref<Role | null>(getStore("home_msg_role") as Role || null);
 const isShowMessage = ref(false);
 const announcements = ref<AnnouncementModel[]>([]);
 const isLoading = ref(true);

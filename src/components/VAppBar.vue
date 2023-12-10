@@ -57,7 +57,10 @@
           </md-tabs>
         </div>
 
-        <md-switch @change="onThemeChange" :selected="store.isDark" icons />
+        <md-switch @change="onThemeChange" :selected="store.isDark" icons>
+          <md-icon slot="on-icon" v-html="icon('dark_mode')" />
+          <md-icon slot="off-icon" v-html="icon('light_mode')" />
+        </md-switch>
 
         <!-- Drawer Button -->
         <div class="flex justify-end xl:hidden relative">

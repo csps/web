@@ -36,22 +36,26 @@
             >
               <router-link class="link" :to="link.path">
                 <md-icon v-html="icon(link.icon, NAV_LINKS.findIndex(t => t.name === route.name) !== i)" />
+                <span>{{ link.name }}</span>
               </router-link>
             </md-primary-tab>
 
             <md-primary-tab title="Profile" v-show="store.isLoggedIn" @click="router.push({ path: '/profile' })">
               <router-link class="link" to="/profile" tabindex="-1">
                 <md-icon v-html="icon('person')" />
+                <span>Profile</span>
               </router-link>
             </md-primary-tab>
             <md-primary-tab title="Login" v-show="!store.isLoggedIn && !store.isAdminLoggedIn" @click="router.push({ path: '/login' })">
               <router-link class="link" to="/login" tabindex="-1">
                 <md-icon v-html="icon('login')" />
+                <span>Login</span>
               </router-link>
             </md-primary-tab>
             <md-primary-tab title="Admin" v-show="store.isAdminLoggedIn" @click="router.push({ path: '/admin' })">
               <router-link class="link" to="/admin" tabindex="-1">
                 <md-icon v-html="icon('account_circle')" />
+                <span>Admin</span>
               </router-link>
             </md-primary-tab>
           </md-tabs>
@@ -178,6 +182,10 @@ h3 {
 
 md-text-button {
   --md-sys-color-primary: var(--md-sys-color-on-surface-variant);
+}
+
+md-primary-tab span {
+  @apply text-sm pl-3;
 }
 
 md-tabs {

@@ -26,7 +26,7 @@
       <!-- Navigation Links -->
       <div class="flex items-center gap-5 flex-grow justify-end">
         <div class="xl:flex justify-end space-x-2 hidden">
-          <md-tabs :activeTabIndex="NAV_LINKS.findIndex(t => t.name === route.name)">
+          <md-tabs :activeTabIndex="NAV_LINKS.findIndex(t => t.name === route.name)" class="overflow-hidden">
             <md-primary-tab
               v-for="(link, i) in NAV_LINKS.slice(0, 4)"
               :key="link.path"
@@ -36,26 +36,26 @@
             >
               <router-link class="link" :to="link.path">
                 <md-icon v-html="icon(link.icon, NAV_LINKS.findIndex(t => t.name === route.name) !== i)" />
-                <span>{{ link.name }}</span>
+                <span v-show="NAV_LINKS.findIndex(t => t.name === route.name) === i">{{ link.name }}</span>
               </router-link>
             </md-primary-tab>
 
             <md-primary-tab title="Profile" v-show="store.isLoggedIn" @click="router.push({ path: '/profile' })">
               <router-link class="link" to="/profile" tabindex="-1">
                 <md-icon v-html="icon('person')" />
-                <span>Profile</span>
+                <span v-show="NAV_LINKS.findIndex(t => t.name === route.name) === 4">Profile</span>
               </router-link>
             </md-primary-tab>
             <md-primary-tab title="Login" v-show="!store.isLoggedIn && !store.isAdminLoggedIn" @click="router.push({ path: '/login' })">
               <router-link class="link" to="/login" tabindex="-1">
                 <md-icon v-html="icon('login')" />
-                <span>Login</span>
+                <span v-show="NAV_LINKS.findIndex(t => t.name === route.name) === 5">Login</span>
               </router-link>
             </md-primary-tab>
             <md-primary-tab title="Admin" v-show="store.isAdminLoggedIn" @click="router.push({ path: '/admin' })">
               <router-link class="link" to="/admin" tabindex="-1">
                 <md-icon v-html="icon('account_circle')" />
-                <span>Admin</span>
+                <span v-show="NAV_LINKS.findIndex(t => t.name === route.name) === 5">Admin</span>
               </router-link>
             </md-primary-tab>
           </md-tabs>
@@ -198,7 +198,7 @@ md-tabs {
 }
 
 .link {
-  @apply h-full flex items-center w-max;
+  @apply h-full flex items-center w-min;
 }
 </style>
 

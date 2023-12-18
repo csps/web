@@ -22,7 +22,7 @@
     "@material-symbols/svg-700": "^0.14.3",
     "@material/web": "^1.1.1",
     "animejs": "3.2.2",
-    "axios": "^1.6.2",
+    "axios": "^1.6.3",
     "element-internals-polyfill": "^1.3.9",
     "pinia": "^2.1.7",
     "sal.js": "^0.8.5",
@@ -38,7 +38,7 @@
     "@types/animejs": "3.1.12",
     "@types/node": "^20.10.5",
     "@types/uuid": "^9.0.7",
-    "@vitejs/plugin-vue": "^4.5.2",
+    "@vitejs/plugin-vue": "^5.0.0",
     "autoprefixer": "^10.4.16",
     "postcss": "8.4.32",
     "sass": "^1.69.5",
@@ -46,6 +46,6 @@
     "typescript": "^5.3.3",
     "vite": "^5.0.10",
     "vite-bundle-visualizer": "^1.0.0",
-    "vue-tsc": "^1.8.25"
+    "vue-tsc": "^1.8.27"
   }
 }

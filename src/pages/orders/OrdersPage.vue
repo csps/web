@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-col justify-center items-center w-full h-full text-on-surface-variant">
-    <div v-if="store.isLoggedIn === undefined" class="flex flex-col gap-2 justify-center items-center">
+    <div v-if="isFetching" class="flex flex-col gap-2 justify-center items-center">
       <md-linear-progress indeterminate />
       <span>Checking status...</span>
     </div>
@@ -69,7 +69,7 @@
         To view your orders, please enter your reference number and student ID.
       </h6>
 
-      <div class="flex flex-col gap-6 mt-8">
+      <div class="flex flex-col gap-5 mt-8">
         <md-filled-text-field
           v-model.trim="reference"
           label="Reference No."
@@ -82,12 +82,14 @@
         <md-filled-text-field @keydown.enter="submit" v-model.trim="studentId" label="Student ID" type="number">
           <md-icon slot="leading-icon" v-html="icon('badge', true)" />
         </md-filled-text-field>
+        
+        <div class="flex justify-end items-center">
+          <md-filled-button @click="submit" :disabled="reference.length === 0 || studentId.length === 0 || isFetching" class="w-1/3">
+            {{ isFetching ? 'Finding order...' : 'View order' }}
+          </md-filled-button>
+        </div>
   
-        <md-filled-button @click="submit" :disabled="reference.length === 0 || studentId.length === 0 || isFetching">
-          {{ isFetching ? 'Finding order...' : 'View order' }}
-        </md-filled-button>
-  
-        <p class="body-small text-center">
+        <p class="body-small text-right">
           Have an account? 
           <router-link :to="{ name: 'Login' }">
             <span class="border-b border-outline-variant border-dashed">Click here</span>

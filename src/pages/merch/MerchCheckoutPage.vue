@@ -15,35 +15,47 @@
             <div class="flex flex-col gap-6 flex-grow">
               <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <md-filled-text-field :disabled="isPlacingOrder" v-model="firstName" :readonly="store.isLoggedIn" label="First name">
-                  <md-icon slot="leadingicon" v-html="icon('person', true)"  />
+                  <md-icon slot="leading-icon" v-html="icon('person', true)"  />
                 </md-filled-text-field>
                 <md-filled-text-field :disabled="isPlacingOrder" v-model="lastName" :readonly="store.isLoggedIn" label="Last name">
-                  <md-icon slot="leadingicon" v-html="icon('person', true)"  />
+                  <md-icon slot="leading-icon" v-html="icon('person', true)"  />
                 </md-filled-text-field>
               </div>
               <md-filled-text-field :disabled="isPlacingOrder" v-model="studentId" :readonly="store.isLoggedIn" type="number" min="0" label="Student ID">
-                <md-icon slot="leadingicon" v-html="icon('badge', true)"  />
+                <md-icon slot="leading-icon" v-html="icon('badge', true)"  />
               </md-filled-text-field>
               <md-filled-text-field :disabled="isPlacingOrder" v-model="email" :readonly="store.isLoggedIn" type="email" label="Email">
-                <md-icon slot="leadingicon" v-html="icon('mail', true)"  />
+                <md-icon slot="leading-icon" v-html="icon('mail', true)"  />
               </md-filled-text-field>
 
               <div class="grid grid-cols-1 xl:grid-cols-2 gap-6">
-                <md-filled-select v-if="!store.isLoggedIn" v-model="course" :disabled="store.isLoggedIn || isPlacingOrder" label="Course" quick>
-                  <md-icon slot="leadingicon" v-html="icon('school', true)" />
-                  <md-select-option v-for="(c, id) in courses" :key="id" :value="Number(id)" :headline="c" />
+                <md-filled-select class="dense" v-if="!store.isLoggedIn" v-model="course" :disabled="store.isLoggedIn || isPlacingOrder" label="Course">
+                  <md-icon slot="leading-icon" v-html="icon('school', true)" />
+                  <md-select-option v-for="(c, id) in store.courses" :key="id" :value="Number(id)">
+                    <span slot="headline">{{ c }}</span>
+                  </md-select-option>
                 </md-filled-select>
-                <md-filled-select v-else label="Course" disabled quick>
-                  <md-icon slot="leadingicon" v-html="icon('school', true)"  />
-                  <md-select-option :value="0" headline="BSCS" selected />
+                <md-filled-select v-else label="Course" disabled>
+                  <md-icon slot="leading-icon" v-html="icon('school', true)"  />
+                  <md-select-option :value="0" selected>
+                    <span slot="headline">BSCS</span>
+                  </md-select-option>
                 </md-filled-select>
 
-                <md-filled-select label="Year level" :disabled="store.isLoggedIn || isPlacingOrder" v-model="year" quick>
-                  <md-icon slot="leadingicon" v-html="icon('school', true)" />
-                  <md-select-option :value="1" headline="1st year" />
-                  <md-select-option :value="2" headline="2nd year" />
-                  <md-select-option :value="3" headline="3rd year" />
-                  <md-select-option :value="4" headline="4th year" />
+                <md-filled-select label="Year level" :disabled="store.isLoggedIn || isPlacingOrder" v-model="year">
+                  <md-icon slot="leading-icon" v-html="icon('school', true)" />
+                  <md-select-option :value="1" :selected="year === 1">
+                    <span slot="headline">1st year</span>
+                  </md-select-option>
+                  <md-select-option :value="2" :selected="year === 2">
+                    <span slot="headline">2nd year</span>
+                  </md-select-option>
+                  <md-select-option :value="3" :selected="year === 3">
+                    <span slot="headline">3rd year</span>
+                  </md-select-option>
+                  <md-select-option :value="4" :selected="year === 4">
+                    <span slot="headline">4th year</span>
+                  </md-select-option>
                 </md-filled-select>
               </div>
 
@@ -86,13 +98,14 @@
                 </div>
               </div>
               <div class="flex justify-end">
-                <md-outlined-select :disabled="isPlacingOrder" v-model="quantity" label="Quantity" class="w-min" quick>
+                <md-outlined-select :disabled="isPlacingOrder" v-model="quantity" label="Quantity" class="w-min">
                   <md-select-option
                     v-for="i in store.checkoutDetails.product.max_quantity"
                     :key="i"
                     :value="i"
-                    :headline="i"
-                  />
+                  >
+                    <span slot="headline">{{ i }}</span>
+                  </md-select-option>
                 </md-outlined-select>
               </div>
             </div>
@@ -109,23 +122,19 @@
           </div>
 
           <div class="bg-surface-container p-10 rounded-2xl flex flex-col gap-6">
-            <div class="flex justify-center gap-5 text-on-surface-variant label-large">
-              <label>
-                <md-radio
-                  :disabled="isPlacingOrder"
-                  :checked="mop === ModeOfPayment.WALK_IN"
-                  @click="mop = ModeOfPayment.WALK_IN"
-                />
-                <span class="ml-2">Walk-in</span>
-              </label>
-              <label>
-                <md-radio
-                  :disabled="isPlacingOrder"
-                  :checked="mop === ModeOfPayment.GCASH"
-                  @click="mop = ModeOfPayment.GCASH"
-                />
-                <span class="ml-2">GCash</span>
-              </label>
+            <div class="flex justify-center gap-2 text-on-surface-variant label-large">
+              <md-filter-chip
+                :disabled="isPlacingOrder"
+                :selected="mop === ModeOfPayment.WALK_IN"
+                @click.prevent="mop = ModeOfPayment.WALK_IN"
+                label="Walk-in"
+              />
+
+              <!-- Disabled for now -->
+              <md-filter-chip
+                disabled
+                label="GCash"
+              />
             </div>
 
             <p class="text-center body-medium">{{ mop === ModeOfPayment.WALK_IN ? Env.checkout_walk_in_message : Env.checkout_gcash_message }}</p>
@@ -154,7 +163,6 @@
 </template>
 
 <script lang="ts" setup>
-import { useRouter } from "vue-router";
 import { computed, onMounted, ref } from "vue";
 import { Endpoints, makeRequest } from "~/network/request";
 import { toCurrency } from "~/utils/string";
@@ -163,12 +171,13 @@ import { ModeOfPayment } from "~/types/enums";
 import { getStore, removeStore, setStore } from "~/utils/storage";
 import { toast } from "vue3-toastify";
 import { icon } from '~/utils/icon';
-import { useStore } from '~/store';
+import { useStore, useDialog } from '~/store';
 import { Env } from "~/config";
 
 import VImage from '~/components/VImage.vue';
 import ImageTemplate from '~/composables/ImageTemplate.vue';
 import CSPSGcash from "~/assets/img/csps_gcash.png";
+import router from "~/router";
 
 import "@material/web/textfield/filled-text-field";
 import "@material/web/select/filled-select";
@@ -176,11 +185,10 @@ import "@material/web/select/outlined-select";
 import "@material/web/select/select-option";
 import "@material/web/button/filled-button";
 import "@material/web/checkbox/checkbox";
-import "@material/web/radio/radio";
+import "@material/web/chips/filter-chip";
 
 const store = useStore();
-const router = useRouter();
-const courses = ref();
+const dialog = useDialog();
 
 const firstName = ref();
 const lastName = ref();
@@ -215,9 +223,6 @@ type OrderRequest = {
 };
 
 onMounted(() => {
-  // Set the quantity to the max quantity of the product
-  quantity.value = store.checkoutDetails?.product.max_quantity || 1;
-
   // If the user is logged in, set the student info to the logged in student
   if (store.isLoggedIn) {
     course.value = 0; // BSCS
@@ -225,33 +230,22 @@ onMounted(() => {
     lastName.value = store.student.last_name;
     studentId.value = store.student.student_id;
     email.value = store.student.email_address;
-    year.value = store.student.year_level;
+    year.value = parseInt(store.student.year_level);
   }
 
-  // Get the list of courses
-  makeRequest("GET", Endpoints.Courses, null, response => {
-    if (response.success) {
-      courses.value = response.data;
-
-      setTimeout(() => {
-        // If there is a saved student info and is not logged in, load it
-        if (getStore("student") && !store.isLoggedIn) {
-          const student = JSON.parse(atob(getStore("student") || ""));
-          firstName.value = student.first_name;
-          lastName.value = student.last_name;
-          studentId.value = student.student_id;
-          course.value = parseInt(student.course);
-          email.value = student.email_address;
-          year.value = student.year_level;
-          isSaveInfo.value = true;
-        }
-      }, 0);
-
-      return;
+  setTimeout(() => {
+    // If there is a saved student info and is not logged in, load it
+    if (getStore("student") && !store.isLoggedIn) {
+      const student = JSON.parse(atob(getStore("student") || ""));
+      firstName.value = student.first_name;
+      lastName.value = student.last_name;
+      studentId.value = student.student_id;
+      course.value = parseInt(student.course);
+      email.value = student.email_address;
+      year.value = parseInt(student.year_level);
+      isSaveInfo.value = true;
     }
-
-    toast.error(response.message);
-  });
+  }, 0);
 });
 
 function onSaveInfo(ev: Event) {
@@ -273,7 +267,6 @@ function placeOrder() {
     toast.error("Please fill up all the required fields!");
     return;
   }
-
 
   store.isLoading = true;
   isPlacingOrder.value = true;
@@ -323,11 +316,16 @@ function placeOrder() {
     isPlacingOrder.value = false;
 
     if (response.success) {
-      toast.success(response.message);
-
-      router.replace({ name: "Receipt", params: {
-        receipt: response.data
-      }});
+      const [ title, message ] = response.message.split("_");
+      
+      dialog.open(title, message, {
+        text: "Gotchu",
+        click() {
+          dialog.hide();
+        }
+      }, null, () => {
+        router.replace({ name: "Merch" });
+      });
 
       return;
     }

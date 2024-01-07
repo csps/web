@@ -19,7 +19,6 @@ const routes: RouteRecordRaw[] = [
     path: "/login",
     name: "Login",
     component: () => import("../pages/login/LoginPage.vue"),
-    meta: { requiresAuth: true }
   },
   {
     path: "/merch",
@@ -32,6 +31,11 @@ const routes: RouteRecordRaw[] = [
     component: () => import("../pages/orders/OrdersPage.vue"),
   },
   {
+    path: "/orders/:uniqueId",
+    name: "My Order",
+    component: () => import("../pages/orders/OrdersInfo.vue"),
+  },
+  {
     path: "/merch/:id",
     name: "Product",
     component: () => import("../pages/merch/MerchProductPage.vue")
@@ -42,11 +46,6 @@ const routes: RouteRecordRaw[] = [
     component: () => import("../pages/merch/MerchCheckoutPage.vue")
   },
   {
-    path: "/merch/receipt/:receipt",
-    name: "Receipt",
-    component: () => import("../pages/merch/MerchReceiptPage.vue")
-  },
-  {
     path: "/bulletin",
     name: "Bulletin",
     component: () => import("../pages/bulletin/BulletinPage.vue")
@@ -55,6 +54,11 @@ const routes: RouteRecordRaw[] = [
     path: "/about",
     name: "About",
     component: () => import("../pages/about/AboutPage.vue")
+  },
+  {
+    path: "/forum",
+    name: "Forum",
+    component: () => import("../pages/forum/ForumPage.vue")
   },
   {
     path: "/profile",
@@ -78,9 +82,9 @@ const routes: RouteRecordRaw[] = [
     meta: { requiresAuth: true }
   },
   {
-    path: "/admin/orders/:receipt",
+    path: "/admin/orders/:reference",
     name: "Order",
-    component: () => import("../pages/admin/tabs/TabOrdersInfo.vue"),
+    component: () => import("../pages/orders/OrdersInfo.vue"),
     meta: { requiresAuth: true }
   },
   {
@@ -118,31 +122,37 @@ router.beforeEach((to, _from, next) => {
   // If going to route that requres auth
   if (to.meta.requiresAuth) {
     // Check for admin token
-    const token = getStore("csps_token");
+    const adminToken = getStore("adm_token");
+    const studentToken = getStore("std_token");
 
     // If goiing to admin page
-    if (to.name === "Admin" && !token) {
+    if (to.name === "Admin" && !adminToken) {
       return next({ name: "Admin Login" });
     }
 
     // If going to admin login
-    if (to.name === "Admin Login" && !token) {
+    if (to.name === "Admin Login" && !adminToken) {
       return next();
+    }
+
+    // If going to profile and no student token
+    if (to.name === 'Profile' && !studentToken) {
+      return next({ name: "Login" });
     }
 
     // If going to profile and has logged in admin
-    if (to.name === 'Profile' && token) {
+    if (to.name === 'Profile' && adminToken) {
       return next();
     }
 
-    // If going to student login or profile and has admin token
-    if (["Login", "Profile"].includes(to.name as string) && !!token) {
+    // If going to student login or profile and has admin adminToken
+    if (["Login", "Profile"].includes(to.name as string) && !!adminToken) {
       // Go to admin
       return next({ name: "Admin" });
     }
 
-    // If has token
-    if (!!token) {
+    // If has adminToken
+    if (!!adminToken) {
       isAdminLoginValid(isAdminLoginValid => {
         // If is valid
         if (isAdminLoginValid) {
@@ -182,6 +192,10 @@ router.beforeEach((to, _from, next) => {
     });
 
     return;
+  }
+
+  if (to.name === "Login" && useStore().isLoggedIn) {
+    return next({ name: "Home" });
   }
 
   // If checking out and no checkout details or product is not available

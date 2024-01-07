@@ -45,7 +45,7 @@ function startTyped() {
 
   instance = new Typed(message.value, {
     strings: [ props.message ],
-    typeSpeed: 15,
+    typeSpeed: 10,
     showCursor: false,
   });
 }

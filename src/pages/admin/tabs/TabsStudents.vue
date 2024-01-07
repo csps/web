@@ -1,56 +1,75 @@
 <template>
   <div class="flex flex-col justify-center items-center w-full px-6 container mx-auto h-full">
-    <md-filled-button @click="isDialogOpen = true" class="mb-5">
-      <md-icon slot="icon" v-html="icon('add')" />
-      Add Student
-    </md-filled-button>
-
     <div class="flex items-center gap-3">
       <md-outlined-text-field
         v-model="data.search"
         :label="'Search ' + capitalize(data.column)"
       >
-        <md-icon slot="leadingicon" v-html="icon('search')" />
+        <md-icon slot="leading-icon" v-html="icon('search')" />
+
+        <div slot="trailing-icon">
+          <div class="relative">
+            <md-icon-button id="students-sort-menu" class="mr-2" title="Filter by" @click.stop="isMenuOpen = !isMenuOpen">
+              <md-icon v-html="icon('filter_list')" />
+            </md-icon-button>
+            <md-menu
+              :open="isMenuOpen"
+              anchor="students-sort-menu"
+              @closed="isMenuOpen = false"
+              class="min-w-min"
+              y-offset="8"
+              anchor-corner="end-end"
+              menu-corner="start-end"
+            >
+              <md-menu-item
+                v-for="option in StudentEnum"
+                :key="option"
+                :value="option"
+                @click="data.column = option"
+              >
+                <span class="whitespace-nowrap">{{ capitalize(option) }}</span>
+              </md-menu-item>
+            </md-menu>
+          </div>
+
+          <md-icon-button class="mr-2" title="Add student" @click="isDialogOpen = true">
+            <md-icon v-html="icon('add')" />
+          </md-icon-button>
+        </div>
+
       </md-outlined-text-field>
-      <md-outlined-select v-model="data.column" label="Filter by" class="dense" quick>
-        <md-icon slot="leadingicon" v-html="icon('filter_list', true)" />
-        <md-select-option
-          v-for="option in StudentEnum"
-          :key="option"
-          :value="option"
-          :headline="capitalize(option)"
-        />
-      </md-outlined-select>
     </div>
     
     <div class="flex justify-center items-center flex-wrap gap-2 mt-4">
       <md-filter-chip
-      v-for="year in 4"
-        elevated
+        v-for="year in 4"
         :key="year"
         :selected="data.filterYear.includes(year)"
         :label="mapYear(year)"
         @click="onFilter(year)"
+        elevated
       />
     </div>
 
-    <div v-if="data.students.length > 0" class="space-y-3 mt-5 w-full lg:w-3/4 2xl:w-1/2">
-      <CardStudent v-for="student in data.students" :key="student.id" :student="student" />
-    </div>
-    <div v-else class="flex justify-center mt-8 flex-grow">
-      {{ message || "Fetching students..." }}
+    <div class="flex justify-center flex-col items-center container mx-auto px-6">
+      <div v-if="data.students.length > 0" class="mt-8 grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-3">
+        <CardStudent v-for="student in data.students" :key="student.id" :student="student" />
+      </div>
+      <div v-else class="flex justify-center mt-8 flex-grow">
+        {{ message || "Fetching students..." }}
+      </div>
+  
+      <VPagination
+        class="mt-5"
+        v-if="data.students.length > 0"
+        :limit="parseInt(Env.admin_students_per_page)"
+        :page="data.page"
+        :total="data.total"
+        @change="p => data.page = p"
+      />
     </div>
 
-    <VPagination
-      class="mt-5"
-      v-if="data.students.length > 0"
-      :limit="parseInt(Env.admin_students_per_page)"
-      :page="data.page"
-      :total="data.total"
-      @change="p => data.page = p"
-    />
-
-    <DialogAdminStudent v-model="isDialogOpen" />
+    <DialogAdminStudent v-model="isDialogOpen" @done="fetchStudents" />
   </div>
 </template>
 
@@ -76,6 +95,7 @@ import DialogAdminStudent from '~/components/dialogs/DialogAdminStudent.vue';
 const store = useStore();
 const isLoading = ref(false);
 const isDialogOpen = ref(false);
+const isMenuOpen = ref(false);
 const message = ref("");
 
 const data = ref({
@@ -105,6 +125,8 @@ function fetchStudents(search = "") {
   const request: any = {
     search_value: [search, ...data.value.filterYear],
     search_column: [data.value.column, ...Array(data.value.filterYear.length).fill(StudentEnum.year_level)],
+    sort_column: StudentEnum.last_name,
+    sort_type: "ASC",
     page: data.value.page,
     limit: Env.admin_students_per_page
   };

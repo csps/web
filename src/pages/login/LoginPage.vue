@@ -22,7 +22,7 @@
             data-sal-delay="100"
             required
           >
-            <md-icon slot="leadingicon" v-html="icon('badge', true)" />
+            <md-icon slot="leading-icon" v-html="icon('badge', true)" />
           </md-outlined-text-field>
 
           <md-outlined-text-field
@@ -35,8 +35,8 @@
             data-sal-delay="150"
             required
           >
-            <md-icon slot="leadingicon" v-html="icon('lock', true)" />
-            <md-icon-button slot="trailingicon" @click="isPasswordVisible = !isPasswordVisible" toggle>
+            <md-icon slot="leading-icon" v-html="icon('lock', true)" />
+            <md-icon-button slot="trailing-icon" @click="isPasswordVisible = !isPasswordVisible" toggle>
               <md-icon v-html="icon('visibility_off', true)" />
               <md-icon slot="selected" v-html="icon('visibility', true)" />
             </md-icon-button>
@@ -90,13 +90,13 @@ import DialogForgotPasswordVue from "~/components/dialogs/DialogForgotPassword.v
 const store = useStore();
 const router = useRouter();
 
-const id = ref(getStore("id"));
+const id = ref(getStore("login_id"));
 const password = ref("");
 
 const isLoggingIn = ref(false);
 const isPasswordVisible = ref(false);
 const isForgotDialogOpen = ref(false);
-const isRememberMe = ref(getStore("id").length > 0);
+const isRememberMe = ref(getStore("login_id").length > 0);
 
 onMounted(() => {
   sal();
@@ -135,16 +135,16 @@ function login() {
     if (response.success) {
       // If remember me is checked, save to local storage
       if (isRememberMe.value) {
-        setStore("id", id.value);
+        setStore("login_id", id.value);
       } 
       
       // If not, remove from local storage
       else {
-        removeStore("id");
+        removeStore("login_id");
       }
 
       // Save token to local storage
-      setStore("token", response.data.token);
+      setStore("std_token", response.data.token);
       // Set student
       store.student = response.data.student;
       // Set is logged in to true

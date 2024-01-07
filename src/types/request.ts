@@ -1,7 +1,9 @@
 export type AnnouncementRequest = {
+  id?: number,
   title: string,
   content: string,
-  photo?: File
+  photo?: File,
+  preservePhoto: boolean,
 };
 
 export type PhotoRequest = {
@@ -28,6 +30,7 @@ export type ProductRequest = {
 }
 
 export type EventRequest = {
+  id?: number;
   title: string;
   description: string;
   venue: string;

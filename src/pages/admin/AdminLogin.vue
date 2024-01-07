@@ -22,7 +22,7 @@
             data-sal-delay="100"
             required
           >
-            <md-icon slot="leadingicon" v-html="icon('badge', true)" />
+            <md-icon slot="leading-icon" v-html="icon('badge', true)" />
           </md-outlined-text-field>
 
           <md-outlined-text-field
@@ -35,8 +35,8 @@
             data-sal-delay="150"
             required
           >
-            <md-icon slot="leadingicon" v-html="icon('lock', true)" />
-            <md-icon-button slot="trailingicon" @click="isPasswordVisible = !isPasswordVisible" toggle>
+            <md-icon slot="leading-icon" v-html="icon('lock', true)" />
+            <md-icon-button slot="trailing-icon" @click="isPasswordVisible = !isPasswordVisible" toggle>
               <md-icon v-html="icon('visibility_off', true)" />
               <md-icon slot="selected" v-html="icon('visibility', true)" />
             </md-icon-button>
@@ -114,7 +114,7 @@ function login() {
     // if success
     if (response.success) {
       // Save token to local storage
-      setStore("csps_token", response.data.token);
+      setStore("adm_token", response.data.token);
       // Set student
       store.admin = response.data.student;
       // Set is logged in to true

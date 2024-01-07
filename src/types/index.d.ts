@@ -24,10 +24,21 @@ declare global {
     variant?: ProductVariationModel,
     product: ProductModel
   }
-  
-  /**
-   * Response Types
-   */
+
+  // Table types
+
+  type TableHeader = {
+    id: string,
+    text: string,
+    min?: boolean
+  }
+
+  type TableData = {
+    id: string,
+    data: string
+  }
+
+  // Response Types
 
   type StudentResponse = {
     id: number;
@@ -44,10 +55,6 @@ declare global {
     student: Student;
   }
   
-  /**
-   * Models
-   */
-
   type AnnouncementModel = {
     id: number,
     admin_student_id: string,
@@ -78,6 +85,8 @@ declare global {
   
   type OrderModel = {
     id: number;
+    reference: string;
+    unique_id: string;
     student_id: string;
     products_id: number;
     variations_id: number;
@@ -93,7 +102,8 @@ declare global {
   
   type NonBscsOrderModel = {
     id: number;
-    receipt_id: string;
+    reference: string;
+    unique_id: string;
     products_id: number;
     variations_id: number;
     quantity: number;
@@ -115,7 +125,8 @@ declare global {
   type FullOrderModel = {
     id: string;
     thumbnail: number;
-    receipt_id: string;
+    reference: string;
+    unique_id: string;
     products_id: number;
     product_name: string;
     product_price: number;
@@ -146,8 +157,9 @@ declare global {
     date_stamp: string;
   }
   
-  type ReceiptModel = {
+  type GCashUpploadsModel = {
     id: number;
+    reference: string;
     name?: string;
     type: string;
     data: Buffer;
@@ -225,6 +237,15 @@ declare global {
     location?: string,
     link?: string
   }
+
+  type NavigationRailItem = {
+    id: string,
+    title: string,
+    icon: Icon,
+  }
+
+  type StoreKeys = "dark" | "std_token" | "adm_token" | "home_msg_role" | "login_id" | "student" |
+    "tabs_orders_status" | "tabs_orders_page" | "tabs_events_page" | "tabs_orders_sort" | "tabs_orders_column";
 }
 
 export {};

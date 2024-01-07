@@ -7,11 +7,8 @@
         <div class="container mx-auto px-6 py-24 flex flex-col items-center justify-center text-center">
           <div class="flex justify-center flex-col items-center w-full lg:w-2/3 2xl:w-1/2 ">
             <img class="w-3/4 md:w-2/3" :src="store.isDark ? CSPSCoverDark : CSPSCoverLight" alt="CSPS Logo" data-sal="slide-right" data-sal-repeat />
-            <p class="text-justify w-full body-medium md:body-large leading-7 md:leading-9 mt-7 text-on-surface" data-sal="slide-right" data-sal-repeat>
-              Welcome to the  Computing Society of the Philippines - Students!
-              We are a student body organization that aims to create a welcoming and inclusive community for all computer science students at the University of Cebu - Main Campus.
-              Our goal is to promote inclusivity and diversity within the field of computing, ensuring that every student has the opportunity to explore their interests and succeed in their academic and professional pursuits.
-              Join us at CSP-S and become part of a community that celebrates diversity and fosters growth and development for all students in the field of computer science. We welcome you with open arms!
+            <p ref="intro" class="text-justify w-full text-sm md:text-base leading-7 md:leading-9 mt-7 text-on-surface" data-sal="slide-right" data-sal-repeat>
+              
             </p>
           </div>
         </div>
@@ -152,16 +149,19 @@ import Tonilon from '~/assets/img/profile/csps_tonilon.jpg';
 
 import type { SwiperContainer } from 'swiper/element';
 import { register } from 'swiper/element/bundle';
-import { onMounted } from 'vue';
+import { ref, onMounted } from 'vue';
 import { useStore } from '~/store';
+import Typed from 'typed.js';
 import sal from "sal.js";
 
 import CardOfficer from '~/composables/CardOfficer.vue';
 import VFullpage from '~/components/VFullpage.vue';
 import VMouse from "~/components/VMouse.vue";
 
-const store = useStore();
+let instance: Typed | undefined;
 
+const intro = ref();
+const store = useStore();
 const officers: Officer[] = [
   { name: "Jewel Cedrick Gesim", position: "President", thumb: Gesim },
   { name: "Brian Keith Lisondra", position: "VP - Internal", thumb: Lisondra },
@@ -175,6 +175,13 @@ const officers: Officer[] = [
   { name: "Maverick Fabroa", position: "Project Manager", thumb: Fabroa },
   { name: "Michael Tonilon", position: "Developer", thumb: Tonilon },
 ];
+
+const message = `
+  Welcome to the  Computing Society of the Philippines - Students!^750
+  We are a student body organization that aims to create a welcoming and inclusive community for all computer science students at the University of Cebu - Main Campus. ^750
+  Our goal is to promote inclusivity and diversity within the field of computing, ensuring that every student has the opportunity to explore their interests and succeed in their academic and professional pursuits. ^750
+  Join us at CSP-S and become part of a community that celebrates diversity and fosters growth and development for all students in the field of computer science. We welcome you with open arms!
+`;
 
 register();
 
@@ -208,7 +215,20 @@ onMounted(() => {
   });
 
   swiper.initialize();
+  startTyped();
 });
+
+function startTyped() {
+  if (instance) {
+    instance.destroy();
+  }
+
+  instance = new Typed(intro.value, {
+    strings: [ message ],
+    typeSpeed: 15,
+    showCursor: false,
+  });
+}
 </script>
 
 <style lang="scss" scoped>

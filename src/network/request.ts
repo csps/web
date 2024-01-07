@@ -2,7 +2,8 @@ import axios from "axios";
 import Endpoints from "./endpoints";
 
 import type { AxiosRequestConfig } from "axios";
-import { getStore } from "~/utils/storage";
+import { useStore } from "~/store";
+import { getStore, setStore } from "~/utils/storage";
 import { Config } from "~/config";
 
 /**
@@ -71,27 +72,44 @@ function makeRequest<T>(method: HttpMethod, endpoint: Endpoints, data: any, call
     config.data = data;
   }
 
-  // If has admin token
-  if (getStore("csps_token").length > 0) {
+  // If has admin token and in admin panel
+  if (getStore("adm_token").length > 0 && window.location.href.includes("/admin")) {
     // Add token to config
     config.headers = {
-      Authorization: `Bearer ${getStore("csps_token")}`
+      Authorization: `Bearer ${getStore("adm_token")}`
     }
   }
 
   // If has student token
-  else if (getStore("token").length > 0) {
+  else if (getStore("std_token").length > 0) {
     // Add token to config
     config.headers = {
-      Authorization: `Bearer ${getStore("token")}`
+      Authorization: `Bearer ${getStore("std_token")}`
     }
   }
 
   // Make request
   instance(config).then((response) => {
+    // If response has student authorization header
+    if (response.headers["x-std-authorization"]) {
+      // Set token
+      setStore("std_token", response.headers["x-std-authorization"].split(" ")[1]);
+    }
+
+    // If response has admin authorization header
+    if (response.headers["x-adm-authorization"]) {
+      // Set token
+      setStore("adm_token", response.headers["x-adm-authorization"].split(" ")[1]);
+    }
+
     // Call the callback function
     callback(response.data);
   }).catch((error) => {
+    // Detect if server is available
+    if (error.code === "ERR_NETWORK" || error.response.headers['content-type'].indexOf('application/json') === -1) {
+      useStore().isServerAvailable = false;
+    }
+
     // If has custom message
     if (error.response && ((error.response?.data) as any).message) {
       error.message = ((error.response?.data) as any).message;

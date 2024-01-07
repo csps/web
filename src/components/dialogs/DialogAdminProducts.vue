@@ -5,7 +5,7 @@
     :scrim-click-action="null"
     :escape-key-action="null"
   >
-    <div slot="headline">{{ product ? 'Updaate' : 'Add' }} Product</div>
+    <div slot="headline">{{ product ? 'Update' : 'Add' }} Product</div>
     <div slot="content" class="space-y-5">
       <md-filled-text-field
         class="w-full"
@@ -14,7 +14,7 @@
         :disabled="isLoading"
         @keydown.enter="submit"
       >
-        <md-icon slot="leadingicon" v-html="icon('deployed_code', true)" />
+        <md-icon slot="leading-icon" v-html="icon('deployed_code', true)" />
       </md-filled-text-field>
       <md-filled-text-field
         class="w-full"
@@ -24,21 +24,21 @@
         :disabled="isLoading"
         @keydown.enter="submit"
       >
-        <md-icon slot="leadingicon" v-html="icon('tune', true)" />
+        <md-icon slot="leading-icon" v-html="icon('tune', true)" />
       </md-filled-text-field>
 
       <div class="grid grid-cols-2  gap-5">
         <md-filled-text-field v-model="stock" label="Stock" type="number">
-          <md-icon slot="leadingicon" v-html="icon('tune', true)" />
+          <md-icon slot="leading-icon" v-html="icon('tune', true)" />
         </md-filled-text-field>
 
         <md-filled-text-field v-model="price" label="Price" type="number">
-          <md-icon slot="leadingicon" v-html="icon('tune', true)" />
+          <md-icon slot="leading-icon" v-html="icon('tune', true)" />
         </md-filled-text-field>
       </div>
 
       <md-filled-text-field v-model="max_quantity" label="Max quantity" type="number" class="w-full">
-        <md-icon slot="leadingicon" v-html="icon('tune', true)" />
+        <md-icon slot="leading-icon" v-html="icon('tune', true)" />
       </md-filled-text-field>
   
       <input @change="onFilePut" type="file" class="mt-5 file-input" pattern="image/*" accept="image/*" />
@@ -60,22 +60,18 @@ import { ref, computed, watch } from "vue";
 import { toast } from "vue3-toastify";
 import { icon } from "~/utils/icon";
 import { Endpoints, makeRequest } from "~/network/request";
-import { ProductEnum } from "~/types/models";
 
 const emit = defineEmits(["update:modelValue", "done"]);
 const props = defineProps<{
   modelValue: boolean;
-  product?: {
-    name: string,
-    description: string
-  }
+  product?: ProductModel
 }>();
 
 const isLoading = ref(false);
 const isDialogOpen = computed(() => props.modelValue);
 const canAdd = computed(() => name.value && description.value && price.value > 0 && stock.value >= 0 && max_quantity.value > 0);
 const thumbnail = ref();
-const name = ref("");
+const name = ref();
 const description = ref();
 const price = ref(0);
 const max_quantity = ref(1);
@@ -83,7 +79,12 @@ const stock = ref(0);
 
 watch(isDialogOpen, (value) => {
   if (value) {
+    name.value = props.product?.name;
     description.value = props.product?.description;
+    price.value = props.product?.price || 0;
+    max_quantity.value = props.product?.max_quantity || 1;
+    stock.value = props.product?.stock || 0;
+    thumbnail.value = props.product?.thumbnail;
   }
 });
 
@@ -105,9 +106,14 @@ function submit() {
   };
 
   if (thumbnail.value) {
-    data[ProductEnum.thumbnail] = thumbnail.value;
+    data.thumbnail = thumbnail.value;
   }
-  
+
+  if (props.product) {
+    data.thumbnail = thumbnail.value;
+    data.id = props.product.id;
+  }
+
   // Send the request
   makeRequest(props.product ? "PUT" : "POST", props.product ? Endpoints.ProductsId : Endpoints.Products, data, response => {
     // Set loading to false

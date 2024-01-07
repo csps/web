@@ -1,30 +1,52 @@
 <template>
   <div class="flex flex-col justify-center items-center w-full px-6 container mx-auto h-full">
-    <md-filled-button @click="isDialogOpen = true" class="mb-5">
-      <md-icon slot="icon" v-html="icon('add')" />
-      Add Product
-    </md-filled-button>
-
     <div class="flex items-center gap-3">
       <md-outlined-text-field
         v-model="data.search"
         :label="'Search ' + capitalize(data.column)"
       >
-        <md-icon slot="leadingicon" v-html="icon('search')" />
+        <md-icon slot="leading-icon" v-html="icon('search')" />
+
+        <div slot="trailing-icon">
+          <div class="relative">
+            <md-icon-button id="students-sort-menu" class="mr-2" title="Filter by" @click.stop="isMenuOpen = !isMenuOpen">
+              <md-icon v-html="icon('filter_list')" />
+            </md-icon-button>
+            <md-menu
+              :open="isMenuOpen"
+              anchor="students-sort-menu"
+              @closed="isMenuOpen = false"
+              class="min-w-min"
+              y-offset="8"
+              anchor-corner="end-end"
+              menu-corner="start-end"
+            >
+              <md-menu-item
+                v-for="option in ProductEnum"
+                :key="option"
+                :value="option"
+                @click="data.column = option"
+              >
+                <span class="whitespace-nowrap">{{ capitalize(option) }}</span>
+              </md-menu-item>
+            </md-menu>
+          </div>
+
+          <md-icon-button class="mr-2" title="Add student" @click="isDialogOpen = true">
+            <md-icon v-html="icon('add')" />
+          </md-icon-button>
+        </div>
       </md-outlined-text-field>
-      <md-outlined-select v-model="data.column" label="Filter by" class="dense" quick>
-        <md-icon slot="leadingicon" v-html="icon('filter_list', true)" />
-        <md-select-option
-          v-for="option in ProductEnum"
-          :key="option"
-          :value="option"
-          :headline="capitalize(option)"
-        />
-      </md-outlined-select>
     </div>
 
     <div v-if="data.products.length > 0" class="space-y-3 mt-5 w-full lg:w-3/4 xl:w-1/2 3xl:w-1/3">
-      <CardProduct v-for="product in data.products" :key="product.id" :product="product" />
+      <CardProduct
+        v-for="product in data.products"
+        :key="product.id"
+        :product="product"
+        @edit="() => onProductClick(product)"
+        @status="onStatusChange"
+      />
     </div>
     <div v-else class="flex justify-center mt-8 flex-grow body-medium">
       {{ message || "Fetching products..." }}
@@ -39,7 +61,11 @@
       @change="p => data.page = p"
     />
 
-    <DialogAdminProducts v-model="isDialogOpen" />
+    <DialogAdminProducts
+      v-model="isDialogOpen"
+      :product="selectedProduct"
+      @done="fetchProducts"
+    />
   </div>
 </template>
 
@@ -56,11 +82,14 @@ import { Endpoints, makeRequest } from "~/network/request";
 import CardProduct from "../components/CardProduct.vue";
 import DialogAdminProducts from "~/components/dialogs/DialogAdminProducts.vue";
 import VPagination from "~/components/VPagination.vue";
+import { toast } from "vue3-toastify";
 
 const store = useStore();
 const isDialogOpen = ref(false);
 const isLoading = ref(false);
+const isMenuOpen = ref(false);
 const message = ref("");
+const selectedProduct = ref<ProductModel | undefined>();
 
 const data = ref({
   total: 0,
@@ -68,6 +97,12 @@ const data = ref({
   search: "",
   products: [] as ProductModel[],
   column: ProductEnum.name
+});
+
+watch(isDialogOpen, v => {
+  if (!v) {
+    selectedProduct.value = undefined;
+  }
 });
 
 watch([
@@ -106,4 +141,29 @@ function fetchProducts(search = "") {
   });
 }
 
+function onProductClick(product: ProductModel) {
+  selectedProduct.value = product;
+  isDialogOpen.value = true;
+}
+
+function onStatusChange(id: number) {
+  if (!id) {
+    toast.warn("Product ID is empty!");
+    return;
+  }
+
+  store.isLoading = true;
+
+  makeRequest("PUT", Endpoints.ProductsIdStatus, { id }, response => {
+    store.isLoading = false;
+
+    if (response.success) {
+      toast.success(response.message);
+      return;
+    }
+
+    message.value = response.message;
+    toast.error(response.message);
+  });
+}
 </script>

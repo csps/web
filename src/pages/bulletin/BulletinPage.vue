@@ -6,24 +6,12 @@
     </div>
 
     <div v-else class="container mx-auto px-6 flex flex-col items-center">
-      <h2 class="title-large font-semibold text-on-surface-variant">Events & Activities</h2>
-      <p class="title-small text-outline text-center">Check out our bulletin board for a list of upcoming events and activities!</p>
+      <div class="w-full lg:w-3/4 xl:w-3/5 2xl:w-full 3xl:w-4/5">
+        <h2 class="title-large font-semibold text-on-surface-variant text-center md:text-left">Events & Activities</h2>
+        <p class="title-small text-outline text-center md:text-left">Check out our bulletin board for a list of upcoming events and activities!</p>
 
-      <div class="w-full 2xl:w-3/4">
-
-        <div class="flex flex-col-reverse 2xl:grid 2xl:grid-cols-6 gap-16 justify-center mt-10">
-          <div class="w-full flex-grow col-span-2 px-4">
-            <div v-if="isLoading" class="flex flex-col justify-center items-center gap-3 body-medium">
-              <md-linear-progress indeterminate />
-              <span>Fetching events and activities...</span>
-            </div>
-            <div class="bg-surface-container-low p-10 rounded-3xl text-center text-on-surface-variant  body-medium flex justify-center items-center" v-else-if="message.length > 0">
-              {{ message }}
-            </div>
-            <VTimeline v-else :data="data" />
-          </div>
-  
-          <div class="hidden md:block col-span-4">
+        <div class="flex flex-col-reverse md:flex-col 2xl:grid 2xl:grid-cols-6 gap-16 justify-center mt-6">
+          <div class="hidden md:block col-span-4 rounded-xl shadow-lg dark:shadow-surface-container-low">
             <Calendar
               ref="c1"
               @did-move="($event: Event) => onChange($event, 1)"
@@ -36,7 +24,7 @@
             >
               <template v-slot:day-content="{ day, attributes }">
                 <div class="flex flex-col h-full z-10 overflow-hidden">
-                  <span class="day-label title-small text-on-surface-variant">{{ day.day }}</span>
+                  <span class="day-label body-large font-medium text-secondary p-1.5">{{ day.day }}</span>
                   <div class="flex-grow overflow-y-auto overflow-x-auto">
                     <p
                       v-for="attr in attributes"
@@ -50,6 +38,55 @@
                 </div>
               </template>
             </Calendar>
+          </div>
+
+          <div class="w-full flex-grow col-span-2 px-4">
+            <Transition name="slide-fade" mode="out-in">
+              <div v-if="isLoading" class="flex flex-col justify-center items-center gap-3 body-medium">
+                <md-linear-progress indeterminate />
+                <span>Fetching events and activities...</span>
+              </div>
+              <div v-else-if="message.length > 0" class="bg-surface-container-low p-10 rounded-3xl text-center text-on-surface-variant body-medium flex justify-center items-center">
+                {{ message }}
+              </div>
+              <div v-else>
+                <h3 class="mb-8 title-large font-semibold text-left -translate-x-3 text-secondary flex items-center">
+                  <md-icon class="mr-2" v-html="icon('event')" />
+                  {{ monthYear }}
+                </h3>
+  
+                <VTimeline :data="data" />
+                <div class="my-8" />
+                
+                <div v-if="nowEvent" class="flex items-center gap-1 bg-surface-container-low p-5 rounded-lg text-on-surface-variant font-medium">
+                  <md-icon class="mr-2" v-html="icon('campaign')" />
+                  Happening Now:
+                  <span
+                    @click="onNextEventClick"
+                    class="text-primary border-b border-dashed border-primary"
+                    :title="getHumanDate(new Date(nowEvent.date))"
+                    role="button"
+                  >
+                    {{ nowEvent.title }}!
+                  </span>
+                </div>
+                <div v-else-if="nextEvent" class="flex items-center gap-1 bg-surface-container-low p-5 rounded-lg text-on-surface-variant font-medium">
+                  <md-icon class="mr-2" v-html="icon('campaign')" />
+                  Next event:
+                  <span
+                    @click="onNextEventClick"
+                    class="text-primary border-b border-dashed border-primary"
+                    :title="getHumanDate(new Date(nextEvent.date))"
+                    role="button"
+                  >
+                    {{ nextEvent.title }}!
+                  </span>
+                </div>
+                <div v-else class="bg-surface-container-low p-5 rounded-lg text-on-surface-variant font-medium">
+                  There are no upcoming events yet. Stay tuned!
+                </div>
+              </div>
+            </Transition>
           </div>
   
           <div class="md:hidden flex justify-center">
@@ -75,14 +112,16 @@ import { Calendar } from 'v-calendar';
 import { useStore } from '~/store';
 import { Endpoints, makeRequest } from "~/network/request";
 import { PaginationRequest } from "~/types/request";
-import { getHumanDate } from "~/utils/date";
+import { getHumanDate, getTime, getMonthName, isSameDate } from "~/utils/date";
 import { EventEnum } from "~/types/models";
 import { toast } from "vue3-toastify";
 
 import VTimeline from '~/components/VTimeline.vue';
 
 import "@material/web/progress/linear-progress";
+import "@material/web/icon/icon";
 import 'v-calendar/style.css';
+import { icon } from "~/utils/icon";
 
 const c1 = ref();
 const c2 = ref();
@@ -94,9 +133,14 @@ const attributes = ref<any[]>([]);
 const data = ref<TimelineData[]>([]);
 const year = ref(new Date().getFullYear());
 const month = ref(new Date().getMonth());
+const nowEvent = ref<EventModel>();
+const nextEvent = ref<EventModel>();
+const monthYear = ref("");
 
 onMounted(() => {
+  getNextEvent();
   fetchEvents(getYearMonth(year.value, month.value + 1));
+  monthYear.value = getMonthName(month.value + 1, false) + " " + year.value;
 });
 
 watch([year, month], ([y, m]) => {
@@ -111,6 +155,7 @@ function fetchEvents(search = "") {
   isLoading.value = true;
   message.value = "";
 
+  const date = new Date();
   const request: PaginationRequest = {
     page: 1,
     search_value: [search],
@@ -120,11 +165,11 @@ function fetchEvents(search = "") {
     sort_type: "ASC",
   };
 
-
   makeRequest<EventModel[]>("GET", Endpoints.Events, request, response => {
     isLoading.value = false;
     store.isLoading = false;
     isRootLoading.value = false;
+
     attributes.value = [
       {
         key: 'today',
@@ -132,12 +177,14 @@ function fetchEvents(search = "") {
           title: 'Today',
           class: 'bg-surface-variant text-on-surface-variant',
         },
-        dates: new Date()
+        dates: date
       }
     ];
 
     if (response.success) {
       data.value = response.data.map(event => {
+        const eventDate = new Date(event.date);
+
         attributes.value.push({
           key: event.id,
           highlight: {
@@ -152,14 +199,18 @@ function fetchEvents(search = "") {
             placement: 'top',
             visibility: 'hover',
           },
-          dates: new Date(event.date)
+          dates: eventDate
         });
+
+        if (isSameDate(date, eventDate)) {
+          nowEvent.value = event;
+        }
 
         return {
           title: event.title,
           content: event.description,
           date: getHumanDate(new Date(event.date)),
-          time: event.start_time.substring(0, 5) + " - " + event.end_time.substring(0, 5),
+          time: getTime(event.start_time.substring(0, 5)) + " - " + getTime(event.end_time.substring(0, 5)),
           location: event.venue,
           thumbnail: event.thumbnail,
         };
@@ -167,7 +218,7 @@ function fetchEvents(search = "") {
 
       attributes.value.push({
         key: 'today1',
-        highlight: true,
+        dot: true,
         dates: new Date(),
         popover: {
           label: 'Today',
@@ -189,6 +240,10 @@ let x: number, y: number;
  * On date change
  */
 function onChange(e: any, c: number) {
+  if (!c1.value || !c2.value) {
+    return;
+  }
+
   if (e.length === 0) {
     toast.error("Can't get date. Please try again. :(");
     return;
@@ -209,6 +264,8 @@ function onChange(e: any, c: number) {
     x = 0;
     y = 0;
   }
+
+  monthYear.value = e[0].title;
 }
 
 /**
@@ -216,6 +273,27 @@ function onChange(e: any, c: number) {
  */
 function getYearMonth(year: number, month: number) {
   return year + "-" + (month < 10 ? "0" + month : month);
+}
+
+function getNextEvent() {
+  makeRequest<EventModel>("GET", Endpoints.EventsNext, null, response => {
+    if (response.success) {
+      nextEvent.value = response.data;
+      return;
+    }
+
+    toast.warn(response.message);
+  });;
+}
+
+function onNextEventClick() {
+  if (!nextEvent.value?.date) {
+    toast.warn("No upcoming event yet. :(")
+    return;
+  }
+
+  const date = new Date(nextEvent.value.date);
+  c1.value.move({ year: date.getFullYear(), month: date.getMonth() + 1 });
 }
 </script>
 
@@ -226,6 +304,14 @@ function getYearMonth(year: number, month: number) {
 
   border-radius: 12px;
   width: 100%;
+
+  *::-webkit-scrollbar {
+    width: 0px !important;
+  }
+
+  .vc-dots {
+    @apply hidden;
+  }
 
   & .vc-highlight-bg-solid, & .vc-highlight-bg-light {
     @apply bg-transparent;
@@ -257,16 +343,28 @@ function getYearMonth(year: number, month: number) {
 
     &.weekday-1,
     &.weekday-7 {
-      @apply bg-surface-container;
+      @apply bg-surface-container-high;
+    }
+
+    &.weekday-1 {
+      @apply rounded-bl-lg;;
+    }
+    
+    &.weekday-7 {
+      @apply rounded-br-lg;;
     }
 
     &:not(.on-bottom) {
-      @apply border-b border-outline-variant;
+      @apply border-outline-variant border-b;;
     }
 
     &:not(.on-right) {
-      @apply border-r border-outline-variant;
+      @apply border-outline-variant border-r;
     }
+  }
+  
+  .vc-week:last-child .vc-day {
+    @apply border-b-0;
   }
 
   & .vc-day-dots {

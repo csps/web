@@ -14,16 +14,19 @@ interface StringMap {
   [key: string]: string
 }
 
-
 export const NAV_LINKS: {
   name: string,
   path: string,
   icon: Icon
 }[] = [
   { name: 'Home', path: '/', icon: "home" },
-  { name: 'About Us', path: '/about', icon: "diversity" },
-  { name: 'Bulletin Board', path: '/bulletin', icon: "calendar_month" },
+  { name: 'About', path: '/about', icon: "diversity" },
+  { name: "Forum", path: '/forum', icon: "forum" },
+  { name: 'Bulletin', path: '/bulletin', icon: "calendar_month" },
   { name: 'Merch', path: '/merch', icon: "store" },
+  { name: 'Profile', path: '/profile', icon: "person" },
+  { name: 'Login', path: '/login', icon: "login" },
+  { name: 'Admin', path: '/admin', icon: "security" },
 ];
 
 export const SOCIAL_LINKS = [

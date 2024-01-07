@@ -1,5 +1,6 @@
 <template>
   <md-dialog
+    ref="dialogStudent"
     :open="isDialogOpen"
     @close="close"
     :scrim-click-action="isLoading ? '' : 'close'"
@@ -16,7 +17,7 @@
           :disabled="isLoading"
           @keydown.enter="submit"
         >
-          <md-icon slot="leadingicon" v-html="icon('badge', true)" />
+          <md-icon slot="leading-icon" v-html="icon('badge', true)" />
         </md-filled-text-field>
 
         <md-filled-select
@@ -25,13 +26,21 @@
           v-model="year"
           :disabled="isLoading"
           @keydown.enter="submit"
-          quick
         >
-          <md-icon slot="leadingicon" v-html="icon('school', true)" />
-          <md-select-option :value="1" headline="1st year" />
-          <md-select-option :value="2" headline="2nd year" />
-          <md-select-option :value="3" headline="3rd year" />
-          <md-select-option :value="4" headline="4th year" />
+          <md-icon slot="leading-icon" v-html="icon('school', true)" />
+
+          <md-select-option :value="1" :selected="year === 1">
+            <span slot="headline">1st year</span>
+          </md-select-option>
+          <md-select-option :value="2" :selected="year === 2">
+            <span slot="headline">2nd year</span>
+          </md-select-option>
+          <md-select-option :value="3" :selected="year === 3">
+            <span slot="headline">3rd year</span>
+          </md-select-option>
+          <md-select-option :value="4" :selected="year === 4">
+            <span slot="headline">4th year</span>
+          </md-select-option>
         </md-filled-select>
 
         <md-filled-text-field
@@ -41,7 +50,7 @@
           :disabled="isLoading"
           @keydown.enter="submit"
         >
-          <md-icon slot="leadingicon" v-html="icon('account_circle', true)" />
+          <md-icon slot="leading-icon" v-html="icon('account_circle', true)" />
         </md-filled-text-field> 
   
         <md-filled-text-field
@@ -51,7 +60,7 @@
           :disabled="isLoading"
           @keydown.enter="submit"
         >
-          <md-icon slot="leadingicon" v-html="icon('account_circle', true)" />
+          <md-icon slot="leading-icon" v-html="icon('account_circle', true)" />
         </md-filled-text-field>
 
       </div>
@@ -64,19 +73,10 @@
         :disabled="isLoading"
         @keydown.enter="submit"
       >
-        <md-icon slot="leadingicon" v-html="icon('mail', true)" />
+        <md-icon slot="leading-icon" v-html="icon('mail', true)" />
       </md-filled-text-field>
 
-      <md-filled-text-field
-        class="w-full"
-        label="Password"
-        type="password"
-        supporting-text="Password will be auto-generated and will be sent to the student's email"
-        disabled
-      >
-        <md-icon slot="leadingicon" v-html="icon('lock', true)" />
-      </md-filled-text-field>
-
+      <p class="text-outline body-small">Note: Password will be auto-generated and will be sent to the student's email.</p>
     </div>
     <div class="space-x-1" slot="actions">
       <md-text-button @click="close" :disabled="isLoading">Cancel</md-text-button>
@@ -101,7 +101,7 @@ import { Endpoints, makeRequest } from "~/network/request";
 import { Env } from "~/config";
 import { useDialog } from "~/store";
 
-const emit = defineEmits(["update:modelValue"]);
+const emit = defineEmits(["update:modelValue", "done"]);
 const props = defineProps<{
   modelValue: boolean;
   student?: StudentModel
@@ -111,6 +111,7 @@ const store = useStore();
 const isLoading = ref(false);
 const isDialogOpen = computed(() => props.modelValue);
 const dialog = useDialog();
+const dialogStudent = ref();
 
 const firstName = ref("");
 const lastName = ref("");
@@ -126,6 +127,11 @@ watch(isDialogOpen, (value) => {
     year.value = props.student?.year_level ? parseInt(props.student.year_level) : 1;
     studentID.value = props.student?.student_id || "";
   }
+
+  setTimeout(() => {
+    dialogStudent.value.shadowRoot.querySelector(".scroller").setAttribute("style", "overflow: visible;");
+    dialogStudent.value.shadowRoot.querySelector(".container").setAttribute("style", "overflow: visible;");
+  }, 0);
 });
 
 /**
@@ -187,18 +193,21 @@ function submit() {
     if (response.success) {
       store.isLoading = true;
       toast.success(response.message);
+      emit("done");
 
       makeRequest<any>("GET", Endpoints.Env, null, response => {
         store.isLoading = false;
+        close(true);
 
         if (response.success) {
           for (const key in response.data) {
             Env[key] = response.data[key];
           }
+
+          return;
         }
   
         toast.error(response.message);
-        close();
       });
 
       return;
@@ -212,10 +221,9 @@ function submit() {
 /**
  * Close the dialog
  */
-function close() {
+function close(bypass = false) {
   if (isLoading.value) return;
-
-  if (studentID.value || firstName.value || lastName.value || email.value) {
+  if ((studentID.value || firstName.value || lastName.value || email.value) && !bypass) {
     dialog.open(`Cancel ${props.student ? 'edit' : 'add'} student?`, "You have unsaved changes. Are you sure you want to close this dialog?", {
       text: "Yes, cancel",
       click() {

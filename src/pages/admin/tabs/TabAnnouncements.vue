@@ -1,69 +1,89 @@
 <template>
-  <div class="flex flex-col justify-center items-center w-full px-6 container mx-auto h-full">
-    <md-filled-button @click="isDialogOpen = true" class="mb-5">
-      <md-icon slot="icon" v-html="icon('add')" />
-      Add Announcement
-    </md-filled-button>
+  <div class="container mx-auto px-6">
 
-    <div class="flex items-center gap-3">
-      <md-outlined-text-field
-        v-model="data.search"
-        :label="'Search ' + capitalize(data.column)"
-      >
-        <md-icon slot="leadingicon" v-html="icon('search')" />
+    <div class="flex justify-between items-center gap-3 mb-5">
+      <div class="flex items-center gap-3 text-2xl font-medium text-on-surface-variant">
+        <h2>Announcements</h2>
+        <md-assist-chip label="Add" aria-label="Add announcement" title="Add announcement" @click="isDialogOpen = true">
+          <md-icon slot="icon" v-html="icon('add')" />
+        </md-assist-chip>
+      </div>
+
+      <md-outlined-text-field v-model="data.search" :label="'Search ' + capitalize(data.column)">
+        <div slot="trailing-icon">
+          <div class="relative">
+            <md-icon-button id="announcements-sort-menu" class="mr-2" title="Filter by" @click.stop="isMenuOpen = !isMenuOpen">
+              <md-icon v-html="icon('filter_list')" />
+            </md-icon-button>
+            <md-menu
+              :open="isMenuOpen"
+              anchor="announcements-sort-menu"
+              @closed="isMenuOpen = false"
+              class="min-w-min"
+              y-offset="8"
+              anchor-corner="end-end"
+              menu-corner="start-end"
+            >
+              <md-menu-item
+                v-for="option in AnnouncementEnum"
+                :key="option"
+                :value="option"
+                @click="data.column = option"
+              >
+                <span class="whitespace-nowrap">{{ capitalize(option) }}</span>
+              </md-menu-item>
+            </md-menu>
+          </div>
+        </div>
       </md-outlined-text-field>
-      <md-outlined-select v-model="data.column" label="Filter by" class="dense" quick>
-        <md-icon slot="leadingicon" v-html="icon('filter_list', true)" />
-        <md-select-option
-          v-for="option in AnnouncementEnum"
-          :key="option"
-          :value="option"
-          :headline="capitalize(option)"
-        />
-      </md-outlined-select>
+    </div>
+    <div>
+      <VTable
+        :headers="headers"
+        :data="data.announcements.map(announcement => ({
+          ...announcement,
+          date_stamp: getReadableDate(announcement.date_stamp)
+        }))"
+
+        @edit="announcement = $event; isDialogOpen = true"
+        @delete="deleteAnnouncement($event)"
+      />
     </div>
 
-    <div v-if="data.announcements.length > 0" class="space-y-3 mt-5 w-full lg:w-3/4 xl:w-1/2 3xl:w-1/3">
-      <CardAnnouncement v-for="announcement in data.announcements" :key="announcement.id" :data="announcement" />
-    </div>
-    <div v-else class="flex justify-center mt-8 flex-grow body-medium">
-      {{ message || "Fetching announcements..." }}
-    </div>
-
-    <VPagination
-      class="mt-5"
-      v-if="data.announcements.length > 0"
-      :limit="parseInt(Env.admin_announcements_per_page)"
-      :page="data.page"
-      :total="data.total"
-      @change="p => data.page = p"
+    <DialogAdminAnnouncement
+      v-model="isDialogOpen"
+      :announcement="announcement"
+      @done="fetchAnnouncements"
     />
-
-    <DialogAdminAnnouncement v-model="isDialogOpen" :announcement="announcement" @done="fetchAnnouncements" />
   </div>
 </template>
 
 <script lang="ts" setup>
-import { ref, watch, onMounted } from "vue";
-import { AnnouncementEnum } from "~/types/models";
+import { ref, onMounted, watch } from "vue";
 import { icon } from "~/utils/icon";
-import { useStore } from "~/store";
+import { AnnouncementEnum } from "~/types/models";
 import { capitalize } from "~/utils/string";
+import { Env } from "~/config";
+import { useStore, useDialog } from "~/store";
+import { Endpoints, makeRequest } from "~/network/request";
+import { toast } from "vue3-toastify";
 import type { PaginationRequest } from "~/types/request";
 
-import { Env } from "~/config";
-import { Endpoints, makeRequest } from "~/network/request";
+import "@material/web/icon/icon";
+import "@material/web/chips/assist-chip";
+import "@material/web/textfield/outlined-text-field";
 
-import CardAnnouncement from "~/pages/admin/components/CardAnnouncement.vue";
+import VTable from "~/components/VTable.vue";
 import DialogAdminAnnouncement from "~/components/dialogs/DialogAdminAnnouncement.vue";
-import VPagination from "~/components/VPagination.vue";
+import { getReadableDate } from "~/utils/date";
 
 const store = useStore();
+const dialog = useDialog();
+const isMenuOpen = ref(false);
 const isDialogOpen = ref(false);
-const announcement = ref();
 const isLoading = ref(false);
+const announcement = ref<AnnouncementModel>();
 const message = ref("");
-
 const data = ref({
   total: 0,
   page: 1,
@@ -72,12 +92,17 @@ const data = ref({
   column: AnnouncementEnum.title
 });
 
-watch([
-  () => data.value.search,
-  () => data.value.column,
-  () => data.value.page,
-], v => {
-  fetchAnnouncements(v[0]);
+const headers: TableHeader[] = [
+  { id: "id", text: "#", min: true },
+  { id: "title", text: "Title" },
+  { id: "content", text: "Description" },
+  { id: "date_stamp", text: "Created At" },
+];
+
+watch(isDialogOpen, v => {
+  if (!v) {
+    announcement.value = undefined;
+  }
 });
 
 onMounted(fetchAnnouncements);
@@ -107,6 +132,29 @@ function fetchAnnouncements(search = "") {
     }
 
     message.value = response.message;
+  });
+}
+
+function deleteAnnouncement(announcement: AnnouncementModel) {
+  dialog.open("Delete Announcement", "Are you sure you want to delete this announcement?", {
+    text: "Delete",
+    click() {
+      store.isLoading = true;
+    
+      makeRequest<AnnouncementModel>("DELETE", Endpoints.AnnouncementsId, announcement, response => {
+        store.isLoading = false;
+        dialog.hide();
+        
+        if (response.success) {
+          fetchAnnouncements();
+          toast.success(response.message);
+          return;
+        }
+    
+        message.value = response.message;
+        toast.error(response.message);
+      });
+    }
   });
 }
 </script>

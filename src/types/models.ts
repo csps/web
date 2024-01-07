@@ -104,7 +104,7 @@ export enum TutorialEnum {
 export enum FullOrderEnum {
   id = "id",
   thumbnail = "thumbnail",
-  receipt_id = "receipt_id",
+  reference = "reference",
   products_id = "products_id",
   product_name = "product_name",
   product_price = "product_price",

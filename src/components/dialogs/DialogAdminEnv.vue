@@ -16,17 +16,18 @@
         :disabled="isLoading"
         @keydown.enter="submit"
       >
-        <md-icon slot="leadingicon" v-html="icon('tune', true)" />
+        <md-icon slot="leading-icon" v-html="icon('tune', true)" />
       </md-filled-text-field>
       <md-filled-text-field
         class="w-full"
-        label="Value"
         type="textarea"
+        placeholder="Value"
+        rows="3"
         v-model.trim="newValue"
         :disabled="isLoading"
         @keydown.enter="submit"
       >
-        <md-icon slot="leadingicon" v-html="icon('tune', true)" />
+        <md-icon slot="leading-icon" v-html="icon('tune', true)" />
       </md-filled-text-field>
     </div>
     <div class="space-x-1" slot="actions">
@@ -89,7 +90,7 @@ function submit() {
   
   // Send the request
   makeRequest(isAdd.value ? "POST" : "PUT", isAdd.value ? Endpoints.Env : Endpoints.EnvKey, { 
-    key: isAdd.value ? newName.value : props.name,
+    key: (isAdd.value ? newName.value : props.name).toLowerCase().replace(/\s/g, "_"),
     value: newValue.value
   }, response => {
     // Set loading to false

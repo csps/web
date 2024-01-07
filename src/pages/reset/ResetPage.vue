@@ -28,8 +28,8 @@
           maxLength="24"
           required
         >
-          <md-icon slot="leadingicon" v-html="icon('lock', true)" />
-          <md-icon-button slot="trailingicon" @click="isPassVisible = !isPassVisible" toggle>
+          <md-icon slot="leading-icon" v-html="icon('lock', true)" />
+          <md-icon-button slot="trailing-icon" @click="isPassVisible = !isPassVisible" toggle>
             <md-icon v-html="icon('visibility_off', true)" />
             <md-icon slot="selected" v-html="icon('visibility', true)" />
           </md-icon-button>
@@ -45,8 +45,8 @@
           maxLength="24"
           required
         >
-          <md-icon slot="leadingicon" v-html="icon('lock', true)" />
-          <md-icon-button slot="trailingicon" @click="isConfirmPassVisible = !isConfirmPassVisible" toggle>
+          <md-icon slot="leading-icon" v-html="icon('lock', true)" />
+          <md-icon-button slot="trailing-icon" @click="isConfirmPassVisible = !isConfirmPassVisible" toggle>
             <md-icon v-html="icon('visibility_off', true)" />
             <md-icon slot="selected" v-html="icon('visibility', true)" />
           </md-icon-button>

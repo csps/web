@@ -1,37 +1,50 @@
 <template>
   <div class="flex flex-col justify-center items-center w-full px-6 container mx-auto h-full">
-    <md-filled-button @click="isDialogOpen = true" class="mb-5">
-      <md-icon slot="icon" v-html="icon('add')" />
-      Add event
-    </md-filled-button>
-
     <div class="flex items-center gap-3">
       <md-outlined-text-field
         v-model="data.search"
         :label="'Search ' + capitalize(data.column)"
       >
-        <md-icon slot="leadingicon" v-html="icon('search')" />
+        <md-icon slot="leading-icon" v-html="icon('search')" />
+
+        <div slot="trailing-icon">
+          <div class="relative">
+            <md-icon-button id="events-sort-menu" class="mr-2" title="Filter by" @click.stop="isMenuOpen = !isMenuOpen">
+              <md-icon v-html="icon('filter_list')" />
+            </md-icon-button>
+            <md-menu
+              :open="isMenuOpen"
+              anchor="events-sort-menu"
+              @closed="isMenuOpen = false"
+              class="min-w-min"
+              y-offset="8"
+              anchor-corner="end-end"
+              menu-corner="start-end"
+            >
+              <md-menu-item
+                v-for="option in EventEnum"
+                :key="option"
+                :value="option"
+                @click="data.column = option"
+              >
+                <span class="whitespace-nowrap">{{ capitalize(option) }}</span>
+              </md-menu-item>
+            </md-menu>
+          </div>
+
+          <md-icon-button class="mr-2" title="Add student" @click="isDialogOpen = true">
+            <md-icon v-html="icon('add')" />
+          </md-icon-button>
+        </div>
       </md-outlined-text-field>
-      <md-outlined-select v-model="data.column" label="Filter by" class="dense" quick>
-        <md-icon slot="leadingicon" v-html="icon('filter_list', true)" />
-        <md-select-option
-          v-for="option in EventEnum"
-          :key="option"
-          :value="option"
-          :headline="capitalize(option)"
-        />
-      </md-outlined-select>
     </div>
 
-    <div v-if="data.events.length > 0" class="space-y-3 mt-8 w-full lg:w-2/3 xl:w-1/2 2xl:w-2/5">
-      <div v-for="(event, i) in data.events" :key="event.id">
-        <p class="label-large font-medium text-on-surface-variant mb-3 text-left" v-if="getMonthCategory(data.events, event.date_stamp, i)">
-          {{ getMonthCategory(data.events, event.date_stamp, i) }}
-        </p>
-
-        <CardEvent :event="event" />
+    <div v-if="data.events.length > 0" class="w-full 2xl:w-2/3 3xl:w-3/5 mt-8 grid grid-cols-1 lg:grid-cols-2 gap-3">
+      <div v-for="event in data.events" :key="event.id">
+        <CardEvent class="h-full" :event="event" @click="onEdit(event)" />
       </div>
     </div>
+
     <div v-else class="flex justify-center mt-8 flex-grow body-medium">
       {{ message || "Fetching events..." }}
     </div>
@@ -45,7 +58,11 @@
       @change="p => data.page = p"
     />
 
-    <DialogAdminEvents v-model="isDialogOpen" @done="fetchEvents" />
+    <DialogAdminEvents
+      v-model="isDialogOpen"
+      :event="event"
+      @done="fetchEvents"
+    />
   </div>
 </template>
 
@@ -55,8 +72,8 @@ import { onMounted, ref, watch } from "vue";
 import { icon } from "~/utils/icon";
 import { EventEnum } from "~/types/models";
 import { capitalize } from "~/utils/string";
-import { getMonthCategory } from "~/utils/date";
 import { Endpoints, makeRequest } from "~/network/request";
+import { getStore, setStore } from "~/utils/storage";
 import { useStore } from "~/store";
 import { Env } from "~/config";
 
@@ -67,11 +84,13 @@ import DialogAdminEvents from "~/components/dialogs/DialogAdminEvents.vue";
 const message = ref();
 const isDialogOpen = ref(false);
 const isLoading = ref(false);
+const isMenuOpen = ref(false);
+const event = ref<EventModel>();
 const store = useStore();
 
 const data = ref({
   total: 0,
-  page: 1,
+  page: getStore("tabs_events_page") ? parseInt(getStore("tabs_events_page")) : 1,
   search: "",
   events: [] as EventModel[],
   column: EventEnum.title
@@ -83,6 +102,12 @@ watch([
   () => data.value.page,
 ], v => {
   fetchEvents(v[0]);
+});
+
+watch(isDialogOpen, v => {
+  if (!v) {
+    event.value = undefined;
+  }
 });
 
 onMounted(fetchEvents);
@@ -108,10 +133,16 @@ function fetchEvents(search = "") {
     if (response.success) {
       data.value.total = response.count || 0;
       data.value.events = response.data;
+      setStore("tabs_events_page", `${request.page}`);
       return;
     }
 
     message.value = response.message;
   });
+}
+
+function onEdit(data: EventModel) {
+  event.value = data;
+  isDialogOpen.value = true;
 }
 </script>

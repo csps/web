@@ -9,17 +9,6 @@
     <div class="grid gap-6" slot="content">
       <md-filled-text-field
         class="w-full"
-        label="Old Password"
-        v-model.trim="password"
-        type="password"
-        :disabled="isLoading"
-        @keydown.enter="submit"
-        required
-      >
-        <md-icon slot="leadingicon" v-html="icon('lock', true)" />
-      </md-filled-text-field>
-      <md-filled-text-field
-        class="w-full"
         label="New Password"
         v-model.trim="newPassword"
         type="password"
@@ -27,7 +16,7 @@
         @keydown.enter="submit"
         required
       >
-        <md-icon slot="leadingicon" v-html="icon('lock', true)" />
+        <md-icon slot="leading-icon" v-html="icon('lock', true)" />
       </md-filled-text-field>
       <md-filled-text-field
         class="w-full"
@@ -38,7 +27,7 @@
         @keydown.enter="submit"
         required
       >
-        <md-icon slot="leadingicon" v-html="icon('lock', true)" />
+        <md-icon slot="leading-icon" v-html="icon('lock', true)" />
       </md-filled-text-field>
     </div>
     <div class="space-x-1" slot="actions">
@@ -68,7 +57,6 @@ const props = defineProps({
   },
 });
 
-const password = ref("");
 const newPassword = ref("");
 const confirmPassword = ref("");
 
@@ -80,7 +68,7 @@ const isDialogOpen = computed(() => props.modelValue);
  */
 function submit() {
   // If all fields are empty
-  if (!password.value || !newPassword.value || !confirmPassword.value) {
+  if (!newPassword.value || !confirmPassword.value) {
     toast.info("Empty fields.");
     return;
   }
@@ -98,7 +86,6 @@ function submit() {
   // Send the request
   makeRequest("PUT", Endpoints.StudentsKey, { 
     key: StudentEnum.password,
-    oldpass: password.value,
     newpass: newPassword.value,
     cnfpass: confirmPassword.value
   }, response => {
@@ -122,7 +109,6 @@ function submit() {
  */
 function close() {
   // Reset the fields
-  password.value = "";
   newPassword.value = "";
   confirmPassword.value = "";
 

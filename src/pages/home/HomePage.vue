@@ -42,7 +42,7 @@
     <Transition name="slide-fade" mode="out-in">
       <div v-if="role && role !== '-' as Role" class="h-full bg-surface-variant dark:bg-surface-container-high px-6 mt-16 mb-16">
         <swiper-container
-          ref="swiper"
+          id="swiper"
           effect="cards"
           keyboard-enabled="true"
           round-lengths="true"
@@ -88,12 +88,14 @@
 </template>
 
 <script lang="ts" setup>
+import type Swiper from 'swiper';
 import { ref, onMounted, watch } from 'vue';
 import { useStore } from "~/store";
 import { icon } from "~/utils/icon";
 import { register } from 'swiper/element/bundle';
 import { Endpoints, makeRequest } from '~/network/request';
 import { AnnouncementEnum } from '~/types/models';
+import { getStore, setStore } from '~/utils/storage';
 import wave from "~/utils/wave";
 import sal from "sal.js";
 
@@ -111,13 +113,11 @@ import "@material/web/progress/linear-progress";
 import "@material/web/button/filled-button";
 import "@material/web/button/filled-tonal-button";
 import "@material/web/chips/filter-chip";
-import { getStore, setStore } from '~/utils/storage';
 
 register();
 
-const swiper = ref();
 const waveEl = ref();
-const role = ref<Role | null>(getStore("msg_role") as Role || "dean");
+const role = ref<Role | null>(getStore("home_msg_role") as Role || "dean");
 const isShowMessage = ref(false);
 const announcements = ref<AnnouncementModel[]>([]);
 const isLoading = ref(true);
@@ -148,7 +148,7 @@ let wavifyInstance: {
 watch(() => store.isDark, v => {
   if (!wavifyInstance) return;
   wavifyInstance.setColor(v ? "#2C292C" : "#EBDFE9");
-})
+});
 
 onMounted(() => {
   // Get announcements
@@ -169,34 +169,33 @@ onMounted(() => {
     message.value = response.message;
   });
 
+  // Get swiper
+  const swiper = getSwiper();
+
   if (role.value === 'dean') {
-    swiper.value?.swiper.slideTo(0);
+    swiper?.slideTo(0);
   }
 
   if (role.value === 'adviser') {
-    swiper.value?.swiper.slideTo(1);
+    swiper?.slideTo(1);
   }
 
-  // Add slide change event listener to swiper
-  swiper.value?.addEventListener('slidechange', (event: any) => {
-    if (event.detail[0].realIndex === 0) {
-      role.value = "dean";
-      return;
-    }
-
-    if (event.detail[0].realIndex === 1) {
-      role.value = "adviser";
-      return;
-    }
-
-    role.value = null;
-  });
-
+  // Bind swiper
+  bindSwiper();
   // Initialize wavify
   wavifyInstance = wave(waveEl.value, store.isDark ? "#2C292C" : "#EBDFE9");
   // Initialize sal
   sal();
 });
+
+/**
+ * Get swiper
+ */
+function getSwiper(returnEl = false): Swiper | null {
+  const el = document.getElementById("swiper") as any;
+  if (el === null) return null;
+  return returnEl ? el : el.swiper;
+}
 
 /**
  * Show message
@@ -207,21 +206,51 @@ function showMessage(r: Role) {
   role.value = role.value === r ? null : r;
 
   setTimeout(() => {
+    // Get swiper
+    const swiper = bindSwiper();
+
     if (role.value === "dean") {
-      swiper.value?.swiper.slideTo(0);
+      swiper?.slideTo(0);
+      return;
     }
     
     if (role.value === "adviser") {
-      swiper.value?.swiper.slideTo(1);
-    }
-  
-    if (role.value === null) {
-      setStore("msg_role", "-");
+      swiper?.slideTo(1);
       return;
     }
-  
-    setStore("msg_role", r);
+
+    setStore("home_msg_role", "-");
   }, 0);
+}
+
+/**
+ * Bind swiper
+ */
+function bindSwiper() {
+  // Get swiper
+  const swiper = getSwiper(true);
+  // If swiper is null, return
+  if (swiper === null) return;
+
+  // Add slide change event listener to swiper
+  (swiper as any).addEventListener('slidechange', (event: any) => {
+    if (event.detail[0].realIndex === 0) {
+      role.value = "dean";
+      setStore("home_msg_role", "dean");
+      return;
+    }
+    
+    if (event.detail[0].realIndex === 1) {
+      role.value = "adviser";
+      setStore("home_msg_role", "adviser");
+      return;
+    }
+
+    setStore("home_msg_role", "-");
+    role.value = null;
+  });
+
+  return (swiper as any).swiper;
 }
 </script>
 

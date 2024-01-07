@@ -138,6 +138,18 @@ import ScheduleOutlined from "@material-symbols/svg-700/rounded/schedule.svg?raw
 import CalendarMonth from "@material-symbols/svg-700/rounded/calendar_month-fill.svg?raw";
 import CalendarMonthOutlined from "@material-symbols/svg-700/rounded/calendar_month.svg?raw";
 
+import ArrowUpward from "@material-symbols/svg-700/rounded/arrow_upward-fill.svg?raw";
+import ArrowUpwardOutlined from "@material-symbols/svg-700/rounded/arrow_upward.svg?raw";
+
+import ArrowDownward from "@material-symbols/svg-700/rounded/arrow_downward-fill.svg?raw";
+import ArrowDownwardOutlined from "@material-symbols/svg-700/rounded/arrow_downward.svg?raw";
+
+import Forum from "@material-symbols/svg-700/rounded/forum-fill.svg?raw";
+import ForumOutlined from "@material-symbols/svg-700/rounded/forum.svg?raw";
+
+import Error from "@material-symbols/svg-700/rounded/error-fill.svg?raw";
+import ErrorOutlined from "@material-symbols/svg-700/rounded/error.svg?raw";
+
 // Icon type
 export type Icon = "arrow_back" | "menu" | "photo_camera" | "favorite" |
   "arrow_forward" | "verified" | "lock" | "visibility" | "visibility_off" | 
@@ -146,7 +158,8 @@ export type Icon = "arrow_back" | "menu" | "photo_camera" | "favorite" |
   "shopping_cart_checkout" | "ballot" | "deployed_code" | "steppers" | "search" |
   "person" | "security" | "settings" | "tune" | "receipt" | "more_vert" | "check" |
   "groups" | "chevron_right" | "filter_list" | "chevron_left" | "campaign" | "event" |
-  "location_on" | "schedule" | "calendar_month";
+  "location_on" | "schedule" | "calendar_month" | "arrow_upward" | "arrow_downward" |
+  "forum" | "error";
 
 /**
  * Material Icon
@@ -244,7 +257,15 @@ export function icon(name: Icon, outlined: boolean = false) {
   if (name === "schedule") return outlined ? ScheduleOutlined : Schedule;
   // Calendar Month
   if (name === "calendar_month") return outlined ? CalendarMonthOutlined : CalendarMonth;
-
+  // Arrow Upward
+  if (name === "arrow_upward") return outlined ? ArrowUpwardOutlined : ArrowUpward;
+  // Arrow Downward
+  if (name === "arrow_downward") return outlined ? ArrowDownwardOutlined : ArrowDownward;
+  // Forum
+  if (name === "forum") return outlined ? ForumOutlined : Forum;
+  // Error
+  if (name === "error") return outlined ? ErrorOutlined : Error;
+  
   // Default
   return null;
 }

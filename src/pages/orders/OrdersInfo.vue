@@ -6,19 +6,20 @@
     </div>
 
     <div v-else class="flex flex-col justify-center items-center w-full lg:w-3/4 xl:w-1/2">
-      <div class="flex justify-between items-center w-full mb-5">
+      <div class="flex gap-5 flex-col md:flex-row justify-between w-full mb-5">
         <div>
-          <h2 class="font-semibold title-large mb-1 text-primary w-full text-left">Order #{{ route.params.receipt }}</h2>
+          <h2 class="font-semibold title-large mb-1 text-primary w-full text-left">Order #{{ route.params.reference || order?.reference }}</h2>
           <h5 class="title-small w-full text-left">{{ order?.date_stamp ? getReadableDate(order?.date_stamp) : 'Invalid date' }}</h5>
         </div>
         <div>
-          <md-outlined-select v-model="status" label="Status" :disabled="isCompleted" quick>
+          <md-outlined-select v-if="route.params.reference" v-model="status" label="Status" @change.prevent="onStatuChange" :disabled="isCompleted">
             <md-select-option
               v-for="option in statuses"
               :key="option.value"
               :value="option.value"
-              :headline="option.label"
-            />
+            >
+              <span slot="headline">{{ option.label }}</span>
+            </md-select-option>
           </md-outlined-select>
         </div>
       </div>
@@ -33,14 +34,14 @@
         <div>Student ID</div>
         <div>{{ order?.student_id }}</div>
         <div>Course</div>
-        <div>{{ order?.course == 0 ? 'BSCS' : order?.course && courses ? courses[order?.course] : "Unknown" }} {{ order?.year_level }}</div>
+        <div>{{ order?.course == 0 ? 'BSCS' : order?.course && store.courses ? store.courses[order?.course] : "Unknown" }} {{ order?.year_level }}</div>
         <div>Remarks</div>
         <div>{{ order?.user_remarks || "Empty" }}</div>
         <div>Mode of Payment</div>
         <div v-if="order?.mode_of_payment === ModeOfPayment.WALK_IN">Walk-in</div>
         <div v-else>
           <a
-            :href="getPhotoLink(order?.receipt_id || 0, true)"
+            :href="getPhotoLink(order?.reference || 0, true)"
             class="border-b border-dashed border-outline"
             title="View submitted receipt"
             data-fancybox
@@ -51,7 +52,9 @@
         <div>Status</div>
         <div>{{ mapOrderStatusLabel(order?.status) }}</div>
         <div>Date Completed</div>
-        <div class="text-outline">{{ order?.status === OrderStatus.COMPLETED || status === OrderStatus.COMPLETED ? (order?.edit_date ? getReadableDate(order.edit_date) : 'Invalid date') : '...' }}</div>
+        <div class="text-outline">{{ order?.status === OrderStatus.COMPLETED || status === OrderStatus.COMPLETED ? (order?.status_updated ? getReadableDate(order.status_updated) : 'Invalid date') : '...' }}</div>
+        <div>Quantity</div>
+        <div>{{ order?.quantity }}</div>
       </div>
 
       <div class="flex justify-between mt-5 w-full bg-surface-container p-6 rounded-2xl text-on-surface-variant">
@@ -63,7 +66,7 @@
             <h5 class="text-xs">{{ order?.variations_name || 'Standard' }}</h5>
           </div>
 
-          <h3 class="text-sm">
+          <h3 class="body-medium">
             {{ toCurrency(order?.product_price || 0) }}
             
             <div class="text-outline inline-block ml-[1px]">
@@ -96,10 +99,10 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted, watch } from 'vue';
+import { ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import { toast } from 'vue3-toastify';
-import { useStore } from '~/store';
+import { useStore, useDialog } from '~/store';
 import { Endpoints, makeRequest } from '~/network/request';
 import { getPhotoLink } from '~/utils/network';
 import { Fancybox } from "@fancyapps/ui";
@@ -120,14 +123,16 @@ import "@fancyapps/ui/dist/fancybox/fancybox.css";
 
 import VImage from '~/components/VImage.vue';
 import ImageTemplate from '~/composables/ImageTemplate.vue';
+import Strings from '~/config/strings';
 
 const route = useRoute();
 const store = useStore();
+const dialog = useDialog();
 const isLoading = ref(true);
 const order = ref<FullOrderModel>();
-const status = ref();
 const isCompleted = ref(false);
-const courses = ref();
+const status = ref();
+const currentStatus = ref();
 
 const statuses = [
   { value: OrderStatus.PENDING_PAYMENT, label: "Pending" },
@@ -138,89 +143,123 @@ const statuses = [
   { value: OrderStatus.REJECTED, label: "Rejected" },
 ];
 
-watch(status, (v, before) => {
-  if (order.value?.id && before !== undefined) {
-    updateStatus(order.value.id, v);
+onMounted(() => {
+  store.isLoading = true;
+
+  // If using unique ID
+  if (route.params.uniqueId) {
+    // Fetch order
+    makeRequest<FullOrderModel>("GET", Endpoints.OrdersUnique, {
+      uniqueId: route.params.uniqueId
+    }, processData);
     return;
   }
+
+  // Fetch order
+  makeRequest<FullOrderModel>("GET", Endpoints.OrdersReference, {
+    reference: route.params.reference
+  }, processData);
+});
+
+function onStatuChange(ev: { target: { value: OrderStatus }}) {
+  status.value = currentStatus.value;
 
   if (order.value?.id === undefined) {
     toast.error("ID is null");
   }
-});
 
-onMounted(() => {
-  store.isLoading = true;
-  setPageTitle("Order #" + route.params.receipt);
-
-  // Fetch order
-  makeRequest<FullOrderModel>("GET", Endpoints.OrdersReceipt, {
-    receipt: route.params.receipt
-  }, response => {
-    isLoading.value = false;
-    store.isLoading = false;
-
-    if (response.success) {
-      order.value = response.data;
-      status.value = order.value.status;
-
-      if (order.value.status === OrderStatus.COMPLETED) {
-        isCompleted.value = true;
+  if (ev.target.value === OrderStatus.COMPLETED) {
+    dialog.open(Strings.ORDER_UPDATE_STATUS_COMPLETE_TITLE, Strings.ORDER_UPDATE_STATUS_COMPLETE_MESSAGE, {
+      text: "Yes, complete order",
+      click() {
+        dialog.hide();
+        updateStatus(order.value!.id, OrderStatus.COMPLETED);
       }
+    }, {
+      text: "No, cancel",
+      click() {
+        dialog.hide();
+        status.value = currentStatus.value;
+      }
+    });
 
-      setTimeout(() => {
-        Fancybox.bind("[data-fancybox]", {
-          Toolbar: {
-            display: {
-              left: ["infobar"],
-              middle: [
-                "zoomIn", "zoomOut", "toggle1to1", 
-                "rotateCCW", "rotateCW", "flipX", "flipY",
-              ],
-              right: [
-                "iterateZoom",
-                "download",
-                "fullscreen",
-                "close"
-              ]
-            }
+    return;
+  }
+
+  if (order.value?.id && ev.target.value !== undefined) {
+    updateStatus(order.value.id, ev.target.value);
+    return;
+  }
+}
+
+/**
+ * Process order data
+ */
+function processData(response: ServerResponse<FullOrderModel>) {
+  isLoading.value = false;
+  store.isLoading = false;
+
+  if (response.success) {
+    order.value = response.data;
+    status.value = order.value.status;
+    currentStatus.value = order.value.status;
+
+    if (order.value.status === OrderStatus.COMPLETED) {
+      isCompleted.value = true;
+    }
+
+    // Set page title
+    setPageTitle("Order #" + order.value.reference);
+    // Bind fancybox
+    setTimeout(() => {
+      Fancybox.bind("[data-fancybox]", {
+        Toolbar: {
+          display: {
+            left: ["infobar"],
+            middle: [
+              "zoomIn", "zoomOut", "toggle1to1", 
+              "rotateCCW", "rotateCW", "flipX", "flipY",
+            ],
+            right: [
+              "iterateZoom",
+              "download",
+              "fullscreen",
+              "close"
+            ]
           }
-        });
-      }, 0);
+        }
+      });
+    }, 0);
 
-      return;
-    }
+    return;
+  }
 
-    toast.error(response.message);
-  });
-
-  // Fetch courses
-  makeRequest("GET", Endpoints.Courses, null, response => {
-    if (response.success) {
-      courses.value = response.data;
-      return;
-    }
-
-    toast.error(response.message);
-  });
-});
+  toast.error(response.message);
+}
 
 /**
  * Update order status
  */
-function updateStatus(orderId: string, status: OrderStatus) {
+function updateStatus(orderId: string, toStatus: OrderStatus) {
   store.isLoading = true;
 
-  makeRequest("PUT", Endpoints.OrdersKey, {
+  makeRequest<string>("PUT", Endpoints.OrdersKey, {
     id: orderId,
     key: OrderEnum.status,
-    value: status
+    value: toStatus
   }, response => {
     store.isLoading = false;
 
     if (response.success) {
-      if (status === OrderStatus.COMPLETED) {
+      currentStatus.value = toStatus;
+      status.value = toStatus;
+
+      if (toStatus === OrderStatus.COMPLETED) {
         isCompleted.value = true;
+
+        if (order.value) {
+          order.value.status_updated = response.data;
+        }
       }
 
       toast.success(response.message);
@@ -237,7 +276,7 @@ function updateStatus(orderId: string, status: OrderStatus) {
   @apply grid grid-cols-2 w-full mt-5 gap-2;
 
   & > div:nth-child(even) {
-    @apply text-right;
+    @apply text-right break-words;
   }
 }
 </style>

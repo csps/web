@@ -22,6 +22,7 @@ input[type=number] {
   }
 
   --md-checkbox-container-shape: 4px;
+  --md-ref-typeface-brand: sans-serif;
   
   @apply overflow-x-hidden h-full min-h-full;
 }
@@ -50,7 +51,8 @@ body {
 }
 
 *::-webkit-scrollbar {
-  width: 8px !important;
+  width: 10px !important;
+  height: 10px !important;
 }
 
 *::-webkit-scrollbar-track {
@@ -58,7 +60,7 @@ body {
 }
 
 *::-webkit-scrollbar-thumb {
-  @apply bg-primary;
+  @apply bg-surface-container-highest;
   border-radius: 20px;
 }
 
@@ -108,6 +110,15 @@ img {
   @apply bg-error-container text-on-error-container;
 }
 
+.hide-scrollbar {
+  @apply px-6;
+
+  &::-webkit-scrollbar {
+    width: 0 !important;
+    height: 0 !important;
+  }
+}
+
 md-filled-button, md-text-button,
 md-outlined-button, md-filled-tonal-button,
 md-elevated-button {
@@ -123,8 +134,12 @@ md-filled-button {
   box-shadow: 0 0 75px -20px var(--md-sys-color-primary);
 }
 
-md-outlined-field, md-filled-field {
-  --_label-text-type: var(--md-outlined-field-label-text-type, 400 1rem / 1.5rem var(--md-ref-typeface-plain, 'Poppins'));
+md-filled-text-field {
+  --md-filled-field-content-size: 15px;
+}
+
+md-outlined-text-field {
+  --md-outlined-field-content-size: 15px;
 }
 
 md-outlined-select.dense::part(menu), md-filled-select.dense::part(menu) {

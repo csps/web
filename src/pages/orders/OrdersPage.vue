@@ -13,23 +13,23 @@
             v-model="data.search"
             :label="'Search ' + capitalize(data.column)"
           >
-            <md-icon slot="leadingicon" v-html="icon('search')" />
+            <md-icon slot="leading-icon" v-html="icon('search')" />
           </md-outlined-text-field>
-          <md-outlined-select v-model="data.column" label="Filter by" class="dense" quick>
-            <md-icon slot="leadingicon" v-html="icon('filter_list', true)" />
+          <md-outlined-select v-model="data.column" label="Filter by" class="dense">
+            <md-icon slot="leading-icon" v-html="icon('filter_list', true)" />
             <md-select-option
               v-for="option in allowedFilters"
               :key="option"
               :value="option"
-              :headline="capitalize(option)"
-            />
+            >
+              <span slot="headline">{{ capitalize(option) }}</span>
+            </md-select-option>
           </md-outlined-select>
         </div>
 
         <div class="flex justify-center items-center flex-wrap gap-2 mt-4">
           <md-filter-chip
             v-for="s in status"
-            elevated
             :key="s.value"
             :selected="data.filterStatus.includes(s.value)"
             :label="s.label"
@@ -40,7 +40,10 @@
         <div v-if="data.orders.length > 0" class="space-y-3 mt-8 w-full lg:w-2/3 xl:w-1/2 2xl:w-2/5">
           <div v-for="(order, i) in data.orders" :key="order.id">
             <p class="label-large font-medium text-on-surface-variant mb-3 text-left" v-if="getMonthCategory(order, i)">{{ getMonthCategory(order, i) }}</p>
-            <CardOrder :order="order" @click="goToReceipt(order.receipt_id)" />
+
+            <router-link :to="{ name: 'My Order', params: { uniqueId: order.unique_id }}">
+              <CardOrder :order="order" />
+            </router-link>
           </div>
         </div>
         <div v-else class="flex justify-center mt-8 flex-grow body-medium">
@@ -58,23 +61,29 @@
       </div>
     </div>
 
-    <div v-else>
+    <div class="px-6" v-else>
       <h2 class="text-2xl md:text-3xl font-semibold mb-1 text-left">
         My orders
       </h2>
-      <h6 class="text-sm">
-        To view your orders, please enter your receipt and student ID.
+      <h6 class="text-xs">
+        To view your orders, please enter your reference number and student ID.
       </h6>
 
-      <div class="flex flex-col gap-6 mt-5">
-        <md-outlined-text-field @keydown.enter="submit" v-model.trim="receiptId" label="Receipt ID">
-          <md-icon slot="leadingicon" v-html="icon('receipt', true)" />
+      <div class="flex flex-col gap-6 mt-8">
+        <md-outlined-text-field
+          v-model.trim="reference"
+          label="Reference No."
+          prefix-text="CSPS"
+          @keydown.enter="submit"
+          @paste="onPaste"
+        >
+          <md-icon slot="leading-icon" v-html="icon('receipt', true)" />
         </md-outlined-text-field>
         <md-outlined-text-field @keydown.enter="submit" v-model.trim="studentId" label="Student ID" type="number">
-          <md-icon slot="leadingicon" v-html="icon('badge', true)" />
+          <md-icon slot="leading-icon" v-html="icon('badge', true)" />
         </md-outlined-text-field>
   
-        <md-filled-button @click="submit" :disabled="receiptId.length === 0 || studentId.length === 0 || isFetching">
+        <md-filled-button @click="submit" :disabled="reference.length === 0 || studentId.length === 0 || isFetching">
           {{ isFetching ? 'Finding order...' : 'View order' }}
         </md-filled-button>
   
@@ -100,6 +109,8 @@ import { FullOrderEnum } from "~/types/models";
 import { OrderStatus } from "~/types/enums";
 import { capitalize } from "~/utils/string";
 import { getMonthYear } from "~/utils/date";
+import { Endpoints, makeRequest } from "~/network/request";
+import { toast } from "vue3-toastify";
 
 import "@material/web/icon/icon";
 import "@material/web/progress/linear-progress";
@@ -112,14 +123,12 @@ import "@material/web/select/select-option";
 
 import CardOrder from "../admin/components/CardOrder.vue";
 import VPagination from "~/components/VPagination.vue";
-import { Endpoints, makeRequest } from "~/network/request";
-import { toast } from "vue3-toastify";
 
 const store = useStore();
 const router = useRouter();
 
 const message = ref("");
-const receiptId = ref("");
+const reference = ref("");
 const studentId = ref("");
 const isFetching = ref(false);
 
@@ -129,7 +138,7 @@ const data = ref({
   page: 1,
   search: "",
   filterStatus: [OrderStatus.PENDING_PAYMENT],
-  column: FullOrderEnum.receipt_id,
+  column: FullOrderEnum.reference,
 });
 
 const status = [
@@ -142,7 +151,7 @@ const status = [
 ];
 
 const allowedFilters = [
-  FullOrderEnum.receipt_id,
+  FullOrderEnum.reference,
   FullOrderEnum.product_name,
   FullOrderEnum.mode_of_payment,
   FullOrderEnum.variations_name,
@@ -193,14 +202,14 @@ function fetchOrders(search = "") {
 }
 
 function submit() {
-  if (receiptId.value.length === 0 || studentId.value.length === 0) return;
+  if (reference.value.length === 0 || studentId.value.length === 0) return;
 
   isFetching.value = true;
   store.isLoading = true;
 
   const request: any = {
-    search_value: [receiptId.value, studentId.value],
-    search_column: [FullOrderEnum.receipt_id, FullOrderEnum.student_id],
+    search_value: ["CSPS" + reference.value, studentId.value],
+    search_column: [FullOrderEnum.reference, FullOrderEnum.student_id],
   };
 
   makeRequest<FullOrderModel[]>("GET", Endpoints.Orders, request, response => {
@@ -208,16 +217,12 @@ function submit() {
     store.isLoading = false;
 
     if (response.success) {
-      goToReceipt(response.data[0].receipt_id);
+      router.push({ name: "My Order", params: { uniqueId: response.data[0].unique_id }});
       return;
     }
 
     toast.warn(response.message);
   });  
-}
-
-function goToReceipt(receipt: string) {
-  router.push({ name: "Receipt", params: { receipt }});
 }
 
 function onFilter(status: OrderStatus) {
@@ -247,5 +252,30 @@ function getMonthCategory(date: FullOrderModel, i: number) {
   }
     
   return "";
+}
+
+/**
+ * Handle pasting of reference number
+ */
+function onPaste(e: ClipboardEvent) {
+  if (!e.clipboardData) return;
+
+  e.preventDefault();
+  e.stopPropagation();
+
+  // Get pasted data via clipboard API
+  const text = (e.clipboardData.getData("text/plain") || "").trim();
+  // Discard if empty
+  if (text.length === 0) return;
+
+  // If pasted text starts with CSPS
+  if (text.startsWith("CSPS")) {
+    // Remove CSPS prefix and set the value
+    reference.value = text.replace("CSPS", "");
+    return;
+  }
+
+  // otherwise, append the text
+  reference.value += text;
 }
 </script>

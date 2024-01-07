@@ -20,7 +20,7 @@ We welcome contributions from UC Main and other campuses who are interested in h
 
 All rights reserved.
 
-Copyright (c) 2024 **UC Main CSP-S**
+Copyright © 2024 **UC Main CSP-S**
 
 The software must **NOT** be modified or distributed without the prior written consent of the copyright holders.
 Any unauthorized reproduction, modification, or distribution of this code will result in legal action.

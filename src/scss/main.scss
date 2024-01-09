@@ -47,7 +47,7 @@ html, body, #app {
 
 body {
   --sal-duration: 500ms;
-  @apply bg-surface text-on-surface;
+  @apply bg-surface-variant dark:bg-surface text-on-surface;
 }
 
 *::-webkit-scrollbar {

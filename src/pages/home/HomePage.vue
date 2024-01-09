@@ -1,7 +1,7 @@
 <template>
-  <div class="relative bg-surface-variant dark:bg-surface-container-high flex-grow">
+  <div class="bg-surface-variant dark:bg-surface-container-high flex-grow relative h-full">
     <!-- Call To Action -->
-    <div class="rounded-br-3xl rounded-bl-3xl -z-[1] bg-surface">
+    <div class="rounded-br-3xl rounded-bl-3xl -z-[1] bg-surface pt-20 -translate-y-20">
       <div class="container mx-auto text-center pt-8 pb-5 px-6">
         <div class="flex justify-center gap-3 mb-6" data-sal="zoom-in">
           <md-filter-chip :selected="role ==='dean'" @click="showMessage('dean')" label="Dean" title="Welcome Message" elevated>

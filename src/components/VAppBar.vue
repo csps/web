@@ -1,5 +1,5 @@
 <template>
-  <div class="h-20 appbar">
+  <div class="h-20 appbar z-10">
     <div class="container mx-auto px-4 flex items-center space-x-1 md:space-x-5 h-full">
       <!-- Back button -->
       <md-icon-button v-if="store.isShowBackButton" @click="back">
@@ -36,26 +36,26 @@
             >
               <router-link class="link" :to="link.path">
                 <md-icon v-html="icon(link.icon, NAV_LINKS.findIndex(t => t.name === route.name) !== i)" />
-                <span v-show="NAV_LINKS.findIndex(t => t.name === route.name) === i">{{ link.name }}</span>
+                <span>{{ link.name }}</span>
               </router-link>
             </md-primary-tab>
 
             <md-primary-tab title="Profile" v-show="store.isLoggedIn" @click="router.push({ path: '/profile' })">
               <router-link class="link" to="/profile" tabindex="-1">
                 <md-icon v-html="icon('person')" />
-                <span v-show="NAV_LINKS.findIndex(t => t.name === route.name) === 4">Profile</span>
+                <span>Profile</span>
               </router-link>
             </md-primary-tab>
             <md-primary-tab title="Login" v-show="!store.isLoggedIn && !store.isAdminLoggedIn" @click="router.push({ path: '/login' })">
               <router-link class="link" to="/login" tabindex="-1">
                 <md-icon v-html="icon('login')" />
-                <span v-show="NAV_LINKS.findIndex(t => t.name === route.name) === 5">Login</span>
+                <span>Login</span>
               </router-link>
             </md-primary-tab>
             <md-primary-tab title="Admin" v-show="store.isAdminLoggedIn" @click="router.push({ path: '/admin' })">
               <router-link class="link" to="/admin" tabindex="-1">
                 <md-icon v-html="icon('account_circle')" />
-                <span v-show="NAV_LINKS.findIndex(t => t.name === route.name) === 5">Admin</span>
+                <span>Admin</span>
               </router-link>
             </md-primary-tab>
           </md-tabs>
@@ -173,7 +173,8 @@ function back() {
 }
 
 .appbar {
-  transition: padding 0.21s ease-in-out;
+  transition: all 0.31s ease-in-out;
+  @apply bg-transparent;
 }
 
 h3 {

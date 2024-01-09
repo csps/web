@@ -3,8 +3,8 @@
  * @author mavyfaby (Maverick Fabroa)
  */
 
-import Atr from "@material-symbols/svg-700/rounded/atr-fill.svg?raw";
-import AtrOutlined from "@material-symbols/svg-700/rounded/atr.svg?raw";
+import Commit from "@material-symbols/svg-700/rounded/commit-fill.svg?raw";
+import CommitOutlined from "@material-symbols/svg-700/rounded/commit.svg?raw";
 
 import ArrowBack from "@material-symbols/svg-700/rounded/arrow_back-fill.svg?raw";
 import ArrowBackOutlined from "@material-symbols/svg-700/rounded/arrow_back.svg?raw";
@@ -165,7 +165,7 @@ export type Icon = "arrow_back" | "menu" | "photo_camera" | "favorite" |
   "person" | "security" | "settings" | "tune" | "receipt" | "more_vert" | "check" |
   "groups" | "chevron_right" | "filter_list" | "chevron_left" | "campaign" | "event" |
   "location_on" | "schedule" | "calendar_month" | "arrow_upward" | "arrow_downward" |
-  "forum" | "atr" | "dark_mode" | "light_mode";
+  "forum" | "commit" | "dark_mode" | "light_mode";
 
 /**
  * Material Icon
@@ -269,8 +269,8 @@ export function icon(name: Icon, outlined: boolean = false) {
   if (name === "arrow_downward") return outlined ? ArrowDownwardOutlined : ArrowDownward;
   // Forum
   if (name === "forum") return outlined ? ForumOutlined : Forum;
-  // ATR
-  if (name === "atr") return outlined ? AtrOutlined : Atr;
+  // Commit
+  if (name === "commit") return outlined ? CommitOutlined : Commit;
   // Dark Mode
   if (name === "dark_mode") return outlined ? DarkModeOutlined : DarkMode;
   // Light Mode

@@ -10,7 +10,7 @@
         </h6>
 
         <div class="flex flex-col gap-1 mt-10 mb-6">
-          <md-filled-text-field
+          <md-outlined-text-field
             :disabled="isLoggingIn"
             label="Student ID"
             type="text"
@@ -21,9 +21,9 @@
             required
           >
             <md-icon slot="leading-icon" v-html="icon('badge', true)" />
-          </md-filled-text-field>
+          </md-outlined-text-field>
 
-          <md-filled-text-field
+          <md-outlined-text-field
             :disabled="isLoggingIn"
             label="Password"
             :type="isPasswordVisible ? 'text' : 'password'"
@@ -36,7 +36,7 @@
               <md-icon v-html="icon('visibility_off', true)" />
               <md-icon slot="selected" v-html="icon('visibility', true)" />
             </md-icon-button>
-          </md-filled-text-field>
+          </md-outlined-text-field>
         </div>
 
         <div class="flex justify-between items-center my-3">
@@ -64,7 +64,7 @@
 </template>
 
 <script lang="ts" setup>
-import "@material/web/textfield/filled-text-field";
+import "@material/web/textfield/outlined-text-field";
 import "@material/web/iconbutton/icon-button";
 import "@material/web/button/filled-button";
 import "@material/web/button/filled-tonal-button";

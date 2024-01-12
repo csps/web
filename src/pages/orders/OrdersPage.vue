@@ -9,12 +9,12 @@
       <h3 class="text-center headline-small mb-5 font-medium">My orders</h3>
       <div class="flex flex-col justify-center items-center w-full px-6 container mx-auto h-full">
         <div class="flex items-center gap-3">
-          <md-filled-text-field
+          <md-outlined-text-field
             v-model="data.search"
             :label="'Search ' + capitalize(data.column)"
           >
             <md-icon slot="leading-icon" v-html="icon('search')" />
-          </md-filled-text-field>
+          </md-outlined-text-field>
           <md-filled-select v-model="data.column" label="Filter by" class="dense">
             <md-icon slot="leading-icon" v-html="icon('filter_list', true)" />
             <md-select-option
@@ -70,7 +70,7 @@
       </h6>
 
       <div class="flex flex-col gap-5 mt-8">
-        <md-filled-text-field
+        <md-outlined-text-field
           v-model.trim="reference"
           label="Reference No."
           prefix-text="CSPS"
@@ -78,10 +78,10 @@
           @paste="onPaste"
         >
           <md-icon slot="leading-icon" v-html="icon('receipt', true)" />
-        </md-filled-text-field>
-        <md-filled-text-field @keydown.enter="submit" v-model.trim="studentId" label="Student ID" type="number">
+        </md-outlined-text-field>
+        <md-outlined-text-field @keydown.enter="submit" v-model.trim="studentId" label="Student ID" type="number">
           <md-icon slot="leading-icon" v-html="icon('badge', true)" />
-        </md-filled-text-field>
+        </md-outlined-text-field>
         
         <div class="flex justify-end items-center">
           <md-filled-button @click="submit" :disabled="reference.length === 0 || studentId.length === 0 || isFetching" class="w-1/3">
@@ -116,7 +116,7 @@ import { toast } from "vue3-toastify";
 
 import "@material/web/icon/icon";
 import "@material/web/progress/linear-progress";
-import "@material/web/textfield/filled-text-field";
+import "@material/web/textfield/outlined-text-field";
 import "@material/web/button/filled-button";
 import "@material/web/select/filled-select";
 import "@material/web/chips/filter-chip";

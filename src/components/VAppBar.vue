@@ -1,5 +1,5 @@
 <template>
-  <div class="h-20 appbar z-10">
+  <div class="h-20 appbar">
     <div class="container mx-auto px-4 flex items-center space-x-1 md:space-x-5 h-full">
       <!-- Back button -->
       <md-icon-button v-if="store.isShowBackButton" @click="back">
@@ -133,7 +133,6 @@ import "@material/web/menu/menu-item";
 import "@material/web/tabs/tabs";
 import "@material/web/tabs/primary-tab";
 import "@material/web/iconbutton/icon-button"
-
 
 defineProps({
   transparent: {

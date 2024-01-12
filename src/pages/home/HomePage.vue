@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-surface-variant dark:bg-surface-container-high flex-grow relative h-full">
+  <div class="bg-surface-variant dark:bg-surface-container-high flex-grow relative h-full -z-[1]">
     <!-- Call To Action -->
     <div class="rounded-br-3xl rounded-bl-3xl -z-[1] bg-surface pt-20 -translate-y-20">
       <div class="container mx-auto text-center pt-8 pb-5 px-6">

@@ -11,7 +11,7 @@
         <p class="title-small text-outline text-center md:text-left">Check out our bulletin board for a list of upcoming events and activities!</p>
 
         <div class="flex flex-col-reverse md:flex-col 2xl:grid 2xl:grid-cols-6 gap-16 justify-center mt-6">
-          <div class="hidden md:block col-span-4 rounded-xl shadow-lg dark:shadow-surface-container-low">
+          <div class="hidden md:block col-span-4 rounded-xl shadow-lg dark:shadow-surface-container">
             <Calendar
               ref="c1"
               @did-move="($event: Event) => onChange($event, 1)"
@@ -58,7 +58,7 @@
                 </div>
                 <div class="my-8" />
                 
-                <div v-if="nowEvent" class="flex items-center gap-1 bg-surface-container-low p-5 rounded-lg text-on-surface-variant font-medium">
+                <div v-if="nowEvent" class="flex items-center gap-1 bg-surface-container p-5 rounded-lg text-on-surface-variant font-medium">
                   <md-icon class="mr-2" v-html="icon('campaign')" />
                   Happening Now:
                   <span
@@ -70,7 +70,7 @@
                     {{ nowEvent.title }}!
                   </span>
                 </div>
-                <div v-else-if="nextEvent" class="flex items-center gap-1 bg-surface-container-low p-5 rounded-lg text-on-surface-variant font-medium">
+                <div v-else-if="nextEvent" class="flex items-center gap-1 bg-surface-container p-5 rounded-lg text-on-surface-variant font-medium">
                   <md-icon class="mr-2" v-html="icon('campaign')" />
                   Next event:
                   <span
@@ -82,7 +82,7 @@
                     {{ nextEvent.title }}!
                   </span>
                 </div>
-                <div v-else class="bg-surface-container-low p-5 rounded-lg text-on-surface-variant font-medium">
+                <div v-else class="bg-surface-container p-5 rounded-lg text-on-surface-variant font-medium">
                   There are no upcoming events yet. Stay tuned!
                 </div>
               </div>
@@ -321,7 +321,7 @@ function onNextEventClick() {
   }
  
   & .vc-header {
-    @apply h-16 bg-surface-container-low mt-0 rounded-tl-xl rounded-tr-xl;
+    @apply h-16 bg-surface-container mt-0 rounded-tl-xl rounded-tr-xl;
 
     .vc-title, .vc-title:hover {
       @apply text-on-surface opacity-[0.9];
@@ -337,7 +337,7 @@ function onNextEventClick() {
   }
 
   & .vc-day {
-    @apply bg-surface-container-low;
+    @apply bg-surface-container;
 
     padding: 0 5px 3px 5px;
     text-align: left;

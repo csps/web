@@ -1,5 +1,5 @@
 <template>
-  <div class="h-20 appbar">
+  <div class="h-20 appbar z-[1]">
     <div class="container mx-auto px-4 flex items-center space-x-1 md:space-x-5 h-full">
       <!-- Back button -->
       <md-icon-button v-if="store.isShowBackButton" @click="back">

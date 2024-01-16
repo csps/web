@@ -95,7 +95,6 @@ const routes: RouteRecordRaw[] = [
     component: () => import("../pages/admin/AdminLogin.vue"),
     meta: { requiresAuth: true }
   },
-
   {
     path: "/:pathMatch(.*)",
     name: "404 Not Found",
@@ -120,7 +119,10 @@ const router = createRouter({
 router.beforeEach(async (to, _from, next) => {
   // Set loading to true
   const store = useStore();
-  store.isLoading = true;
+
+  if (!store.isMaintenance) {
+    store.isLoading = true;
+  }
 
   // If going to route that requres auth
   if (to.meta.requiresAuth) {

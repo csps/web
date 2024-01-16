@@ -2,7 +2,8 @@
   <div class="min-h-screen">
     <md-linear-progress class="fixed right-0 left-0 top-0 min-w-full z-[1]" :indeterminate="store.isLoading" />
 
-    <div>
+    <Maintenence v-if="store.isMaintenance" />
+    <div v-else>
       <VNavigationRail
         :class="{ 'translate-x-0': route.path.startsWith('/admin') && charCount('/', route.path) === 2 && !route.path.endsWith('/login') }"
         class="hidden md:block fixed top-0 bottom-0 -translate-x-[80px]"
@@ -42,13 +43,12 @@ import VAppBar from './components/VAppBar.vue';
 import VFooter from './components/VFooter.vue';
 import DialogMain from './components/dialogs/DialogMain.vue';
 import VNavigationRail from "./components/VNavigationRail.vue";
+import Maintenence from './pages/Maintenance.vue';
 
 // Get store
 const store = useStore();
 const route = useRoute();
 const dialog = useDialog();
-
-store.isLoading = true;
 
 // Queue of dialogs
 const dialogs = ref();
@@ -57,34 +57,38 @@ watch(dialog.queue, q => {
   dialogs.value = q;
 });
 
-// Fetch courses
-makeRequest<string[], null>("GET", Endpoints.Courses, null, response => {
-  if (response.success) {
-    store.courses = response.data;
-    return;
-  }
+if (!store.isMaintenance) {
+  store.isLoading = true;
 
-  toast.error(response.message);
-});
-
-makeRequest<Record<string, string> | string, null>("GET", Endpoints.Env, null, response => {
-  store.isLoading = false;
-
-  if (response.success) {
-    if (typeof response.data !== "string") {
-      for (const key in response.data) {
-        Env[key] = response.data[key];
-      }
+  // Fetch courses
+  makeRequest<string[], null>("GET", Endpoints.Courses, null, response => {
+    if (response.success) {
+      store.courses = response.data;
+      return;
     }
-
-    return validateLogin();
-  }
-
-  toast.error(response.message);
-
-  if (response.data === "UNAUTHORIZED") {
-    store.isLoggedIn = false;
-    store.isAdminLoggedIn = false;
-  }
-});
+  
+    toast.error(response.message);
+  });
+  
+  makeRequest<Record<string, string> | string, null>("GET", Endpoints.Env, null, response => {
+    store.isLoading = false;
+  
+    if (response.success) {
+      if (typeof response.data !== "string") {
+        for (const key in response.data) {
+          Env[key] = response.data[key];
+        }
+      }
+  
+      return validateLogin();
+    }
+  
+    toast.error(response.message);
+  
+    if (response.data === "UNAUTHORIZED") {
+      store.isLoggedIn = false;
+      store.isAdminLoggedIn = false;
+    }
+  });
+}
 </script>

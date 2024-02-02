@@ -16,7 +16,7 @@
           </md-filter-chip>
         </div>
 
-        <h2 class="headline-medium font-semibold text-on-surface-variant" data-sal="zoom-in">
+        <h2 class="headline-medium font-semibold text-primary" data-sal="zoom-in">
           {{ store.isLoggedIn ? `Hello, ${store.user.first_name} ${store.user.last_name}` : "Dive into the world of Computer Science" }}
         </h2>
 
@@ -33,7 +33,7 @@
           </v-button>
         </div>
       </div>
-      <div class="w-full overflow-hidden mt-10">
+      <div class="w-full overflow-hidden mt-10 relative top-1">
         <canvas ref="waveEl"></canvas>
       </div>
     </div>
@@ -68,7 +68,7 @@
     </Transition>
 
     <!-- Announcements -->
-    <div class="container mx-auto px-6 flex justify-center mt-16 h-full">
+    <div class="container mx-auto px-6 flex justify-center mt-4 h-full">
       <div v-if="isLoading" class="flex flex-col justify-center items-center gap-2 body-medium">
         <md-linear-progress indeterminate />
         <span>Fetching announcements...</span>
@@ -149,7 +149,7 @@ let wavifyInstance: {
 
 watch(() => store.isDark, v => {
   if (!wavifyInstance) return;
-  wavifyInstance.setColor(v ? "#2C292C" : "#EBDFE9");
+  wavifyInstance.setColor(v ? "#2d282e" : "#ebdfe9");
 });
 
 onMounted(() => {
@@ -189,7 +189,7 @@ onMounted(() => {
   // Bind swiper
   bindSwiper();
   // Initialize wavify
-  wavifyInstance = wave(waveEl.value, store.isDark ? "#2C292C" : "#EBDFE9");
+  wavifyInstance = wave(waveEl.value, store.isDark ? "#2d282e" : "#ebdfe9");
   // Initialize sal
   sal();
 });

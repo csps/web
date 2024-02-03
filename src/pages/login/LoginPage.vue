@@ -115,9 +115,15 @@ function login() {
   if (isLoggingIn.value) return;
   isLoggingIn.value = true;
   store.isLoading = true;
+
+  type LoginResponse = {
+    user: StudentModel & { role: AuthType };
+    accessToken: string;
+    refreshToken: string;
+  }
   
   // Make request to server
-  makeRequest<StudentModel, LoginRequest>("POST", Endpoints.Login, {
+  makeRequest<LoginResponse, LoginRequest>("POST", Endpoints.Login, {
     type: AuthType.STUDENT,
     student_id: id.value,
     password: password.value
@@ -135,8 +141,12 @@ function login() {
         removeStore("login_id");
       }
 
+      // Save student tokens to local storage
+      setStore("sat", response.data.accessToken);
+      setStore("srt", response.data.refreshToken);
+
       // Set student
-      store.user = response.data;
+      store.user = response.data.user;
       store.role = AuthType.STUDENT;
       // Set is logged in to true
       store.isLoggedIn = true;

@@ -3,6 +3,7 @@ import Endpoints from "./endpoints";
 
 import type { AxiosRequestConfig } from "axios";
 import { Config } from "~/config";
+import { getStore, removeStore, setStore } from "~/utils/storage";
 
 /**
  * Create axios instance
@@ -15,6 +16,10 @@ const instance = axios.create({
   }
 });
 
+type AdditionalOptions = {
+  useRefreshToken: boolean;
+}
+
 /**
  * Make a request to the server.
  * @param method The HTTP method to use.
@@ -22,7 +27,7 @@ const instance = axios.create({
  * @param data The data to send. 
  * @param callback The callback to call when the request is done. 
  */
-function makeRequest<T, U>(method: HttpMethod, endpoint: Endpoints, data: U, callback: (response: ServerResponse<T>) => void) {
+function makeRequest<T, U>(method: HttpMethod, endpoint: Endpoints, data: U, callback: (response: ServerResponse<T>) => void, options?: AdditionalOptions) {
   // URL
   let url: string = endpoint;
 
@@ -67,13 +72,73 @@ function makeRequest<T, U>(method: HttpMethod, endpoint: Endpoints, data: U, cal
 
     // Add data to config
     config.data = data;
-  }  
+  }
+
+  // Tokens for authentication
+  let accessToken = "";
+  let refreshToken = "";
+
+  // If using admin token
+  if (location.pathname.startsWith("/admin")) {
+    accessToken = getStore("aat");
+    refreshToken = getStore("art");
+  } else {
+    // If using student token
+    accessToken = getStore("sat");
+    refreshToken = getStore("srt");
+  }
+
+  // If using refresh token (meaning, the access token is expired and we need to get a new one using the refresh token)
+  if (options?.useRefreshToken) {
+    accessToken = refreshToken;
+  }
+
+  // If has access token
+  if (accessToken.length > 0) {
+    // Add access token to header
+    instance.defaults.headers["Authorization"] = `Bearer ${accessToken}`;
+  }
 
   // Make request
   instance(config).then((response) => {
+    // Get response auth header
+    const auth = response.headers["authorization"];
+    
+    // If response has refresh token (meaning, the request is successful and we need to update the access token)
+    if (auth) {
+      // Get token
+      const token = auth.split(" ")[1];
+      
+      // If has token
+      if (token) {
+        console.log("Saving...");
+        // Set token to store
+        setStore(location.pathname.startsWith("/admin") ? "aat" : "sat", token);
+      }
+    }
+
     // Call the callback function
     callback(response.data);
-  }).catch((error) => {
+  })
+
+  // If something went wrong
+  .catch((error) => {
+    // If session expired
+    if (error.response?.data.message.startsWith("Session Expired")) {
+      // If already using refresh token
+      if (options?.useRefreshToken) {
+        // Clear session
+        clearSessionTokens();
+        // Redirect to login
+        location.href = "/login";
+        return;
+      }
+
+      // Call again the request but using refresh token
+      makeRequest(method, endpoint, data, callback, { useRefreshToken: true });
+      return;
+    }
+
     // If has custom message
     if (error.response && ((error.response?.data) as any).message) {
       error.message = ((error.response?.data) as any).message;
@@ -84,6 +149,16 @@ function makeRequest<T, U>(method: HttpMethod, endpoint: Endpoints, data: U, cal
     // Call the callback function
     callback(error.response?.data || { success: false, message: error.message });
   });
+}
+
+/**
+ * Clear session tokens
+ */
+function clearSessionTokens() {
+  removeStore("aat");
+  removeStore("art");
+  removeStore("sat");
+  removeStore("srt");
 }
 
 export {

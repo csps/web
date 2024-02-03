@@ -77,7 +77,7 @@ function makeRequest<T, U>(method: HttpMethod, endpoint: Endpoints, data: U, cal
   // Tokens for authentication
   let accessToken = "";
   let refreshToken = "";
-
+  
   // If using admin token
   if (location.pathname.startsWith("/admin")) {
     accessToken = getStore("aat");
@@ -111,7 +111,6 @@ function makeRequest<T, U>(method: HttpMethod, endpoint: Endpoints, data: U, cal
       
       // If has token
       if (token) {
-        console.log("Saving...");
         // Set token to store
         setStore(location.pathname.startsWith("/admin") ? "aat" : "sat", token);
       }
@@ -163,5 +162,6 @@ function clearSessionTokens() {
 
 export {
   makeRequest,
+  clearSessionTokens,
   Endpoints
 }

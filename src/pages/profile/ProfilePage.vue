@@ -74,6 +74,7 @@ import "@material/web/textfield/filled-text-field";
 
 import DialogChangePassword from "~/components/dialogs/DialogChangePassword.vue";
 import { mapYear } from "~/utils/page";
+import { clearSessionTokens } from "~/network/request";
 
 const store = useStore();
 const dialog = useDialog();
@@ -88,10 +89,10 @@ function openLogoutDialog() {
   const id = dialog.open(Strings.LOGOUT_DIALOG_TITLE, Strings.LOGOUT_DIALOG_MESSAGE, {
     text: "Logout",
     click: () => {
+      // remove student tokens'
+      clearSessionTokens();
       // Set loading to true
       store.isLoading = true;
-      // Remove token cookie
-      document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
       // Set logged out
       store.role = -1;
       store.isLoggedIn = false;

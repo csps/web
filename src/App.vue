@@ -66,8 +66,6 @@ if (!store.isMaintenance) {
       store.courses = response.data;
       return;
     }
-  
-    toast.error(response.message);
   });
   
   makeRequest<Record<string, string> | string, null>("GET", Endpoints.Env, null, response => {

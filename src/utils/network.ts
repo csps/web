@@ -2,12 +2,19 @@ import { Endpoints, makeRequest } from "~/network/request";
 import { useStore } from "~/store";
 import { Config } from "~/config";
 import { AuthType } from "~/types/enums";
+import { getStore } from "./storage";
 
 /**
  * Check if the login is valid.
  */
 export function validateLogin(): Promise<boolean> {
   return new Promise((resolve) => {
+    // If no tokens, resolve false
+    if (!_hasTokens()) {
+      resolve(false);
+      return;
+    }
+
     // If has token, check if valid
     makeRequest<StudentResponse, null>("GET", Endpoints.Login, null, response => {
       // If logged in
@@ -55,4 +62,13 @@ export function getPhotoLink(hash: any, isReference = false) {
  */
 export function getQRCodeLink(q: string, isDark = false) {
   return Config.API_URL + (isDark ? Endpoints.QRCodeDark : Endpoints.QRCode).replace(":q", q);
+}
+
+function _hasTokens() {
+  const sat = getStore("sat");
+  const srt = getStore("srt");
+  const aat = getStore("aat");
+  const art = getStore("art");
+
+  return (sat && srt) || (aat && art);
 }

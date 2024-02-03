@@ -242,8 +242,8 @@ onMounted(() => {
 
   setTimeout(() => {
     // If there is a saved student info and is not logged in, load it
-    if (getStore("student") && !store.isLoggedIn) {
-      const student = JSON.parse(atob(getStore("student") || ""));
+    if (getStore("merch_checkout_student_details") && !store.isLoggedIn) {
+      const student = JSON.parse(atob(getStore("merch_checkout_student_details") || ""));
       firstName.value = student.first_name;
       lastName.value = student.last_name;
       studentId.value = student.student_id;
@@ -306,7 +306,7 @@ function placeOrder() {
 
       // If save info is checked, save the student info to local storage in base64 encoded string
       if (isSaveInfo.value) {
-        setStore("student", btoa(JSON.stringify({
+        setStore("merch_checkout_student_details", btoa(JSON.stringify({
           student_id: studentId.value,
           first_name: firstName.value,
           last_name: lastName.value,
@@ -318,7 +318,7 @@ function placeOrder() {
 
       // Otherwise, remove the student info from local storage
       else {
-        removeStore("student");
+        removeStore("merch_checkout_student_details");
       }
 
       if (mop.value === ModeOfPayment.GCASH) {

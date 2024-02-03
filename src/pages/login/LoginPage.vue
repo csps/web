@@ -87,13 +87,13 @@ import DialogForgotPassword from "~/components/dialogs/DialogForgotPassword.vue"
 const store = useStore();
 const router = useRouter();
 
-const id = ref(getStore("login_id"));
+const id = ref(getStore("login_student_id"));
 const password = ref("");
 
 const isLoggingIn = ref(false);
 const isPasswordVisible = ref(false);
 const isForgotDialogOpen = ref(false);
-const isRememberMe = ref(getStore("login_id").length > 0);
+const isRememberMe = ref(getStore("login_student_id").length > 0);
 
 /**
  * Login to the system
@@ -136,9 +136,9 @@ function login() {
       // If remember me is checked, save to local storage
       // If not, remove from local storage
       if (isRememberMe.value) {
-        setStore("login_id", id.value);
+        setStore("login_student_id", id.value);
       } else {
-        removeStore("login_id");
+        removeStore("login_student_id");
       }
 
       // Save student tokens to local storage

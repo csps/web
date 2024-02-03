@@ -1,7 +1,7 @@
 <template>
   <div class="container mx-auto px-6 py-12 flex items-center">
     <div class="flex items-center justify-center w-full h-full">
-      <div class="">
+      <div class="lg:w-1/3 xl:w-1/3 2xl:w-auto">
         <h2 class="text-2xl md:text-3xl font-semibold mb-1 text-on-surface-variant" data-sal="zoom-in">
           Admin
         </h2>
@@ -10,7 +10,7 @@
         </h6>
 
         <div class="flex flex-col gap-1 mt-5 mb-5">
-          <md-filled-text-field
+          <md-outlined-text-field
             :disabled="isLoggingIn"
             label="Student ID"
             type="text"
@@ -23,9 +23,9 @@
             required
           >
             <md-icon slot="leading-icon" v-html="icon('badge', true)" />
-          </md-filled-text-field>
+          </md-outlined-text-field>
 
-          <md-filled-text-field
+          <md-outlined-text-field
             :disabled="isLoggingIn"
             label="Password"
             :type="isPasswordVisible ? 'text' : 'password'"
@@ -40,11 +40,11 @@
               <md-icon v-html="icon('visibility_off', true)" />
               <md-icon slot="selected" v-html="icon('visibility', true)" />
             </md-icon-button>
-          </md-filled-text-field>
+          </md-outlined-text-field>
         </div>
 
         <div class="flex justify-end" data-sal="zoom-in" data-sal-delay="250">
-          <md-filled-button @click="login" class="min-w-1/3" :disabled="isLoggingIn">
+          <md-filled-button @click="login" class="w-1/3" :disabled="isLoggingIn">
             {{ isLoggingIn ? 'Logging in...' : 'Login' }}
           </md-filled-button>
         </div>
@@ -56,7 +56,7 @@
 </template>
 
 <script lang="ts" setup>
-import "@material/web/textfield/filled-text-field";
+import "@material/web/textfield/outlined-text-field";
 import "@material/web/iconbutton/icon-button";
 import "@material/web/button/filled-button";
 
@@ -69,6 +69,7 @@ import { Endpoints, makeRequest } from "~/network/request";
 import { LoginRequest } from "~/types/request";
 import sal from "sal.js";
 import { AuthType } from "~/types/enums";
+import { setStore } from "~/utils/storage";
 
 const store = useStore();
 const router = useRouter();
@@ -103,9 +104,15 @@ function login() {
   if (isLoggingIn.value) return;
   isLoggingIn.value = true;
   store.isLoading = true;
+
+  type LoginResponse = {
+    user: StudentModel & { role: AuthType };
+    accessToken: string;
+    refreshToken: string;
+  }
   
   // Make request to server
-  makeRequest<StudentModel, LoginRequest>("POST", Endpoints.Login, {
+  makeRequest<LoginResponse, LoginRequest>("POST", Endpoints.Login, {
     type: AuthType.ADMIN,
     student_id: id.value,
     password: password.value
@@ -116,8 +123,13 @@ function login() {
     // if success
     if (response.success) {
       // Set admin
-      store.admin = response.data;
+      store.admin = response.data.user;
       store.role = AuthType.ADMIN;
+
+      // Save admin tokens to local storage
+      setStore("aat", response.data.accessToken);
+      setStore("art", response.data.refreshToken);
+
       // Set is logged in to true
       store.isAdminLoggedIn = true;
       // Redirect to home page

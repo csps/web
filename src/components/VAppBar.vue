@@ -25,7 +25,7 @@
 
       <!-- Navigation Links -->
       <div class="flex items-center gap-5 flex-grow justify-end">
-        <div class="xl:flex justify-end space-x-2 hidden">
+        <div class="xl:flex justify-end space-x-2 hidden" v-if="route.name !== 'ICT Congress 2024'">
           <md-tabs :activeTabIndex="NAV_LINKS.findIndex(t => t.name === route.name)" class="overflow-hidden">
             <md-primary-tab
               v-for="(link, i) in NAV_LINKS.slice(0, 4)"
@@ -67,7 +67,7 @@
         </md-switch>
 
         <!-- Drawer Button -->
-        <div class="flex justify-end xl:hidden relative">
+        <div class="flex justify-end xl:hidden relative" v-if="route.name !== 'ICT Congress 2024'">
           <md-icon-button id="appbar-menu" @click="isMenuOpen = !isMenuOpen">
             <md-icon v-html="icon('menu')" />
           </md-icon-button>

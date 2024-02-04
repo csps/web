@@ -16,6 +16,16 @@
           </md-filter-chip>
         </div>
 
+        <div class="flex justify-center mt-3" data-sal="zoom-in">
+          <router-link to="/ictcongress2024">
+            <md-assist-chip
+              elevated
+              class="mb-3 text-primary"
+              label="For ICT Congress 2024 registration, click here"
+            />
+          </router-link>
+        </div>
+
         <h2 class="headline-medium font-semibold text-primary" data-sal="zoom-in">
           {{ store.isLoggedIn ? `Hello, ${store.user.first_name} ${store.user.last_name}` : "Dive into the world of Computer Science" }}
         </h2>
@@ -33,6 +43,8 @@
           </v-button>
         </div>
       </div>
+      
+
       <div class="w-full overflow-hidden mt-10 relative top-1">
         <canvas ref="waveEl"></canvas>
       </div>
@@ -114,6 +126,7 @@ import "@material/web/iconbutton/icon-button";
 import "@material/web/progress/linear-progress";
 import "@material/web/button/filled-button";
 import "@material/web/button/filled-tonal-button";
+import "@material/web/chips/assist-chip";
 import "@material/web/chips/filter-chip";
 
 register();

@@ -12,6 +12,11 @@ import { toast } from "vue3-toastify";
  */
 const routes: RouteRecordRaw[] = [
   {
+    path: "/ictcongress2024",
+    name: "ICT Congress 2024",
+    component: () => import("../pages/ICTCongress.vue"),
+  },
+  {
     path: "/",
     name: "Home",
     component: () => import("../pages/home/HomePage.vue"),

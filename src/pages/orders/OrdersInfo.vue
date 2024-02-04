@@ -9,12 +9,12 @@
       <div class="flex gap-5 flex-col md:flex-row justify-between w-full mb-3">
         <div>
           <h2 class="font-semibold title-large mb-3 bg-secondary text-on-secondary rounded-md px-2 w-full text-left">
-            Order #{{ route.params.reference || order?.reference }}
+            {{ route.params.reference || order?.reference }}
           </h2>
           <h5 class="title-small w-full text-left">{{ order?.date_stamp ? getReadableDate(order?.date_stamp) : 'Invalid date' }}</h5>
         </div>
         <div>
-          <md-filled-select v-if="route.params.reference" v-model="status" label="Status" @change.prevent="onStatuChange" :disabled="isCompleted">
+          <md-outlined-select v-if="route.params.reference" v-model="status" label="Status" @change.prevent="onStatuChange" :disabled="isCompleted">
             <md-select-option
               v-for="option in statuses"
               :key="option.value"
@@ -22,7 +22,7 @@
             >
               <span slot="headline">{{ option.label }}</span>
             </md-select-option>
-          </md-filled-select>
+          </md-outlined-select>
         </div>
       </div>
 
@@ -117,7 +117,7 @@ import "@material/web/menu/menu";
 import "@material/web/menu/menu-item";
 import "@material/web/divider/divider";
 import "@material/web/progress/linear-progress";
-import "@material/web/select/filled-select";
+import "@material/web/select/outlined-select";
 import "@material/web/select/select-option";
 import "@fancyapps/ui/dist/fancybox/fancybox.css";
 

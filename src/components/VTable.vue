@@ -18,7 +18,13 @@
       </thead>
 
       <tbody>
-        <tr v-for="row in data" class="bg-surface-container-low hover:bg-surface-container">
+        <tr
+          v-for="row in data"
+          :key="row.student_id"
+          @click="emit('row-click', row)"
+          :class="{ 'cursor-pointer': clickableRow }"
+          class="bg-surface-container-low hover:bg-surface-container"
+        >
           <td
             v-for="header in headers"
             :key="header.id"
@@ -34,10 +40,12 @@
           </td>
 
           <td v-if="!noAction" class="td-cell w-0">
-            <div class="flex gap-3">
-              <md-assist-chip @click="emit('edit', row)" label="Edit" />
-              <md-assist-chip v-if="!noDelete" @click="emit('delete', row)" label="Delete" />
-            </div>
+            <slot name="actions" :row="row">
+              <div class="flex gap-3">
+                <md-assist-chip @click="emit('edit', row)" label="Edit" />
+                <md-assist-chip v-if="!noDelete" @click="emit('delete', row)" label="Delete" />
+              </div>
+            </slot>
           </td>
         </tr>
       </tbody>
@@ -54,13 +62,15 @@ withDefaults(defineProps<{
   loading?: boolean,
   noAction?: boolean,
   noDelete?: boolean,
+  clickableRow?: boolean
 }>(), {
   noAction: false,
   noDelete: false,
   loading: false,
+  clickableRow: false
 });
 
-const emit = defineEmits(["edit", "delete"]);
+const emit = defineEmits(["edit", "delete", "row-click"]);
 
 /**
  * Maps the align prop to a tailwind class
@@ -87,7 +97,7 @@ function mapAlign(align?: string) {
 }
 
 .td-cell {
-  @apply px-6 py-3;
+  @apply px-6 py-3 text-on-surface;
   @include truncate;
 }
 

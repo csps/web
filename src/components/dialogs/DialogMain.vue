@@ -1,9 +1,7 @@
 <template>
-  <md-dialog :open="data.show" @close="close">
+  <md-dialog :open="data.show" @close="close" class="max-w-[500px]">
     <div slot="headline" class="w-full">{{ data.title }}</div>
-    <div slot="content">
-      {{ data.message }}
-    </div>
+    <div slot="content" class="pt-2.5" v-html="data.message" />
     <div class="space-x-1" slot="actions">
       <md-text-button v-if="data.cancel" @click="data.cancel.click">{{ data.cancel.text }}</md-text-button>
       <md-text-button @click="data.ok?.click" v-if="data.ok">{{ data.ok?.text }}</md-text-button>

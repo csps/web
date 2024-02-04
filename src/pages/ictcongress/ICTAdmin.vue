@@ -24,19 +24,33 @@
           </div>
         </div>
 
-        <VTable class="mt-5" :headers="headers" :data="data.students" no-action>
+        <VTable class="mt-5" :headers="headers" :data="data.students">
           <template #attendance="{ row }: { row: ICTStudentModel }">
-            <span :class="row.attendance ? 'text-success' : 'text-error'">
-              {{ row.attendance ? 'Present' : 'Absent' }}
+            <span :class="row.attendance ? 'text-primary' : 'text-outline'">
+              {{ row.attendance ? 'Present' : '(No record)' }}
             </span>
           </template>
           <template #order_confirmed="{ row }: { row: ICTStudentModel }">
-            <span v-if="row.order_confirmed" class="text-success">
+            <span v-if="row.order_confirmed" class="text-primary">
               {{ row.order_confirmed }}
             </span>
-            <span v-else class="text-error">
-              Not confirmed
+            <span class="text-outline" v-else>
+              (Not confirmed)
             </span>
+          </template>
+          <template #actions="{ row }: { row: ICTStudentModel }">
+            <div class="space-x-2">
+              <md-assist-chip
+                label="More info"
+                @click="moreInfo(row)"
+              />
+              <md-assist-chip
+                title="Confirm Order"
+                :disabled="row.order_confirmed"
+                :label="row.order_confirmed ? 'Confirmed' : 'Confirm'"
+                @click="confirmOrder(row)"
+              />
+            </div>
           </template>
         </VTable>
 
@@ -61,12 +75,13 @@
 <script lang="ts" setup>
 import { ref, onMounted } from "vue";
 import { Endpoints, makeRequest } from "~/network/request";
-import { useStore } from "~/store";
+import { useStore, useDialog } from "~/store";
 import { icon } from "~/utils/icon";
 import { createPagination } from "~/utils/pagination";
 import { ICTStudentEnum } from "~/types/models";
 import { toast } from "vue3-toastify";
 import { Env } from "~/config";
+import Strings from "~/config/strings";
 
 import VTable from "~/components/VTable.vue";
 import VPagination from "~/components/VPagination.vue";
@@ -74,16 +89,17 @@ import VPagination from "~/components/VPagination.vue";
 import "@material/web/progress/circular-progress";
 import "@material/web/textfield/outlined-text-field";
 import "@material/web/button/filled-button";
+import "@material/web/chips/assist-chip";
 
 // Get store 
 const store = useStore();
+const dialog = useDialog();
 const isLoading = ref(true);
 const isSearched = ref(false);
 const message = ref("");
 
 const headers: TableHeader[] = [
-  { id: ICTStudentEnum.student_id, text: "#", align: "right" },
-  { id: ICTStudentEnum.year_level, text: "Year Level", align: "right" },
+  { id: ICTStudentEnum.student_id, text: "ID", align: "right" },
   { id: ICTStudentEnum.first_name, text: "First name" },
   { id: ICTStudentEnum.last_name, text: "Last name" },
   { id: ICTStudentEnum.attendance, text: "Attendance", align: "center" },
@@ -113,6 +129,43 @@ onMounted(() => {
     }
   });
 });
+
+/**
+ * Show more info about the student
+ */
+function moreInfo(row: ICTStudentModel) {
+  const id = dialog.open(`${row.first_name} ${row.last_name}`,
+  `
+    <p class="leading-6">
+      Year Level: ${row.year_level}<br>
+      T-shirt size: ${row.tshirt_size.toUpperCase()}<br>
+      Student ID: ${row.student_id}<br>
+      Email: ${row.email}<br>
+    </p>
+  `,
+  {
+    text: "Close",
+    click() {
+      dialog.close(id);
+    }
+  }, null);
+}
+
+function confirmOrder(row: ICTStudentModel) {
+  const id = dialog.open(
+    Strings.ICT_CONGRESS_CONFIRM_TITLE,
+    `${Strings.ICT_CONGRESS_CONFIRM_MESSAGE}<br><br>This confirmation is for ${row.first_name} ${row.last_name}`, {
+    text: "Confirm",
+    click() {
+
+    }
+  }, {
+    text: "Cancel",
+    click() {
+      dialog.close(id);
+    }
+  });
+}
 
 function goToPage(page: number) {
   data.value.page = page;

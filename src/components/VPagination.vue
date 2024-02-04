@@ -1,6 +1,6 @@
 <template>
-  <div class="flex flex-col items-center justify-center w-full">
-    <div class="title-small mb-3">
+  <div class="flex items-center space-x-5 justify-end w-full">
+    <div class="title-small">
       Showing {{ ((page - 1) * limit) + 1 }} to {{ Math.min(page * limit, total) }} of {{ total }}
     </div>
     <div>
@@ -10,9 +10,9 @@
         </md-icon-button>
         
         <div v-for="p in pagination(page, Math.ceil(total / limit))">
-          <md-filled-icon-button v-if="page == p">
+          <md-outlined-icon-button v-if="page == p">
             <span class="item label-large">{{ p }}</span>
-          </md-filled-icon-button>
+          </md-outlined-icon-button>
           <md-icon-button v-else :disabled="p === '...'" @click="typeof p === 'number' ? onChange(p) : null">
             <span class="item label-large">{{ p }}</span>
           </md-icon-button>
@@ -32,7 +32,7 @@ import { pagination } from '~/utils/pagination';
 
 import "@material/web/icon/icon";
 import "@material/web/iconbutton/icon-button";
-import "@material/web/iconbutton/filled-icon-button";
+import "@material/web/iconbutton/outlined-icon-button";
 
 defineProps<{
   total: number;

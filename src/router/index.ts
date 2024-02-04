@@ -17,6 +17,16 @@ const routes: RouteRecordRaw[] = [
     component: () => import("../pages/ICTCongress.vue"),
   },
   {
+    path: "/ictcongress2024/admin",
+    name: "Admin - ICT Congress 2024",
+    component: () => import("../pages/ictcongress/ICTAdmin.vue"),
+  },
+  {
+    path: "/ictcongress2024/admin/login",
+    name: "Login - ICT Congress 2024",
+    component: () => import("../pages/ictcongress/ICTLogin.vue"),
+  },
+  {
     path: "/",
     name: "Home",
     component: () => import("../pages/home/HomePage.vue"),

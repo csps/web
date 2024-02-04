@@ -38,7 +38,10 @@ enum Endpoints {
   OrdersUnique = "/orders/unique/:uniqueId",
   OrdersReference = "/orders/reference/:reference",
 
-  ICTCongressLogin = "/ictcongress2024/login"
+  ICTCongressLogin = "/ictcongress2024/login",
+  ICTCongressStudent = "/ictcongress2024/students/:student_id",
+  ICTCongressStudentPresent = "/ictcongress2024/students/:student_id/present",
+  ICTCongressStudentSearch = "/ictcongress2024/students",
 }
 
 export default Endpoints;

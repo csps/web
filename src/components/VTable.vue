@@ -1,7 +1,7 @@
 <template>
-  <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+  <div class="relative overflow-x-auto shadow-md sm:rounded-lg font-reset">
     <table class="w-full text-sm text-left text-on-surface-variant">
-      <thead class="text-xs bg-surface-container-high uppercase">
+      <thead class="text-sm bg-surface-container-high">
         <tr>
           <th
             v-for="header in headers"
@@ -87,16 +87,21 @@ function mapAlign(align?: string) {
 }
 
 .td-cell {
-  @apply px-6 py-4;
+  @apply px-6 py-3;
   @include truncate;
 }
 
 .th-cell {
   @apply px-6 py-3;
+  font-weight: 500;
   @include truncate;
 }
 
 .skeleton {
   @apply bg-surface-container-highest rounded-full animate-pulse h-[1rem] my-1.5;
+}
+
+.font-reset {
+  font-family: Roboto, Arial, sans-serif;
 }
 </style>

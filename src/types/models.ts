@@ -129,6 +129,20 @@ export enum FullOrderEnum {
   date_stamp = "date_stamp",
 }
 
+export enum ICTStudentEnum {
+  id = "id",
+  campus_id = "campus_id",
+  student_id = "student_id",
+  year_level = "year_level",
+  first_name = "first_name",
+  last_name = "last_name",
+  email = "email",
+  tshirt_size = "tshirt_size",
+  attendance = "attendance",
+  order_confirmed = "order_confirmed",
+  date_stamp = "date_stamp",
+}
+
 export enum VariationEnum {
   id = "id",
   name = "name",

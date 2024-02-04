@@ -99,6 +99,7 @@ function login() {
   store.isLoading = true;
 
   type LoginResponse = {
+    admin: ICTAdminModel;
     accessToken: string;
     refreshToken: string;
   }
@@ -121,9 +122,11 @@ function login() {
       setStore("iat", response.data.accessToken);
       setStore("irt", response.data.refreshToken);
 
+      // Set store
+      store.ictAdmin = response.data.admin;
+
       // Redirect to home page
       router.push({ name: "Admin - ICT Congress 2024" });
-      return;
       return;
     }
 

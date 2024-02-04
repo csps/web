@@ -252,6 +252,26 @@ declare global {
     icon: Icon,
   }
 
+  type ICTAdminModel = {
+    campus: string;
+    campus_name: string;
+    username: string;
+  }
+
+  type ICTStudentModel = {
+    id: number;
+    campus_id: number;
+    student_id: string;
+    year_level: string;
+    first_name: string;
+    last_name: string;
+    email: string;
+    tshirt_size: string;
+    attendance?: string;
+    order_confirmed?: string;
+    date_stamp: string;
+  }
+
   type StoreKeys = "dark" | "std_token" | "adm_token" | "home_msg_role" | "login_student_id" |
     "tabs_orders_status" | "tabs_orders_page" | "tabs_events_page" | "tabs_orders_sort" | "tabs_orders_column" | 
     "sat" | "srt" | "aat" | "art" | "iat" | "irt" | "merch_checkout_student_details";

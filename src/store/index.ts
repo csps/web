@@ -38,9 +38,15 @@ export const useStore = defineStore("global", () => {
     date_stamp: "",
   };
 
+  const ictAdmin: ICTAdminModel = {
+    username: "",
+    campus: "",
+    campus_name: "",
+  };
+
   return {
     isShowBackButton, isDark, isLoggedIn, isLoading, errorMessage, role,
     checkoutDetails, user, isAdminLoggedIn, rails, selectedRail, courses,
-    admin, isMaintenance
+    admin, isMaintenance, ictAdmin
   }
 });

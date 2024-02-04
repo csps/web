@@ -10,9 +10,9 @@
         </md-icon-button>
         
         <div v-for="p in pagination(page, Math.ceil(total / limit))">
-          <md-filled-tonal-icon-button v-if="page == p">
+          <md-filled-icon-button v-if="page == p">
             <span class="item label-large">{{ p }}</span>
-          </md-filled-tonal-icon-button>
+          </md-filled-icon-button>
           <md-icon-button v-else :disabled="p === '...'" @click="typeof p === 'number' ? onChange(p) : null">
             <span class="item label-large">{{ p }}</span>
           </md-icon-button>
@@ -32,7 +32,7 @@ import { pagination } from '~/utils/pagination';
 
 import "@material/web/icon/icon";
 import "@material/web/iconbutton/icon-button";
-import "@material/web/iconbutton/filled-tonal-icon-button";
+import "@material/web/iconbutton/filled-icon-button";
 
 defineProps<{
   total: number;

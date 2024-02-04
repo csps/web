@@ -18,7 +18,7 @@
             <md-outlined-text-field label="Search" type="text" v-model="data.search">
               <md-icon slot="leading-icon" v-html="icon('search', true)" />
             </md-outlined-text-field>
-            <md-filled-button @click="fetchStudents(data.search)">
+            <md-filled-button @click="fetchStudents(data.search)" :disabled="store.isLoading">
               Search
             </md-filled-button>
           </div>
@@ -68,7 +68,6 @@
         />
       </div>
     </Transition>
-
   </div>
 </template>
 
@@ -79,7 +78,6 @@ import { useStore, useDialog } from "~/store";
 import { icon } from "~/utils/icon";
 import { createPagination } from "~/utils/pagination";
 import { ICTStudentEnum } from "~/types/models";
-import { toast } from "vue3-toastify";
 import { Env } from "~/config";
 import Strings from "~/config/strings";
 
@@ -118,8 +116,6 @@ const data = ref({
 onMounted(() => {
   // If has token, check if valid
   makeRequest<ICTAdminModel, null>("GET", Endpoints.ICTCongressLogin, null, response => {
-    console.log(response);
-
     // If logged in
     if (response.success) {
       store.ictAdmin = response.data;
@@ -205,7 +201,6 @@ function fetchStudents(search = "") {
 
     message.value = response.message;
     data.value.students = [];
-    toast.error(response.message);
   });
 }
 </script>

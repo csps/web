@@ -66,6 +66,10 @@
           <md-icon slot="off-icon" v-html="icon('light_mode')" />
         </md-switch>
 
+        <md-icon-button title="Logout" @click="logout">
+          <md-icon v-html="icon('logout')" />
+        </md-icon-button>
+
         <!-- Drawer Button -->
         <div class="flex justify-end xl:hidden relative" v-if="!route.name?.toString().includes('ICT')">
           <md-icon-button id="appbar-menu" @click="isMenuOpen = !isMenuOpen">
@@ -120,10 +124,10 @@ import UCLogo from '~/assets/img/uc_logo.png';
 import { ref, onMounted } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import { Config, NAV_LINKS } from "~/config";
-import { useStore } from "~/store";
+import { useStore, useDialog } from "~/store";
 import { getHistoryLength } from '~/utils/page';
 import { setDarkMode } from '~/utils/theme';
-import { getStore } from '~/utils/storage';
+import { getStore, removeStore } from '~/utils/storage';
 import { icon } from '~/utils/icon';
 
 import "@material/web/switch/switch";
@@ -149,7 +153,25 @@ onMounted(() => {
 const store = useStore();
 const route = useRoute();
 const router = useRouter();
+const dialog = useDialog();
 const isMenuOpen = ref(false);
+
+function logout() {
+  const id = dialog.open("Logout confirmation", "This will clear your session data. Are you sure you want to logout?", {
+    text: "Logout",
+    click() {
+      removeStore("iat");
+      removeStore("irt");
+      router.push({ path: "admin/login" });
+      dialog.close(id);
+    }
+  }, {
+    text: "Cancel",
+    click() {
+      dialog.close(id);
+    }
+  });
+}
 
 function onThemeChange() {
   store.isDark = !store.isDark;

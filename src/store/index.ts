@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 
-export * from "./dialog"
+export * from "./dialog";
 
 export const useStore = defineStore("global", () => {
   const errorMessage = "";
@@ -8,7 +8,7 @@ export const useStore = defineStore("global", () => {
   const rails: NavigationRailItem[] = [];
   const courses: string[] = [];
 
-  const isMaintenance = true;
+  const isMaintenance = false;
   const isLoggedIn = undefined as boolean | undefined;
   const isAdminLoggedIn = undefined as boolean | undefined;
   const isLoading = true;
@@ -45,8 +45,20 @@ export const useStore = defineStore("global", () => {
   };
 
   return {
-    isShowBackButton, isDark, isLoggedIn, isLoading, errorMessage, role,
-    checkoutDetails, user, isAdminLoggedIn, rails, selectedRail, courses,
-    admin, isMaintenance, ictAdmin
-  }
+    isShowBackButton,
+    isDark,
+    isLoggedIn,
+    isLoading,
+    errorMessage,
+    role,
+    checkoutDetails,
+    user,
+    isAdminLoggedIn,
+    rails,
+    selectedRail,
+    courses,
+    admin,
+    isMaintenance,
+    ictAdmin,
+  };
 });

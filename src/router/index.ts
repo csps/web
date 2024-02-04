@@ -36,12 +36,12 @@ const routes: RouteRecordRaw[] = [
     path: "/login",
     name: "Login",
     component: () => import("../pages/login/LoginPage.vue"),
-    meta: { requiresAuth: true }
+    meta: { requiresAuth: true },
   },
   {
     path: "/merch",
     name: "Merch",
-    component: () => import("../pages/merch/MerchPage.vue")
+    component: () => import("../pages/merch/MerchPage.vue"),
   },
   {
     path: "/orders",
@@ -56,65 +56,65 @@ const routes: RouteRecordRaw[] = [
   {
     path: "/merch/:slug",
     name: "Product",
-    component: () => import("../pages/merch/MerchProductPage.vue")
+    component: () => import("../pages/merch/MerchProductPage.vue"),
   },
   {
     path: "/merch/:slug/checkout",
     name: "Checkout",
-    component: () => import("../pages/merch/MerchCheckoutPage.vue")
+    component: () => import("../pages/merch/MerchCheckoutPage.vue"),
   },
   {
     path: "/bulletin",
     name: "Bulletin",
-    component: () => import("../pages/bulletin/BulletinPage.vue")
+    component: () => import("../pages/bulletin/BulletinPage.vue"),
   },
   {
     path: "/about",
     name: "About",
-    component: () => import("../pages/about/AboutPage.vue")
+    component: () => import("../pages/about/AboutPage.vue"),
   },
   {
     path: "/forum",
     name: "Forum",
-    component: () => import("../pages/forum/ForumPage.vue")
+    component: () => import("../pages/forum/ForumPage.vue"),
   },
   {
     path: "/profile",
     name: "Profile",
     component: () => import("../pages/profile/ProfilePage.vue"),
-    meta: { requiresAuth: true }
+    meta: { requiresAuth: true },
   },
   {
     path: "/reset/:token",
     name: "Reset password",
-    component: () => import("../pages/reset/ResetPage.vue")
+    component: () => import("../pages/reset/ResetPage.vue"),
   },
   {
     path: "/admin",
-    redirect: "/admin/dashboard"
+    redirect: "/admin/dashboard",
   },
   {
     path: "/admin/:tab",
     name: "Admin",
     component: () => import("../pages/admin/AdminPage.vue"),
-    meta: { requiresAuth: true }
+    meta: { requiresAuth: true },
   },
   {
     path: "/admin/orders/:reference",
     name: "Order",
     component: () => import("../pages/orders/OrdersInfo.vue"),
-    meta: { requiresAuth: true }
+    meta: { requiresAuth: true },
   },
   {
     path: "/admin/login",
     name: "Admin Login",
     component: () => import("../pages/admin/AdminLogin.vue"),
-    meta: { requiresAuth: true }
+    meta: { requiresAuth: true },
   },
   {
     path: "/:pathMatch(.*)",
     name: "404 Not Found",
-    component: () => import("../pages/NotFound.vue")
+    component: () => import("../pages/NotFound.vue"),
   },
 ];
 
@@ -126,7 +126,7 @@ Config.initialHistoryLength = getHistoryLength();
  */
 const router = createRouter({
   history: createWebHistory("./"),
-  routes
+  routes,
 });
 
 /**
@@ -169,18 +169,24 @@ router.beforeEach(async (to, _from, next) => {
   if (to.meta.requiresAuth) {
     // Is login valid
     const isLoginValid = await validateLogin();
-    
+
     // If is valid
     if (isLoginValid) {
       // If going to admin page with student role
-      if ((to.name === "Admin" || to.name === "Admin Login") && store.role === AuthType.STUDENT) {
+      if (
+        (to.name === "Admin" || to.name === "Admin Login") &&
+        store.role === AuthType.STUDENT
+      ) {
         toast.warning("You are not allowed to access this page.");
-        return next({ name: "Home" })
+        return next({ name: "Home" });
       }
 
       // If going to login pages with an admin role
-      if ((to.name === "Login" || to.name === "Admin Login") && store.role === AuthType.ADMIN) {
-        return next({ name: "Admin", params: { tab: "dashboard" }});
+      if (
+        (to.name === "Login" || to.name === "Admin Login") &&
+        store.role === AuthType.ADMIN
+      ) {
+        return next({ name: "Admin", params: { tab: "dashboard" } });
       }
 
       // If going to home and has student role
@@ -189,7 +195,7 @@ router.beforeEach(async (to, _from, next) => {
       }
 
       // If going to profile and has admin role
-      if (to.name === 'Profile' && store.role === AuthType.ADMIN) {
+      if (to.name === "Profile" && store.role === AuthType.ADMIN) {
         return next({ name: "Home" });
       }
 
@@ -208,7 +214,10 @@ router.beforeEach(async (to, _from, next) => {
   }
 
   // If checking out and no checkout details or product is not available
-  if (to.name === "Checkout" && (!store.checkoutDetails || !store.checkoutDetails?.product.is_available)) {
+  if (
+    to.name === "Checkout" &&
+    (!store.checkoutDetails || !store.checkoutDetails?.product.is_available)
+  ) {
     // if has previous page
     if (_from.name) {
       // Go to previous page
@@ -226,10 +235,14 @@ router.beforeEach(async (to, _from, next) => {
  * Executes after each route change.
  */
 router.afterEach((to, from) => {
-  // Get store 
+  // Get store
   const store = useStore();
   // Set page title
-  setPageTitle(to.name === "Profile" ? (store.user.first_name + " " + store.user.last_name) : to.name as string);
+  setPageTitle(
+    to.name === "Profile"
+      ? store.user.first_name + " " + store.user.last_name
+      : (to.name as string)
+  );
   // Set loading to false
   store.isLoading = false;
 
@@ -239,7 +252,12 @@ router.afterEach((to, from) => {
   if (to.path === from.path) return;
 
   // Set back button visibility
-  store.isShowBackButton = window.history.state.position - (Config.initialHistoryLength ? (Config.initialHistoryLength as number) : 0) > 0;
+  store.isShowBackButton =
+    window.history.state.position -
+      (Config.initialHistoryLength
+        ? (Config.initialHistoryLength as number)
+        : 0) >
+    0;
 });
 
 export default router;

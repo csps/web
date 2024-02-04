@@ -13,17 +13,17 @@ import { getStore } from "~/utils/storage";
  */
 const routes: RouteRecordRaw[] = [
   {
-    path: "/ictcongress2024",
+    path: `/${Config.ICN}`,
     name: "ICT Congress 2024",
     component: () => import("../pages/ICTCongress.vue"),
   },
   {
-    path: "/ictcongress2024/admin",
+    path: `/${Config.ICN}/admin`,
     name: "Admin - ICT Congress 2024",
     component: () => import("../pages/ictcongress/ICTAdmin.vue"),
   },
   {
-    path: "/ictcongress2024/admin/login",
+    path: `/${Config.ICN}/admin/login`,
     name: "Login - ICT Congress 2024",
     component: () => import("../pages/ictcongress/ICTLogin.vue"),
   },
@@ -140,31 +140,30 @@ router.beforeEach(async (to, _from, next) => {
     store.isLoading = true;
   }
 
-  // Route for ICT Congress 2024
-  if (to.name?.toString().includes("ICT")) {
+  if (to.path.includes(Config.ICN as string)) {
     // If going to login page
-    const isLoginPage = to.path.startsWith("/ictcongress2024/admin/login");
+    const isLoginPage = to.path.includes("login");
+    const isRegistrationPage = !to.path.includes("admin");
+    const isAdminPage = !isLoginPage && !isRegistrationPage;
 
     // If has session
     if (!!getStore("iat") && !!getStore("irt")) {
       // If going to login page
       if (isLoginPage) {
         // Redirect to admin page
-        return next("/ictcongress2024/admin");
+        return next(`/${Config.ICN}/admin`);
       }
 
       return next();
     }
-
-    // If no session
-    if (!isLoginPage) {
-      // Redirect to login page
-      return next("/ictcongress2024/admin/login");
+ 
+    if (isAdminPage) {
+      return next(`/${Config.ICN}/admin/login`)
     }
 
     return next();
   }
-
+  
   // If going to route that requres auth
   if (to.meta.requiresAuth) {
     // Is login valid

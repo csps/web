@@ -6,6 +6,7 @@ import { useStore } from "~/store";
 import { Config } from "~/config";
 import { AuthType } from "~/types/enums";
 import { toast } from "vue3-toastify";
+import { getStore } from "~/utils/storage";
 
 /**
  * The routes of the application.
@@ -137,6 +138,31 @@ router.beforeEach(async (to, _from, next) => {
 
   if (!store.isMaintenance) {
     store.isLoading = true;
+  }
+
+  // Route for ICT Congress 2024
+  if (to.name?.toString().includes("ICT")) {
+    // If going to login page
+    const isLoginPage = to.path.startsWith("/ictcongress2024/admin/login");
+
+    // If has session
+    if (!!getStore("iat") && !!getStore("irt")) {
+      // If going to login page
+      if (isLoginPage) {
+        // Redirect to admin page
+        return next("/ictcongress2024/admin");
+      }
+
+      return next();
+    }
+
+    // If no session
+    if (!isLoginPage) {
+      // Redirect to login page
+      return next("/ictcongress2024/admin/login");
+    }
+
+    return next();
   }
 
   // If going to route that requres auth

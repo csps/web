@@ -48,8 +48,8 @@ function makeRequest<T, U>(method: HttpMethod, endpoint: Endpoints, data: U, cal
     method, url
   };
 
-  // If method is GET and endpoint has no param
-  if (method === "GET" && !endpoint.includes(":")) {
+  // If method is GET
+  if (method === "GET") {
     // For every data
     for (const key in data) {
       if (typeof data[key] === "object") {
@@ -77,13 +77,21 @@ function makeRequest<T, U>(method: HttpMethod, endpoint: Endpoints, data: U, cal
   // Tokens for authentication
   let accessToken = "";
   let refreshToken = "";
-  
+
+  // If using ICT Congress token
+  if (location.pathname.startsWith("/ictcongress")) {
+    accessToken = getStore("iat");
+    refreshToken = getStore("irt");
+  }
+
   // If using admin token
-  if (location.pathname.startsWith("/admin")) {
+  else if (location.pathname.startsWith("/admin")) {
     accessToken = getStore("aat");
     refreshToken = getStore("art");
-  } else {
-    // If using student token
+  }
+  
+  // If using student token
+  else {
     accessToken = getStore("sat");
     refreshToken = getStore("srt");
   }

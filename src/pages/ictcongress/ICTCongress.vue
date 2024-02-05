@@ -1,116 +1,144 @@
 <template>
-  <div class="flex justify-center items-center font-bold">
-    <div class="custom-sm:flex-row">
-      <class class="flex justify-center items-center w-[100%]">
-        <div
-          class="lg:w-[50%] md:w-[90%] custom-sm:w-[90%] sm:w-[90%] flex mt-10 shadow-2xl bg-gray-100 rounded-xl p-5 md:justify-between custom-sm:flex custom-sm:flex-col custom-sm:items-center"
-        >
-          <div
-            class="custom-sm:mt-[4%] lg:w-[50%] md:w-[50%] custom-sm:w-[90%] sm:w-[60%] flex flex-col bg-csps-primary text-[#ffffff] lg:p-10 justify-center rounded-xl items-center"
-          >
-            <img
-              class="rounded-3xl lg:w-[100%] md:w-[90%] custom-sm:w-[100%] custom-sm:p-[5%] sm:p-[5%]"
-              :src="getImagePath('ictcongressimage/ICTCongress.png')"
-              alt="Campus Image"
-            />
-          </div>
-          <div class="lg:w-[50%] md:w-[50%] items-end]">
-            <div class="flex flex-col lg:items-center md:items-end">
-              <div class="relative ml-3 mb-3 flex flex-col gap-1 mt-10">
-                <md-outlined-text-field
-                  label="Student ID"
-                  type="text"
-                  maxLength="8"
-                  hasLeadingIcon="true"
-                  @keydown.enter=""
-                  required
-                >
-                  <md-icon slot="leading-icon" v-html="icon('badge', true)" />
-                </md-outlined-text-field>
-              </div>
-              <div class="relative ml-3 mb-3">
-                <md-outlined-text-field
-                  label="First Name"
-                  type="text"
-                  hasLeadingIcon="true"
-                  @keydown.enter=""
-                  required
-                >
-                  <md-icon slot="leading-icon" v-html="icon('badge', true)" />
-                </md-outlined-text-field>
-              </div>
-              <div class="relative ml-3 mb-3">
-                <md-outlined-text-field
-                  label="Last Name"
-                  type="text"
-                  class="mt-[2%]"
-                  hasLeadingIcon="true"
-                  @keydown.enter=""
-                  required
-                >
-                  <md-icon slot="leading-icon" v-html="icon('badge', true)" />
-                </md-outlined-text-field>
-              </div>
-              <div class="relative ml-3 mb-3">
-                <md-outlined-text-field
-                  label="Campus Name"
-                  type="text"
-                  class="mt-[2%]"
-                  hasLeadingIcon="true"
-                  @keydown.enter=""
-                  required
-                >
-                  <md-icon slot="leading-icon" v-html="icon('badge', true)" />
-                </md-outlined-text-field>
-              </div>
+  <div class="container flex flex-col items-center justify-center mx-auto px-6">
+    <div class="my-10 text-center">
+      <h4 class="mb-2 text-2xl font-bold">ICT Congress 2024 - Registration</h4>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut.</p>
+    </div>
 
-              <div class="relative ml-3 mb-3">
-                <md-outlined-text-field
-                  label="Email"
-                  class="mt-[2%]"
-                  type="text"
-                  hasLeadingIcon="true"
-                  @keydown.enter=""
-                  required
-                >
-                  <md-icon slot="leading-icon" v-html="icon('badge', true)" />
-                </md-outlined-text-field>
-              </div>
-              <div class="relative ml-3 mb-3">
-                <md-outlined-text-field
-                  label="T-Shirt Size"
-                  class="mt-[2%]"
-                  type="text"
-                  hasLeadingIcon="true"
-                  @keydown.enter=""
-                  required
-                >
-                  <md-icon slot="leading-icon" v-html="icon('badge', true)" />
-                </md-outlined-text-field>
-                <div class="flex justify-start mt-[6%]">
-                  <md-filled-button @click="" class="w-3/3">
-                    Register
-                  </md-filled-button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </class>
+    <div class="flex flex-col gap-5 w-full sm:w-3/4 md:w-3/5 lg:w-1/2 xl:w-2/5 2xl:w-1/3 font-reset">
+      <!-- Student ID -->
+      <md-outlined-text-field v-model="studentId" type="number" label="Student ID">
+        <md-icon slot="leading-icon" v-html="icon('badge', true)" />
+      </md-outlined-text-field>
+
+      <!-- First and Last name -->
+      <div class="flex gap-5">
+        <md-outlined-text-field v-model="firstName" label="First name">
+          <md-icon slot="leading-icon" v-html="icon('person', true)" />
+        </md-outlined-text-field> 
+        <md-outlined-text-field v-model="lastName" label="Last name">
+          <md-icon slot="leading-icon" v-html="icon('person', true)" />
+        </md-outlined-text-field> 
+      </div>
+
+      <!-- Email -->
+      <md-outlined-text-field v-model="email" type="email" label="Email">
+        <md-icon slot="leading-icon" v-html="icon('mail', true)" />
+      </md-outlined-text-field>
+
+      <!-- T-shirt size and campus -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+        <md-outlined-select v-model="tsize" label="T-shirt size">
+          <md-icon slot="leading-icon" v-html="icon('bar_chart', true)" />
+          <md-select-option v-for="size in tshirtSizes" :key="size.id" :value="size.id">
+            {{ size.name }}
+          </md-select-option> 
+        </md-outlined-select>
+        <md-outlined-select v-model="campus" label="Campus">
+          <md-icon slot="leading-icon" v-html="icon('location_city', true)" />
+          <md-select-option v-for="campus in campuses" :key="campus.id" :value="campus.id">
+            {{ campus.campus_name }}
+          </md-select-option>
+        </md-outlined-select>
+      </div>
+
+      <!-- Course and Year level -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+        <md-outlined-select v-model="course" label="Course">
+          <md-icon slot="leading-icon" v-html="icon('school', true)" />
+          <md-select-option v-for="course in courses" :key="course.id" :value="course.id">
+            {{ course.course_name }}
+          </md-select-option>
+        </md-outlined-select>
+        <md-outlined-select v-model="yearLevel" label="Year level">
+          <md-icon slot="leading-icon" v-html="icon('school', true)" />
+          <md-select-option v-for="year in 4" :key="year" :value="year">
+            {{ mapYearLevel(year) }}
+          </md-select-option>
+        </md-outlined-select>
+      </div>
+
+      <!-- Register -->
+      <div class="flex justify-end">
+        <md-filled-button>Register</md-filled-button>
+      </div>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import "@material/web/textfield/outlined-text-field";
-import "@material/web/iconbutton/icon-button";
-import "@material/web/button/filled-button";
-import "@material/web/button/filled-tonal-button";
-import "@material/web/button/text-button";
-import "@material/web/checkbox/checkbox";
-import "@material/web/divider/divider";
+import { onMounted, ref } from "vue";
 import { icon } from "~/utils/icon";
-const getImagePath = (ictcongressimage: string) => {
-  return `/src/assets/img/${ictcongressimage}`;
+import { useStore } from "~/store";
+
+import "@material/web/icon/icon";
+import "@material/web/button/filled-button";
+import "@material/web/textfield/outlined-text-field";
+import "@material/web/select/outlined-select";
+import "@material/web/select/select-option";
+import { Endpoints, makeRequest } from "~/network/request";
+import { toast } from "vue3-toastify";
+
+const studentId = ref("");
+const firstName = ref("");
+const lastName = ref("");
+const email = ref("");
+const tsize = ref("");
+const campus = ref("");
+const course = ref("");
+const yearLevel = ref("");
+
+const store = useStore();
+const courses = ref<ICTCourse[]>([]);
+const tshirtSizes = ref<ICTSize[]>([]);
+const campuses = ref<ICTCampus[]>([]);
+
+type ICTConfig = {
+  courses: ICTCourse[];
+  tshirt_sizes: ICTSize[];
+  campuses: ICTCampus[];
 };
+
+onMounted(() => {
+  getConfig();
+});
+
+
+function getConfig() {
+  store.isLoading = true;
+
+  makeRequest<ICTConfig, null>("GET", Endpoints.ICTCongress, null, response => {
+    store.isLoading = false;
+
+    if (response.success) {
+      courses.value = response.data.courses;
+      tshirtSizes.value = response.data.tshirt_sizes;
+      campuses.value = response.data.campuses;
+      return;
+    }
+
+    toast.error(response.message);
+  });
+}
+
+function mapYearLevel(year: number) {
+  switch (year) {
+    case 1:
+      return "1st year";
+    case 2:
+      return "2nd year";
+    case 3:
+      return "3rd year";
+    case 4:
+      return "4th year";
+    default:
+      return "N/A";
+  }
+}
 </script>
+
+<style lang="scss" scoped>
+md-outlined-select {
+  --md-menu-container-color: var(--md-sys-color-surface-variant);
+}
+</style>

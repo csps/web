@@ -156,6 +156,12 @@ import DarkModeOutlined from "@material-symbols/svg-700/rounded/dark_mode.svg?ra
 import LightMode from "@material-symbols/svg-700/rounded/light_mode-fill.svg?raw";
 import LightModeOutlined from "@material-symbols/svg-700/rounded/light_mode.svg?raw";
 
+import BarChart from "@material-symbols/svg-700/rounded/bar_chart-fill.svg?raw";
+import BarChartOutlined from "@material-symbols/svg-700/rounded/bar_chart.svg?raw";
+
+import LocationCity from "@material-symbols/svg-700/rounded/location_city-fill.svg?raw";
+import LocationCityOutlined from "@material-symbols/svg-700/rounded/location_city.svg?raw";
+
 // Icon type
 export type Icon = "arrow_back" | "menu" | "photo_camera" | "favorite" |
   "arrow_forward" | "verified" | "lock" | "visibility" | "visibility_off" | 
@@ -165,7 +171,7 @@ export type Icon = "arrow_back" | "menu" | "photo_camera" | "favorite" |
   "person" | "security" | "settings" | "tune" | "receipt" | "more_vert" | "check" |
   "groups" | "chevron_right" | "filter_list" | "chevron_left" | "campaign" | "event" |
   "location_on" | "schedule" | "calendar_month" | "arrow_upward" | "arrow_downward" |
-  "forum" | "commit" | "dark_mode" | "light_mode";
+  "forum" | "commit" | "dark_mode" | "light_mode" | "bar_chart" | "location_city";
 
 /**
  * Material Icon
@@ -275,6 +281,10 @@ export function icon(name: Icon, outlined: boolean = false) {
   if (name === "dark_mode") return outlined ? DarkModeOutlined : DarkMode;
   // Light Mode
   if (name === "light_mode") return outlined ? LightModeOutlined : LightMode;
+  // Bar Chart
+  if (name === "bar_chart") return outlined ? BarChartOutlined : BarChart;
+  // Location City
+  if (name === "location_city") return outlined ? LocationCityOutlined : LocationCity;
   
   // Default
   return null;

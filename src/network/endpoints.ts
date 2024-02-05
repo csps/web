@@ -38,6 +38,7 @@ enum Endpoints {
   OrdersUnique = "/orders/unique/:uniqueId",
   OrdersReference = "/orders/reference/:reference",
 
+  ICTCongress = "/ictcongress2024",
   ICTCongressLogin = "/ictcongress2024/login",
   ICTCongressStudent = "/ictcongress2024/students/:student_id",
   ICTCongressStudentSearch = "/ictcongress2024/students",

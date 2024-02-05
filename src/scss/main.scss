@@ -149,6 +149,10 @@ md-outlined-select.dense::part(menu), md-filled-select.dense::part(menu) {
     file:text-on-surface-variant ;
 }
 
+.font-reset {
+  font-family: Roboto, Arial, sans-serif;
+}
+
 @keyframes glow {
   0% {
     box-shadow: 0 0 50px -30px var(--md-sys-color-primary);

@@ -110,4 +110,8 @@ function mapAlign(align?: string) {
 .skeleton {
   @apply bg-surface-container-highest rounded-full animate-pulse h-[1rem] my-1.5;
 }
+
+.font-reset {
+  font-family: Roboto, Arial, sans-serif;
+}
 </style>

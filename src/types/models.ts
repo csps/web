@@ -137,7 +137,7 @@ export enum ICTStudentEnum {
   first_name = "first_name",
   last_name = "last_name",
   email = "email",
-  tshirt_size = "tshirt_size",
+  tshirt_size_id = "tshirt_size_id",
   attendance = "attendance",
   order_confirmed = "order_confirmed",
   date_stamp = "date_stamp",

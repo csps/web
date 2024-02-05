@@ -45,7 +45,7 @@
                 @click="moreInfo(row)"
               />
               <md-assist-chip
-                title="Confirm Order"
+                title="Confirm Order" 
                 :disabled="row.order_confirmed"
                 :label="row.order_confirmed ? 'Confirmed' : 'Confirm'"
                 @click="confirmOrder(row)"
@@ -61,7 +61,7 @@
         <VPagination
           class="mt-5"
           v-if="data.students.length > 0"
-          :limit="parseInt(Env.admin_announcements_per_page)"
+          :limit="parseInt(Env.ict_students_per_page)"
           :page="data.page"
           :total="data.total"
           @change="p => goToPage(p)"
@@ -79,6 +79,7 @@ import { icon } from "~/utils/icon";
 import { createPagination } from "~/utils/pagination";
 import { ICTStudentEnum } from "~/types/models";
 import { Env } from "~/config";
+import { toast } from "vue3-toastify";
 import Strings from "~/config/strings";
 
 import VTable from "~/components/VTable.vue";
@@ -88,7 +89,6 @@ import "@material/web/progress/circular-progress";
 import "@material/web/textfield/outlined-text-field";
 import "@material/web/button/filled-button";
 import "@material/web/chips/assist-chip";
-import { toast } from "vue3-toastify";
 
 // Get store 
 const store = useStore();
@@ -133,12 +133,22 @@ onMounted(() => {
 function moreInfo(row: ICTStudentModel) {
   const id = dialog.open(`${row.first_name} ${row.last_name}`,
   `
-    <p class="leading-6">
-      Year Level: ${row.year_level}<br>
-      T-shirt size: ${row.tshirt_size.toUpperCase()}<br>
-      Student ID: ${row.student_id}<br>
-      Email: ${row.email}<br>
-    </p>
+    <div class="flex gap-x-4 leading-6">
+      <div>
+        <h4>Course</h4>
+        <h4>Year Level</h4>
+        <h4>T-shirt size</h4>
+        <h4>Student ID</h4>
+        <h4>Email</h4>
+      </div>
+      <div>
+        <p class="font-medium">${row.course}</p>
+        <p class="font-medium">${row.year_level}</p>
+        <p class="font-medium">${row.tshirt_size.toUpperCase()}</p>
+        <p class="font-medium">${row.student_id}</p>
+        <p class="font-medium">${row.email}</p>
+      </div>
+    </div>
   `,
   {
     text: "Close",
@@ -207,6 +217,7 @@ function fetchStudents(search = "") {
 
   makeRequest<ICTStudentEnum[], Record<string, string>>("GET", Endpoints.ICTCongressStudents, request, response => {
     store.isLoading = false;
+    console.log(response);
 
     if (response.success) {
       data.value.students = response.data;

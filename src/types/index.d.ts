@@ -260,6 +260,7 @@ declare global {
 
   type ICTStudentModel = {
     id: number;
+    course: string;
     campus_id: number;
     student_id: string;
     year_level: string;

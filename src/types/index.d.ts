@@ -272,6 +272,17 @@ declare global {
     date_stamp: string;
   }
 
+  type ICTStudentRegisterModel = {
+    student_id: string;
+    first_name: string;
+    last_name: string;
+    email: string;
+    tshirt_size_id: number;
+    campus_id: number;
+    course_id: number;
+    year_level: number;
+  }
+
   type ICTCourse = {
     id: number;
     course: string;

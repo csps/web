@@ -40,8 +40,8 @@ enum Endpoints {
 
   ICTCongress = "/ictcongress2024",
   ICTCongressLogin = "/ictcongress2024/login",
+  ICTCongressStudents = "/ictcongress2024/students",
   ICTCongressStudent = "/ictcongress2024/students/:student_id",
-  ICTCongressStudentSearch = "/ictcongress2024/students",
   ICTCongressStudentPresent = "/ictcongress2024/students/:student_id/present",
   ICTCongressStudentConfirm = "/ictcongress2024/students/:student_id/confirm",
 }

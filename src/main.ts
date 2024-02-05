@@ -19,7 +19,7 @@ app.use(pinia as any);
 app.use(router as any);
 
 app.use(Vue3Toastify as any, {
-  position: 'bottom-right',
+  position: 'bottom-left',
   clearOnUrlChange: false,
 } as ToastContainerOptions);
 

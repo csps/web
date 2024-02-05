@@ -205,7 +205,7 @@ function fetchStudents(search = "") {
     }
   });
 
-  makeRequest<ICTStudentEnum[], Record<string, string>>("GET", Endpoints.ICTCongressStudentSearch, request, response => {
+  makeRequest<ICTStudentEnum[], Record<string, string>>("GET", Endpoints.ICTCongressStudents, request, response => {
     store.isLoading = false;
 
     if (response.success) {

@@ -1,5 +1,5 @@
 <template>
-  <div class="container flex flex-col items-center justify-center mx-auto px-6">
+  <div class="ictcongress container flex flex-col items-center justify-center mx-auto px-6">
     <div class="my-10 text-center">
       <h4 class="mb-2 text-2xl font-bold">ICT Congress 2024 - Registration</h4>
       <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut.</p>
@@ -7,34 +7,34 @@
 
     <div class="flex flex-col gap-5 w-full sm:w-3/4 md:w-3/5 lg:w-1/2 xl:w-2/5 2xl:w-1/3 font-reset">
       <!-- Student ID -->
-      <md-outlined-text-field v-model="studentId" type="number" label="Student ID">
+      <md-outlined-text-field v-model.trim="studentId" type="number" label="Student ID" min="0" :disabled="store.isLoading">
         <md-icon slot="leading-icon" v-html="icon('badge', true)" />
       </md-outlined-text-field>
 
       <!-- First and Last name -->
       <div class="flex gap-5">
-        <md-outlined-text-field v-model="firstName" label="First name">
+        <md-outlined-text-field v-model.trim="firstName" label="First name" :disabled="store.isLoading">
           <md-icon slot="leading-icon" v-html="icon('person', true)" />
         </md-outlined-text-field> 
-        <md-outlined-text-field v-model="lastName" label="Last name">
+        <md-outlined-text-field v-model.trim="lastName" label="Last name" :disabled="store.isLoading">
           <md-icon slot="leading-icon" v-html="icon('person', true)" />
         </md-outlined-text-field> 
       </div>
 
       <!-- Email -->
-      <md-outlined-text-field v-model="email" type="email" label="Email">
+      <md-outlined-text-field v-model.trim="email" type="email" label="Email" :disabled="store.isLoading">
         <md-icon slot="leading-icon" v-html="icon('mail', true)" />
       </md-outlined-text-field>
 
       <!-- T-shirt size and campus -->
       <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-        <md-outlined-select v-model="tsize" label="T-shirt size">
+        <md-outlined-select v-model="tsize" label="T-shirt size" :disabled="store.isLoading">
           <md-icon slot="leading-icon" v-html="icon('bar_chart', true)" />
           <md-select-option v-for="size in tshirtSizes" :key="size.id" :value="size.id">
             {{ size.name }}
           </md-select-option> 
         </md-outlined-select>
-        <md-outlined-select v-model="campus" label="Campus">
+        <md-outlined-select v-model="campus" label="Campus" :disabled="store.isLoading">
           <md-icon slot="leading-icon" v-html="icon('location_city', true)" />
           <md-select-option v-for="campus in campuses" :key="campus.id" :value="campus.id">
             {{ campus.campus_name }}
@@ -44,13 +44,13 @@
 
       <!-- Course and Year level -->
       <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-        <md-outlined-select v-model="course" label="Course">
+        <md-outlined-select v-model="course" label="Course" :disabled="store.isLoading">
           <md-icon slot="leading-icon" v-html="icon('school', true)" />
           <md-select-option v-for="course in courses" :key="course.id" :value="course.id">
             {{ course.course_name }}
           </md-select-option>
         </md-outlined-select>
-        <md-outlined-select v-model="yearLevel" label="Year level">
+        <md-outlined-select v-model="yearLevel" label="Year level" :disabled="store.isLoading">
           <md-icon slot="leading-icon" v-html="icon('school', true)" />
           <md-select-option v-for="year in 4" :key="year" :value="year">
             {{ mapYearLevel(year) }}
@@ -60,7 +60,7 @@
 
       <!-- Register -->
       <div class="flex justify-end">
-        <md-filled-button>Register</md-filled-button>
+        <md-filled-button @click="register">Register</md-filled-button>
       </div>
     </div>
   </div>
@@ -69,26 +69,27 @@
 <script lang="ts" setup>
 import { onMounted, ref } from "vue";
 import { icon } from "~/utils/icon";
-import { useStore } from "~/store";
+import { useStore, useDialog } from "~/store";
+import { Endpoints, makeRequest } from "~/network/request";
+import { toast } from "vue3-toastify";
 
 import "@material/web/icon/icon";
 import "@material/web/button/filled-button";
 import "@material/web/textfield/outlined-text-field";
 import "@material/web/select/outlined-select";
 import "@material/web/select/select-option";
-import { Endpoints, makeRequest } from "~/network/request";
-import { toast } from "vue3-toastify";
 
 const studentId = ref("");
 const firstName = ref("");
 const lastName = ref("");
 const email = ref("");
-const tsize = ref("");
-const campus = ref("");
-const course = ref("");
-const yearLevel = ref("");
+const tsize = ref(0);
+const campus = ref(0);
+const course = ref(0);
+const yearLevel = ref(0);
 
 const store = useStore();
+const dialog = useDialog();
 const courses = ref<ICTCourse[]>([]);
 const tshirtSizes = ref<ICTSize[]>([]);
 const campuses = ref<ICTCampus[]>([]);
@@ -103,7 +104,6 @@ onMounted(() => {
   getConfig();
 });
 
-
 function getConfig() {
   store.isLoading = true;
 
@@ -114,6 +114,46 @@ function getConfig() {
       courses.value = response.data.courses;
       tshirtSizes.value = response.data.tshirt_sizes;
       campuses.value = response.data.campuses;
+      return;
+    }
+
+    toast.error(response.message);
+  });
+}
+
+function register() {
+  if (store.isLoading) return;
+
+  // If one of the fields is empty, show a toast message
+  if (!studentId.value || !firstName.value || !lastName.value || !email.value ||
+      !tsize.value || !campus.value || !course.value || !yearLevel.value) {
+
+      toast.error("Please fill up all fields.");
+      return;
+  }
+
+  store.isLoading = true;
+
+  const data: ICTStudentRegisterModel = {
+    student_id: studentId.value,
+    first_name: firstName.value,
+    last_name: lastName.value,
+    email: email.value,
+    tshirt_size_id: tsize.value,
+    campus_id: campus.value,
+    course_id: course.value,
+    year_level: yearLevel.value
+  };
+
+  makeRequest<null, typeof data>("POST", Endpoints.ICTCongressStudents, data, response => {
+    store.isLoading = false;
+
+    if (response.success) {
+      const id = dialog.open("Success", response.message, {
+        text: "Got it!",
+        click: () => dialog.close(id)
+      }, null);
+      
       return;
     }
 
@@ -137,8 +177,16 @@ function mapYearLevel(year: number) {
 }
 </script>
 
-<style lang="scss" scoped>
-md-outlined-select {
-  --md-menu-container-color: var(--md-sys-color-surface-variant);
+<style lang="scss">
+html .ictcongress {
+  md-outlined-select {
+    --md-menu-container-color: var(--md-sys-color-surface-variant);
+  }
+}
+
+html.dark .ictcongress {
+  md-outlined-select {
+    --md-menu-container-color: var(--md-sys-color-surface-container);
+  }
 }
 </style>

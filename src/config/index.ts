@@ -38,6 +38,7 @@ export const SOCIAL_LINKS = [
 
 export const Config: Map = {
   API_URL: process.env.NODE_ENV === "development" ? `${location.protocol}//${location.hostname}:3000` : window.location.origin + "/api",
+  ICN: "ictcongress2024",
   initialHistoryLength: 0
 };
 

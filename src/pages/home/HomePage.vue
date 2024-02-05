@@ -17,7 +17,7 @@
         </div>
 
         <div class="flex justify-center mt-3" data-sal="zoom-in">
-          <router-link to="/ictcongress2024">
+          <router-link :to="'/' + Config.ICN">
             <md-assist-chip
               elevated
               class="mb-3 text-primary"
@@ -128,6 +128,7 @@ import "@material/web/button/filled-button";
 import "@material/web/button/filled-tonal-button";
 import "@material/web/chips/assist-chip";
 import "@material/web/chips/filter-chip";
+import { Config } from '~/config';
 
 register();
 

@@ -34,7 +34,7 @@ function makeRequest<T, U>(method: HttpMethod, endpoint: Endpoints, data: U, cal
   // If endpoint has param
   if (endpoint.includes(":")) {
     // Get param
-    const params = endpoint.split(":").slice(1).map(s => s.replace(/\//g, ""));
+    const params = endpoint.split("/").filter((param) => param.startsWith(":")).map((param) => param.replace(":", ""));
     
     // For every params
     for (const param of params) {

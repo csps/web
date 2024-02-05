@@ -31,7 +31,7 @@
             </span>
           </template>
           <template #order_confirmed="{ row }: { row: ICTStudentModel }">
-            <span v-if="row.order_confirmed" class="text-primary">
+            <span v-if="row.order_confirmed">
               {{ row.order_confirmed }}
             </span>
             <span class="text-outline" v-else>
@@ -88,6 +88,7 @@ import "@material/web/progress/circular-progress";
 import "@material/web/textfield/outlined-text-field";
 import "@material/web/button/filled-button";
 import "@material/web/chips/assist-chip";
+import { toast } from "vue3-toastify";
 
 // Get store 
 const store = useStore();
@@ -153,7 +154,21 @@ function confirmOrder(row: ICTStudentModel) {
     `${Strings.ICT_CONGRESS_CONFIRM_MESSAGE}<br><br>This confirmation is for ${row.first_name} ${row.last_name}`, {
     text: "Confirm",
     click() {
+      store.isLoading = true;
+      dialog.close(id);
 
+      // Confirm order
+      makeRequest("POST", Endpoints.ICTCongressStudentConfirm, { student_id: row.student_id }, response => {
+        store.isLoading = false;
+
+        if (response.success) {
+          toast.success(response.message);
+          fetchStudents(isSearched.value ? data.value.search : "");
+          return;
+        }
+
+        toast.error(response.message);
+      });
     }
   }, {
     text: "Cancel",

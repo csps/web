@@ -8,7 +8,7 @@ export const useStore = defineStore("global", () => {
   const rails: NavigationRailItem[] = [];
   const courses: string[] = [];
 
-  const isMaintenance = true;
+  const isMaintenance = false;
   const isLoggedIn = undefined as boolean | undefined;
   const isAdminLoggedIn = undefined as boolean | undefined;
   const isLoading = true;

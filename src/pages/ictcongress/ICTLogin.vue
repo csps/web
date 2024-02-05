@@ -2,7 +2,10 @@
   <div class="container mx-auto px-6 py-12 flex items-center">
     <div class="flex items-center justify-center w-full h-full">
       <div class="lg:w-1/3 xl:w-1/3 2xl:w-auto">
-        <h2 class="text-2xl md:text-3xl font-semibold mb-1 text-on-surface-variant" data-sal="zoom-in">
+        <h2
+          class="text-2xl md:text-3xl font-semibold mb-1 text-on-surface-variant"
+          data-sal="zoom-in"
+        >
           ICT Congress 2024 Admin
         </h2>
         <h6 class="text-sm" data-sal="zoom-in" data-sal-delay="50">
@@ -34,7 +37,11 @@
             data-sal-delay="150"
           >
             <md-icon slot="leading-icon" v-html="icon('lock', true)" />
-            <md-icon-button slot="trailing-icon" @click="isPasswordVisible = !isPasswordVisible" toggle>
+            <md-icon-button
+              slot="trailing-icon"
+              @click="isPasswordVisible = !isPasswordVisible"
+              toggle
+            >
               <md-icon v-html="icon('visibility_off', true)" />
               <md-icon slot="selected" v-html="icon('visibility', true)" />
             </md-icon-button>
@@ -42,13 +49,16 @@
         </div>
 
         <div class="flex justify-end" data-sal="zoom-in" data-sal-delay="250">
-          <md-filled-button @click="login" class="w-1/3" :disabled="isLoggingIn">
-            {{ isLoggingIn ? 'Logging in...' : 'Login' }}
+          <md-filled-button
+            @click="login"
+            class="w-1/3"
+            :disabled="isLoggingIn"
+          >
+            {{ isLoggingIn ? "Logging in..." : "Login" }}
           </md-filled-button>
         </div>
       </div>
     </div>
-
   </div>
 </template>
 
@@ -102,35 +112,40 @@ function login() {
     admin: ICTAdminModel;
     accessToken: string;
     refreshToken: string;
-  }
+  };
 
   type LoginRequest = {
     username: string;
     password: string;
-  }
-  
+  };
+
   // Make request to server
-  makeRequest<LoginResponse, LoginRequest>("POST", Endpoints.ICTCongressLogin, {
-    username: username.value,
-    password: password.value
-  }, (response) => {
-    isLoggingIn.value = false;
-    store.isLoading = false;
+  makeRequest<LoginResponse, LoginRequest>(
+    "POST",
+    Endpoints.ICTCongressLogin,
+    {
+      username: username.value,
+      password: password.value,
+    },
+    (response) => {
+      isLoggingIn.value = false;
+      store.isLoading = false;
 
-    if (response.success) {
-      // Save admin tokens to local storage
-      setStore("iat", response.data.accessToken);
-      setStore("irt", response.data.refreshToken);
+      if (response.success) {
+        // Save admin tokens to local storage
+        setStore("iat", response.data.accessToken);
+        setStore("irt", response.data.refreshToken);
 
-      // Set store
-      store.ictAdmin = response.data.admin;
+        // Set store
+        store.ictAdmin = response.data.admin;
 
-      // Redirect to home page
-      router.push({ name: "Admin - ICT Congress 2024" });
-      return;
+        // Redirect to home page
+        router.push({ name: "Admin - ICT Congress 2024" });
+        return;
+      }
+
+      toast.error(response.message);
     }
-
-    toast.error(response.message);
-  });
+  );
 }
 </script>

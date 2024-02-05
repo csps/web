@@ -15,7 +15,7 @@ const routes: RouteRecordRaw[] = [
   {
     path: "/ictcongress2024",
     name: "ICT Congress 2024",
-    component: () => import("../pages/ICTCongress.vue"),
+    component: () => import("../pages/ictcongress/ICTCongress.vue"),
   },
   {
     path: "/ictcongress2024/admin",
@@ -157,10 +157,10 @@ router.beforeEach(async (to, _from, next) => {
     }
 
     // If no session
-    if (!isLoginPage) {
-      // Redirect to login page
-      return next("/ictcongress2024/admin/login");
-    }
+    // if (!isLoginPage) {
+    //   // Redirect to login page
+    //   return next("/ictcongress2024/admin/login");
+    // }
 
     return next();
   }

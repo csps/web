@@ -1,14 +1,14 @@
 <template>
   <div class="flex justify-center items-center font-bold">
-    <class class="flex justify-center items-center">
+    <class class="flex justify-center items-center w-[100%]">
       <div class="w-[50%] flex mt-10 shadow-2xl bg-gray-100 rounded-xl p-5">
         <div
-          class="lg:w-[50%] custom-sm:w-[25%] md:w-[40%] flex flex-col bg-csps-primary text-[#ffffff] lg:p-10 justify-center rounded-xl rounded-tr-xl rounded-bl-xl items-center"
+          class="lg:w-[50%] custom-sm:w-[25%] md:w-[40%] flex flex-col bg-csps-primary text-[#ffffff] lg:p-10 justify-center rounded-xl items-center"
         >
           <img
-            class="w-[80%] rounded-3xl border-2 border-primary"
-            src="../assets/img/ictcongress/ICTCongress.png"
-            alt=""
+            class="rounded-2xl w-[80%]"
+            :src="getImagePath('ictcongressimage/ICTCongress.png')"
+            alt="Campus Image"
           />
         </div>
         <div class="lg:w-[50%]">
@@ -106,4 +106,7 @@ import "@material/web/button/text-button";
 import "@material/web/checkbox/checkbox";
 import "@material/web/divider/divider";
 import { icon } from "~/utils/icon";
+const getImagePath = (ictcongressimage: string) => {
+  return `/src/assets/img/${ictcongressimage}`;
+};
 </script>

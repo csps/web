@@ -24,7 +24,7 @@
           </div>
         </div>
 
-        <VTable class="mt-5" :headers="headers" :data="data.students">
+        <VTable class="mt-5" :headers="headers" :data="data.students" hover-show-actions>
           <template #attendance="{ row }: { row: ICTStudentModel }">
             <span :class="row.attendance ? 'text-primary' : 'text-outline'">
               {{ row.attendance ? 'Present' : '(No record)' }}
@@ -40,16 +40,23 @@
           </template>
           <template #actions="{ row }: { row: ICTStudentModel }">
             <div class="space-x-2">
-              <md-assist-chip
-                label="More info"
+              <span
+                class="text-tertiary action hover:border-b-2"
                 @click="moreInfo(row)"
-              />
-              <md-assist-chip
-                title="Confirm Order" 
+                title="More info"
+                role="button"
+              >
+                More info
+              </span>
+              <span
+                class="action"
+                :class="[row.order_confirmed ? 'text-outline' : 'text-primary', row.order_confirmed ? '' : 'hover:border-b-2']"
                 :disabled="row.order_confirmed"
-                :label="row.order_confirmed ? 'Confirmed' : 'Confirm'"
-                @click="confirmOrder(row)"
-              />
+                @click="row.order_confirmed ? null : confirmOrder(row)"
+                :role="row.order_confirmed ? 'text' : 'button'"
+              >
+                {{ row.order_confirmed ? 'Confirmed' : 'Confirm' }}
+              </span>
             </div>
           </template>
         </VTable>
@@ -217,7 +224,6 @@ function fetchStudents(search = "") {
 
   makeRequest<ICTStudentEnum[], Record<string, string>>("GET", Endpoints.ICTCongressStudents, request, response => {
     store.isLoading = false;
-    console.log(response);
 
     if (response.success) {
       data.value.students = response.data;
@@ -234,5 +240,9 @@ function fetchStudents(search = "") {
 <style lang="scss" scoped>
 md-circular-progress {
   --md-circular-progress-active-indicator-width: 12;
+}
+
+.action {
+  @apply border-dashed border-outline;
 }
 </style>

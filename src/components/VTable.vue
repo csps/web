@@ -1,5 +1,5 @@
 <template>
-  <div class="relative overflow-x-auto shadow-md sm:rounded-lg font-reset">
+  <div class="relative overflow-x-auto border-outline-variant sm:rounded-lg font-reset">
     <table class="w-full text-sm text-left text-on-surface-variant">
       <thead class="text-sm bg-surface-container-high">
         <tr>
@@ -17,13 +17,13 @@
         </tr>
       </thead>
 
-      <tbody>
+      <tbody :class="{ 'hover-show-actions': hoverShowActions }">
         <tr
           v-for="row in data"
           :key="row.student_id"
           @click="emit('row-click', row)"
           :class="{ 'cursor-pointer': clickableRow }"
-          class="bg-surface-container-low hover:bg-surface-container"
+          class="bg-surface-container hover:bg-surface-container-high"
         >
           <td
             v-for="header in headers"
@@ -40,12 +40,14 @@
           </td>
 
           <td v-if="!noAction" class="td-cell w-0">
-            <slot name="actions" :row="row">
-              <div class="flex gap-3">
-                <md-assist-chip @click="emit('edit', row)" label="Edit" />
-                <md-assist-chip v-if="!noDelete" @click="emit('delete', row)" label="Delete" />
-              </div>
-            </slot>
+            <div class="action">
+              <slot name="actions" :row="row">
+                <div class="flex gap-3">
+                  <md-assist-chip @click="emit('edit', row)" label="Edit" />
+                  <md-assist-chip v-if="!noDelete" @click="emit('delete', row)" label="Delete" />
+                </div>
+              </slot>
+            </div>
           </td>
         </tr>
       </tbody>
@@ -62,12 +64,14 @@ withDefaults(defineProps<{
   loading?: boolean,
   noAction?: boolean,
   noDelete?: boolean,
-  clickableRow?: boolean
+  clickableRow?: boolean,
+  hoverShowActions?: boolean
 }>(), {
   noAction: false,
   noDelete: false,
   loading: false,
-  clickableRow: false
+  clickableRow: false,
+  hoverShowActions: false
 });
 
 const emit = defineEmits(["edit", "delete", "row-click"]);
@@ -113,5 +117,13 @@ function mapAlign(align?: string) {
 
 .font-reset {
   font-family: Roboto, Arial, sans-serif;
+}
+
+.action {
+  visibility: hidden;
+}
+
+tbody.hover-show-actions tr:hover .action {
+  visibility: visible;
 }
 </style>

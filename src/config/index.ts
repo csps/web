@@ -6,10 +6,6 @@ import GithubSvg from "~/assets/svg/github.svg?raw";
 import { getSvgData } from "~/utils/string";
 import { Icon } from "~/utils/icon";
 
-interface Map {
-  [key: string]: string | number
-}
-
 interface StringMap {
   [key: string]: string
 }
@@ -36,7 +32,7 @@ export const SOCIAL_LINKS = [
   { href: "https://github.com/csps", src: getSvgData(GithubSvg), alt: "CSP-S UC Main Github Organization" },
 ];
 
-export const Config: Map = {
+export const Config: Record<string, any> = {
   API_URL: process.env.NODE_ENV === "development" ? `${location.protocol}//${location.hostname}:3000` : window.location.origin + "/api",
   ICN: "ictcongress2024",
   initialHistoryLength: 0

@@ -1,12 +1,10 @@
 import type { RouteRecordRaw } from "vue-router";
 import { createRouter, createWebHistory } from "vue-router";
 import { setPageTitle, getHistoryLength } from "~/utils/page";
-import { validateLogin } from "~/utils/network";
 import { useStore } from "~/store";
 import { Config } from "~/config";
-import { AuthType } from "~/types/enums";
-import { toast } from "vue3-toastify";
 import { getStore } from "~/utils/storage";
+import { validateLogin } from "~/utils/network";
 
 /**
  * The routes of the application.
@@ -140,83 +138,40 @@ router.beforeEach(async (to, _from, next) => {
     store.isLoading = true;
   }
 
-  if (to.path.includes(Config.ICN as string)) {
-    // If going to login page
-    const isLoginPage = to.path.includes("login");
-    const isRegistrationPage = !to.path.includes("admin");
-    const isAdminPage = !isLoginPage && !isRegistrationPage;
+  const isStudent = !!getStore("sat") && !!getStore("srt");
+  const isAdmin = !!getStore("aat") && !!getStore("art");
+  const isICTAdmin = !!getStore("iat") && !!getStore("irt");
 
-    // If has session
-    if (!!getStore("iat") && !!getStore("irt")) {
-      // If going to login page
-      if (isLoginPage) {
-        // Redirect to admin page
-        return next(`/${Config.ICN}/admin`);
-      }
-
-      return next();
-    }
- 
-    if (isAdminPage) {
-      return next(`/${Config.ICN}/admin/login`)
+  if (isStudent) {
+    if (to.name === "Admin" || to.name === "Login") {
+      return next({ name: "Home" });
     }
 
     return next();
   }
-  
-  // If going to route that requres auth
-  if (to.meta.requiresAuth) {
-    // Is login valid
-    const isLoginValid = await validateLogin();
 
-    // If is valid
-    if (isLoginValid) {
-      // If going to admin page with student role
-      if (
-        (to.name === "Admin" || to.name === "Admin Login") &&
-        store.role === AuthType.STUDENT
-      ) {
-        toast.warning("You are not allowed to access this page.");
-        return next({ name: "Home" });
-      }
-
-      // If going to login pages with an admin role
-      if (
-        (to.name === "Login" || to.name === "Admin Login") &&
-        store.role === AuthType.ADMIN
-      ) {
-        return next({ name: "Admin", params: { tab: "dashboard" } });
-      }
-
-      // If going to home and has student role
-      if (to.name === "Login" && store.role === AuthType.STUDENT) {
-        return next({ name: "Home" });
-      }
-
-      // If going to profile and has admin role
-      if (to.name === "Profile" && store.role === AuthType.ADMIN) {
-        return next({ name: "Home" });
-      }
-
-      return next();
+  if (isAdmin) {
+    if (to.name === "Admin Login" || to.name === "Profile") {
+      return next({ name: "Admin", params: { tab: "dashboard" } });
     }
 
-    // If going to admin page with no role
-    if (to.name === "Admin") {
-      return next({ name: "Admin Login" });
-    }
-
-    // If going to login
-    if (to.name === "Login" || to.name === "Admin Login") return next();
-    // Otherwise, return to login
-    next({ name: "Login" });
+    return next();
   }
 
+  if (isICTAdmin) {
+    if (to.name === "Login - ICT Congress 2024") {
+      return next({ name: "Admin - ICT Congress 2024" });
+    }
+
+    return next();
+  }
+
+  if (to.name === "Login" || to.name === "Admin Login") {
+    return next();
+  }
+  
   // If checking out and no checkout details or product is not available
-  if (
-    to.name === "Checkout" &&
-    (!store.checkoutDetails || !store.checkoutDetails?.product.is_available)
-  ) {
+  if (to.name === "Checkout" && (!store.checkoutDetails || !store.checkoutDetails?.product.is_available)) {
     // if has previous page
     if (_from.name) {
       // Go to previous page
@@ -233,7 +188,7 @@ router.beforeEach(async (to, _from, next) => {
 /**
  * Executes after each route change.
  */
-router.afterEach((to, from) => {
+router.afterEach(async (to, from) => {
   // Get store
   const store = useStore();
   // Set page title
@@ -244,19 +199,15 @@ router.afterEach((to, from) => {
   );
   // Set loading to false
   store.isLoading = false;
+  // Validate and fetch session data
+  await validateLogin();
 
   // If not on page load
   if (!from.name) return;
   // If not on the same page
   if (to.path === from.path) return;
-
   // Set back button visibility
-  store.isShowBackButton =
-    window.history.state.position -
-      (Config.initialHistoryLength
-        ? (Config.initialHistoryLength as number)
-        : 0) >
-    0;
+  store.isShowBackButton = window.history.state.position - (Config.initialHistoryLength ? (Config.initialHistoryLength as number) : 0) > 0;
 });
 
 export default router;

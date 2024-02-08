@@ -35,7 +35,6 @@ import { toast } from 'vue3-toastify';
 import { useStore, useDialog } from './store';
 import { Endpoints, makeRequest } from './network/request';
 import { charCount } from "./utils/string";
-import { validateLogin } from "./utils/network";
 
 import "@material/web/progress/linear-progress";
 
@@ -57,7 +56,7 @@ watch(dialog.queue, q => {
   dialogs.value = q;
 });
 
-if (!store.isMaintenance) {
+if (!store.isMaintenance) { 
   store.isLoading = true;
 
   // Fetch courses
@@ -77,8 +76,8 @@ if (!store.isMaintenance) {
           Env[key] = response.data[key];
         }
       }
-  
-      return validateLogin();
+
+      return;
     }
   
     toast.error(response.message);

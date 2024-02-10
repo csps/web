@@ -1,7 +1,7 @@
 <template>
   <div class="container mx-auto px-6 py-12 flex items-center">
     <div class="flex items-center justify-center w-full h-full">
-      <div class="lg:w-1/3 xl:w-1/3 2xl:w-auto">
+      <div class="w-full md:w-2/3 lg:w-2/5 xl:w-1/3 2xl:w-auto">
         <h2
           class="text-2xl md:text-3xl font-semibold mb-1 text-on-surface-variant"
           data-sal="zoom-in"
@@ -88,6 +88,22 @@ const isPasswordVisible = ref(false);
 
 onMounted(() => {
   sal();
+
+  // If has token, check if valid
+  makeRequest<ICTAdminModel, null>("GET", Endpoints.ICTCongressLogin, null, response => {
+    // If logged in
+    if (response.success) {
+      store.ictAdmin = response.data;
+      store.isLoading = false;
+      // Redirect to admin
+      router.push("/ictcongress2024/admin");
+      return;
+    }
+
+    // If not logged in
+    store.isLoading = false;
+});
+
 });
 
 function login() {

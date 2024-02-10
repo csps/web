@@ -80,6 +80,7 @@
 
 <script lang="ts" setup>
 import { ref, onMounted } from "vue";
+import { useRouter } from "vue-router";
 import { Endpoints, makeRequest } from "~/network/request";
 import { useStore, useDialog } from "~/store";
 import { icon } from "~/utils/icon";
@@ -100,6 +101,7 @@ import "@material/web/chips/assist-chip";
 // Get store 
 const store = useStore();
 const dialog = useDialog();
+const router = useRouter();
 const isLoading = ref(true);
 const isSearched = ref(false);
 const message = ref("");
@@ -130,7 +132,14 @@ onMounted(() => {
       store.isLoading = false;
       isLoading.value = false;
       fetchStudents();
+      return;
     }
+
+    // If not logged in
+    store.isLoading = false;
+    isLoading.value = false;
+    // Redirect to home
+    router.push("/ictcongress2024/admin/login");
   });
 });
 

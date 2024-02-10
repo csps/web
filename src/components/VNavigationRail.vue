@@ -32,7 +32,7 @@ const emit = defineEmits(["select"]);
 
 <style lang="scss" scoped>
 .rail {
-  @apply bg-surface-container-high py-4 min-w-[80px] pt-6 rounded-tr-md rounded-br-md;
+  @apply bg-surface-container-highest dark:bg-surface-container-low py-4 min-w-[80px] pt-6 rounded-tr-md rounded-br-md;
   transition: transform .2s cubic-bezier(.2,0,0,1);
 }
 

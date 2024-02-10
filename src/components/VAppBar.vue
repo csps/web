@@ -66,7 +66,7 @@
           <md-icon slot="off-icon" v-html="icon('light_mode')" />
         </md-switch>
 
-        <md-icon-button title="Logout" @click="logout" v-if="route.path.includes('/admin') && !route.path.includes('login')">
+        <md-icon-button title="Logout" @click="logout" v-if="route.path.includes('/ictcongress2024/admin') && !route.path.includes('login')">
           <md-icon v-html="icon('logout')" />
         </md-icon-button>
 

@@ -22,8 +22,8 @@ export function validateLogin(): Promise<boolean> {
         // Get store 
         const store = useStore();
         // Role
-        store.role = response.count ?? AuthType.STUDENT; // 1 = admin, 0 = student
-  
+        store.role = response.count; // 2 = ict_admin, 1 = admin, 0 = student
+
         // If student
         if (store.role === AuthType.STUDENT) {
           // Set student data

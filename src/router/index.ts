@@ -34,7 +34,6 @@ const routes: RouteRecordRaw[] = [
     path: "/login",
     name: "Login",
     component: () => import("../pages/login/LoginPage.vue"),
-    meta: { requiresAuth: true },
   },
   {
     path: "/merch",
@@ -107,7 +106,6 @@ const routes: RouteRecordRaw[] = [
     path: "/admin/login",
     name: "Admin Login",
     component: () => import("../pages/admin/AdminLogin.vue"),
-    meta: { requiresAuth: true },
   },
   {
     path: "/:pathMatch(.*)",
@@ -127,6 +125,8 @@ const router = createRouter({
   routes,
 });
 
+let isValidated = false;
+
 /**
  * Executes after each route change.
  */
@@ -138,29 +138,38 @@ router.beforeEach(async (to, _from, next) => {
     store.isLoading = true;
   }
 
+  // If not validated
+  if (!isValidated) {
+    isValidated = true;
+
+    if (!(await validateLogin()) && to.meta.requiresAuth) {
+      return next({ name: "Home" });
+    }
+  }
+
   const isStudent = !!getStore("sat") && !!getStore("srt");
   const isAdmin = !!getStore("aat") && !!getStore("art");
   const isICTAdmin = !!getStore("iat") && !!getStore("irt");
 
-  if (isStudent) {
-    if (to.name === "Admin" || to.name === "Login") {
-      return next({ name: "Home" });
+  if (isICTAdmin) {
+    if (to.name === "Login - ICT Congress 2024") {
+      return next({ name: "Admin - ICT Congress 2024" });
     }
 
     return next();
   }
-
+  
   if (isAdmin) {
-    if (to.name === "Admin Login" || to.name === "Profile") {
+    if (to.name === "Admin Login" || (!isStudent && to.name === "Profile")) {
       return next({ name: "Admin", params: { tab: "dashboard" } });
     }
 
     return next();
   }
 
-  if (isICTAdmin) {
-    if (to.name === "Login - ICT Congress 2024") {
-      return next({ name: "Admin - ICT Congress 2024" });
+  if (isStudent) {
+    if (to.name === "Admin" || to.name === "Login") {
+      return next({ name: "Home" });
     }
 
     return next();
@@ -199,8 +208,7 @@ router.afterEach(async (to, from) => {
   );
   // Set loading to false
   store.isLoading = false;
-  // Validate and fetch session data
-  await validateLogin();
+
 
   // If not on page load
   if (!from.name) return;

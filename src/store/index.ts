@@ -17,7 +17,7 @@ export const useStore = defineStore("global", () => {
 
   let checkoutDetails: CheckoutDetails | undefined;
 
-  const role = -1;
+  const role = undefined as number | undefined;
   const user: StudentResponse = {
     id: 0,
     student_id: "",

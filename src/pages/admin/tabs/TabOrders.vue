@@ -1,14 +1,13 @@
 <template>
   <div class="container mx-auto px-4">
     <div class="flex items-center flex-col-reverse xl:flex-row justify-between gap-3 mb-1">
-      <div class="overflow-x-scroll flex w-full gap-x-2 overflow-y-hidden items-end py-1">
+      <div class="flex w-full gap-x-2 overflow-y-hidden items-end py-1">
         <md-filter-chip
           v-for="status in Object.values(OrderStatus).filter(s => typeof s === 'number')"
           :key="status"
           :selected="data.filterStatus.includes(status)"
           :label="mapOrderStatusLabel(status as OrderStatus)"
           @click="onFilter(status as OrderStatus)"
-          elevated
         />
       </div>
       <div class="flex items-center gap-3 relative bottom-3">
@@ -57,7 +56,7 @@
         <template v-slot:reference="{ row }: { row: FullOrderModel }">
           <h3 class="body-medium font-medium mb-2 flex items-center gap-1">
             <router-link :to="{ name: 'Order', params: { reference: row.reference }}">
-              <span class="border-b border-dashed border-primary">
+              <span class="border-b border-dotted pb-0.5 border-outline">
                 <md-icon class="w-4 h-4 text-primary mr-1 pt-0.5" v-html="icon('receipt', true)" />
                 <span class="text-primary pe-1">{{ row.reference?.substring(0, 12) }}</span>
                 <span class="text-secondary">{{ row.reference?.substring(12) }}</span>

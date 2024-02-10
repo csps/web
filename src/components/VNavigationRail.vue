@@ -32,7 +32,7 @@ const emit = defineEmits(["select"]);
 
 <style lang="scss" scoped>
 .rail {
-  @apply bg-surface-container py-4 min-w-[80px] pt-6 rounded-tr-md rounded-br-md;
+  @apply bg-surface-container-high py-4 min-w-[80px] pt-6 rounded-tr-md rounded-br-md;
   transition: transform .2s cubic-bezier(.2,0,0,1);
 }
 
@@ -41,7 +41,7 @@ const emit = defineEmits(["select"]);
   margin: -2px auto 14px;
 
   &:hover .icon {
-    @apply bg-surface-container-high;
+    @apply bg-secondary-container;
   }
 
   .icon {
@@ -49,12 +49,16 @@ const emit = defineEmits(["select"]);
     transition: font-variation-settings .2s cubic-bezier(.2,0,0,1);
 
     &.selected {
-      @apply bg-secondary-container;
+      @apply bg-secondary;
+
+      md-icon {
+        @apply text-surface-container-high;
+      }
     }
   }
 
   h5 {
-    @apply text-xs font-medium text-on-surface text-center px-2;
+    @apply text-xs font-medium text-on-surface-variant text-center px-2;
   }
 }
 </style>

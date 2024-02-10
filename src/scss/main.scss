@@ -15,6 +15,7 @@ input::-webkit-inner-spin-button {
 
 input[type=number] {
   -moz-appearance: textfield;
+  appearance: textfield;
 }
 
 :root {
@@ -48,7 +49,7 @@ html, body, #app {
 
 body {
   --sal-duration: 500ms;
-  @apply bg-surface-variant dark:bg-surface text-on-surface-variant;
+  @apply bg-surface-container-high dark:bg-surface text-on-surface-variant;
 }
 
 *::-webkit-scrollbar {
@@ -57,11 +58,11 @@ body {
 }
 
 *::-webkit-scrollbar-track {
-  @apply bg-surface;
+  @apply bg-surface-variant;
 }
 
 *::-webkit-scrollbar-thumb {
-  @apply bg-surface-container-highest;
+  @apply bg-outline-variant;
   border-radius: 20px;
 }
 

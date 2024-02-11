@@ -84,6 +84,7 @@ import "@material/web/button/text-button";
 import "@material/web/textfield/outlined-text-field";
 import "@material/web/select/outlined-select";
 import "@material/web/select/select-option";
+import { isEmail } from "~/utils/string";
 
 const studentId = ref("");
 const firstName = ref("");
@@ -171,6 +172,11 @@ function register() {
       !tsize.value || !campus.value || !course.value || !yearLevel.value) {
       toast.error("Please fill up all fields.");
       return;
+  }
+
+  if (!isEmail(email.value)) {
+    toast.error("Invalid email format.");
+    return;
   }
 
   const id = dialog.open("Confirm registration", `

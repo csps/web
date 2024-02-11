@@ -130,16 +130,7 @@ function getConfig() {
   });
 }
 
-function register() {
-  if (store.isLoading || isRegistered.value) return;
-
-  // If one of the fields is empty, show a toast message
-  if (!studentId.value || !firstName.value || !lastName.value || !email.value ||
-      !tsize.value || !campus.value || !course.value || !yearLevel.value) {
-      toast.error("Please fill up all fields.");
-      return;
-  }
-
+function requestRegister() {
   store.isLoading = true;
 
   const data: ICTStudentRegisterModel = {
@@ -169,6 +160,44 @@ function register() {
 
     isRegistered.value = false;
     toast.error(response.message);
+  });
+}
+
+function register() {
+  if (store.isLoading || isRegistered.value) return;
+
+  // If one of the fields is empty, show a toast message
+  if (!studentId.value || !firstName.value || !lastName.value || !email.value ||
+      !tsize.value || !campus.value || !course.value || !yearLevel.value) {
+      toast.error("Please fill up all fields.");
+      return;
+  }
+
+  const id = dialog.open("Confirm registration", `
+    <div class="grid grid-cols-2 gap-y-1">
+      <div>Student ID:</div>
+      <div>${studentId.value}</div>
+      <div>First name:</div>
+      <div>${firstName.value}</div>
+      <div>Last name:</div>
+      <div>${lastName.value}</div>
+      <div>Email:</div>
+      <div>${email.value}</div>
+      <div>T-shirt size:</div>
+      <div>${tshirtSizes.value.find(size => size.id === tsize.value)?.name}</div>
+      <div>Campus:</div>
+      <div>${campuses.value.find(c => c.id === campus.value)?.campus_name}</div>
+      <div>Course:</div>
+      <div>${courses.value.find(c => c.id === course.value)?.course_name}</div>
+      <div>Year level:</div>
+      <div>${mapYearLevel(yearLevel.value)}</div>
+    </div>
+  `, {
+    text: "Register",
+    click() {
+      dialog.close(id);
+      requestRegister();
+    }
   });
 }
 

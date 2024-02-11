@@ -105,6 +105,9 @@ function makeRequest<T, U>(method: HttpMethod, endpoint: Endpoints, data: U, cal
   if (accessToken.length > 0) {
     // Add access token to header
     instance.defaults.headers["Authorization"] = `Bearer ${accessToken}`;
+  } else {
+    // Remove access token from header
+    delete instance.defaults.headers["Authorization"];
   }
 
   // Make request

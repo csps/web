@@ -162,8 +162,8 @@ function logout() {
     click() {
       removeStore("iat");
       removeStore("irt");
-      router.push({ path: "admin/login" });
       dialog.close(id);
+      router.push({ path: "admin/login" });
     }
   }, {
     text: "Cancel",

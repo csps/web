@@ -270,6 +270,7 @@ declare global {
     tshirt_size: string;
     attendance?: string;
     order_confirmed?: string;
+    snack_claimed: number;
     date_stamp: string;
   }
 

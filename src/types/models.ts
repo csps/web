@@ -140,6 +140,7 @@ export enum ICTStudentEnum {
   tshirt_size_id = "tshirt_size_id",
   attendance = "attendance",
   order_confirmed = "order_confirmed",
+  snack_claimed = "snack_claimed",
   date_stamp = "date_stamp",
 }
 

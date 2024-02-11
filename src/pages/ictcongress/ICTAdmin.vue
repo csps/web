@@ -15,9 +15,9 @@
             <p>{{ store.ictAdmin.campus_name }}</p>
           </div>
           <div class="flex items-center gap-3">
-            <md-outlined-text-field label="Search" type="text" v-model="data.search">
+            <md-filled-text-field label="Search" type="text" v-model="data.search">
               <md-icon slot="leading-icon" v-html="icon('search', true)" />
-            </md-outlined-text-field>
+            </md-filled-text-field>
             <md-filled-button @click="fetchStudents(data.search)" :disabled="store.isLoading">
               Search
             </md-filled-button>
@@ -26,37 +26,32 @@
 
         <VTable class="mt-5" :headers="headers" :data="data.students" hover-show-actions>
           <template #attendance="{ row }: { row: ICTStudentModel }">
-            <span :class="row.attendance ? 'text-primary' : 'text-outline'">
-              {{ row.attendance ? 'Present' : '(No record)' }}
-            </span>
+            <div class="flex items-center justify-center gap-2 text-outline">
+              <md-icon :title="row.attendance ? getReadableDate(row.attendance) : ''" v-html="icon(row.attendance ? 'check' : 'remove')"></md-icon>
+              <md-icon v-html="icon(row.snack_claimed ? 'check' : 'remove')"></md-icon>
+            </div>
           </template>
           <template #order_confirmed="{ row }: { row: ICTStudentModel }">
-            <span v-if="row.order_confirmed">
+            <span v-if="row.order_confirmed" :title="getReadableDate(row.order_confirmed)">
               {{ row.order_confirmed }}
             </span>
             <span class="text-outline" v-else>
               (Not confirmed)
             </span>
           </template>
+          <template #date_stamp="{ row }: { row: ICTStudentModel }">
+            <span :title="getReadableDate(row.date_stamp)">
+              {{ row.date_stamp }}
+            </span>
+          </template>
           <template #actions="{ row }: { row: ICTStudentModel }">
-            <div class="space-x-2">
-              <span
-                class="text-tertiary action hover:border-b-2"
-                @click="moreInfo(row)"
-                title="More info"
-                role="button"
-              >
-                More info
-              </span>
-              <span
-                class="action"
-                :class="[row.order_confirmed ? 'text-outline' : 'text-primary', row.order_confirmed ? '' : 'hover:border-b-2']"
-                :disabled="row.order_confirmed"
+            <div class="space-x-2 flex items-center">
+              <md-assist-chip @click="moreInfo(row)" label="Info" />
+              <md-assist-chip
+                elevated
                 @click="row.order_confirmed ? null : confirmOrder(row)"
-                :role="row.order_confirmed ? 'text' : 'button'"
-              >
-                {{ row.order_confirmed ? 'Confirmed' : 'Confirm' }}
-              </span>
+                :disabled="row.order_confirmed" label="Confirm"
+              />
             </div>
           </template>
         </VTable>
@@ -94,9 +89,12 @@ import VTable from "~/components/VTable.vue";
 import VPagination from "~/components/VPagination.vue";
 
 import "@material/web/progress/circular-progress";
-import "@material/web/textfield/outlined-text-field";
+import "@material/web/textfield/filled-text-field";
 import "@material/web/button/filled-button";
+import "@material/web/icon/icon";
 import "@material/web/chips/assist-chip";
+import { getReadableDate } from "~/utils/date";
+import { mapYear } from "~/utils/page";
 
 // Get store 
 const store = useStore();
@@ -110,7 +108,7 @@ const headers: TableHeader[] = [
   { id: ICTStudentEnum.student_id, text: "ID", align: "right" },
   { id: ICTStudentEnum.first_name, text: "First name" },
   { id: ICTStudentEnum.last_name, text: "Last name" },
-  { id: ICTStudentEnum.attendance, text: "Attendance", align: "center" },
+  { id: ICTStudentEnum.attendance, text: "Attendance / Snack", align: "center" },
   { id: ICTStudentEnum.order_confirmed, text: "Date Confirmed", align: "center" },
   { id: ICTStudentEnum.date_stamp, text: "Date registered", align: "center" }
 ];
@@ -149,21 +147,27 @@ onMounted(() => {
 function moreInfo(row: ICTStudentModel) {
   const id = dialog.open(`${row.first_name} ${row.last_name}`,
   `
-    <div class="flex gap-x-4 leading-6">
-      <div>
-        <h4>Course</h4>
-        <h4>Year Level</h4>
-        <h4>T-shirt size</h4>
-        <h4>Student ID</h4>
-        <h4>Email</h4>
-      </div>
-      <div>
-        <p class="font-medium">${row.course}</p>
-        <p class="font-medium">${row.year_level}</p>
-        <p class="font-medium">${row.tshirt_size.toUpperCase()}</p>
-        <p class="font-medium">${row.student_id}</p>
-        <p class="font-medium">${row.email}</p>
-      </div>
+    <div class="grid grid-cols-2 gap-y-1">
+      <div>Student ID</div>
+      <div>${row.student_id}</div>
+      <div>First name</div>
+      <div>${row.first_name}</div>
+      <div>Last name</div>
+      <div>${row.last_name}</div>
+      <div>Email</div>
+      <div>${row.email}</div>
+      <div>Course</div>
+      <div>${row.course}</div>
+      <div>Year level</div>
+      <div>${mapYear(row.year_level)}</div>
+      <div>Attendance</div>
+      <div>${row.attendance ? getReadableDate(row.date_stamp) : "(No record)"}</div>
+      <div>Snack</div>
+      <div>${row.snack_claimed ? "Claimed" : "(No record)"}</div>
+      <div>Date confirmed</div>
+      <div>${row.order_confirmed ? getReadableDate(row.order_confirmed) : "(Not confirmed)"}</div>
+      <div>Date registered</div>
+      <div>${getReadableDate(row.date_stamp)}</div>
     </div>
   `,
   {
@@ -249,6 +253,19 @@ function fetchStudents(search = "") {
 <style lang="scss" scoped>
 md-circular-progress {
   --md-circular-progress-active-indicator-width: 12;
+}
+
+md-assist-chip {
+  --md-sys-color-surface-container-low: var(--md-sys-color-surface-container-highest);
+  --_elevated-container-elevation: 0;
+  --_elevated-hover-container-elevation: 0;
+  --_elevated-focus-container-elevation: 0;
+  --_elevated-pressed-container-elevation: 0;
+  --_label-text-color: var(--md-sys-color-secondary);
+  --_focus-label-text-color: var(--md-sys-color-primary);
+  --_hover-label-text-color: var(--md-sys-color-secondary);
+  --_elevated-disabled-container-color: var(--md-sys-color-surface-variant);
+  --_outline-width: 0;
 }
 
 .action {

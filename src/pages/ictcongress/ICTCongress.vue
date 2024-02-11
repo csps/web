@@ -64,7 +64,7 @@
           <md-text-button v-if="isRegistered" @click="clearFields">Reset fields</md-text-button>
         </div>
         <md-filled-button @click="register" :disabled="isRegistered || store.isLoading">
-          {{ store.isLoading ? "Registering..." : isRegistered ? 'Registered' : "Register" }}
+          {{ store.isLoading ? "Registering..." : isRegistered ? 'Registered' : "Confirm" }}
         </md-filled-button>
       </div>
     </div>

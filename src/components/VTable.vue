@@ -1,7 +1,7 @@
 <template>
   <div class="relative overflow-x-auto border-outline-variant sm:rounded-lg font-reset">
-    <table class="w-full text-sm text-left text-on-surface-variant">
-      <thead class="text-sm bg-surface-container-high">
+    <table class="w-full text-sm text-left">
+      <thead class="text-sm bg-surface-container">
         <tr>
           <th
             v-for="header in headers"
@@ -13,7 +13,7 @@
             {{ header.text }}
           </th>
 
-          <th v-if="!noAction" class="th-cell w-0">Actions</th>
+          <th v-if="!noAction" class="th-cell w-0 text-center">Actions</th>
         </tr>
       </thead>
 
@@ -23,7 +23,7 @@
           :key="row.student_id"
           @click="emit('row-click', row)"
           :class="{ 'cursor-pointer': clickableRow }"
-          class="bg-surface-container hover:bg-surface-container-high"
+          class="bg-surface-container hover:bg-surface-container-highest"
         >
           <td
             v-for="header in headers"
@@ -101,12 +101,12 @@ function mapAlign(align?: string) {
 }
 
 .td-cell {
-  @apply px-6 py-3 text-on-surface;
+  @apply px-6 py-2 text-on-surface-variant;
   @include truncate;
 }
 
 .th-cell {
-  @apply px-6 py-3;
+  @apply px-6 py-3 text-on-surface-variant;
   font-weight: 500;
   @include truncate;
 }
@@ -117,13 +117,5 @@ function mapAlign(align?: string) {
 
 .font-reset {
   font-family: Roboto, Arial, sans-serif;
-}
-
-.action {
-  visibility: hidden;
-}
-
-tbody.hover-show-actions tr:hover .action {
-  visibility: visible;
 }
 </style>

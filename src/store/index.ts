@@ -1,6 +1,7 @@
 import { defineStore } from "pinia";
 
 export * from "./dialog";
+export * from "./ict";
 
 export const useStore = defineStore("global", () => {
   const errorMessage = "";

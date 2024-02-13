@@ -24,7 +24,7 @@
           </div>
         </div>
 
-        <VTable class="mt-5" :headers="headers" :data="data.students" hover-show-actions>
+        <VTable class="mt-5" :headers="headers" :data="data.students">
           <template #attendance="{ row }: { row: ICTStudentModel }">
             <div class="flex items-center justify-center gap-2 text-outline">
               <md-icon :title="row.attendance ? getReadableDate(row.attendance) : ''" v-html="icon(row.attendance ? 'check' : 'remove')"></md-icon>
@@ -46,12 +46,9 @@
           </template>
           <template #actions="{ row }: { row: ICTStudentModel }">
             <div class="space-x-2 flex items-center">
-              <md-assist-chip @click="moreInfo(row)" label="Info" />
-              <md-assist-chip
-                elevated
-                @click="row.payment_confirmed ? null : confirmOrder(row)"
-                :disabled="row.payment_confirmed" label="Confirm"
-              />
+              <md-icon-button @click="showAction(row)">
+                <md-icon v-html="icon('settings', true)"></md-icon>
+              </md-icon-button>
             </div>
           </template>
         </VTable>
@@ -70,6 +67,13 @@
         />
       </div>
     </Transition>
+
+    <DialogICTStudentOptions
+      :student="selectedStudent"
+      v-model="hasSelectedStudent"
+      :disabled-options="disabledOptions"
+      @select="doAction"
+    />
   </div>
 </template>
 
@@ -77,7 +81,7 @@
 import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import { Endpoints, makeRequest } from "~/network/request";
-import { useStore, useDialog } from "~/store";
+import { useStore, useDialog, useIctStore } from "~/store";
 import { icon } from "~/utils/icon";
 import { createPagination } from "~/utils/pagination";
 import { ICTStudentEnum } from "~/types/models";
@@ -93,15 +97,24 @@ import "@material/web/textfield/filled-text-field";
 import "@material/web/button/filled-button";
 import "@material/web/icon/icon";
 import "@material/web/chips/assist-chip";
+import "@material/web/iconbutton/icon-button";
+import "@material/web/list/list";
+import "@material/web/list/list-item";
+
 import { getReadableDate } from "~/utils/date";
 import { mapYear } from "~/utils/page";
+import DialogICTStudentOptions from "~/components/dialogs/DialogICTStudentOptions.vue";
 
 // Get store 
 const store = useStore();
 const dialog = useDialog();
+const ict = useIctStore();
 const router = useRouter();
 const isLoading = ref(true);
 const isSearched = ref(false);
+const selectedStudent = ref<ICTStudentModel>();
+const hasSelectedStudent = ref(false);
+const disabledOptions = ref<number[]>([])
 const message = ref("");
 
 const headers: TableHeader[] = [
@@ -121,6 +134,12 @@ const data = ref({
   column: Object.keys(ICTStudentEnum)
 });
 
+type ICTConfig = {
+  courses: ICTCourse[];
+  tshirt_sizes: ICTSize[];
+  campuses: ICTCampus[];
+};
+
 onMounted(() => {
   // If has token, check if valid
   makeRequest<ICTAdminModel, null>("GET", Endpoints.ICTCongressLogin, null, response => {
@@ -138,6 +157,17 @@ onMounted(() => {
     isLoading.value = false;
     // Redirect to home
     router.push("/ictcongress2024/admin/login");
+  });
+
+  makeRequest<ICTConfig, null>("GET", Endpoints.ICTCongress, null, response => {
+    store.isLoading = false;
+
+    if (response.success) {
+      ict.campuses = response.data.campuses;
+      return;
+    }
+
+    toast.error(response.message);
   });
 });
 
@@ -179,6 +209,8 @@ function moreInfo(row: ICTStudentModel) {
 }
 
 function confirmOrder(row: ICTStudentModel) {
+  hasSelectedStudent.value = false;
+
   const id = dialog.open(
     Strings.ICT_CONGRESS_CONFIRM_TITLE,
     `${Strings.ICT_CONGRESS_CONFIRM_MESSAGE}<br><br>This confirmation is for ${row.first_name} ${row.last_name}`, {
@@ -190,6 +222,7 @@ function confirmOrder(row: ICTStudentModel) {
       // Confirm order
       makeRequest("POST", Endpoints.ICTCongressStudentConfirm, { student_id: row.student_id }, response => {
         store.isLoading = false;
+        hasSelectedStudent.value = false;
 
         if (response.success) {
           toast.success(response.message);
@@ -203,9 +236,31 @@ function confirmOrder(row: ICTStudentModel) {
   }, {
     text: "Cancel",
     click() {
+      hasSelectedStudent.value = true;
       dialog.close(id);
     }
   });
+}
+
+function showAction(row: ICTStudentModel) {
+  disabledOptions.value = [];
+
+  if (row.payment_confirmed) {
+    disabledOptions.value.push(2);
+  }
+
+  selectedStudent.value = row;
+  hasSelectedStudent.value = true;
+}
+
+function doAction(selected: number) {
+  if (selected === 1) {
+    return moreInfo(selectedStudent.value!);
+  }
+
+  if (selected === 2) {
+    return confirmOrder(selectedStudent.value!);
+  }
 }
 
 function goToPage(page: number) {

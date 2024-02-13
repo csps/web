@@ -135,8 +135,9 @@ md-filled-button {
   @apply rounded-full;
   box-shadow: 0 0 75px -20px var(--md-sys-color-primary);
 }
- 
-md-filled-text-field, md-outlined-text-field {
+
+.link {
+  @apply text-blue-600 dark:text-secondary hover:underline;
 }
 
 md-outlined-select.dense::part(menu), md-filled-select.dense::part(menu) {

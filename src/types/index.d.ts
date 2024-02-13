@@ -269,7 +269,7 @@ declare global {
     email: string;
     tshirt_size: string;
     attendance?: string;
-    order_confirmed?: string;
+    payment_confirmed?: string;
     snack_claimed: number;
     date_stamp: string;
   }

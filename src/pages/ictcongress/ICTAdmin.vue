@@ -31,9 +31,9 @@
               <md-icon v-html="icon(row.snack_claimed ? 'check' : 'remove')"></md-icon>
             </div>
           </template>
-          <template #order_confirmed="{ row }: { row: ICTStudentModel }">
-            <span v-if="row.order_confirmed" :title="getReadableDate(row.order_confirmed)">
-              {{ row.order_confirmed }}
+          <template #payment_confirmed="{ row }: { row: ICTStudentModel }">
+            <span v-if="row.payment_confirmed" :title="getReadableDate(row.payment_confirmed)">
+              {{ row.payment_confirmed }}
             </span>
             <span class="text-outline" v-else>
               (Not confirmed)
@@ -49,8 +49,8 @@
               <md-assist-chip @click="moreInfo(row)" label="Info" />
               <md-assist-chip
                 elevated
-                @click="row.order_confirmed ? null : confirmOrder(row)"
-                :disabled="row.order_confirmed" label="Confirm"
+                @click="row.payment_confirmed ? null : confirmOrder(row)"
+                :disabled="row.payment_confirmed" label="Confirm"
               />
             </div>
           </template>
@@ -109,7 +109,7 @@ const headers: TableHeader[] = [
   { id: ICTStudentEnum.first_name, text: "First name" },
   { id: ICTStudentEnum.last_name, text: "Last name" },
   { id: ICTStudentEnum.attendance, text: "Attendance / Snack", align: "center" },
-  { id: ICTStudentEnum.order_confirmed, text: "Date Confirmed", align: "center" },
+  { id: ICTStudentEnum.payment_confirmed, text: "Payment Confirmed", align: "center" },
   { id: ICTStudentEnum.date_stamp, text: "Date registered", align: "center" }
 ];
 
@@ -164,8 +164,8 @@ function moreInfo(row: ICTStudentModel) {
       <div>${row.attendance ? getReadableDate(row.date_stamp) : "(No record)"}</div>
       <div>Snack</div>
       <div>${row.snack_claimed ? "Claimed" : "(No record)"}</div>
-      <div>Date confirmed</div>
-      <div>${row.order_confirmed ? getReadableDate(row.order_confirmed) : "(Not confirmed)"}</div>
+      <div>Payment confirmed</div>
+      <div>${row.payment_confirmed ? getReadableDate(row.payment_confirmed) : "(Not confirmed)"}</div>
       <div>Date registered</div>
       <div>${getReadableDate(row.date_stamp)}</div>
     </div>

@@ -74,18 +74,22 @@ function makeRequest<T, U>(method: HttpMethod, endpoint: Endpoints, data: U, cal
     config.data = data;
   }
 
+  // Token conditions
+  const isICTCongress = location.pathname.startsWith("/ictcongress");
+  const isAdmin = location.pathname.startsWith("/admin");
+
   // Tokens for authentication
   let accessToken = "";
   let refreshToken = "";
 
   // If using ICT Congress token
-  if (location.pathname.startsWith("/ictcongress")) {
+  if (isICTCongress) {
     accessToken = getStore("iat");
     refreshToken = getStore("irt");
   }
 
   // If using admin token
-  else if (location.pathname.startsWith("/admin")) {
+  else if (isAdmin) {
     accessToken = getStore("aat");
     refreshToken = getStore("art");
   }
@@ -123,7 +127,7 @@ function makeRequest<T, U>(method: HttpMethod, endpoint: Endpoints, data: U, cal
       // If has token
       if (token) {
         // Set token to store
-        setStore(location.pathname.startsWith("/admin") ? "aat" : "sat", token);
+        setStore(isICTCongress ? "iat" : isAdmin ? "aat" : "sat", token);
       }
     }
 

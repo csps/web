@@ -263,11 +263,12 @@ declare global {
     course: string;
     campus_id: number;
     student_id: string;
+    course_id: number;
+    tshirt_size_id: number;
     year_level: string;
     first_name: string;
     last_name: string;
     email: string;
-    tshirt_size: string;
     attendance?: string;
     payment_confirmed?: string;
     snack_claimed: number;

@@ -220,7 +220,9 @@ function confirmOrder(row: ICTStudentModel) {
       dialog.close(id);
 
       // Confirm order
-      makeRequest("POST", Endpoints.ICTCongressStudentConfirm, { student_id: row.student_id }, response => {
+      makeRequest("POST", Endpoints.ICTCongressStudentPaymentConfirm, {
+        student_id: row.student_id
+      }, response => {
         store.isLoading = false;
         hasSelectedStudent.value = false;
 

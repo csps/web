@@ -43,7 +43,7 @@ enum Endpoints {
   ICTCongressStudents = "/ictcongress2024/students",
   ICTCongressStudent = "/ictcongress2024/students/:student_id",
   ICTCongressStudentPresent = "/ictcongress2024/students/:student_id/present",
-  ICTCongressStudentConfirm = "/ictcongress2024/students/:student_id/confirm",
+  ICTCongressStudentPaymentConfirm = "/ictcongress2024/students/:student_id/payment-confirm",
 }
 
 export default Endpoints;

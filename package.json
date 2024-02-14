@@ -31,15 +31,15 @@
     "typed.js": "^2.1.0",
     "uuid": "^9.0.1",
     "v-calendar": "^3.1.2",
-    "vue": "^3.4.18",
+    "vue": "^3.4.19",
     "vue-router": "^4.2.5",
     "vue3-toastify": "^0.2.1"
   },
   "devDependencies": {
     "@types/animejs": "^3.1.12",
-    "@types/node": "^20.11.16",
+    "@types/node": "^20.11.17",
     "@types/uuid": "^9.0.8",
-    "@vitejs/plugin-vue": "^5.0.3",
+    "@vitejs/plugin-vue": "^5.0.4",
     "autoprefixer": "^10.4.17",
     "postcss": "^8.4.35",
     "sass": "^1.70.0",

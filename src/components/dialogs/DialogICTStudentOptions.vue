@@ -1,6 +1,6 @@
 <template>
   <md-dialog :open="isDialogOpen" @close="close">
-    <div slot="headline" class="flex-col items-start gap-1.5">
+    <div slot="headline" class="flex-col items-start gap-1">
       <div>{{ student?.first_name }} {{ student?.last_name }}</div>
       <div class="text-sm text-outline font-medium">
         {{ ict.campuses.find(c => c.id == student?.campus_id)?.campus.toUpperCase() }} {{ student?.student_id }}
@@ -28,7 +28,7 @@
           :checked="!disabledOptions?.includes(2)"
         />
         <label for="sop2" :class="{ 'text-outline': disabledOptions?.includes(2) }">
-          {{ disabledOptions?.includes(2) ? "Payment already confirmed" : 'Confirm payment' }}
+          Confirm payment
         </label>
       </div>
     </form>

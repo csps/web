@@ -214,7 +214,7 @@ function confirmOrder(row: ICTStudentModel) {
   const id = dialog.open(
     Strings.ICT_CONGRESS_CONFIRM_TITLE,
     `${Strings.ICT_CONGRESS_CONFIRM_MESSAGE}<br><br>This confirmation is for ${row.first_name} ${row.last_name}`, {
-    text: "Confirm",
+    text: "Yes, confirm",
     click() {
       store.isLoading = true;
       dialog.close(id);

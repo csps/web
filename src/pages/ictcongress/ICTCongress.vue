@@ -109,7 +109,7 @@ const discountCode = ref("");
 const store = useStore();
 const dialog = useDialog();
 const courses = ref<ICTCourse[]>([]);
-const tshirtSizes = ref<ICTSize[]>([]);
+const tshirtSizes = ref<ICTShirtSize[]>([]);
 const campuses = ref<ICTCampus[]>([]);
 
 const key = ref(0);
@@ -117,7 +117,7 @@ const isRegistered = ref(false);
 
 type ICTConfig = {
   courses: ICTCourse[];
-  tshirt_sizes: ICTSize[];
+  tshirt_sizes: ICTShirtSize[];
   campuses: ICTCampus[];
 };
 

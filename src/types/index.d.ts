@@ -272,6 +272,7 @@ declare global {
     discount_code: string;
     attendance?: string;
     payment_confirmed?: string;
+    tshirt_claimed?: string;
     snack_claimed: number;
     date_stamp: string;
   }
@@ -294,8 +295,9 @@ declare global {
     course_name: string;
   }
 
-  type ICTSize = {
+  type ICTShirtSize = {
     id: number;
+    code: string;
     name: string;
   }
 

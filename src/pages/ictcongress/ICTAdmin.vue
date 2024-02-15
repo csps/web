@@ -136,7 +136,7 @@ const data = ref({
 
 type ICTConfig = {
   courses: ICTCourse[];
-  tshirt_sizes: ICTSize[];
+  tshirt_sizes: ICTShirtSize[];
   campuses: ICTCampus[];
 };
 

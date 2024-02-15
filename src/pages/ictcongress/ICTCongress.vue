@@ -58,11 +58,21 @@
         </md-outlined-select>
       </div>
 
+      <div class="flex justify-center">
+        <md-outlined-text-field
+          label="Discount code"
+          v-model.trim="discountCode"
+          :disabled="store.isLoading || isRegistered"
+          maxLength="16"
+          class="w-full"
+        >
+          <md-icon slot="leading-icon" v-html="icon('verified', true)" />
+        </md-outlined-text-field>
+      </div>
+
       <!-- Register -->
-      <div class="flex justify-between">
-        <div>
-          <md-text-button v-if="isRegistered" @click="clearFields">Reset fields</md-text-button>
-        </div>
+      <div class="flex justify-end gap-3">
+        <md-filled-tonal-button v-if="isRegistered" @click="clearFields">Reset fields</md-filled-tonal-button>
         <md-filled-button @click="register" :disabled="isRegistered || store.isLoading">
           {{ store.isLoading ? "Registering..." : isRegistered ? 'Registered' : "Confirm" }}
         </md-filled-button>
@@ -77,14 +87,14 @@ import { icon } from "~/utils/icon";
 import { useStore, useDialog } from "~/store";
 import { Endpoints, makeRequest } from "~/network/request";
 import { toast } from "vue3-toastify";
+import { isEmail } from "~/utils/string";
 
 import "@material/web/icon/icon";
 import "@material/web/button/filled-button";
-import "@material/web/button/text-button";
+import "@material/web/button/filled-tonal-button";
 import "@material/web/textfield/outlined-text-field";
 import "@material/web/select/outlined-select";
 import "@material/web/select/select-option";
-import { isEmail } from "~/utils/string";
 
 const studentId = ref("");
 const firstName = ref("");
@@ -94,6 +104,7 @@ const tsize = ref();
 const campus = ref();
 const course = ref();
 const yearLevel = ref();
+const discountCode = ref("");
 
 const store = useStore();
 const dialog = useDialog();
@@ -142,6 +153,7 @@ function requestRegister() {
     tshirt_size_id: tsize.value,
     campus_id: campus.value,
     course_id: course.value,
+    discount_code: discountCode.value,
     year_level: yearLevel.value
   };
 
@@ -179,8 +191,8 @@ function register() {
     return;
   }
 
-  const id = dialog.open("Confirm registration", `
-    <div class="grid grid-cols-2 gap-y-1">
+  const id = dialog.open("Confirm registration?", `
+    <div class="grid grid-cols-2 gap-y-1 mt-3">
       <div>Student ID:</div>
       <div>${studentId.value}</div>
       <div>First name:</div>
@@ -197,9 +209,11 @@ function register() {
       <div>${courses.value.find(c => c.id === course.value)?.course_name}</div>
       <div>Year level:</div>
       <div>${mapYearLevel(yearLevel.value)}</div>
+      <div>Discount code:</div>
+      <div>${discountCode.value.length > 0 ? discountCode.value : 'N/A'}</div>
     </div>
   `, {
-    text: "Register",
+    text: "Yes, Register",
     click() {
       dialog.close(id);
       requestRegister();

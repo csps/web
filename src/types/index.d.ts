@@ -269,6 +269,7 @@ declare global {
     first_name: string;
     last_name: string;
     email: string;
+    discount_code: string;
     attendance?: string;
     payment_confirmed?: string;
     snack_claimed: number;
@@ -282,6 +283,7 @@ declare global {
     email: string;
     tshirt_size_id: number;
     campus_id: number;
+    discount_code: string;
     course_id: number;
     year_level: number;
   }

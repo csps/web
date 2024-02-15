@@ -162,6 +162,9 @@ import BarChartOutlined from "@material-symbols/svg-700/rounded/bar_chart.svg?ra
 import LocationCity from "@material-symbols/svg-700/rounded/location_city-fill.svg?raw";
 import LocationCityOutlined from "@material-symbols/svg-700/rounded/location_city.svg?raw";
 
+import HumidityPercentage from "@material-symbols/svg-700/rounded/humidity_percentage-fill.svg?raw";
+import HumidityPercentageOutlined from "@material-symbols/svg-700/rounded/humidity_percentage.svg?raw";
+
 // Icon type
 export type Icon = "arrow_back" | "menu" | "photo_camera" | "favorite" |
   "arrow_forward" | "verified" | "lock" | "visibility" | "visibility_off" | 
@@ -171,7 +174,7 @@ export type Icon = "arrow_back" | "menu" | "photo_camera" | "favorite" |
   "person" | "security" | "settings" | "tune" | "receipt" | "more_vert" | "check" |
   "groups" | "chevron_right" | "filter_list" | "chevron_left" | "campaign" | "event" |
   "location_on" | "schedule" | "calendar_month" | "arrow_upward" | "arrow_downward" |
-  "forum" | "commit" | "dark_mode" | "light_mode" | "bar_chart" | "location_city";
+  "forum" | "commit" | "dark_mode" | "light_mode" | "bar_chart" | "location_city" | "humidity_percentage";
 
 /**
  * Material Icon
@@ -285,6 +288,8 @@ export function icon(name: Icon, outlined: boolean = false) {
   if (name === "bar_chart") return outlined ? BarChartOutlined : BarChart;
   // Location City
   if (name === "location_city") return outlined ? LocationCityOutlined : LocationCity;
+  // Humidity Percentage
+  if (name === "humidity_percentage") return outlined ? HumidityPercentageOutlined : HumidityPercentage;
   
   // Default
   return null;

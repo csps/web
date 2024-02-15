@@ -20,7 +20,7 @@
   },
   "dependencies": {
     "@fancyapps/ui": "^5.0.33",
-    "@material-symbols/svg-700": "^0.14.6",
+    "@material-symbols/svg-700": "^0.14.7",
     "@material/web": "^1.2.0",
     "animejs": "^3.2.2",
     "axios": "^1.6.7",

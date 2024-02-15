@@ -74,7 +74,7 @@
       <div class="flex justify-end gap-3">
         <md-filled-tonal-button v-if="isRegistered" @click="clearFields">Reset fields</md-filled-tonal-button>
         <md-filled-button @click="register" :disabled="isRegistered || store.isLoading">
-          {{ store.isLoading ? "Registering..." : isRegistered ? 'Registered' : "Confirm" }}
+          {{ store.isLoading ? "Registering..." : isRegistered ? 'Registered' : "Confirm details" }}
         </md-filled-button>
       </div>
     </div>
@@ -191,7 +191,7 @@ function register() {
     return;
   }
 
-  const id = dialog.open("Confirm registration?", `
+  let id = dialog.open("Confirm Details", `
     <div class="grid grid-cols-2 gap-y-1 mt-3">
       <div>Student ID:</div>
       <div>${studentId.value}</div>
@@ -213,10 +213,22 @@ function register() {
       <div>${discountCode.value.length > 0 ? discountCode.value : 'N/A'}</div>
     </div>
   `, {
-    text: "Yes, Register",
+    text: "Proceed",
     click() {
       dialog.close(id);
-      requestRegister();
+      
+      id = dialog.open("Note", `
+        <p>Orders that are not paid as soon as possible will be withdrawn by the admins.</p>
+      `, {
+        text: "I understand, proceed",
+        click() {
+          dialog.close(id);
+          requestRegister();
+        }
+      }, {
+        text: "Cancel",
+        click: () => dialog.close(id)
+      });
     }
   });
 }

@@ -40,22 +40,39 @@
               </router-link>
             </md-primary-tab>
 
-            <md-primary-tab title="Profile" v-show="store.isLoggedIn" @click="router.push({ path: '/profile' })">
+            <md-primary-tab title="Profile" v-show="store.isLoggedIn">
               <router-link class="link" to="/profile" tabindex="-1">
                 <md-icon v-html="icon('person')" />
                 <span>Profile</span>
               </router-link>
             </md-primary-tab>
-            <md-primary-tab title="Login" v-show="!store.isLoggedIn && !store.isAdminLoggedIn" @click="router.push({ path: '/login' })">
+            <md-primary-tab title="Login" v-show="!store.isLoggedIn && !store.isAdminLoggedIn">
               <router-link class="link" to="/login" tabindex="-1">
                 <md-icon v-html="icon('login')" />
                 <span>Login</span>
               </router-link>
             </md-primary-tab>
-            <md-primary-tab title="Admin" v-show="store.isAdminLoggedIn" @click="router.push({ path: '/admin' })">
+            <md-primary-tab title="Admin" v-show="store.isAdminLoggedIn">
               <router-link class="link" to="/admin" tabindex="-1">
                 <md-icon v-html="icon('account_circle')" />
                 <span>Admin</span>
+              </router-link>
+            </md-primary-tab>
+          </md-tabs>
+        </div>
+
+        <div v-if="route.name === 'Admin - ICT Congress 2024' || route.name === 'RFID Scanner - ICT Congress 2024'">
+          <md-tabs :activeTabIndex="route.name === 'Admin - ICT Congress 2024' ? 0 : 1">
+            <md-primary-tab title="Home">
+              <router-link class="link" to="/ictcongress2024/admin">
+                <md-icon v-html="icon('home')" />
+                <span>Home</span>
+              </router-link>
+            </md-primary-tab>
+            <md-primary-tab title="ICT Congress 2024">
+              <router-link class="link" to="/ictcongress2024/admin/scan">
+                <md-icon v-html="icon('barcode_scanner')" />
+                <span>RFID Scan</span>
               </router-link>
             </md-primary-tab>
           </md-tabs>

@@ -26,6 +26,11 @@ const routes: RouteRecordRaw[] = [
     component: () => import("../pages/ictcongress/ICTLogin.vue"),
   },
   {
+    path: `/${Config.ICN}/admin/scan`,
+    name: "RFID Scanner - ICT Congress 2024",
+    component: () => import("../pages/ictcongress/ICTScan.vue"),
+  },
+  {
     path: "/",
     name: "Home",
     component: () => import("../pages/home/HomePage.vue"),

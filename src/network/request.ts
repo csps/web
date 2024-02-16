@@ -30,6 +30,7 @@ type AdditionalOptions = {
 function makeRequest<T, U>(method: HttpMethod, endpoint: Endpoints, data: U, callback: (response: ServerResponse<T>) => void, options?: AdditionalOptions) {
   // URL
   let url: string = endpoint;
+  const originalUrl = url;
 
   // If endpoint has param
   if (endpoint.includes(":")) {
@@ -52,6 +53,13 @@ function makeRequest<T, U>(method: HttpMethod, endpoint: Endpoints, data: U, cal
   if (method === "GET") {
     // For every data
     for (const key in data) {
+      // Remove query if it's already in the URL param
+      if (originalUrl.includes(`:${key}`)) {
+        delete data[key];
+        continue;
+      }
+      
+      // If data is object, convert to string
       if (typeof data[key] === "object") {
         (data as any)[key] = JSON.stringify(data[key]);
       }

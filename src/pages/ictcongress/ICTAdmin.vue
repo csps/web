@@ -8,19 +8,28 @@
       </div>
       
       <div v-else class="flex flex-col w-full">
-
-        <div class="flex justify-between w-full">
-          <div>
-            <h4 class="font-bold text-lg">ICT Congress 2024</h4>
-            <p>{{ store.ictAdmin.campus_name }}</p>
+        <div class="flex flex-col lg:flex-row gap-5 justify-between w-full">
+          <div class="flex gap-5">
+            <div>
+              <h4 class="font-bold text-lg">ICT Congress 2024</h4>
+              <p>{{ store.ictAdmin.campus_name }}</p>
+            </div>
+            <div>
+              <md-outlined-button @click="showOptions">
+                <md-icon slot="icon" v-html="icon('settings', true)" />
+                Show options
+              </md-outlined-button>
+            </div>
           </div>
-          <div class="flex items-center gap-3">
-            <md-filled-text-field label="Search" type="text" v-model="data.search">
-              <md-icon slot="leading-icon" v-html="icon('search', true)" />
+          <div class="flex items-center justify-end gap-3">
+            <md-filled-text-field label="Search" type="text" v-model="data.search" @keyup.enter="fetchStudents(data.search)" :disabled="store.isLoading">
+              <md-icon-button slot="trailing-icon" v-if="data.search.length > 0" @click="data.search = ''" title="Clear search">
+                <md-icon v-html="icon('cancel', true)" />
+              </md-icon-button>
             </md-filled-text-field>
-            <md-filled-button @click="fetchStudents(data.search)" :disabled="store.isLoading">
-              Search
-            </md-filled-button>
+            <md-fab elevation="0" @click="fetchStudents(data.search)" :disabled="store.isLoading" title="Search student">
+              <md-icon slot="icon" v-html="icon('search', true)" />
+            </md-fab>
           </div>
         </div>
 
@@ -74,6 +83,12 @@
       :disabled-options="disabledOptions"
       @select="doAction"
     />
+
+    <DiallogICTCampusOptions
+      v-model="isCampusOptionsOpen"
+      :campus="ict.campuses.find(c => c.campus === store.ictAdmin.campus)"
+      @select="doCampusAction"
+    />
   </div>
 </template>
 
@@ -91,19 +106,20 @@ import Strings from "~/config/strings";
 
 import VTable from "~/components/VTable.vue";
 import VPagination from "~/components/VPagination.vue";
+import DialogICTStudentOptions from "~/components/dialogs/DialogICTStudentOptions.vue";
+import DiallogICTCampusOptions from "~/components/dialogs/DialogICTCampusOptions.vue";
 
 import "@material/web/progress/circular-progress";
 import "@material/web/textfield/filled-text-field";
+import "@material/web/button/outlined-button";
 import "@material/web/button/filled-button";
 import "@material/web/icon/icon";
 import "@material/web/chips/assist-chip";
 import "@material/web/iconbutton/icon-button";
-import "@material/web/list/list";
-import "@material/web/list/list-item";
+import "@material/web/fab/fab";
 
 import { getReadableDate } from "~/utils/date";
 import { mapYear } from "~/utils/page";
-import DialogICTStudentOptions from "~/components/dialogs/DialogICTStudentOptions.vue";
 
 // Get store 
 const store = useStore();
@@ -114,6 +130,7 @@ const isLoading = ref(true);
 const isSearched = ref(false);
 const selectedStudent = ref<ICTStudentModel>();
 const hasSelectedStudent = ref(false);
+const isCampusOptionsOpen = ref(false);
 const disabledOptions = ref<number[]>([])
 const message = ref("");
 
@@ -260,6 +277,10 @@ function confirmOrder(row: ICTStudentModel) {
   });
 }
 
+function showOptions() {
+  isCampusOptionsOpen.value = true;
+}
+
 function showAction(row: ICTStudentModel) {
   disabledOptions.value = [];
 
@@ -279,6 +300,10 @@ function doAction(selected: number) {
   if (selected === 2) {
     return confirmOrder(selectedStudent.value!);
   }
+}
+
+function doCampusAction(selected: number) {
+  console.log(selected);
 }
 
 function goToPage(page: number) {
@@ -339,6 +364,11 @@ md-assist-chip {
   --_hover-label-text-color: var(--md-sys-color-secondary);
   --_elevated-disabled-container-color: var(--md-sys-color-surface-variant);
   --_outline-width: 0;
+}
+
+md-fab {
+  --_container-elevation: 0;
+  --_container-color: var(--md-sys-color-surface-container-highest);
 }
 
 .action {

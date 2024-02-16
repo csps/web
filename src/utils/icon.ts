@@ -162,8 +162,8 @@ import BarChartOutlined from "@material-symbols/svg-700/rounded/bar_chart.svg?ra
 import LocationCity from "@material-symbols/svg-700/rounded/location_city-fill.svg?raw";
 import LocationCityOutlined from "@material-symbols/svg-700/rounded/location_city.svg?raw";
 
-import HumidityPercentage from "@material-symbols/svg-700/rounded/humidity_percentage-fill.svg?raw";
-import HumidityPercentageOutlined from "@material-symbols/svg-700/rounded/humidity_percentage.svg?raw";
+import Cancel from "@material-symbols/svg-700/rounded/cancel-fill.svg?raw";
+import CancelOutlined from "@material-symbols/svg-700/rounded/cancel.svg?raw";
 
 // Icon type
 export type Icon = "arrow_back" | "menu" | "photo_camera" | "favorite" |
@@ -174,7 +174,7 @@ export type Icon = "arrow_back" | "menu" | "photo_camera" | "favorite" |
   "person" | "security" | "settings" | "tune" | "receipt" | "more_vert" | "check" |
   "groups" | "chevron_right" | "filter_list" | "chevron_left" | "campaign" | "event" |
   "location_on" | "schedule" | "calendar_month" | "arrow_upward" | "arrow_downward" |
-  "forum" | "commit" | "dark_mode" | "light_mode" | "bar_chart" | "location_city" | "humidity_percentage";
+  "forum" | "commit" | "dark_mode" | "light_mode" | "bar_chart" | "location_city" | "cancel";
 
 /**
  * Material Icon
@@ -288,8 +288,8 @@ export function icon(name: Icon, outlined: boolean = false) {
   if (name === "bar_chart") return outlined ? BarChartOutlined : BarChart;
   // Location City
   if (name === "location_city") return outlined ? LocationCityOutlined : LocationCity;
-  // Humidity Percentage
-  if (name === "humidity_percentage") return outlined ? HumidityPercentageOutlined : HumidityPercentage;
+  // Cancel
+  if (name === "cancel") return outlined ? CancelOutlined : Cancel;
   
   // Default
   return null;

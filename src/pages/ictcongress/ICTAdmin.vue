@@ -244,7 +244,7 @@ function doStudentAction(selected: number) {
   store.isLoading = true;
 
   makeRequest<number, { discount_code: string }>("GET", Endpoints.ICTCongressPrice, {
-    discount_code: row.discount_code
+    discount_code: row.discount_code.length > 0 ? row.discount_code : "-"
   }, response => {
     store.isLoading = false;
 
@@ -270,7 +270,7 @@ function doStudentAction(selected: number) {
         <div>Year level</div>
         <div>${mapYear(row.year_level)}</div>
         <div>Discount Code</div>
-        <div>${row.discount_code}</div>
+        <div>${row.discount_code.length > 0 ? row.discount_code : "-"}</div>
         <div>Price</div>
         <div>₱ ${response.data}.00</div>
         <div>Attendance</div>

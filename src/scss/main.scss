@@ -53,16 +53,16 @@ body {
 }
 
 *::-webkit-scrollbar {
-  width: 10px !important;
-  height: 10px !important;
+  width: 8px !important;
+  height: 8px !important;
 }
 
 *::-webkit-scrollbar-track {
-  @apply bg-surface-variant;
+  @apply bg-surface-container;
 }
 
 *::-webkit-scrollbar-thumb {
-  @apply bg-outline-variant;
+  @apply bg-outline-variant dark:bg-surface-container-high;
   border-radius: 20px;
 }
 

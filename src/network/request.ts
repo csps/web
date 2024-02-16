@@ -12,7 +12,7 @@ const instance = axios.create({
   baseURL: `${Config.API_URL}`,
   withCredentials: true,
   headers: {
-    "Content-Type": "multipart/form-data",
+    "Content-Type": "application/x-www-form-urlencoded",
   }
 });
 

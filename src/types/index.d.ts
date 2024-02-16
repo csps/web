@@ -263,6 +263,7 @@ declare global {
     course: string;
     campus_id: number;
     student_id: string;
+    rfid?: string;
     course_id: number;
     tshirt_size_id: number;
     year_level: string;

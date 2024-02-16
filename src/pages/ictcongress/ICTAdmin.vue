@@ -15,7 +15,7 @@
               <p>{{ store.ictAdmin.campus_name }}</p>
             </div>
             <div>
-              <md-outlined-button @click="showOptions">
+              <md-outlined-button @click="isCampusOptionsOpen = true">
                 <md-icon slot="icon" v-html="icon('settings', true)" />
                 Show options
               </md-outlined-button>
@@ -55,7 +55,7 @@
           </template>
           <template #actions="{ row }: { row: ICTStudentModel }">
             <div class="space-x-2 flex items-center">
-              <md-icon-button @click="showAction(row)">
+              <md-icon-button @click="showStudentOptions(row)">
                 <md-icon v-html="icon('settings', true)"></md-icon>
               </md-icon-button>
             </div>
@@ -81,19 +81,25 @@
       :student="selectedStudent"
       v-model="hasSelectedStudent"
       :disabled-options="disabledOptions"
-      @select="doAction"
+      @select="doStudentAction"
     />
 
-    <DiallogICTCampusOptions
+    <DialogICTCampusOptions
       v-model="isCampusOptionsOpen"
       :campus="ict.campuses.find(c => c.campus === store.ictAdmin.campus)"
       @select="doCampusAction"
+    />
+
+    <DialogICTRFID
+      v-model="isRFIDDialogOpen"
+      :student="selectedStudent"
+      @proceed="onScanRFID"
     />
   </div>
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, watch } from "vue";
 import { useRouter } from "vue-router";
 import { Endpoints, makeRequest } from "~/network/request";
 import { useStore, useDialog, useIctStore } from "~/store";
@@ -102,12 +108,12 @@ import { createPagination } from "~/utils/pagination";
 import { ICTStudentEnum } from "~/types/models";
 import { Env } from "~/config";
 import { toast } from "vue3-toastify";
-import Strings from "~/config/strings";
 
 import VTable from "~/components/VTable.vue";
 import VPagination from "~/components/VPagination.vue";
 import DialogICTStudentOptions from "~/components/dialogs/DialogICTStudentOptions.vue";
-import DiallogICTCampusOptions from "~/components/dialogs/DialogICTCampusOptions.vue";
+import DialogICTCampusOptions from "~/components/dialogs/DialogICTCampusOptions.vue";
+import DialogICTRFID from "~/components/dialogs/DialogICTRFID.vue";
 
 import "@material/web/progress/circular-progress";
 import "@material/web/textfield/filled-text-field";
@@ -120,6 +126,7 @@ import "@material/web/fab/fab";
 
 import { getReadableDate } from "~/utils/date";
 import { mapYear } from "~/utils/page";
+import Strings from "~/config/strings";
 
 // Get store 
 const store = useStore();
@@ -131,6 +138,7 @@ const isSearched = ref(false);
 const selectedStudent = ref<ICTStudentModel>();
 const hasSelectedStudent = ref(false);
 const isCampusOptionsOpen = ref(false);
+const isRFIDDialogOpen = ref(false);
 const disabledOptions = ref<number[]>([])
 const message = ref("");
 
@@ -157,6 +165,12 @@ type ICTConfig = {
   campuses: ICTCampus[];
 };
 
+watch(isRFIDDialogOpen, v => {
+  if (!v && !selectedStudent.value?.rfid) {
+    askForRFID(selectedStudent.value!);
+  }
+});
+
 onMounted(() => {
   // If has token, check if valid
   makeRequest<ICTAdminModel, null>("GET", Endpoints.ICTCongressLogin, null, response => {
@@ -172,6 +186,7 @@ onMounted(() => {
     // If not logged in
     store.isLoading = false;
     isLoading.value = false;
+
     // Redirect to home
     router.push("/ictcongress2024/admin/login");
   });
@@ -189,9 +204,36 @@ onMounted(() => {
 });
 
 /**
+ * Show student options
+ */
+ function showStudentOptions(row: ICTStudentModel) {
+  disabledOptions.value = [];
+
+  if (row.payment_confirmed) {
+    disabledOptions.value.push(2);
+  }
+
+  selectedStudent.value = row;
+  hasSelectedStudent.value = true;
+}
+
+/** 
+ * Do the selected student action
+ */
+function doStudentAction(selected: number) {
+  if (selected === 1) {
+    return moreInfo(selectedStudent.value!);
+  }
+
+  if (selected === 2) {
+    return askForRFID(selectedStudent.value!);
+  }
+}
+
+/**
  * Show more info about the student
  */
-async function moreInfo(row: ICTStudentModel) {
+ async function moreInfo(row: ICTStudentModel) {
   store.isLoading = true;
 
   makeRequest<number, { discount_code: string }>("GET", Endpoints.ICTCongressPrice, {
@@ -241,9 +283,53 @@ async function moreInfo(row: ICTStudentModel) {
   });
 }
 
-function confirmOrder(row: ICTStudentModel) {
+/**
+ * Ask if the student has RFID
+ */
+function askForRFID(row: ICTStudentModel) {
   hasSelectedStudent.value = false;
 
+  console.log("ASkiung");
+  
+  const id = dialog.open("Does the student has RFID?", `
+    <p>RFID may be used for the student for the event's attendance.</p>
+  `, {
+    text: "Yes",
+    click() {
+      dialog.close(id);
+      isRFIDDialogOpen.value = true;
+    }
+  }, {
+    text: "No",
+    click() {
+      dialog.close(id);
+      confirmPaymentDialog(row);
+    }
+  });
+}
+
+/**
+ * After clicking proceed on Scan RFID dialog
+ * @param rfid Student's RFID
+ */
+function onScanRFID(rfid: string) {
+  selectedStudent.value!.rfid = rfid;
+  isRFIDDialogOpen.value = false;
+  confirmPaymentDialog(selectedStudent.value!);
+}
+
+/**
+ * Do the selected campus action
+ */
+function doCampusAction(selected: number) {
+  console.log(selected);
+}
+
+/**
+ * Confirm payment dialog
+ * @param row Student model
+ */
+function confirmPaymentDialog(row: ICTStudentModel) {
   const id = dialog.open(
     Strings.ICT_CONGRESS_CONFIRM_TITLE,
     `${Strings.ICT_CONGRESS_CONFIRM_MESSAGE}<br><br>This confirmation is for ${row.first_name} ${row.last_name}`, {
@@ -254,7 +340,8 @@ function confirmOrder(row: ICTStudentModel) {
 
       // Confirm order
       makeRequest("POST", Endpoints.ICTCongressStudentPaymentConfirm, {
-        student_id: row.student_id
+        student_id: row.student_id,
+        rfid: row.rfid
       }, response => {
         store.isLoading = false;
         hasSelectedStudent.value = false;
@@ -277,40 +364,19 @@ function confirmOrder(row: ICTStudentModel) {
   });
 }
 
-function showOptions() {
-  isCampusOptionsOpen.value = true;
-}
-
-function showAction(row: ICTStudentModel) {
-  disabledOptions.value = [];
-
-  if (row.payment_confirmed) {
-    disabledOptions.value.push(2);
-  }
-
-  selectedStudent.value = row;
-  hasSelectedStudent.value = true;
-}
-
-function doAction(selected: number) {
-  if (selected === 1) {
-    return moreInfo(selectedStudent.value!);
-  }
-
-  if (selected === 2) {
-    return confirmOrder(selectedStudent.value!);
-  }
-}
-
-function doCampusAction(selected: number) {
-  console.log(selected);
-}
-
+/**
+ * Go to table page number
+ * @param page Page number
+ */
 function goToPage(page: number) {
   data.value.page = page;
   fetchStudents(isSearched ? data.value.search : "");
 }
 
+/**
+ * Fetch students
+ * @param search Search query
+ */
 function fetchStudents(search = "") {
   store.isLoading = true;
   

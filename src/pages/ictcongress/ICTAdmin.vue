@@ -95,6 +95,11 @@
       :student="selectedStudent"
       @proceed="onScanRFID"
     />
+
+    <DialogICTRemoveOrders
+      v-model="isRemoveOrdersConfirmOpen"
+      @proceed="onRemovePendingOrders"
+    />
   </div>
 </template>
 
@@ -114,6 +119,7 @@ import VPagination from "~/components/VPagination.vue";
 import DialogICTStudentOptions from "~/components/dialogs/DialogICTStudentOptions.vue";
 import DialogICTCampusOptions from "~/components/dialogs/DialogICTCampusOptions.vue";
 import DialogICTRFID from "~/components/dialogs/DialogICTRFID.vue";
+import DialogICTRemoveOrders from "~/components/dialogs/DialogICTRemoveOrders.vue";
 
 import "@material/web/progress/circular-progress";
 import "@material/web/textfield/filled-text-field";
@@ -137,6 +143,7 @@ const isLoading = ref(true);
 const isSearched = ref(false);
 const selectedStudent = ref<ICTStudentModel>();
 const hasSelectedStudent = ref(false);
+const isRemoveOrdersConfirmOpen = ref(false);
 const isCampusOptionsOpen = ref(false);
 const isRFIDDialogOpen = ref(false);
 const disabledOptions = ref<number[]>([])
@@ -250,6 +257,8 @@ function doStudentAction(selected: number) {
       <div class="grid grid-cols-2 gap-y-1">
         <div>Student ID</div>
         <div>${row.student_id}</div>
+        <div>RFID</div>
+        <div>${row.rfid ?? "N/A"}</div>
         <div>First name</div>
         <div>${row.first_name}</div>
         <div>Last name</div>
@@ -289,8 +298,6 @@ function doStudentAction(selected: number) {
 function askForRFID(row: ICTStudentModel) {
   hasSelectedStudent.value = false;
 
-  console.log("ASkiung");
-  
   const id = dialog.open("Does the student has RFID?", `
     <p>RFID may be used for the student for the event's attendance.</p>
   `, {
@@ -322,7 +329,10 @@ function onScanRFID(rfid: string) {
  * Do the selected campus action
  */
 function doCampusAction(selected: number) {
-  console.log(selected);
+  if (selected === 3) {
+    isCampusOptionsOpen.value = false;
+    isRemoveOrdersConfirmOpen.value = true;
+  }
 }
 
 /**
@@ -361,6 +371,26 @@ function confirmPaymentDialog(row: ICTStudentModel) {
       hasSelectedStudent.value = true;
       dialog.close(id);
     }
+  });
+}
+
+/**
+ * Remove pending orders
+ */
+function onRemovePendingOrders() {
+  store.isLoading = true;
+  isRemoveOrdersConfirmOpen.value = false;
+
+  makeRequest("DELETE", Endpoints.ICTCongressPendingOrders, null, response => {
+    store.isLoading = false;
+
+    if (response.success) {
+      toast.success(response.message);
+      fetchStudents(isSearched.value ? data.value.search : "");
+      return;
+    }
+
+    toast.error(response.message);
   });
 }
 

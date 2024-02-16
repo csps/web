@@ -17,6 +17,7 @@ declare global {
 
   type DialogButton = {
     text: string,
+    error?: boolean,
     click: () => void,
   }
 

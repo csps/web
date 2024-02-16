@@ -136,10 +136,6 @@ md-filled-button {
   box-shadow: 0 0 75px -20px var(--md-sys-color-primary);
 }
 
-.link {
-  @apply text-blue-600 dark:text-secondary hover:underline;
-}
-
 md-outlined-select.dense::part(menu), md-filled-select.dense::part(menu) {
   max-height: 350px;
 }

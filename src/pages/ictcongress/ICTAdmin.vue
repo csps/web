@@ -174,38 +174,54 @@ onMounted(() => {
 /**
  * Show more info about the student
  */
-function moreInfo(row: ICTStudentModel) {
-  const id = dialog.open(`${row.first_name} ${row.last_name}`,
-  `
-    <div class="grid grid-cols-2 gap-y-1">
-      <div>Student ID</div>
-      <div>${row.student_id}</div>
-      <div>First name</div>
-      <div>${row.first_name}</div>
-      <div>Last name</div>
-      <div>${row.last_name}</div>
-      <div>Email</div>
-      <div>${row.email}</div>
-      <div>Course</div>
-      <div>${row.course}</div>
-      <div>Year level</div>
-      <div>${mapYear(row.year_level)}</div>
-      <div>Attendance</div>
-      <div>${row.attendance ? getReadableDate(row.date_stamp) : "(No record)"}</div>
-      <div>Snack</div>
-      <div>${row.snack_claimed ? "Claimed" : "(No record)"}</div>
-      <div>Payment confirmed</div>
-      <div>${row.payment_confirmed ? getReadableDate(row.payment_confirmed) : "(Not confirmed)"}</div>
-      <div>Date registered</div>
-      <div>${getReadableDate(row.date_stamp)}</div>
-    </div>
-  `,
-  {
-    text: "Close",
-    click() {
-      dialog.close(id);
+async function moreInfo(row: ICTStudentModel) {
+  store.isLoading = true;
+
+  makeRequest<number, { discount_code: string }>("GET", Endpoints.ICTCongressPrice, {
+    discount_code: row.discount_code
+  }, response => {
+    store.isLoading = false;
+
+    if (!response.success) {
+      toast.error(response.message);
     }
-  }, null);
+
+    const id = dialog.open(`${row.first_name} ${row.last_name}`,
+    `
+      <div class="grid grid-cols-2 gap-y-1">
+        <div>Student ID</div>
+        <div>${row.student_id}</div>
+        <div>First name</div>
+        <div>${row.first_name}</div>
+        <div>Last name</div>
+        <div>${row.last_name}</div>
+        <div>Email</div>
+        <div>${row.email}</div>
+        <div>Course</div>
+        <div>${row.course}</div>
+        <div>Year level</div>
+        <div>${mapYear(row.year_level)}</div>
+        <div>Discount Code</div>
+        <div>${row.discount_code}</div>
+        <div>Price</div>
+        <div>₱ ${response.data}.00</div>
+        <div>Attendance</div>
+        <div>${row.attendance ? getReadableDate(row.date_stamp) : "(No record)"}</div>
+        <div>Snack Claimed</div>
+        <div>${row.snack_claimed ? "Claimed" : "(No record)"}</div>
+        <div>Payment confirmed</div>
+        <div>${row.payment_confirmed ? getReadableDate(row.payment_confirmed) : "(Not confirmed)"}</div>
+        <div>Date registered</div>
+        <div>${getReadableDate(row.date_stamp)}</div>
+      </div>
+    `,
+    {
+      text: "Close",
+      click() {
+        dialog.close(id);
+      }
+    }, null);
+  });
 }
 
 function confirmOrder(row: ICTStudentModel) {

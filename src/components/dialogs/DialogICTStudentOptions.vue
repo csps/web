@@ -6,35 +6,29 @@
         {{ ict.campuses.find(c => c.id == student?.campus_id)?.campus.toUpperCase() }} {{ student?.student_id }}
       </div>
     </div>
-    <form slot="content" class="pt-3" @change="(e: any) => selected = Number(e.target.value)">
+    <form slot="content" ref="form" class="pt-3" @change="(e: any) => selected = Number(e.target.value)">
       <div class="flex items-center gap-4">
-        <md-radio
-          id="sop1"
-          name="op"
-          value="1"
-          :disabled="disabledOptions?.includes(1)"
-          :checked="!disabledOptions?.includes(1)"
-        />
+        <md-radio id="sop1" name="op" value="1" :disabled="disabledOptions?.includes(1)" :checked="!disabledOptions?.includes(1)" />
         <label for="sop1" :class="{ 'text-outline': disabledOptions?.includes(1) }">
           Show information
         </label>
       </div>
       <div class="flex items-center gap-4 mb-1">
-        <md-radio
-          id="sop2"
-          name="op"
-          value="2"
-          :disabled="disabledOptions?.includes(2)"
-          :checked="!disabledOptions?.includes(2)"
-        />
+        <md-radio id="sop2" name="op" value="2" :disabled="disabledOptions?.includes(2)" :checked="!disabledOptions?.includes(2)" />
         <label for="sop2" :class="{ 'text-outline': disabledOptions?.includes(2) }">
-          Confirm payment
+          {{ disabledOptions?.includes(2) ? 'Payment already confirmed' : 'Confirm Payment' }}
+        </label>
+      </div>
+      <div class="flex items-center gap-4 mb-1">
+        <md-radio id="sop3" name="op" value="3" :disabled="disabledOptions?.includes(3)" :checked="!disabledOptions?.includes(3)" />
+        <label for="sop3" :class="{ 'text-outline': disabledOptions?.includes(3) }">
+          {{  disabledOptions?.includes(3) ? 'T-shirt already claimed' : 'Claim for T-shirt' }}
         </label>
       </div>
     </form>
     <div class="space-x-1" slot="actions">
       <md-text-button @click="close">Cancel</md-text-button>
-      <md-text-button @click="select" autofocus>
+      <md-text-button @click="select" :disabled="selected <= 0" autofocus>
         Select
       </md-text-button>
     </div>
@@ -50,6 +44,7 @@ import "@material/web/icon/icon";
 import { ref, computed } from "vue";
 import { useIctStore } from "~/store";
 
+const form = ref<HTMLFormElement | null>(null);
 const emit = defineEmits(["update:modelValue", "select"]);
 const props = defineProps<{
   student?: ICTStudentModel,
@@ -58,14 +53,18 @@ const props = defineProps<{
 }>();
 
 const ict = useIctStore();
-const selected = ref(1);
+const selected = ref(0);
 const isDialogOpen = computed(() => props.modelValue);
 
 function select() {
   emit("select", selected.value);
+  form.value?.reset();
+  selected.value = 0;
 }
 
 function close() {
+  form.value?.reset();
+  selected.value = 0;
   emit("update:modelValue", false);
 }
 </script>

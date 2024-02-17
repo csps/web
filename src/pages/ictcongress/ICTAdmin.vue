@@ -48,6 +48,14 @@
               (Not confirmed)
             </span>
           </template>
+          <template #tshirt_claimed="{ row }: { row: ICTStudentModel }">
+            <span v-if="row.tshirt_claimed" :title="getReadableDate(row.tshirt_claimed)">
+              {{ row.tshirt_claimed }}
+            </span>
+            <span class="text-outline" v-else>
+              ({{ row.payment_confirmed ? 'Not claimed' : 'No payment' }})
+            </span>
+          </template>
           <template #date_stamp="{ row }: { row: ICTStudentModel }">
             <span :title="getReadableDate(row.date_stamp)">
               {{ row.date_stamp }}
@@ -155,6 +163,7 @@ const headers: TableHeader[] = [
   { id: ICTStudentEnum.last_name, text: "Last name" },
   { id: ICTStudentEnum.attendance, text: "Attendance / Snack", align: "center" },
   { id: ICTStudentEnum.payment_confirmed, text: "Payment Confirmed", align: "center" },
+  { id: ICTStudentEnum.tshirt_claimed, text: "T-shirt Claimed", align: "center" },
   { id: ICTStudentEnum.date_stamp, text: "Date registered", align: "center" }
 ];
 
@@ -220,6 +229,10 @@ onMounted(() => {
     disabledOptions.value.push(2);
   }
 
+  if (row.tshirt_claimed) {
+    disabledOptions.value.push(3);
+  }
+
   selectedStudent.value = row;
   hasSelectedStudent.value = true;
 }
@@ -234,6 +247,10 @@ function doStudentAction(selected: number) {
 
   if (selected === 2) {
     return askForRFID(selectedStudent.value!);
+  }
+
+  if (selected === 3) {
+    return claimTshirt(selectedStudent.value!);
   }
 }
 
@@ -311,6 +328,47 @@ function askForRFID(row: ICTStudentModel) {
     click() {
       dialog.close(id);
       confirmPaymentDialog(row);
+    }
+  });
+}
+
+/**
+ * Claim t-shirt
+ */
+function claimTshirt(row: ICTStudentModel) {
+  hasSelectedStudent.value = false;
+
+  const id = dialog.open("Claim T-shirt", `
+    <p>
+      Claim t-shirt for ${row.first_name} ${row.last_name}?
+      After clicking "Yes, claim", the student will be marked as claimed for t-shirt
+      and will receive an official QR to be used for the event's attendance.
+    </p>
+  `, {
+    text: "Yes, claim",
+    click() {
+      dialog.close(id);
+      store.isLoading = true;
+
+      makeRequest("POST", Endpoints.ICTCongressTshirtClaim, {
+        student_id: row.student_id
+      }, response => {
+        store.isLoading = false;
+
+        if (response.success) {
+          toast.success(response.message);
+          fetchStudents(isSearched.value ? data.value.search : "");
+          return;
+        }
+
+        toast.error(response.message);
+      });
+    }
+  }, {
+    text: "Cancel",
+    click() {
+      dialog.close(id);
+      hasSelectedStudent.value = true;
     }
   });
 }

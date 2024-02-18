@@ -17,13 +17,12 @@
         </div>
 
         <div class="flex justify-center mt-3" data-sal="zoom-in">
-          <router-link :to="'/' + Config.ICN">
-            <md-assist-chip
-              elevated
-              class="mb-3 text-primary"
-              label="For ICT Congress 2024 registration, click here"
-            />
-          </router-link>
+          <md-assist-chip
+            elevated
+            class="mb-3 text-primary"
+            label="ICT Congress 2024 registration (Coming Soon)"
+            disabled
+          />
         </div>
 
         <h2 class="headline-medium font-semibold text-primary" data-sal="zoom-in">
@@ -128,7 +127,6 @@ import "@material/web/button/filled-button";
 import "@material/web/button/filled-tonal-button";
 import "@material/web/chips/assist-chip";
 import "@material/web/chips/filter-chip";
-import { Config } from '~/config';
 
 register();
 

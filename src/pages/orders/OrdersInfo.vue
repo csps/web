@@ -243,7 +243,7 @@ function processData(response: ServerResponse<FullOrderModel>) {
 function updateStatus(orderId: string, newStatus: OrderStatus) {
   store.isLoading = true;
 
-  makeRequest<string, { id: string, key: string, value: OrderStatus }>("PUT", Endpoints.OrdersKey, {
+  makeRequest<FullOrderModel, { id: string, key: string, value: OrderStatus }>("PUT", Endpoints.OrdersKey, {
     id: orderId,
     key: OrderEnum.status,
     value: newStatus
@@ -258,7 +258,7 @@ function updateStatus(orderId: string, newStatus: OrderStatus) {
         isCompleted.value = true;
 
         if (order.value) {
-          order.value.status_updated = response.data;
+          order.value = response.data;
         }
       }
 

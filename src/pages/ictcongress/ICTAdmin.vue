@@ -85,7 +85,7 @@
           </template>
         </VTable>
 
-        <div v-if="message.length > 0 && data.students.length === 0" class="flex justify-center py-4 text-error font-medium">
+        <div v-if="message.length > 0 && data.students.length === 0" class="flex justify-center py-4 text-on-surface-variant">
           {{ message }}
         </div>
 
@@ -255,14 +255,28 @@ onMounted(() => {
  * @param filter Filter
  */
 function change(filter: { id: number | ICTStudentEnum, name: string }) {
-  data.value.filter = data.value.filter === filter.id ? -2 : filter.id;
-  data.value.filterLogic = filter.id === ICTStudentEnum.snack_claimed ? 2 : 1;
-
+  // If from payment pending to payment confirmed
+  if (data.value.filter === ICTStudentEnum.payment_confirmed &&
+      data.value.filterLogic === 0 &&
+      filter.id === ICTStudentEnum.payment_confirmed
+  ) {
+    // Set filter loginc to NOT NULL
+    data.value.filterLogic = 1;
+  }
+  
+  // Otherwise, set filter to the selected filter
+  else {
+    data.value.filter = data.value.filter === filter.id ? -2 : filter.id;
+    data.value.filterLogic = filter.id === ICTStudentEnum.snack_claimed ? 2 : 1;
+  }
+  
+  // If toggling, set back to payment pending
   if (data.value.filter === -2) {
     data.value.filter = ICTStudentEnum.payment_confirmed;
     data.value.filterLogic = 0;
   }
-
+  
+  // Fetch students
   return fetchStudents(isSearched.value ? data.value.search : "");
 }
 

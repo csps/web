@@ -73,5 +73,17 @@ export function createPagination(pagination: PaginationRequest) {
     out.search = tb64(JSON.stringify(pagination.search));
   }
 
+  if (pagination.filterColumns) {
+    out.filterColumns = tb64(JSON.stringify(pagination.filterColumns));
+  }
+
+  if (pagination.filter) {
+    out.filter = pagination.filter.toString();
+  }
+
+  if (pagination.filterLogic) {
+    out.filterLogic = pagination.filterLogic.toString();
+  }
+
   return out;
 }

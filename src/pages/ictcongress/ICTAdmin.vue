@@ -8,20 +8,12 @@
       </div>
       
       <div v-else class="flex flex-col w-full">
-        <div class="flex flex-col lg:flex-row gap-5 justify-between w-full">
-          <div class="flex gap-5">
-            <div>
-              <h4 class="font-bold text-lg">ICT Congress 2024</h4>
-              <p>{{ store.ictAdmin.campus_name }}</p>
-            </div>
-            <div>
-              <md-outlined-button @click="isCampusOptionsOpen = true">
-                <md-icon slot="icon" v-html="icon('settings', true)" />
-                Show options
-              </md-outlined-button>
-            </div>
+        <div class="flex flex-col sm:flex-row gap-5 justify-between w-full">
+          <div class="text-center sm:text-left">
+            <h4 class="font-bold text-lg">ICT Congress 2024</h4>
+            <p>{{ store.ictAdmin.campus_name }}</p>
           </div>
-          <div class="flex items-center justify-end gap-3">
+          <div class="flex items-center justify-center sm:justify-end gap-3">
             <md-filled-text-field label="Search" type="text" v-model="data.search" @keyup.enter="fetchStudents(data.search)" :disabled="store.isLoading">
               <md-icon-button slot="trailing-icon" v-if="data.search.length > 0" @click="data.search = ''" title="Clear search">
                 <md-icon v-html="icon('cancel', true)" />
@@ -33,11 +25,34 @@
           </div>
         </div>
 
+        <div class="flex flex-col sm:flex-row gap-5 justify-between items-center mt-5">
+          <div>
+            <md-outlined-button @click="isCampusOptionsOpen = true">
+              <md-icon slot="icon" v-html="icon('settings', true)" />
+              Show options
+            </md-outlined-button>
+          </div>
+          <md-chip-set class="flex justify-center">
+            <md-filter-chip
+              v-for="filter in data.filterColumns"
+              :key="filter.id"
+              :label="filter.name"
+              :selected="data.filter === filter.id && (data.filterLogic !== undefined && data.filterLogic > 0)"
+              @click="change(filter)"
+            />
+          </md-chip-set>
+        </div>
+
+        <p class="mt-5 text-center sm:text-left font-medium text-secondary">
+          Showing data for {{ data.filter === ICTStudentEnum.payment_confirmed && data.filterLogic === 0 ?
+            'pending payments (default)' : data.filterColumns.find(f => f.id === data.filter)?.name.toLowerCase() }}
+        </p>
+
         <VTable class="mt-5" :headers="headers" :data="data.students">
           <template #attendance="{ row }: { row: ICTStudentModel }">
             <div class="flex items-center justify-center gap-2 text-outline">
               <md-icon :title="row.attendance ? getReadableDate(row.attendance) : ''" v-html="icon(row.attendance ? 'check' : 'remove')"></md-icon>
-              <md-icon v-html="icon(row.snack_claimed ? 'check' : 'remove')"></md-icon>
+              <md-icon :title="row.snack_claimed ? 'Claimed' : 'Not yet claimed'" v-html="icon(row.snack_claimed ? 'check' : 'remove')"></md-icon>
             </div>
           </template>
           <template #payment_confirmed="{ row }: { row: ICTStudentModel }">
@@ -135,6 +150,8 @@ import "@material/web/button/outlined-button";
 import "@material/web/button/filled-button";
 import "@material/web/icon/icon";
 import "@material/web/chips/assist-chip";
+import "@material/web/chips/chip-set";
+import "@material/web/chips/filter-chip";
 import "@material/web/iconbutton/icon-button";
 import "@material/web/fab/fab";
 
@@ -171,6 +188,15 @@ const data = ref({
   total: 0,
   page: 1,
   search: "",
+  filterColumns: [
+    { id: -1, name: "All" },
+    { id: ICTStudentEnum.attendance, name: "Present" },
+    { id: ICTStudentEnum.snack_claimed, name: "Snack Claimed" },
+    { id: ICTStudentEnum.payment_confirmed, name: "Payment Confirmed" },
+    { id: ICTStudentEnum.tshirt_claimed, name: "T-shirt Claimed" },
+  ] as {id: ICTStudentEnum | -1, name: string}[],
+  filter: ICTStudentEnum.payment_confirmed as (number | ICTStudentEnum),
+  filterLogic: 0 as (number | undefined),
   students: [] as ICTStudentEnum[],
   column: Object.keys(ICTStudentEnum)
 });
@@ -220,9 +246,30 @@ onMounted(() => {
 });
 
 /**
+ * Change filter
+ * 
+ * 0 - NULL
+ * 1 - NOT NULL
+ * 2 - !== 0
+ * 
+ * @param filter Filter
+ */
+function change(filter: { id: number | ICTStudentEnum, name: string }) {
+  data.value.filter = data.value.filter === filter.id ? -2 : filter.id;
+  data.value.filterLogic = filter.id === ICTStudentEnum.snack_claimed ? 2 : 1;
+
+  if (data.value.filter === -2) {
+    data.value.filter = ICTStudentEnum.payment_confirmed;
+    data.value.filterLogic = 0;
+  }
+
+  return fetchStudents(isSearched.value ? data.value.search : "");
+}
+
+/**
  * Show student options
  */
- function showStudentOptions(row: ICTStudentModel) {
+function showStudentOptions(row: ICTStudentModel) {
   disabledOptions.value = [];
 
   if (row.payment_confirmed) {
@@ -481,6 +528,9 @@ function fetchStudents(search = "") {
       key: data.value.column,
       value: data.value.column.map(() => data.value.search)
     },
+    filterColumns: data.value.filterColumns.map(f => f.id),
+    filter: data.value.filter,
+    filterLogic: data.value.filterLogic,
     sort: {
       key: ICTStudentEnum.last_name,
       type: "DESC"

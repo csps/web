@@ -22,6 +22,9 @@ export type PaginationRequest = {
     key: string[];
     value: any[];
   },
+  filterColumns?: ( string | -1)[],
+  filter?: string | number,
+  filterLogic?: number;
   page?: number;
   limit?: number;
 };

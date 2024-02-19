@@ -123,6 +123,12 @@
       v-model="isRemoveOrdersConfirmOpen"
       @proceed="onRemovePendingOrders"
     />
+
+    <DialogICTRemoveStudent
+      v-model="isRemoveStudentDialogOpen"
+      :student="selectedStudent"
+      @proceed="onRemoveStudent"
+    />
   </div>
 </template>
 
@@ -143,6 +149,7 @@ import DialogICTStudentOptions from "~/components/dialogs/DialogICTStudentOption
 import DialogICTCampusOptions from "~/components/dialogs/DialogICTCampusOptions.vue";
 import DialogICTRFID from "~/components/dialogs/DialogICTRFID.vue";
 import DialogICTRemoveOrders from "~/components/dialogs/DialogICTRemoveOrders.vue";
+import DialogICTRemoveStudent from "~/components/dialogs/DialogICTRemoveStudent.vue";
 
 import "@material/web/progress/circular-progress";
 import "@material/web/textfield/filled-text-field";
@@ -168,6 +175,7 @@ const isLoading = ref(true);
 const isSearched = ref(false);
 const selectedStudent = ref<ICTStudentModel>();
 const hasSelectedStudent = ref(false);
+const isRemoveStudentDialogOpen= ref(false);
 const isRemoveOrdersConfirmOpen = ref(false);
 const isCampusOptionsOpen = ref(false);
 const isRFIDDialogOpen = ref(false);
@@ -312,6 +320,12 @@ function doStudentAction(selected: number) {
 
   if (selected === 3) {
     return claimTshirt(selectedStudent.value!);
+  }
+
+  if (selected === 4) {
+    hasSelectedStudent.value = false;
+    isRemoveStudentDialogOpen.value = true;
+    return;
   }
 }
 
@@ -501,6 +515,28 @@ function onRemovePendingOrders() {
   isRemoveOrdersConfirmOpen.value = false;
 
   makeRequest("DELETE", Endpoints.ICTCongressPendingOrders, null, response => {
+    store.isLoading = false;
+
+    if (response.success) {
+      toast.success(response.message);
+      fetchStudents(isSearched.value ? data.value.search : "");
+      return;
+    }
+
+    toast.error(response.message);
+  });
+}
+
+/**
+ * Remove student
+ */
+function onRemoveStudent(student: ICTStudentModel) {
+  store.isLoading = true;
+  isRemoveStudentDialogOpen.value = false;
+
+  makeRequest("DELETE", Endpoints.ICTCongressStudentsId, {
+    student_id: student.student_id
+  }, response => {
     store.isLoading = false;
 
     if (response.success) {

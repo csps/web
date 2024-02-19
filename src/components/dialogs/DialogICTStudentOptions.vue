@@ -7,23 +7,19 @@
       </div>
     </div>
     <form slot="content" ref="form" class="pt-3" @change="(e: any) => selected = Number(e.target.value)">
-      <div class="flex items-center gap-4">
-        <md-radio id="sop1" name="op" value="1" :disabled="disabledOptions?.includes(1)" :checked="!disabledOptions?.includes(1)" />
-        <label for="sop1" :class="{ 'text-outline': disabledOptions?.includes(1) }">
-          Show information
-        </label>
-      </div>
-      <div class="flex items-center gap-4 mb-1">
-        <md-radio id="sop2" name="op" value="2" :disabled="disabledOptions?.includes(2)" :checked="!disabledOptions?.includes(2)" />
-        <label for="sop2" :class="{ 'text-outline': disabledOptions?.includes(2) }">
-          {{ disabledOptions?.includes(2) ? 'Payment already confirmed' : 'Confirm Payment' }}
-        </label>
-      </div>
-      <div class="flex items-center gap-4 mb-1">
-        <md-radio id="sop3" name="op" value="3" :disabled="disabledOptions?.includes(3)" :checked="!disabledOptions?.includes(3)" />
-        <label for="sop3" :class="{ 'text-outline': disabledOptions?.includes(3) }">
-          {{  disabledOptions?.includes(3) ? 'T-shirt already claimed' : 'Claim for T-shirt' }}
-        </label>
+      <div class="flex flex-col items-start">
+        <div v-for="row in data" :key="row.id" class="flex items-center gap-4 mb-1">
+          <md-radio
+            :id="`sop${row.id}`"
+            name="op"
+            :value="row.id"
+            :disabled="props.disabledOptions?.includes(row.id)"
+            :checked="!props.disabledOptions?.includes(row.id)"
+          />
+          <label :for="`sop${row.id}`" :class="{ 'text-outline': props.disabledOptions?.includes(row.id) }">
+            {{ props.disabledOptions?.includes(row.id) ? row.disabledName : row.name }}
+          </label>
+        </div>
       </div>
     </form>
     <div class="space-x-1" slot="actions">
@@ -55,6 +51,13 @@ const props = defineProps<{
 const ict = useIctStore();
 const selected = ref(0);
 const isDialogOpen = computed(() => props.modelValue);
+
+const data = ref([
+  { id: 1, name: "Show information" },
+  { id: 2, name: "Confirm Payment", disabledName: "Payment already confirmed" },
+  { id: 3, name: "Claim for T-shirt", disabledName: "T-shirt already claimed" },
+  { id: 4, name: "Delete record", disabledName: "Delete not possible" }
+]);
 
 function select() {
   emit("select", selected.value);

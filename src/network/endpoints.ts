@@ -43,6 +43,7 @@ enum Endpoints {
   ICTCongressLogin = "/ictcongress2024/login",
   ICTCongressPrice = "/ictcongress2024/price/:discount_code", 
   ICTCongressStudents = "/ictcongress2024/students",
+  ICTCongressStudentsId = "/ictcongress2024/students/:student_id",
   ICTCongressTshirtClaim = "/ictcongress2024/students/:student_id/claim-tshirt",
   ICTCongressStudentPaymentConfirm = "/ictcongress2024/students/:student_id/payment-confirm",
   ICTCongressPendingOrders = "/ictcongress2024/campus/pending-orders",

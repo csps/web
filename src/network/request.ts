@@ -4,6 +4,8 @@ import Endpoints from "./endpoints";
 import type { AxiosRequestConfig } from "axios";
 import { Config } from "~/config";
 import { getStore, removeStore, setStore } from "~/utils/storage";
+import router from "~/router";
+import { toast } from "vue3-toastify";
 
 /**
  * Create axios instance
@@ -151,8 +153,10 @@ function makeRequest<T, U>(method: HttpMethod, endpoint: Endpoints, data: U, cal
       if (options?.useRefreshToken) {
         // Clear session
         clearSessionTokens();
+        // Log session expired
+        toast.error(error.response.data.message);
         // Redirect to login
-        location.href = "/login";
+        router.replace(isICTCongress ? "/ictcongress2024/admin/login" : isAdmin ? "/admin/login" : "/login");
         return;
       }
 
@@ -181,6 +185,8 @@ function clearSessionTokens() {
   removeStore("art");
   removeStore("sat");
   removeStore("srt");
+  removeStore("iat");
+  removeStore("irt");
 }
 
 export {

@@ -250,15 +250,22 @@ onMounted(() => {
     toast.error(response.message);
   });
 
+  fetchStats();
+});
+
+/**
+ * Fetch status statistics
+ */
+function fetchStats() {
   makeRequest<ICTStatistics, null>("GET", Endpoints.ICTCongressStatistics, null, response => {
     if (response.success) {
       ict.stats = response.data;
       return;
     }
-
+  
     return toast.error(response.message);
   });
-});
+}
 
 /**
  * Change filter
@@ -440,6 +447,7 @@ function claimTshirt(row: ICTStudentModel) {
         if (response.success) {
           toast.success(response.message);
           fetchStudents(isSearched.value ? data.value.search : "");
+          fetchStats();
           return;
         }
 
@@ -499,6 +507,7 @@ function confirmPaymentDialog(row: ICTStudentModel) {
         if (response.success) {
           toast.success(response.message);
           fetchStudents(isSearched.value ? data.value.search : "");
+          fetchStats();
           return;
         }
 
@@ -527,6 +536,7 @@ function onRemovePendingOrders() {
     if (response.success) {
       toast.success(response.message);
       fetchStudents(isSearched.value ? data.value.search : "");
+      fetchStats();
       return;
     }
 
@@ -549,6 +559,7 @@ function onRemoveStudent(student: ICTStudentModel) {
     if (response.success) {
       toast.success(response.message);
       fetchStudents(isSearched.value ? data.value.search : "");
+      fetchStats();
       return;
     }
 

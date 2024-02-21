@@ -19,24 +19,25 @@
             </div>
 
             <div class="flex gap-8 justify-center py-5">
-                <div v-for="college in colleges_img_path1" @click="stepCount = 2" class="college flex -translate-y-1 px-6 w-full 3xl:w-3/5 !overflow-visible">
+                <div v-for="college in colleges_image_path1" @click="goToNextStep(college.college_name)" class="college flex -translate-y-1 px-6 w-full 3xl:w-3/5 !overflow-visible">
                 <div class="sm:w-24 sm:h-24 lg:w-48 lg:h-48 py-2 my-4 foreground object">
                     <md-ripple />
                         <VImage
                             class="rounded-xl"
-                            :src="college"
+                            :src="college.img_path"
+                            :alt="college.college_name"
                         />
                     </div>
                 </div>
             </div>
 
             <div class="flex gap-8 justify-center">
-                <div v-for="college in colleges_img_path2" class="college flex -translate-y-1 px-6 w-full 3xl:w-3/5 !overflow-visible">
+                <div v-for="college in colleges_image_path2" @click="goToNextStep(college.college_name)" class="college flex -translate-y-1 px-6 w-full 3xl:w-3/5 !overflow-visible">
                 <div class="sm:w-24 sm:h-24 lg:w-48 lg:h-48 py-2 my-4 foreground object">
                     <md-ripple />
                         <VImage
                             class="rounded-xl"
-                            :src="college"
+                            :src="college.img_path"
                         />
                     </div>
                 </div>
@@ -71,7 +72,7 @@
             </md-outlined-text-field>
             
             <!-- College -->
-            <md-outlined-text-field type="number" v-model.trim="college" label="College of Computer Studies" min="0" disabled="true">
+            <md-outlined-text-field v-model.trim="college" :label="college" min="0" disabled="true">
                 <md-icon slot="leading-icon" v-html="icon('badge', true)" />
             </md-outlined-text-field>
 
@@ -120,20 +121,46 @@ import "@material/web/select/select-option";
 
 const dialog = useDialog();
 
-
-const colleges_img_path1 = [
-    "/src/assets/img/tatakform/colleges/CAS.png",
-    "/src/assets/img/tatakform/colleges/CBA.png",
-    "/src/assets/img/tatakform/colleges/CCS.png",
-    "/src/assets/img/tatakform/colleges/HM.png",
+const colleges_image_path1 = [
+    {
+        college_name: "College of Arts and Sciences",
+        img_path: "/src/assets/img/tatakform/colleges/CAS.png"
+    },
+    {
+        college_name: "College of Business Accountancy",
+        img_path: "/src/assets/img/tatakform/colleges/CBA.png"
+    },
+    {
+        college_name: "College of Computer Studies",
+        img_path: "/src/assets/img/tatakform/colleges/CCS.png"
+    },
+    {
+        college_name: "College of Hotel Management",
+        img_path: "/src/assets/img/tatakform/colleges/HM.png"
+    },
+    
 ]
 
-const colleges_img_path2 = [
-    "/src/assets/img/tatakform/colleges/COE.png",
-    "/src/assets/img/tatakform/colleges/CTE.png",
-    "/src/assets/img/tatakform/colleges/SW.png",
-    "/src/assets/img/tatakform/colleges/CCJ.png",
+const colleges_image_path2 = [
+    {
+        college_name: "College of Engineering",
+        img_path: "/src/assets/img/tatakform/colleges/COE.png"
+    },
+    {
+        college_name: "College of Teacher Education",
+        img_path: "/src/assets/img/tatakform/colleges/CTE.png"
+    },
+    {
+        college_name: "College of Social Works",
+        img_path: "/src/assets/img/tatakform/colleges/SW.png"
+    },
+    {
+        college_name: "College of Criminal Justice",
+        img_path: "/src/assets/img/tatakform/colleges/CCJ.png"
+    },
+    
 ]
+
 
 const courses = ['AB Psychology', 'BS Computer Science']
 
@@ -147,7 +174,10 @@ const college = ref("as");
 const program = ref();
 const yearLevel = ref();
 
-
+function goToNextStep(collegeName){
+    college.value = collegeName
+    stepCount.value++
+}
 
 function register() {    
   // If one of the fields is empty, show a toast message

@@ -36,7 +36,7 @@
             <md-filter-chip
               v-for="filter in data.filterColumns"
               :key="filter.id"
-              :label="filter.name"
+              :label="`${filter.name} – ${mapStatCount(filter.id) ?? 0}`"
               :selected="data.filter === filter.id && (data.filterLogic !== undefined && data.filterLogic > 0)"
               @click="change(filter)"
             />
@@ -242,14 +242,21 @@ onMounted(() => {
   });
 
   makeRequest<ICTConfig, null>("GET", Endpoints.ICTCongress, null, response => {
-    store.isLoading = false;
-
     if (response.success) {
       ict.campuses = response.data.campuses;
       return;
     }
 
     toast.error(response.message);
+  });
+
+  makeRequest<ICTStatistics, null>("GET", Endpoints.ICTCongressStatistics, null, response => {
+    if (response.success) {
+      ict.stats = response.data;
+      return;
+    }
+
+    return toast.error(response.message);
   });
 });
 
@@ -599,6 +606,18 @@ function fetchStudents(search = "") {
     message.value = response.message;
     data.value.students = [];
   });
+}
+
+/**
+ * Map stat count
+ * @param id ICTStudentEnum
+ */
+function mapStatCount(id: ICTStudentEnum | -1) {
+  if (id === -1) return ict.stats.countAll;
+  if (id === ICTStudentEnum.attendance) return ict.stats.countPresent;
+  if (id === ICTStudentEnum.snack_claimed) return ict.stats.countSnackClaimed;
+  if (id === ICTStudentEnum.payment_confirmed) return ict.stats.countPaymentConfirmed;
+  if (id === ICTStudentEnum.tshirt_claimed) return ict.stats.countTShirtClaimed;
 }
 </script>
 

@@ -135,6 +135,7 @@
 <script lang="ts" setup>
 import { ref, onMounted, watch } from "vue";
 import { useRouter } from "vue-router";
+import { saveAs } from 'file-saver';
 import { Endpoints, makeRequest } from "~/network/request";
 import { useStore, useDialog, useIctStore } from "~/store";
 import { icon } from "~/utils/icon";
@@ -477,10 +478,30 @@ function onScanRFID(rfid: string) {
  * Do the selected campus action
  */
 function doCampusAction(selected: number) {
+  isCampusOptionsOpen.value = false;
+
+  if (selected === 1) {
+    exportToSheet();
+  }
+
   if (selected === 3) {
-    isCampusOptionsOpen.value = false;
     isRemoveOrdersConfirmOpen.value = true;
   }
+}
+
+function exportToSheet() {
+  toast.info("Exporting sheet...");
+
+  makeRequest("GET", Endpoints.ICTCongressExportSheet, null, (response, fullResponse) => {
+    if (fullResponse?.headers["content-type"].includes("sheet")) {
+      const filename = fullResponse.headers["content-disposition"].split("filename=")[1].replace(/"/g, "");
+      saveAs(response as unknown as Blob, filename ?? "ict_congress_2024.xlsx");
+      toast.success("Sheet exported successfully.");
+      return;
+    }
+
+    toast.error(response.message);
+  });
 }
 
 /**

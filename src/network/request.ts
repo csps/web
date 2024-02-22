@@ -1,7 +1,7 @@
 import axios from "axios";
 import Endpoints from "./endpoints";
 
-import type { AxiosRequestConfig } from "axios";
+import type { AxiosRequestConfig, AxiosResponse } from "axios";
 import { Config } from "~/config";
 import { getStore, removeStore, setStore } from "~/utils/storage";
 import router from "~/router";
@@ -29,7 +29,7 @@ type AdditionalOptions = {
  * @param data The data to send. 
  * @param callback The callback to call when the request is done. 
  */
-function makeRequest<T, U>(method: HttpMethod, endpoint: Endpoints, data: U, callback: (response: ServerResponse<T>) => void, options?: AdditionalOptions) {
+function makeRequest<T, U>(method: HttpMethod, endpoint: Endpoints, data: U, callback: (response: ServerResponse<T>, fullResponse?: AxiosResponse) => void, options?: AdditionalOptions) {
   // URL
   let url: string = endpoint;
   const originalUrl = url;
@@ -48,8 +48,12 @@ function makeRequest<T, U>(method: HttpMethod, endpoint: Endpoints, data: U, cal
 
   // Create config 
   const config: AxiosRequestConfig = {
-    method, url
+    method, url,
   };
+
+  if (endpoint === Endpoints.ICTCongressExportSheet) {
+    config.responseType = "blob";
+  }
 
   // If method is GET
   if (method === "GET") {
@@ -142,7 +146,7 @@ function makeRequest<T, U>(method: HttpMethod, endpoint: Endpoints, data: U, cal
     }
 
     // Call the callback function
-    callback(response.data);
+    callback(response.data, response);
   })
 
   // If something went wrong

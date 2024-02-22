@@ -18,10 +18,10 @@
                 </h3>
             </div>
 
-            <div class="flex gap-8 justify-center py-5">
-                <div v-for="college in colleges_image_path1" @click="goToNextStep(college.college_name)" class="college flex -translate-y-1 px-6 w-full 3xl:w-3/5 !overflow-visible">
-                <div class="sm:w-24 sm:h-24 lg:w-48 lg:h-48 py-2 my-4 foreground object">
-                    <md-ripple />
+            <div class="flex gap-8 justify-center py-5 grid-cols-2 lg:grid-cols-4 grid">
+                <div v-for="college in colleges_image_path1" @click="goToNextStep(college.college_name)" class="college flex justify-center mx-auto -translate-y-1 px-6 w-full 3xl:w-3/5 !overflow-visible">
+                    <div class="w-24 h-24 sm:w-36 sm:h-36 py-2 my-4 foreground object">
+                      <md-ripple />
                         <VImage
                             class="rounded-xl"
                             :src="college.img_path"
@@ -31,17 +31,7 @@
                 </div>
             </div>
 
-            <div class="flex gap-8 justify-center">
-                <div v-for="college in colleges_image_path2" @click="goToNextStep(college.college_name)" class="college flex -translate-y-1 px-6 w-full 3xl:w-3/5 !overflow-visible">
-                <div class="sm:w-24 sm:h-24 lg:w-48 lg:h-48 py-2 my-4 foreground object">
-                    <md-ripple />
-                        <VImage
-                            class="rounded-xl"
-                            :src="college.img_path"
-                        />
-                    </div>
-                </div>
-            </div>
+           
         </div>
 
         <div v-if="stepCount === 2" class="flex flex-col items-center justify-center pb-5">
@@ -138,10 +128,6 @@ const colleges_image_path1 = [
         college_name: "College of Hotel Management",
         img_path: "/src/assets/img/tatakform/colleges/HM.png"
     },
-    
-]
-
-const colleges_image_path2 = [
     {
         college_name: "College of Engineering",
         img_path: "/src/assets/img/tatakform/colleges/COE.png"
@@ -158,7 +144,6 @@ const colleges_image_path2 = [
         college_name: "College of Criminal Justice",
         img_path: "/src/assets/img/tatakform/colleges/CCJ.png"
     },
-    
 ]
 
 

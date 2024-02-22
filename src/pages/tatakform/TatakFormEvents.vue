@@ -1,8 +1,11 @@
 <template>
     <div class="container mx-auto">
-        <div class="my-8 text-center">
+        <div class="my-2 text-center">
             <h4 class="mb-2 text-2xl font-bold">Tatak Forms Request</h4>
-            <p>Get your tatak forms here my niggas.</p>
+            <p>New here? Click the button below to know the process.</p>
+            <md-filled-button class="my-2">
+                Help
+            </md-filled-button>
         </div>
         <div class="flex justify-center flex-wrap gap-6">
         <div class="event -translate-y-1 px-6 w-full 3xl:w-3/5 !overflow-visible">

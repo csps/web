@@ -5,16 +5,16 @@
         </md-icon-button>
         <div class="text-center">
             <h2 class="mb-2 text-2xl font-bold">
-            {University Days}
+            University Days
             </h2>
             <h5 class="">
-            {From March 4, 2024 to March 9, 2024}
+            From March 4, 2024 to March 9, 2024
             </h5>
         </div>
         <div v-if="stepCount === 1" class="text-center">
             <div class="mt-3 mb-1 text-center">
                 <h3 class="mb-2 text-2xl font-bold">
-                    Step 1: Choose your character
+                    Step 1: Choose your college
                 </h3>
             </div>
 
@@ -37,7 +37,7 @@
         <div v-if="stepCount === 2" class="flex flex-col items-center justify-center pb-5">
             <div class="mt-3 mb-2 text-center">
                 <h4 class="mb-2 text-2xl font-bold">
-                    Step 2: Fill out the unnecessary details
+                    Step 2: Fill out the necessary details
                 </h4>
             </div>
             <div class="flex flex-col justify-center gap-5 w-full sm:w-3/4 md:w-3/5 lg:w-1/2 xl:w-2/5 2xl:w-1/3 font-reset">

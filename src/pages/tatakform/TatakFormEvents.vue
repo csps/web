@@ -1,6 +1,6 @@
 <template>
-    <div class="container">
-        <div class="my-10 text-center">
+    <div class="container mx-auto">
+        <div class="my-8 text-center">
             <h4 class="mb-2 text-2xl font-bold">Tatak Forms Request</h4>
             <p>Get your tatak forms here my niggas.</p>
         </div>
@@ -16,7 +16,7 @@
                     />
                 </div>
 
-                <div class="content py-5">
+                <div class="content pt-1 pb-3">
                     <div class="w-full">
                       <h5 class="label-large mb-3 text-error">Coming Soon</h5>
                       <h4 class="title-large font-bold">University Days</h4>

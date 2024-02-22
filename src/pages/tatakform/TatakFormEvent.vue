@@ -12,14 +12,14 @@
             </h5>
         </div>
         <div v-if="stepCount === 1" class="text-center">
-            <div class="my-10 text-center">
+            <div class="mt-3 mb-1 text-center">
                 <h3 class="mb-2 text-2xl font-bold">
                     Step 1: Choose your character
                 </h3>
             </div>
 
-            <div class="flex gap-8 justify-center py-5 grid-cols-2 lg:grid-cols-4 grid">
-                <div v-for="college in colleges_image_path1" @click="goToNextStep(college.college_name)" class="college flex justify-center mx-auto -translate-y-1 px-6 w-full 3xl:w-3/5 !overflow-visible">
+            <div class="flex gap-8 justify-center py-2 grid-cols-2 lg:grid-cols-4 grid">
+                <div v-for="college in colleges_image_path1" @click="goToNextStep(college.college_name)" class="college flex mx-auto -translate-y-1 px-6 w-full 3xl:w-3/5 !overflow-visible">
                     <div class="w-24 h-24 sm:w-36 sm:h-36 py-2 my-4 foreground object">
                       <md-ripple />
                         <VImage
@@ -35,7 +35,7 @@
         </div>
 
         <div v-if="stepCount === 2" class="flex flex-col items-center justify-center pb-5">
-            <div class="my-10 text-center">
+            <div class="mt-3 mb-2 text-center">
                 <h4 class="mb-2 text-2xl font-bold">
                     Step 2: Fill out the unnecessary details
                 </h4>
@@ -96,9 +96,11 @@
 import VImage from '../../components/VImage.vue';
 import { toast } from "vue3-toastify";
 import { icon } from '~/utils/icon';
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import { isEmail } from "~/utils/string";
 import { useStore, useDialog } from "~/store";
+
+import anime from 'animejs/lib/anime.es.js';
 
 import "@material/web/iconbutton/icon-button"
 import "@material/web/button/filled-button";
@@ -158,6 +160,32 @@ const email = ref("");
 const college = ref("as");
 const program = ref();
 const yearLevel = ref();
+
+onMounted(() => {
+    const tl = anime.timeline();
+    const logoRef = document.getElementsByClassName("college")
+
+    tl.add({
+    targets: logoRef,
+    translateY: [-20, 0],
+    scale: [0.5, 1],
+    opacity: [0, 1],
+    duration: 2000,
+    easing: 'easeOutElastic(1, 0.8)',
+    complete() {
+      // Loop animation
+      anime({
+        targets: logoRef,
+        translateY: 15,
+        duration: 2000,
+        loop: true,
+        direction: 'alternate',
+        easing: 'linear',
+      });
+
+    }
+  });
+})
 
 function goToNextStep(collegeName){
     college.value = collegeName

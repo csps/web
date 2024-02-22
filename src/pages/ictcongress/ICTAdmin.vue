@@ -278,6 +278,9 @@ function fetchStats() {
  * @param filter Filter
  */
 function change(filter: { id: number | ICTStudentEnum, name: string }) {
+  // Reset page filter changed
+  data.value.page = 1;
+
   // If from payment pending to payment confirmed
   if (data.value.filter === ICTStudentEnum.payment_confirmed &&
       data.value.filterLogic === 0 &&

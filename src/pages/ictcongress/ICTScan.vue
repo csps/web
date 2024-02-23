@@ -1,6 +1,8 @@
 <template>
   <div class="flex justify-center items-center flex-col gap-5 flex-grow" @click="input?.focus()">
-    <h2 class="text-2xl font-medium">ICT Congress 2024 - Attendance RFID Scanner</h2>
+    <h2 class="font-medium text-center px-6 text-base sm:text-lg lg:text-2xl">
+      ICT Congress 2024 - Attendance RFID Scanner
+    </h2>
     <input v-model="rfid" ref="input" type="password" autocomplete="off" autofocus />
   </div>
 </template>

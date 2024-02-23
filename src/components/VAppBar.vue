@@ -21,7 +21,9 @@
 
       <!-- Title -->
       <h3 class="hidden xl:block text-on-surface-variant">UC Main Computing Society of the Philippines - Students</h3>
-      <h3 class="block xl:hidden text-on-surface-variant">UC Main CSP-S</h3>
+      <h3 class="block xl:hidden text-on-surface-variant" :class="{ 'hidden': route.name?.toString().includes('RFID') }">
+        UC Main CSP-S
+      </h3>
 
       <!-- Navigation Links -->
       <div class="flex items-center gap-5 flex-grow justify-end">

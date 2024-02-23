@@ -487,11 +487,18 @@ function doCampusAction(selected: number) {
     exportToSheet();
   }
 
+  if (selected === 2) {
+    exportToCsv();
+  }
+  
   if (selected === 3) {
     isRemoveOrdersConfirmOpen.value = true;
   }
 }
 
+/**
+ * Export to sheet
+ */
 function exportToSheet() {
   toast.info("Exporting sheet...");
 
@@ -500,6 +507,22 @@ function exportToSheet() {
       const filename = fullResponse.headers["content-disposition"].split("filename=")[1].replace(/"/g, "");
       saveAs(response as unknown as Blob, filename ?? "ict_congress_2024.xlsx");
       toast.success("Sheet exported successfully.");
+      return;
+    }
+
+    toast.error(response.message);
+  });
+}
+
+/**
+ * Export to CSV
+ */
+function exportToCsv() {
+  makeRequest("GET", Endpoints.ICTCongressExportCsv, null, (response, fullResponse) => {
+    if (fullResponse?.headers["content-type"].includes("csv")) {
+      const filename = fullResponse.headers["content-disposition"].split("filename=")[1].replace(/"/g, "");
+      saveAs(response as unknown as Blob, filename ?? "ict_congress_2024.csv");
+      toast.success("CSV exported successfully.");
       return;
     }
 

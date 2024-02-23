@@ -51,7 +51,7 @@ function makeRequest<T, U>(method: HttpMethod, endpoint: Endpoints, data: U, cal
     method, url,
   };
 
-  if (endpoint === Endpoints.ICTCongressExportSheet) {
+  if ([Endpoints.ICTCongressExportSheet, Endpoints.ICTCongressExportCsv].includes(endpoint)) {
     config.responseType = "blob";
   }
 

@@ -1,18 +1,25 @@
 <template>
   <div class="flex justify-center items-center flex-col gap-5 flex-grow" @click="input?.focus()">
-    <h2 class="text-2xl font-medium">ICT Congress 2024 - Attendance RFID Scanner</h2>
+    <h2 class="font-medium text-center px-6 text-base sm:text-lg lg:text-2xl">
+      ICT Congress 2024 - Attendance RFID Scanner
+    </h2>
     <input v-model="rfid" ref="input" type="password" autocomplete="off" autofocus />
   </div>
 </template>
 
 <script lang="ts" setup>
 import { onMounted, ref, watch } from 'vue';
-import Swal from "sweetalert2";
 import { Endpoints, makeRequest } from '~/network/request';
+import effectRizz from "~/assets/effects/effect_rizz.mp3";
+import effectHuh from "~/assets/effects/effect_huh.mp3";
+import Swal from "sweetalert2";
 
 let timeout: NodeJS.Timeout;
 const input = ref<HTMLInputElement | null>(null);
 const rfid = ref('');
+
+const success = new Audio(effectRizz);
+const error = new Audio(effectHuh);
 
 onMounted(() => {
   input.value?.focus();
@@ -30,13 +37,18 @@ watch(rfid, v => {
     }, response => {
         rfid.value = "";
 
+        if (response.success) {
+          success.play();
+        } else {
+          error.play();
+        }
+
         Swal.fire({
           timer: 3000,
           showCancelButton: false,
           showConfirmButton: false,
           icon: response.success ? "success" : "error",
           title: response.message,
-          text: response.success ? response.data.first_name + " " + response.data.last_name : undefined
         });
     });
   }, 500);

@@ -36,7 +36,7 @@
             <md-filter-chip
               v-for="filter in data.filterColumns"
               :key="filter.id"
-              :label="filter.name"
+              :label="`${filter.name} – ${mapStatCount(filter.id) ?? 0}`"
               :selected="data.filter === filter.id && (data.filterLogic !== undefined && data.filterLogic > 0)"
               @click="change(filter)"
             />
@@ -135,6 +135,7 @@
 <script lang="ts" setup>
 import { ref, onMounted, watch } from "vue";
 import { useRouter } from "vue-router";
+import { saveAs } from 'file-saver';
 import { Endpoints, makeRequest } from "~/network/request";
 import { useStore, useDialog, useIctStore } from "~/store";
 import { icon } from "~/utils/icon";
@@ -242,8 +243,6 @@ onMounted(() => {
   });
 
   makeRequest<ICTConfig, null>("GET", Endpoints.ICTCongress, null, response => {
-    store.isLoading = false;
-
     if (response.success) {
       ict.campuses = response.data.campuses;
       return;
@@ -251,7 +250,23 @@ onMounted(() => {
 
     toast.error(response.message);
   });
+
+  fetchStats();
 });
+
+/**
+ * Fetch status statistics
+ */
+function fetchStats() {
+  makeRequest<ICTStatistics, null>("GET", Endpoints.ICTCongressStatistics, null, response => {
+    if (response.success) {
+      ict.stats = response.data;
+      return;
+    }
+  
+    return toast.error(response.message);
+  });
+}
 
 /**
  * Change filter
@@ -263,6 +278,9 @@ onMounted(() => {
  * @param filter Filter
  */
 function change(filter: { id: number | ICTStudentEnum, name: string }) {
+  // Reset page filter changed
+  data.value.page = 1;
+
   // If from payment pending to payment confirmed
   if (data.value.filter === ICTStudentEnum.payment_confirmed &&
       data.value.filterLogic === 0 &&
@@ -433,6 +451,7 @@ function claimTshirt(row: ICTStudentModel) {
         if (response.success) {
           toast.success(response.message);
           fetchStudents(isSearched.value ? data.value.search : "");
+          fetchStats();
           return;
         }
 
@@ -462,10 +481,60 @@ function onScanRFID(rfid: string) {
  * Do the selected campus action
  */
 function doCampusAction(selected: number) {
+  isCampusOptionsOpen.value = false;
+
+  if (selected === 1) {
+    exportToSheet();
+  }
+
+  if (selected === 2) {
+    exportToCsv();
+  }
+  
   if (selected === 3) {
-    isCampusOptionsOpen.value = false;
     isRemoveOrdersConfirmOpen.value = true;
   }
+}
+
+/**
+ * Export to sheet
+ */
+function exportToSheet() {
+  toast.info("Exporting sheet...");
+
+  makeRequest("GET", Endpoints.ICTCongressExportSheet, null, async (response, fullResponse) => {
+    if (response instanceof Blob) {
+      if (fullResponse?.headers["content-type"].includes("sheet")) {
+        const filename = fullResponse.headers["content-disposition"].split("filename=")[1].replace(/"/g, "");
+        saveAs(response as unknown as Blob, filename ?? "ict_congress_2024.xlsx");
+        toast.success("Sheet exported successfully.");
+        return;
+      }
+
+      // Convert blob to text
+      const text = JSON.parse(await response.text());
+      toast.error(text.message);
+      return;
+    }
+
+    toast.error(response.message);
+  });
+}
+
+/**
+ * Export to CSV
+ */
+function exportToCsv() {
+  makeRequest("GET", Endpoints.ICTCongressExportCsv, null, (response, fullResponse) => {
+    if (fullResponse?.headers["content-type"].includes("csv")) {
+      const filename = fullResponse.headers["content-disposition"].split("filename=")[1].replace(/"/g, "");
+      saveAs(response as unknown as Blob, filename ?? "ict_congress_2024.csv");
+      toast.success("CSV exported successfully.");
+      return;
+    }
+
+    toast.error(response.message);
+  });
 }
 
 /**
@@ -492,6 +561,7 @@ function confirmPaymentDialog(row: ICTStudentModel) {
         if (response.success) {
           toast.success(response.message);
           fetchStudents(isSearched.value ? data.value.search : "");
+          fetchStats();
           return;
         }
 
@@ -520,6 +590,7 @@ function onRemovePendingOrders() {
     if (response.success) {
       toast.success(response.message);
       fetchStudents(isSearched.value ? data.value.search : "");
+      fetchStats();
       return;
     }
 
@@ -542,6 +613,7 @@ function onRemoveStudent(student: ICTStudentModel) {
     if (response.success) {
       toast.success(response.message);
       fetchStudents(isSearched.value ? data.value.search : "");
+      fetchStats();
       return;
     }
 
@@ -599,6 +671,18 @@ function fetchStudents(search = "") {
     message.value = response.message;
     data.value.students = [];
   });
+}
+
+/**
+ * Map stat count
+ * @param id ICTStudentEnum
+ */
+function mapStatCount(id: ICTStudentEnum | -1) {
+  if (id === -1) return ict.stats.countAll;
+  if (id === ICTStudentEnum.attendance) return ict.stats.countPresent;
+  if (id === ICTStudentEnum.snack_claimed) return ict.stats.countSnackClaimed;
+  if (id === ICTStudentEnum.payment_confirmed) return ict.stats.countPaymentConfirmed;
+  if (id === ICTStudentEnum.tshirt_claimed) return ict.stats.countTShirtClaimed;
 }
 </script>
 

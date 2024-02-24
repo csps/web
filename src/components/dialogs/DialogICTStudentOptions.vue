@@ -14,7 +14,6 @@
             name="op"
             :value="row.id"
             :disabled="props.disabledOptions?.includes(row.id)"
-            :checked="!props.disabledOptions?.includes(row.id)"
           />
           <label :for="`sop${row.id}`" :class="{ 'text-outline': props.disabledOptions?.includes(row.id) }">
             {{ props.disabledOptions?.includes(row.id) ? row.disabledName : row.name }}

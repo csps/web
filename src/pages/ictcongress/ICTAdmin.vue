@@ -502,11 +502,18 @@ function doCampusAction(selected: number) {
 function exportToSheet() {
   toast.info("Exporting sheet...");
 
-  makeRequest("GET", Endpoints.ICTCongressExportSheet, null, (response, fullResponse) => {
-    if (fullResponse?.headers["content-type"].includes("sheet")) {
-      const filename = fullResponse.headers["content-disposition"].split("filename=")[1].replace(/"/g, "");
-      saveAs(response as unknown as Blob, filename ?? "ict_congress_2024.xlsx");
-      toast.success("Sheet exported successfully.");
+  makeRequest("GET", Endpoints.ICTCongressExportSheet, null, async (response, fullResponse) => {
+    if (response instanceof Blob) {
+      if (fullResponse?.headers["content-type"].includes("sheet")) {
+        const filename = fullResponse.headers["content-disposition"].split("filename=")[1].replace(/"/g, "");
+        saveAs(response as unknown as Blob, filename ?? "ict_congress_2024.xlsx");
+        toast.success("Sheet exported successfully.");
+        return;
+      }
+
+      // Convert blob to text
+      const text = JSON.parse(await response.text());
+      toast.error(text.message);
       return;
     }
 

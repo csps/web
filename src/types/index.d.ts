@@ -309,6 +309,22 @@ declare global {
     campus_name: string;
   }
 
+  export type CollegeModel = {
+    id: number;
+    acronym: string;
+    name: string;
+    courses?: CourseModel[];
+  };
+
+  type TatakformModel = {
+    id: number;
+    slug: string;
+    name: string;
+    from_date: string;
+    to_date: string;
+    date_stamp: string;
+  }
+  
   type ICTStatistics = {
     countAll: number;
     countPendingPayments: number;

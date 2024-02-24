@@ -5,6 +5,7 @@ enum Endpoints {
   Login = "/login",
   ForgotPassword = "/forgot",
   Courses = "/courses",
+  Colleges = "/colleges",
   
   PhotosHash = "/photos/:hash",
   ReferenceHash = "/photos/:hash/reference",
@@ -37,6 +38,9 @@ enum Endpoints {
   OrdersKey = "/orders/:id/:key",
   OrdersUnique = "/orders/unique/:uniqueId",
   OrdersReference = "/orders/reference/:reference",
+
+  Tatakforms = "/tatakforms",
+  TatakformsSlug = "/tatakforms/:slug",
 
   ICTCongress = "/ictcongress2024",
   ICTCongressRFID = "/ictcongress2024/rfid/:rfid",

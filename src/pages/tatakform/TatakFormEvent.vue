@@ -23,7 +23,7 @@
             class="bg-surface-container px-6 py-4 rounded-xl flex justify-between items-center gap-4"
           >
             <div class="flex gap-4 items-center">
-              <img class="rounded-full w-16 h-16" :src="`/src/assets/img/tatakform/colleges/${college.acronym.toLowerCase()}.png`" :alt="college.name" />
+              <img class="rounded-full w-16 h-16" :src="getCollegeLogo(college.acronym.toLowerCase())" :alt="college.name" />
               <div>
                 <div class="font-medium text-left">{{ college.name }}</div>
                 <div class="text-xs text-left text-outline mt-1">{{ college.acronym }}</div>
@@ -56,6 +56,16 @@ import "@material/web/textfield/outlined-text-field";
 import "@material/web/select/outlined-select";
 import "@material/web/select/select-option";
 import "@material/web/progress/linear-progress";
+
+import cas from "~/assets/img/tatakform/colleges/cas.png";
+import cba from "~/assets/img/tatakform/colleges/cba.png";
+import cca from "~/assets/img/tatakform/colleges/cca.png";
+import ccj from "~/assets/img/tatakform/colleges/ccj.png";
+import ccs from "~/assets/img/tatakform/colleges/ccs.png";
+import chm from "~/assets/img/tatakform/colleges/chm.png";
+import coe from "~/assets/img/tatakform/colleges/coe.png";
+import csw from "~/assets/img/tatakform/colleges/csw.png";
+import cte from "~/assets/img/tatakform/colleges/cte.png";
 
 import dayjs from 'dayjs';
 import sal from "sal.js";
@@ -91,6 +101,23 @@ onMounted(() => {
 
     toast.error(response.message);
   });
-
 });
+
+/**
+ * Get college logo
+ */
+function getCollegeLogo(acronym: string) {
+  switch (acronym) {
+    case "cas": return cas;
+    case "cba": return cba;
+    case "cca": return cca;
+    case "ccj": return ccj;
+    case "ccs": return ccs;
+    case "chm": return chm;
+    case "coe": return coe;
+    case "csw": return csw;
+    case "cte": return cte;
+    default: return "";
+  }
+}
 </script>

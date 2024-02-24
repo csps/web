@@ -324,6 +324,15 @@ declare global {
     to_date: string;
     date_stamp: string;
   }
+  
+  type ICTStatistics = {
+    countAll: number;
+    countPendingPayments: number;
+    countPresent: number;
+    countSnackClaimed: number;
+    countPaymentConfirmed: number;
+    countTShirtClaimed: number;
+  }
 
   type StoreKeys = "dark" | "std_token" | "adm_token" | "home_msg_role" | "login_student_id" |
     "tabs_orders_status" | "tabs_orders_page" | "tabs_events_page" | "tabs_orders_sort" | "tabs_orders_column" | 

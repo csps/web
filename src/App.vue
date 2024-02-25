@@ -5,8 +5,8 @@
     <Maintenence v-if="store.isMaintenance" />
     <div v-else>
       <VNavigationRail
-        :class="{ 'translate-x-0': route.path.startsWith('/admin') && !route.path.endsWith('/login') }"
-        class="hidden md:block fixed top-0 bottom-0 -translate-x-[80px]"
+        :class="{ 'hidden': !route.path.startsWith('/admin'), 'translate-x-0': route.path.startsWith('/admin') && !route.path.endsWith('/login') }"
+        class="fixed top-0 bottom-0 -translate-x-[80px]"
         :selected="(route.params.tab as string | undefined) || 'dashboard'"
         :destinations="store.rails"
         @select="id => store.selectedRail = id"

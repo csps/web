@@ -10,7 +10,10 @@
           </a>
         </div>
         <div class="text-justify space-y-5">
-          <p ref="description" id="description" data-sal="slide-right" data-sal-repeat class="bg-surface-container px-6 py-4 rounded-lg text-sm" />
+          <div id="description">
+            <h3 class="text-2xl font-mono font-bold mb-3">10th UC CCS ICT Congress</h3>
+            <p ref="description" data-sal="slide-right" data-sal-repeat class="bg-surface-container px-6 py-4 rounded-lg text-sm text-on-surface-variant" />
+          </div>
           <div class="flex justify-end">
             <md-filled-button data-sal="slide-left" data-sal-repeat @click="onRegisterClick">
               Register now!
@@ -21,10 +24,10 @@
       </div>
     </section>
     <section class="flex flex-col items-center justify-center h-[100dvh]">
-      <div class="glow flex flex-col gap-5 w-full sm:w-3/4 lg:w-3/4 2xl:w-4/5 font-reset bg-surface-container p-8 rounded-2xl" :key="key">
-        <div class="text-center" data-sal="slide-right" data-sal-repeat>
+      <div class="glow flex flex-col space-y-5 w-full sm:w-3/4 lg:w-3/4 2xl:w-4/5 font-reset bg-surface-container p-8 rounded-2xl" :key="key">
+        <div class="text-center mb-2" data-sal="slide-right" data-sal-repeat>
           <h4 class="mb-1 text-2xl font-bold text-primary">ICT Congress 2024 - Registration</h4>
-          <p class="text-outline text-xs">A Decade of Transformation Through Collaboration, Camaraderie, and Synergies</p>
+          <p class="text-on-surface-variant text-xs">A Decade of Transformation Through Collaboration, Camaraderie, and Synergies</p>
         </div>
         <!-- Student ID -->
         <md-filled-text-field
@@ -42,7 +45,7 @@
         </md-filled-text-field>
     
         <!-- First and Last name -->
-        <div class="flex gap-5">
+        <div class="flex gap-5 !mt-1">
           <md-filled-text-field data-sal="zoom-in" data-sal-repeat v-model.trim="firstName" label="First name" :disabled="store.isLoading || isRegistered">
             <md-icon slot="leading-icon" v-html="icon('person', true)" />
           </md-filled-text-field> 
@@ -52,12 +55,20 @@
         </div>
     
         <!-- Email -->
-        <md-filled-text-field data-sal="zoom-in" data-sal-repeat v-model.trim="email" type="email" label="Email" :disabled="store.isLoading || isRegistered">
+        <md-filled-text-field
+          data-sal="zoom-in"
+          data-sal-repeat
+          v-model.trim="email"
+          type="email"
+          label="Email"
+          :disabled="store.isLoading || isRegistered"
+          supportingText="Make sure to use your valid email address."
+        >
           <md-icon slot="leading-icon" v-html="icon('mail', true)" />
         </md-filled-text-field>
     
         <!-- T-shirt size and campus -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-5 !mt-3">
           <md-filled-select data-sal="slide-right" data-sal-repeat v-model="tsize" label="T-shirt size" :disabled="store.isLoading || isRegistered">
             <md-icon slot="leading-icon" v-html="icon('bar_chart', true)" />
             <md-select-option v-for="size in tshirtSizes" :key="size.id" :value="size.id">
@@ -95,6 +106,7 @@
             :disabled="store.isLoading || isRegistered"
             maxLength="16"
             class="w-full"
+            supportingText="This is an optional field."
             data-sal="zoom-in" data-sal-repeat
           >
             <md-icon slot="leading-icon" v-html="icon('verified', true)" />
@@ -195,9 +207,10 @@ onMounted(() => {
     });
 
     // Bind tilting effect
-    for (const image of document.querySelectorAll("[data-fancybox], #description")) {
+    for (const image of document.querySelectorAll("[data-fancybox]")) {
       VanillaTilt.init(image as HTMLElement, {
         glare: true,
+        "max-glare": 0.4
       });
     }
 

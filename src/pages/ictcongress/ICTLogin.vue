@@ -66,6 +66,7 @@
 import { ref, onMounted } from "vue";
 import { useStore } from "~/store";
 import { icon } from "~/utils/icon";
+import { useRouter } from "vue-router";
 import { toast } from "vue3-toastify";
 import { Endpoints, makeRequest } from "~/network/request";
 import { setStore } from "~/utils/storage";
@@ -75,7 +76,6 @@ import "@material/web/icon/icon";
 import "@material/web/textfield/outlined-text-field";
 import "@material/web/iconbutton/icon-button";
 import "@material/web/button/filled-button";
-import { useRouter } from "vue-router";
 
 const store = useStore();
 const router = useRouter();
@@ -102,8 +102,7 @@ onMounted(() => {
 
     // If not logged in
     store.isLoading = false;
-});
-
+  });
 });
 
 function login() {
@@ -136,14 +135,10 @@ function login() {
   };
 
   // Make request to server
-  makeRequest<LoginResponse, LoginRequest>(
-    "POST",
-    Endpoints.ICTCongressLogin,
-    {
+  makeRequest<LoginResponse, LoginRequest>("POST", Endpoints.ICTCongressLogin, {
       username: username.value,
       password: password.value,
-    },
-    (response) => {
+    }, (response) => {
       isLoggingIn.value = false;
       store.isLoading = false;
 

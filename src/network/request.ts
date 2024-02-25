@@ -4,7 +4,6 @@ import Endpoints from "./endpoints";
 import type { AxiosRequestConfig, AxiosResponse } from "axios";
 import { Config } from "~/config";
 import { getStore, removeStore, setStore } from "~/utils/storage";
-import router from "~/router";
 import { toast } from "vue3-toastify";
 
 /**
@@ -159,8 +158,16 @@ function makeRequest<T, U>(method: HttpMethod, endpoint: Endpoints, data: U, cal
         clearSessionTokens();
         // Log session expired
         toast.error(error.response.data.message);
+
         // Redirect to login
-        router.replace(isICTCongress ? "/ictcongress2024/admin/login" : isAdmin ? "/admin/login" : "/login");
+        if (isICTCongress) {
+          location.href = "/ictcongress2024/admin/login";
+        } else if (isAdmin) {
+          location.href = "/admin/login";
+        } else {
+          location.href = "/login";
+        }
+
         return;
       }
 

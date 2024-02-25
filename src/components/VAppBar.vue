@@ -81,8 +81,8 @@
         </div>
 
         <md-switch @change="onThemeChange" :selected="store.isDark" icons>
-          <md-icon slot="on-icon" v-html="icon('dark_mode')" />
-          <md-icon slot="off-icon" v-html="icon('light_mode')" />
+          <md-icon slot="on-icon" class="scale-[0.65]" v-html="icon('dark_mode')" />
+          <md-icon slot="off-icon" class="scale-[0.65]" v-html="icon('light_mode')" />
         </md-switch>
 
         <md-icon-button title="Logout" @click="logout" v-if="route.path.includes('/ictcongress2024/admin') && !route.path.includes('login')">

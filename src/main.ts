@@ -1,5 +1,6 @@
 import { createApp } from 'vue'
 import { createPinia } from "pinia";
+import { inject } from '@vercel/analytics';
 import Vue3Toastify, { type ToastContainerOptions } from 'vue3-toastify';
 import "element-internals-polyfill";
 
@@ -13,14 +14,16 @@ import '~/scss/main.scss'
 const app = createApp(App);
 const pinia = createPinia();
 
-// TODO: Remove any when types are fixed  
- 
-app.use(pinia as any);
-app.use(router as any);
+app.use(pinia);
+app.use(router);
 
-app.use(Vue3Toastify as any, {
+app.use(Vue3Toastify, {
   position: 'bottom-left',
   clearOnUrlChange: false,
 } as ToastContainerOptions);
+
+inject({
+  debug: process.env.NODE_ENV === 'development',
+});
 
 app.mount('#app')

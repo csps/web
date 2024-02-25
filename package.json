@@ -34,6 +34,7 @@
     "typed.js": "^2.1.0",
     "uuid": "^9.0.1",
     "v-calendar": "^3.1.2",
+    "vanilla-tilt": "^1.8.1",
     "vue": "^3.4.19",
     "vue-router": "^4.2.5",
     "vue3-toastify": "^0.2.1"

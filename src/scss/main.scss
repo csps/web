@@ -18,6 +18,10 @@ input[type=number] {
   appearance: textfield;
 }
 
+:root, body {
+  scroll-behavior: smooth;
+}
+
 :root {
   ::selection {
     @apply bg-primary text-on-primary;

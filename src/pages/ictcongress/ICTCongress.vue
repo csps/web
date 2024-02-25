@@ -260,6 +260,9 @@ function requestRegister() {
 function register() {
   if (store.isLoading || isRegistered.value) return;
 
+  // Slice student ID
+  studentId.value = studentId.value.toString().slice(0, 8);
+
   // If one of the fields is empty, show a toast message
   if (!studentId.value || !firstName.value || !lastName.value || !email.value ||
       !tsize.value || !campus.value || !course.value || !yearLevel.value) {

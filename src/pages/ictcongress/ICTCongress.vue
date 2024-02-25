@@ -27,7 +27,17 @@
           <p class="text-outline text-xs">A Decade of Transformation Through Collaboration, Camaraderie, and Synergies</p>
         </div>
         <!-- Student ID -->
-        <md-filled-text-field data-sal="zoom-in" data-sal-repeat v-model.trim="studentId" type="number" label="Student ID" min="0" :disabled="store.isLoading || isRegistered">
+        <md-filled-text-field
+          data-sal="zoom-in"
+          data-sal-repeat
+          v-model.trim="studentId"
+          maxLength="8"
+          type="number"
+          label="Student ID"
+          min="0"
+          oninput="this.value = this.value.slice(0, 8)"
+          :disabled="store.isLoading || isRegistered"
+        >
           <md-icon slot="leading-icon" v-html="icon('badge', true)" />
         </md-filled-text-field>
     
@@ -273,6 +283,11 @@ function register() {
       !tsize.value || !campus.value || !course.value || !yearLevel.value) {
       toast.error("Please fill up all fields.");
       return;
+  }
+
+  if (studentId.value.toString().length !== 8) {
+    toast.error("Student ID must be 8 characters long.");
+    return;
   }
 
   if (!isEmail(email.value)) {

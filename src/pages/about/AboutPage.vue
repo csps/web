@@ -1,7 +1,7 @@
 <template>
   <div>
     <img class="md:scale-[700%] w-full h-full absolute md:top-0 filter right-[0.6%] dark:contrast-50 -z-[10] opacity-[3%] dark:opacity-10" :src="CSPSLogo" alt="Logo" />
-    <VMouse class="invisible 2xl:visible absolute bottom-[5%] left-1/2 -translate-x-1/2" />
+    <VMouse class="invisible sm:visible absolute bottom-[5%] left-1/2 -translate-x-1/2" />
     <VFullpage inner>
       <section>
         <div class="container mx-auto px-6 py-24 flex flex-col items-center justify-center text-center">
@@ -38,6 +38,36 @@
                 class="rounded-3xl my-10"
               >
                 <CardOfficer class="mx-6 sm:mx-20 md:mx-4 lg:mx-6 shadow-md" :officer="officer" />
+              </swiper-slide>
+            </swiper-container>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <div class="w-full">
+          <h1 class="headline-small text-csps-primary dark:text-secondary font-semibold text-center" data-sal="zoom-in" data-sal-repeat>
+            MEET THE <span class="text-csps-secondary dark:text-tertiary-80">CSPS REPRESENTATIVES!</span>
+          </h1>
+  
+          <div class="relative">
+            <swiper-container
+              effect="coverflow"
+              grab-cursor="true"
+              centered-slides="true"
+              round-lengths="true"
+              autoplay-delay="3000"
+              coverflow-effect-slide-shadows="false"
+              data-sal="zoom-in" data-sal-repeat
+              class="representatives-swiper w-full py-4 lg:py-8 overflow-hidden lg:overflow-visible flex justify-center"
+              autoplay-disable-on-interaction="false"
+            >
+              <swiper-slide
+                v-for="rep in representatives"
+                :key="rep.name"
+                class="rounded-3xl my-10"
+              >
+                <CardOfficer class="mx-6 sm:mx-20 md:mx-4 lg:mx-6 shadow-md" :officer="rep" />
               </swiper-slide>
             </swiper-container>
           </div>
@@ -147,6 +177,10 @@ import Sedigo from '~/assets/img/profile/csps_sedigo.jpg';
 import Fabroa from '~/assets/img/profile/csps_fabroa.jpg';
 import Tonilon from '~/assets/img/profile/csps_tonilon.jpg';
 
+import Pondar from '~/assets/img/profile/csps_pondar.jpg';
+import Umpar from '~/assets/img/profile/csps_umpar.jpg';
+import Ocampo from '~/assets/img/profile/csps_ocampo.jpg';
+
 import type { SwiperContainer } from 'swiper/element';
 import { register } from 'swiper/element/bundle';
 import { ref, onMounted } from 'vue';
@@ -172,8 +206,14 @@ const officers: Officer[] = [
   { name: "Christine Lange", position: "Auditor", thumb: Lange },
   { name: "Raymond Benedict Branzuela", position: "P.R.O", thumb: Branzuela },
   { name: "Andrian Paul Sedigo", position: "P.I.O", thumb: Sedigo },
-  { name: "Maverick Fabroa", position: "Project Manager", thumb: Fabroa },
+  { name: "Maverick Fabroa", position: "Project Manager / Developer", thumb: Fabroa },
   { name: "Michael Tonilon", position: "Developer", thumb: Tonilon },
+];
+
+const representatives: Officer[] = [
+  { name: "Ramie Theofil Pondar", position: "1st Year Representative", thumb: Pondar },
+  { name: "Norhanah Umpar", position: "2nd Year Representative", thumb: Umpar },
+  { name: "Mark Danielle Ocampo", position: "3rd Year Representative", thumb: Ocampo },
 ];
 
 const message = `
@@ -188,33 +228,36 @@ register();
 onMounted(() => {
   sal();
 
-  const swiper: SwiperContainer | null = document.querySelector('.officers-swiper');
-  if (swiper === null) return;
+  ['.officers-swiper', '.representatives-swiper'].forEach((selector) => {
+    const swiper: SwiperContainer | null = document.querySelector(selector);
+    if (swiper === null) return;
 
-  Object.assign(swiper, {
-    slidesPerView: 1,
-    spaceBetween: 0,
-    breakpoints: {
-      520: {
-        spaceBetween: 0,
-        slidesPerView: 1,
+    Object.assign(swiper, {
+      slidesPerView: 1,
+      spaceBetween: 0,
+      breakpoints: {
+        520: {
+          spaceBetween: 0,
+          slidesPerView: 1,
+        },
+        768: {
+          spaceBetween: 0,
+          slidesPerView: 2,
+        },
+        1024: {
+          spaceBetween: 0,
+          slidesPerView: 3,
+        },
+        1280: {
+          spaceBetween: 0,
+          slidesPerView: 4,
+        },
       },
-      768: {
-        spaceBetween: 0,
-        slidesPerView: 2,
-      },
-      1024: {
-        spaceBetween: 0,
-        slidesPerView: 3,
-      },
-      1280: {
-        spaceBetween: 0,
-        slidesPerView: 4,
-      },
-    },
+    });
+
+    swiper.initialize();
   });
 
-  swiper.initialize();
   startTyped();
 });
 
@@ -225,7 +268,7 @@ function startTyped() {
 
   instance = new Typed(intro.value, {
     strings: [ message ],
-    typeSpeed: 15,
+    typeSpeed: 1,
     showCursor: false,
   });
 }
@@ -252,7 +295,7 @@ ul {
   }
 }
 
-.officers-swiper {
+.officers-swiper, .representatives-swiper {
   --swiper-pagination-color: theme("colors.csps-primary");
 }
 </style>

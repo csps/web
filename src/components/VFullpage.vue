@@ -18,7 +18,7 @@ defineProps({
 });
 
 onMounted(() => {
-  if (window.outerWidth < 1024 || window.innerWidth <= 1536) {
+  if (window.outerWidth < 728) {
     return;
   }
 
@@ -160,5 +160,9 @@ onMounted(() => {
       @apply relative -z-[1];
     }
   }
+}
+
+.page.maintain-z.inner section:first-child {
+  @apply z-[1];
 }
 </style>

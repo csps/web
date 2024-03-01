@@ -151,6 +151,10 @@ md-outlined-select.dense::part(menu), md-filled-select.dense::part(menu) {
     file:text-on-surface-variant ;
 }
 
+.float-anim {
+  animation: float_anim 1s infinite alternate ease-in-out;
+}
+
 .font-reset {
   font-family: Roboto, Arial, sans-serif;
 }
@@ -161,5 +165,14 @@ md-outlined-select.dense::part(menu), md-filled-select.dense::part(menu) {
   }
   100% {
     box-shadow: 0 0 50px -50px var(--md-sys-color-primary);
+  }
+}
+
+@keyframes float_anim {
+  0% {
+    transform: translateY(20);
+  }
+  100% {
+    transform: translateY(-20px);
   }
 }

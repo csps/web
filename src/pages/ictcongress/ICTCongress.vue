@@ -4,20 +4,15 @@
     <section class="first pb-32 flex items-center z-0 !overflow-visible">
       <div class="grid grid-cols-1 lg:grid-cols-2 items-center gap-8 w-full">
         <div class="flex justify-center items-center" data-sal="zoom-in" data-sal-repeat>
-          <div class="flex justify-center dark:bg-surface rounded-3xl" id="graphic">
+          <div class="flex justify-center dark:bg-surface rounded-3xl graphic">
             <div class="absolute gradient rounded-3xl" />
-            <img :src="graphic" class="w-2/3 lg:w-3/4 xl:w-1/2 select-none" alt="ICT Congress Graphics" />
+            <img :src="graphic" class="w-2/3 lg:w-11/12 xl:w-3/4 2xl:w-3/5 select-none float-anim" alt="ICT Congress Graphics" />
           </div>
         </div>
         <div class="text-justify space-y-5 z-[2]">
-          <div id="description" data-sal="slide-right" data-sal-repeat>
+          <div data-sal="slide-right" class="graphic" data-sal-repeat>
             <h3 class="text-base lg:text-xl font-bold mb-3 ml-6">10ᵗʰ <span class="text-primary">UC CCS ICT Congress</span></h3>
-            <p class="bg-surface-container px-6 py-4 rounded-lg leading-6 text-on-surface-variant">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-              Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-              Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-              Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-            </p>
+            <p ref="intro" class="bg-surface-container px-6 py-4 rounded-lg leading-6 text-on-surface-variant" />
           </div>
           <div class="flex justify-end">
             <md-filled-button data-sal="slide-left" data-sal-repeat @click="onRegisterClick">
@@ -147,6 +142,7 @@ import "@fancyapps/ui/dist/fancybox/fancybox.css";
 
 import graphic from "~/assets/img/ictcongress2024.png";
 import VMouse from "~/components/VMouse.vue";
+import Typed from "typed.js";
 import VanillaTilt from "vanilla-tilt";
 import sal from "sal.js";
 
@@ -166,6 +162,14 @@ const courses = ref<ICTCourse[]>([]);
 const tshirtSizes = ref<ICTShirtSize[]>([]);
 const campuses = ref<ICTCampus[]>([]);
 const isRegistered = ref(false);
+const intro = ref();
+
+const message = `
+  Get ready for an exciting journey at the 10th UC CCS ICT Congress 2024!^1000
+  It's the perfect opportunity for you to learn from our industry pioneers,^500 thought leaders,^500 and innovators,^500 and get the latest insights into the most cutting-edge technologies,^500 emerging trends,^500 and innovative strategies driving the ICT sector forward.^1000
+  You'll also have the chance to witness the exceptional skills and accomplishments of students from various campuses.^500 So, let's come together and pave the way for a brighter future, where possibilities are limitless, and the potential for progress knows no bounds.
+  We can't wait to see you there!
+`;
 
 type ICTConfig = {
   courses: ICTCourse[];
@@ -173,18 +177,17 @@ type ICTConfig = {
   campuses: ICTCampus[];
 };
 
+let instance: Typed | undefined;
+
 onMounted(() => {
   getConfig();
 
   // Bind fancybox
   setTimeout(() => {
     // Bind tilting effect
-    for (const image of document.querySelectorAll("#graphic")) {
+    for (const image of document.querySelectorAll(".graphic")) {
       VanillaTilt.init(image as HTMLElement, {
         reverse: true,
-        glare: true,
-        "max-glare": 0.4,
-        "glare-prerender": false,
         gyroscope: true,
         gyroscopeMinAngleX: -45,
         gyroscopeMaxAngleX: 45,
@@ -197,6 +200,8 @@ onMounted(() => {
 
     // Start sal.js animation
     sal();
+    // Start typed.js
+    startTyped();
   }, 0);
 });
 
@@ -336,6 +341,18 @@ function clearFields() {
   }
 }
 
+function startTyped() {
+  if (instance) {
+    instance.destroy();
+  }
+
+  instance = new Typed(intro.value, {
+    strings: [ message ],
+    typeSpeed: 15,
+    showCursor: false,
+  });
+}
+
 function mapYearLevel(year: number) {
   switch (year) {
     case 1:
@@ -367,5 +384,14 @@ md-filled-select, md-filled-text-field {
 
 section.first {
   height: calc(100dvh - 64px);
+}
+
+.graphic {
+  transform-style: preserve-3d;
+  transform: perspective(1000px);
+}
+
+.graphic-front {
+  transform: translateX(-20px) translateZ(30px);
 }
 </style>

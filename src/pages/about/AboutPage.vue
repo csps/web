@@ -217,7 +217,7 @@ const representatives: Officer[] = [
 ];
 
 const message = `
-  Welcome to the  Computing Society of the Philippines - Students!^750
+  Welcome to the Computing Society of the Philippines - Students!^750
   We are a student body organization that aims to create a welcoming and inclusive community for all computer science students at the University of Cebu - Main Campus. ^750
   Our goal is to promote inclusivity and diversity within the field of computing, ensuring that every student has the opportunity to explore their interests and succeed in their academic and professional pursuits. ^750
   Join us at CSP-S and become part of a community that celebrates diversity and fosters growth and development for all students in the field of computer science. We welcome you with open arms!

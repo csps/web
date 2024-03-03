@@ -188,11 +188,6 @@ onMounted(() => {
     for (const image of document.querySelectorAll(".graphic")) {
       VanillaTilt.init(image as HTMLElement, {
         reverse: true,
-        gyroscope: true,
-        gyroscopeMinAngleX: -45,
-        gyroscopeMaxAngleX: 45,
-        gyroscopeMinAngleY: -45,
-        gyroscopeMaxAngleY: 45,
         reset: true,
         perspective: 500
       });

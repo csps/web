@@ -1,6 +1,5 @@
 <template>
   <div class="container mx-auto px-6 py-6 h-full flex-grow flex justify-center">
-
     <Transition name="slide-fade" mode="out-in">
       <div v-if="isLoading" class="flex justify-center items-center flex-col gap-3">
         <md-circular-progress size="10" indeterminate />
@@ -180,6 +179,7 @@ const isRemoveStudentDialogOpen= ref(false);
 const isRemoveOrdersConfirmOpen = ref(false);
 const isCampusOptionsOpen = ref(false);
 const isRFIDDialogOpen = ref(false);
+const isAuth = ref(false);
 const disabledOptions = ref<number[]>([])
 const message = ref("");
 
@@ -230,16 +230,15 @@ onMounted(() => {
       store.ictAdmin = response.data;
       store.isLoading = false;
       isLoading.value = false;
+      isAuth.value = true;
       fetchStudents();
       return;
     }
 
-    // If not logged in
-    store.isLoading = false;
-    isLoading.value = false;
-
     // Redirect to home
     router.push("/ictcongress2024/admin/login");
+    // If not logged in
+    store.isLoading = false;
   });
 
   makeRequest<ICTConfig, null>("GET", Endpoints.ICTCongress, null, response => {

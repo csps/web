@@ -1,7 +1,7 @@
 <template>
   <div class="flex justify-center items-center flex-col gap-5 flex-grow" @click="input?.focus()">
     <h2 class="font-medium text-center px-6 text-base sm:text-lg lg:text-2xl">
-      ICT Congress 2024 - Attendance RFID Scanner
+      <span class="text-primary">ICT Congress 2024</span> - Attendance RFID Scanner
     </h2>
     <input v-model="rfid" ref="input" type="password" autocomplete="off" autofocus />
   </div>
@@ -74,6 +74,6 @@ function showSwalLoading(text?: string) {
 input {
   @apply border-none text-on-surface rounded-[999px] px-7 py-5
     focus:border-none outline-none text-center text-lg dark:bg-surface-container-high
-    bg-outline-variant;
+    bg-surface-container-low;
 }
 </style>

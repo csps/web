@@ -1,5 +1,5 @@
 <template>
-  <div class="h-16 md:h-20 appbar z-[1]">
+  <div class="h-16 z-[1]">
     <div class="container mx-auto px-4 flex items-center space-x-1 md:space-x-5 h-full">
       <!-- Back button -->
       <md-icon-button v-if="store.isShowBackButton" @click="back">
@@ -21,7 +21,13 @@
 
       <!-- Title -->
       <h3 class="hidden xl:block text-on-surface-variant">UC Main Computing Society of the Philippines - Students</h3>
-      <h3 class="block xl:hidden text-on-surface-variant" :class="{ 'hidden': route.name?.toString().includes('RFID') }">
+      <h3
+        class="block xl:hidden text-on-surface-variant"
+        :class="{
+          'hidden': route.name === 'RFID Scanner - ICT Congress 2024',
+          'hidden md:inline': route.name === 'Admin - ICT Congress 2024'
+        }"
+      >
         UC Main CSP-S
       </h3>
 
@@ -74,7 +80,7 @@
             <md-primary-tab title="ICT Congress 2024">
               <router-link class="link" to="/ictcongress2024/admin/scan">
                 <md-icon v-html="icon('barcode_scanner')" />
-                <span>RFID Scan</span>
+                <span>RFID</span>
               </router-link>
             </md-primary-tab>
           </md-tabs>
@@ -210,11 +216,6 @@ function back() {
   img {
     @apply w-11;
   }
-}
-
-.appbar {
-  transition: all 0.31s ease-in-out;
-  @apply bg-[rgba(239,229,237,0.5)] dark:bg-[rgba(22,18,23,0.5)] backdrop-blur-sm;
 }
 
 h3 {

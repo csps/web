@@ -26,11 +26,14 @@ export default defineConfig({
   build: {
     rollupOptions: {
       output: {
+        manualChunks: {
+          sweetalert2: ['sweetalert2'],
+        },
         compact: true,
         experimentalMinChunkSize: 200000,
-        entryFileNames: `assets/csps.[hash].js`,
-        chunkFileNames: `assets/csps.[hash].js`,
-        assetFileNames: `assets/csps.[hash].[ext]`,
+        entryFileNames: `assets/ucmncsps.[hash].js`,
+        chunkFileNames: `assets/ucmncsps.[hash].js`,
+        assetFileNames: `assets/ucmncsps.[hash].[ext]`,
       },
     }
   }

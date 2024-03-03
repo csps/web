@@ -6,7 +6,7 @@
         <div class="flex justify-center items-center" data-sal="zoom-in" data-sal-repeat>
           <div class="flex justify-center dark:bg-surface rounded-3xl graphic">
             <div class="absolute gradient rounded-3xl" />
-            <img :src="graphic" class="w-2/3 lg:w-11/12 xl:w-3/4 2xl:w-3/5 select-none float-anim" alt="ICT Congress Graphics" />
+            <img :src="graphic" class="w-2/3 md:w-1/2 lg:w-11/12 xl:w-3/4 2xl:w-3/5 select-none float-anim" alt="ICT Congress Graphics" />
           </div>
         </div>
         <div class="text-justify space-y-5 z-[2]">
@@ -379,11 +379,11 @@ md-filled-select, md-filled-text-field {
 }
 
 .glow {
-  animation: glow 1.5s ease-in-out infinite alternate;
+  animation: glow 2s ease-in-out infinite alternate;
 }
 
-section.first {
-  height: calc(100dvh - 64px);
+section {
+  min-height: calc(100dvh - 64px);
 }
 
 .graphic {

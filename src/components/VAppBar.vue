@@ -1,5 +1,5 @@
 <template>
-  <div class="h-20 appbar z-[1]">
+  <div class="h-16 md:h-20 appbar z-[1]">
     <div class="container mx-auto px-4 flex items-center space-x-1 md:space-x-5 h-full">
       <!-- Back button -->
       <md-icon-button v-if="store.isShowBackButton" @click="back">
@@ -214,7 +214,7 @@ function back() {
 
 .appbar {
   transition: all 0.31s ease-in-out;
-  @apply bg-transparent;
+  @apply bg-[rgba(239,229,237,0.5)] dark:bg-[rgba(22,18,23,0.5)] backdrop-blur-sm;
 }
 
 h3 {

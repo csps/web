@@ -9,7 +9,6 @@ export default {
       },
       screens: {
         "3xl": "1920px",
-        "custom-sm": { max: "640px" }, //Custom breakpoint for 640px and below..hehehe
       },
       colors: {
         "csps-primary": "#4A2558",
@@ -23,8 +22,7 @@ export default {
         "primary-fixed": "var(--md-sys-color-primary-fixed)",
         "on-primary-fixed": "var(--md-sys-color-on-primary-fixed)",
         "primary-fixed-dim": "var(--md-sys-color-primary-fixed-dim)",
-        "on-primary-fixed-variant":
-          "var(--md-sys-color-on-primary-fixed-variant)",
+        "on-primary-fixed-variant": "var(--md-sys-color-on-primary-fixed-variant)",
         secondary: "var(--md-sys-color-secondary)",
         "on-secondary": "var(--md-sys-color-on-secondary)",
         "secondary-container": "var(--md-sys-color-secondary-container)",
@@ -32,8 +30,7 @@ export default {
         "secondary-fixed": "var(--md-sys-color-secondary-fixed)",
         "on-secondary-fixed": "var(--md-sys-color-on-secondary-fixed)",
         "secondary-fixed-dim": "var(--md-sys-color-secondary-fixed-dim)",
-        "on-secondary-fixed-variant":
-          "var(--md-sys-color-on-secondary-fixed-variant)",
+        "on-secondary-fixed-variant": "var(--md-sys-color-on-secondary-fixed-variant)",
         tertiary: "var(--md-sys-color-tertiary)",
         "on-tertiary": "var(--md-sys-color-on-tertiary)",
         "tertiary-container": "var(--md-sys-color-tertiary-container)",
@@ -41,8 +38,7 @@ export default {
         "tertiary-fixed": "var(--md-sys-color-tertiary-fixed)",
         "on-tertiary-fixed": "var(--md-sys-color-on-tertiary-fixed)",
         "tertiary-fixed-dim": "var(--md-sys-color-tertiary-fixed-dim)",
-        "on-tertiary-fixed-variant":
-          "var(--md-sys-color-on-tertiary-fixed-variant)",
+        "on-tertiary-fixed-variant": "var(--md-sys-color-on-tertiary-fixed-variant)",
         error: "var(--md-sys-color-error)",
         "error-container": "var(--md-sys-color-error-container)",
         "on-error": "var(--md-sys-color-on-error)",
@@ -61,13 +57,11 @@ export default {
         "on-surface": "var(--md-sys-color-on-surface)",
         "surface-variant": "var(--md-sys-color-surface-variant)",
         "on-surface-variant": "var(--md-sys-color-on-surface-variant)",
-        "surface-container-highest":
-          "var(--md-sys-color-surface-container-highest)",
+        "surface-container-highest": "var(--md-sys-color-surface-container-highest)",
         "surface-container-high": "var(--md-sys-color-surface-container-high)",
         "surface-container": "var(--md-sys-color-surface-container)",
         "surface-container-low": "var(--md-sys-color-surface-container-low)",
-        "surface-container-lowest":
-          "var(--md-sys-color-surface-container-lowest)",
+        "surface-container-lowest": "var(--md-sys-color-surface-container-lowest)",
         "surface-dim": "var(--md-sys-color-surface-dim)",
         "surface-bright": "var(--md-sys-color-surface-bright)",
 

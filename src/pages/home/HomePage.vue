@@ -17,12 +17,11 @@
         </div>
 
         <div class="flex justify-center mt-3" data-sal="zoom-in">
-          <md-assist-chip
-            elevated
-            class="mb-3 text-primary"
-            label="ICT Congress 2024 registration (Coming Soon)"
-            disabled
-          />
+          <router-link to="/ictcongress2024">
+            <md-assist-chip class="mb-3" label="ICT Congress 2024 registration" elevated>
+              <md-icon slot="icon" v-html="icon('campaign', true)" />
+            </md-assist-chip>
+          </router-link>
         </div>
 
         <h2 class="headline-medium font-semibold text-primary" data-sal="zoom-in">
@@ -276,5 +275,10 @@ function bindSwiper() {
 md-circular-progress {
   --md-circular-progress-size: 48px;
   --md-circular-progress-active-indicator-width: 10;
+}
+
+md-assist-chip {
+  --_label-text-color: var(--md-sys-color-secondary);
+  --_hover-label-text-color: var(--md-sys-color-primary);
 }
 </style>

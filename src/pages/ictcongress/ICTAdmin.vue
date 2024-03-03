@@ -665,7 +665,7 @@ function fetchStudents(search = "") {
     filter: data.value.filter,
     filterLogic: data.value.filterLogic,
     sort: {
-      key: ICTStudentEnum.last_name,
+      key: ICTStudentEnum.date_stamp,
       type: "DESC"
     }
   });

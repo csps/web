@@ -105,7 +105,7 @@ import { icon } from "~/utils/icon";
 import { register } from 'swiper/element/bundle';
 import { Endpoints, makeRequest } from '~/network/request';
 import { AnnouncementEnum } from '~/types/models';
-import { getStore, setStore } from '~/utils/storage';
+import { getStore, removeStore, setStore } from '~/utils/storage';
 import { PaginationRequest } from '~/types/request';
 import { createPagination } from '~/utils/pagination';
 import wave from "~/utils/wave";
@@ -224,7 +224,7 @@ function showMessage(r: Role) {
 
   setTimeout(() => {
     // Get swiper
-    const swiper = bindSwiper();
+    const swiper = getSwiper();
 
     if (role.value === "dean") {
       swiper?.slideTo(0);
@@ -245,25 +245,25 @@ function showMessage(r: Role) {
  */
 function bindSwiper() {
   // Get swiper
-  const swiper = getSwiper(true);
+  const swiper = getSwiper();
   // If swiper is null, return
   if (swiper === null) return;
 
   // Add slide change event listener to swiper
-  (swiper as any).addEventListener('slidechange', (event: any) => {
-    if (event.detail[0].realIndex === 0) {
+  swiper.on('slideChange', (swiper: Swiper) => {
+    if (swiper.activeIndex === 0) {
       role.value = "dean";
       setStore("home_msg_role", "dean");
       return;
     }
     
-    if (event.detail[0].realIndex === 1) {
+    if (swiper.realIndex === 1) {
       role.value = "adviser";
       setStore("home_msg_role", "adviser");
       return;
     }
 
-    setStore("home_msg_role", "-");
+    removeStore("home_msg_role");
     role.value = null;
   });
 

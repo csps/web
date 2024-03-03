@@ -2,6 +2,15 @@ import { ref } from "vue";
 import { defineStore } from "pinia";
 import { v4 } from "uuid";
 
+type DialogData = {
+  title: string;
+  message: string;
+  ok?: DialogButton;
+  cancel?: DialogButton | null;
+  dialogHide?: () => void;
+  dismissible?: boolean;
+};
+
 /**
  * Dialog store
  */
@@ -10,26 +19,33 @@ export const useDialog = defineStore("dialog", () => {
 
   /**
    * Shows a dialog with the specified title and message.
-   * @param title Dialog title
-   * @param message Dialog message
-   * @param ok Ok button configuration
-   * @param cancel Cancel button configuration
+   * @param data Dialog data
    */
-  function open(title: string, message: string, ok?: DialogButton, cancel?: DialogButton | null, dialogHide?: () => void) {
+  function open(data: DialogData) {
     // Generate dialog id
     const id = v4();
 
     // If cancel button is not specified
-    if (cancel === undefined) {
+    if (data.cancel === undefined) {
       // Set default cancel button
-      cancel = {
+      data.cancel = {
         text: "Cancel",
         click: () => close(id)
       }
     }
 
     // Add dialog to queue
-    queue.value.push({ show: true, id, title, message, ok, cancel, dialogHide });
+    queue.value.push({
+      show: true,
+      id,
+      title: data.title,
+      message: data.message,
+      ok: data.ok,
+      cancel: data.cancel,
+      dialogHide: data.dialogHide,
+      dismissible: data.dismissible === undefined ? false : data.dismissible
+    });
+
     // Return dialog id
     return id;
   }

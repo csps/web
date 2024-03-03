@@ -262,99 +262,110 @@ function onSaveInfo(ev: Event) {
 
 function placeOrder() {
   isConfirmingOrder.value = true;
+  
+  const id = dialog.open({
+    title: "Confirm Order",
+    message: "All set to complete your order? Click 'Confirm' to proceed.",
+    ok: {
+      text: "Confirm",
+      click() {
+        dialog.close(id);
 
-  const id = dialog.open("Confirm Order", "All set to complete your order? Click 'Confirm' to proceed.", {
-    text: "Confirm",
-    click() {
-      dialog.close(id);
-
-      if (!store.checkoutDetails) {
-        toast.error("No product to checkout!");
-        return;
-      }
-
-      if (!store.checkoutDetails.product.is_available) {
-        toast.error("Product is not available yet!");
-        return;
-      }
-
-      if (!canPlaceOrder.value) {
-        toast.error("Please fill up all the required fields!");
-        return;
-      }
-
-      store.isLoading = true;
-      isPlacingOrder.value = true;
-
-      const data: OrderRequest = {
-        products_id: store.checkoutDetails.product.id,
-        mode_of_payment: mop.value,
-        quantity: quantity.value,
-      };
-
-      if (store.checkoutDetails.variant) {
-        data.variations_id = store.checkoutDetails.variant.id;
-      }
-
-      if (!store.isLoggedIn) {
-        data.student_id = studentId.value;
-        data.student_first_name = firstName.value;
-        data.student_last_name = lastName.value;
-        data.student_email = email.value;
-        data.student_course = course.value;
-        data.student_year = year.value;
-      }
-
-      // If save info is checked, save the student info to local storage in base64 encoded string
-      if (isSaveInfo.value) {
-        setStore("merch_checkout_student_details", btoa(JSON.stringify({
-          student_id: studentId.value,
-          first_name: firstName.value,
-          last_name: lastName.value,
-          email_address: email.value,
-          course: course.value,
-          year_level: year.value,
-        })));
-      }
-
-      // Otherwise, remove the student info from local storage
-      else {
-        removeStore("merch_checkout_student_details");
-      }
-
-      if (mop.value === ModeOfPayment.GCASH) {
-        data.proof = screenshot.value;
-      }
-
-      makeRequest<string, OrderRequest>("POST", Endpoints.Orders, data, response => {  
-        store.isLoading = false;
-        isPlacingOrder.value = false;
-
-        if (response.success) {
-          const [ title, message ] = response.message.split("_");
-
-          const id = dialog.open(title, message, {
-            text: "Gotchu",
-            click() {
-              dialog.close(id);
-            }
-          }, null, () => {
-            router.replace({ name: "Merch" });
-          });
-
+        if (!store.checkoutDetails) {
+          toast.error("No product to checkout!");
           return;
         }
 
-        toast.error(response.message);
-      });
+        if (!store.checkoutDetails.product.is_available) {
+          toast.error("Product is not available yet!");
+          return;
+        }
+
+        if (!canPlaceOrder.value) {
+          toast.error("Please fill up all the required fields!");
+          return;
+        }
+
+        store.isLoading = true;
+        isPlacingOrder.value = true;
+
+        const data: OrderRequest = {
+          products_id: store.checkoutDetails.product.id,
+          mode_of_payment: mop.value,
+          quantity: quantity.value,
+        };
+
+        if (store.checkoutDetails.variant) {
+          data.variations_id = store.checkoutDetails.variant.id;
+        }
+
+        if (!store.isLoggedIn) {
+          data.student_id = studentId.value;
+          data.student_first_name = firstName.value;
+          data.student_last_name = lastName.value;
+          data.student_email = email.value;
+          data.student_course = course.value;
+          data.student_year = year.value;
+        }
+
+        // If save info is checked, save the student info to local storage in base64 encoded string
+        if (isSaveInfo.value) {
+          setStore("merch_checkout_student_details", btoa(JSON.stringify({
+            student_id: studentId.value,
+            first_name: firstName.value,
+            last_name: lastName.value,
+            email_address: email.value,
+            course: course.value,
+            year_level: year.value,
+          })));
+        }
+
+        // Otherwise, remove the student info from local storage
+        else {
+          removeStore("merch_checkout_student_details");
+        }
+
+        if (mop.value === ModeOfPayment.GCASH) {
+          data.proof = screenshot.value;
+        }
+
+        makeRequest<string, OrderRequest>("POST", Endpoints.Orders, data, response => {  
+          store.isLoading = false;
+          isPlacingOrder.value = false;
+
+          if (response.success) {
+            const [ title, message ] = response.message.split("_");
+
+            const id = dialog.open({
+              title, message,
+              ok: {
+                text: "Gotchu",
+                click() {
+                  dialog.close(id);
+                }
+              },
+              cancel: null,
+              dialogHide: () => {
+                router.replace({ name: "Merch" });
+              }
+            });
+
+            return;
+          }
+
+          toast.error(response.message);
+        });
+      }
+    },
+    cancel: {
+      text: "Cancel",
+      click() {
+        dialog.close(id);
+      }
+    },
+    dialogHide: () => {
+      isConfirmingOrder.value = false;
     }
-  }, {
-    text: "Cancel",
-    click() {
-      dialog.close(id);
-    }
-  }, () => {
-    isConfirmingOrder.value = false;
   });
 }
 

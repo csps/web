@@ -245,12 +245,17 @@ function requestRegister() {
     store.isLoading = false;
 
     if (response.success) {
-        isRegistered.value = true;
+      isRegistered.value = true;
 
-      const id = dialog.open("Success", response.message, {
-        text: "Got it!",
-        click: () => dialog.close(id)
-      }, null);
+      const id = dialog.open({
+        title: "Success",
+        message: response.message,
+        ok: {
+          text: "Got it!",
+          click: () => dialog.close(id)
+        },
+        cancel: null
+      });
       
       return;
     }
@@ -283,44 +288,53 @@ function register() {
     return;
   }
 
-  let id = dialog.open("Confirm Details", `
-    <div class="grid grid-cols-2 gap-y-1 mt-3">
-      <div>Student ID:</div>
-      <div>${studentId.value}</div>
-      <div>First name:</div>
-      <div>${firstName.value}</div>
-      <div>Last name:</div>
-      <div>${lastName.value}</div>
-      <div>Email:</div>
-      <div>${email.value}</div>
-      <div>T-shirt size:</div>
-      <div>${tshirtSizes.value.find(size => size.id === tsize.value)?.name}</div>
-      <div>Campus:</div>
-      <div>${campuses.value.find(c => c.id === campus.value)?.campus_name}</div>
-      <div>Course:</div>
-      <div>${courses.value.find(c => c.id === course.value)?.course_name}</div>
-      <div>Year level:</div>
-      <div>${mapYearLevel(yearLevel.value)}</div>
-      <div>Discount code:</div>
-      <div>${discountCode.value.length > 0 ? discountCode.value : 'N/A'}</div>
-    </div>
-  `, {
-    text: "Proceed",
-    click() {
-      dialog.close(id);
-      
-      id = dialog.open("Note", `
-        <p>Orders that are not paid as soon as possible will be withdrawn by the admins.</p>
-      `, {
-        text: "I understand, proceed",
-        click() {
-          dialog.close(id);
-          requestRegister();
-        }
-      }, {
-        text: "Cancel",
-        click: () => dialog.close(id)
-      });
+  let id = dialog.open({
+    title: "Confirm Details",
+    message: `
+      <div class="grid grid-cols-2 gap-y-1 mt-3">
+        <div>Student ID:</div>
+        <div>${studentId.value}</div>
+        <div>First name:</div>
+        <div>${firstName.value}</div>
+        <div>Last name:</div>
+        <div>${lastName.value}</div>
+        <div>Email:</div>
+        <div>${email.value}</div>
+        <div>T-shirt size:</div>
+        <div>${tshirtSizes.value.find(size => size.id === tsize.value)?.name}</div>
+        <div>Campus:</div>
+        <div>${campuses.value.find(c => c.id === campus.value)?.campus_name}</div>
+        <div>Course:</div>
+        <div>${courses.value.find(c => c.id === course.value)?.course_name}</div>
+        <div>Year level:</div>
+        <div>${mapYearLevel(yearLevel.value)}</div>
+        <div>Discount code:</div>
+        <div>${discountCode.value.length > 0 ? discountCode.value : 'N/A'}</div>
+      </div>
+    `,
+    ok: {
+      text: "Proceed",
+      click() {
+        dialog.close(id);
+        
+        id = dialog.open({
+          title: "Note:",
+          message: `
+            <p>Orders that are not paid as soon as possible will be withdrawn by the admins.</p>
+          `,
+          ok: {
+            text: "I understand, proceed",
+            click() {
+              dialog.close(id);
+              requestRegister();
+            }
+          },
+          cancel: {
+            text: "Cancel",
+            click: () => dialog.close(id)
+          }
+        });
+      }
     }
   });
 }

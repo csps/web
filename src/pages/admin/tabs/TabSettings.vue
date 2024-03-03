@@ -17,7 +17,6 @@ import { clearSessionTokens } from "~/network/request";
 import { useRouter } from "vue-router";
 
 import "@material/web/ripple/ripple";
-import Strings from "~/config/strings";
 
 const store = useStore();
 const dialog = useDialog();
@@ -32,22 +31,26 @@ const items: Item[] = [
   { 
     name: "Logout",
     onClick() {
-      const id = dialog.open(Strings.LOGOUT_DIALOG_TITLE, Strings.LOGOUT_DIALOG_MESSAGE, {
-        text: "Logout",
-        click: () => {
-          // Set loading to true
-          store.isLoading = true;
-          // Clear tokens
-          clearSessionTokens();
-          // Set logged out
-          store.role = -1;
-          store.isAdminLoggedIn = false;
-          // Redirect to login
-          router.push({ name: "Admin Login" });
-          // Set loading to false
-          store.isLoading = false;
-          // Close dialog
-          dialog.close(id);
+      const id = dialog.open({
+        title: "Logout",
+        message: "Logging out will clear your session.",
+        ok: {
+          text: "Logout",
+          click: () => {
+            // Set loading to true
+            store.isLoading = true;
+            // Clear tokens
+            clearSessionTokens();
+            // Set logged out
+            store.role = -1;
+            store.isAdminLoggedIn = false;
+            // Redirect to login
+            router.push({ name: "Admin Login" });
+            // Set loading to false
+            store.isLoading = false;
+            // Close dialog
+            dialog.close(id);
+          }
         }
       });
     }

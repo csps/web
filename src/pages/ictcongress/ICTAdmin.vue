@@ -164,7 +164,6 @@ import "@material/web/fab/fab";
 
 import { getReadableDate } from "~/utils/date";
 import { mapYear } from "~/utils/page";
-import Strings from "~/config/strings";
 
 // Get store 
 const store = useStore();
@@ -361,43 +360,45 @@ function doStudentAction(selected: number) {
       toast.error(response.message);
     }
 
-    const id = dialog.open(`${row.first_name} ${row.last_name}`,
-    `
-      <div class="grid grid-cols-2 gap-y-1">
-        <div>Student ID</div>
-        <div>${row.student_id}</div>
-        <div>RFID</div>
-        <div>${row.rfid ?? "N/A"}</div>
-        <div>First name</div>
-        <div>${row.first_name}</div>
-        <div>Last name</div>
-        <div>${row.last_name}</div>
-        <div>Email</div>
-        <div>${row.email}</div>
-        <div>Course</div>
-        <div>${row.course}</div>
-        <div>Year level</div>
-        <div>${mapYear(row.year_level)}</div>
-        <div>Discount Code</div>
-        <div>${row.discount_code.length > 0 ? row.discount_code : "-"}</div>
-        <div>Price</div>
-        <div>₱ ${response.data}.00</div>
-        <div>Attendance</div>
-        <div>${row.attendance ? getReadableDate(row.date_stamp) : "(No record)"}</div>
-        <div>Snack Claimed</div>
-        <div>${row.snack_claimed ? "Claimed" : "(No record)"}</div>
-        <div>Payment confirmed</div>
-        <div>${row.payment_confirmed ? getReadableDate(row.payment_confirmed) : "(Not confirmed)"}</div>
-        <div>Date registered</div>
-        <div>${getReadableDate(row.date_stamp)}</div>
-      </div>
-    `,
-    {
-      text: "Close",
-      click() {
-        dialog.close(id);
+    const id = dialog.open({
+      title: `${row.first_name} ${row.last_name}`,
+      message: `
+        <div class="grid grid-cols-2 gap-y-1">
+          <div>Student ID</div>
+          <div>${row.student_id}</div>
+          <div>RFID</div>
+          <div>${row.rfid ?? "N/A"}</div>
+          <div>First name</div>
+          <div>${row.first_name}</div>
+          <div>Last name</div>
+          <div>${row.last_name}</div>
+          <div>Email</div>
+          <div>${row.email}</div>
+          <div>Course</div>
+          <div>${row.course}</div>
+          <div>Year level</div>
+          <div>${mapYear(row.year_level)}</div>
+          <div>Discount Code</div>
+          <div>${row.discount_code.length > 0 ? row.discount_code : "-"}</div>
+          <div>Price</div>
+          <div>₱ ${response.data}.00</div>
+          <div>Attendance</div>
+          <div>${row.attendance ? getReadableDate(row.date_stamp) : "(No record)"}</div>
+          <div>Snack Claimed</div>
+          <div>${row.snack_claimed ? "Claimed" : "(No record)"}</div>
+          <div>Payment confirmed</div>
+          <div>${row.payment_confirmed ? getReadableDate(row.payment_confirmed) : "(Not confirmed)"}</div>
+          <div>Date registered</div>
+          <div>${getReadableDate(row.date_stamp)}</div>
+        </div>
+      `,
+      ok: {
+        text: "Close",
+        click() {
+          dialog.close(id);
+        }
       }
-    }, null);
+    })
   });
 }
 
@@ -407,19 +408,22 @@ function doStudentAction(selected: number) {
 function askForRFID(row: ICTStudentModel) {
   hasSelectedStudent.value = false;
 
-  const id = dialog.open("Does the student has RFID?", `
-    <p>RFID may be used for the student for the event's attendance.</p>
-  `, {
-    text: "Yes",
-    click() {
-      dialog.close(id);
-      isRFIDDialogOpen.value = true;
-    }
-  }, {
-    text: "No",
-    click() {
-      dialog.close(id);
-      confirmPaymentDialog(row);
+  const id = dialog.open({
+    title: "Does the student has RFID?",
+    message: "<p>RFID may be used for the student for the event's attendance.</p>",
+    ok: {
+      text: "Yes",
+      click() {
+        dialog.close(id);
+        isRFIDDialogOpen.value = true;
+      }
+    },
+    cancel: {
+      text: "No",
+      click() {
+        dialog.close(id);
+        confirmPaymentDialog(row);
+      }
     }
   });
 }
@@ -430,38 +434,43 @@ function askForRFID(row: ICTStudentModel) {
 function claimTshirt(row: ICTStudentModel) {
   hasSelectedStudent.value = false;
 
-  const id = dialog.open("Claim T-shirt", `
-    <p>
-      Claim t-shirt for ${row.first_name} ${row.last_name}?
-      After clicking "Yes, claim", the student will be marked as claimed for t-shirt
-      and will receive an official QR to be used for the event's attendance.
-    </p>
-  `, {
-    text: "Yes, claim",
-    click() {
-      dialog.close(id);
-      store.isLoading = true;
+  const id = dialog.open({
+    title: "Claim T-shirt",
+    message: `
+      <p>
+        Claim t-shirt for ${row.first_name} ${row.last_name}?
+        After clicking "Yes, claim", the student will be marked as claimed for t-shirt
+        and will receive an official QR to be used for the event's attendance.
+      </p>
+    `,
+    ok: {
+      text: "Yes, claim",
+      click() {
+        dialog.close(id);
+        store.isLoading = true;
 
-      makeRequest("POST", Endpoints.ICTCongressTshirtClaim, {
-        student_id: row.student_id
-      }, response => {
-        store.isLoading = false;
+        makeRequest("POST", Endpoints.ICTCongressTshirtClaim, {
+          student_id: row.student_id
+        }, response => {
+          store.isLoading = false;
 
-        if (response.success) {
-          toast.success(response.message);
-          fetchStudents(isSearched.value ? data.value.search : "");
-          fetchStats();
-          return;
-        }
+          if (response.success) {
+            toast.success(response.message);
+            fetchStudents(isSearched.value ? data.value.search : "");
+            fetchStats();
+            return;
+          }
 
-        toast.error(response.message);
-      });
-    }
-  }, {
-    text: "Cancel",
-    click() {
-      dialog.close(id);
-      hasSelectedStudent.value = true;
+          toast.error(response.message);
+        });
+      }
+    },
+    cancel: {
+      text: "Cancel",
+      click() {
+        dialog.close(id);
+        hasSelectedStudent.value = true;
+      }
     }
   });
 }
@@ -541,37 +550,40 @@ function exportToCsv() {
  * @param row Student model
  */
 function confirmPaymentDialog(row: ICTStudentModel) {
-  const id = dialog.open(
-    Strings.ICT_CONGRESS_CONFIRM_TITLE,
-    `${Strings.ICT_CONGRESS_CONFIRM_MESSAGE}<br><br>This confirmation is for ${row.first_name} ${row.last_name}`, {
-    text: "Yes, confirm",
-    click() {
-      store.isLoading = true;
-      dialog.close(id);
-
-      // Confirm order
-      makeRequest("POST", Endpoints.ICTCongressStudentPaymentConfirm, {
-        student_id: row.student_id,
-        rfid: row.rfid
-      }, response => {
-        store.isLoading = false;
-        hasSelectedStudent.value = false;
-
-        if (response.success) {
-          toast.success(response.message);
-          fetchStudents(isSearched.value ? data.value.search : "");
-          fetchStats();
-          return;
-        }
-
-        toast.error(response.message);
-      });
-    }
-  }, {
-    text: "Cancel",
-    click() {
-      hasSelectedStudent.value = true;
-      dialog.close(id);
+  const id = dialog.open({
+    title: "Payment confirmation",
+    message: `<p>You are verifying the student's payment for ICT Congress 2024 and will send receipt via their email.</p><br><br>This confirmation is for ${row.first_name} ${row.last_name}`,
+    ok: {
+      text: "Yes, confirm",
+      click() {
+        store.isLoading = true;
+        dialog.close(id);
+  
+        // Confirm order
+        makeRequest("POST", Endpoints.ICTCongressStudentPaymentConfirm, {
+          student_id: row.student_id,
+          rfid: row.rfid
+        }, response => {
+          store.isLoading = false;
+          hasSelectedStudent.value = false;
+  
+          if (response.success) {
+            toast.success(response.message);
+            fetchStudents(isSearched.value ? data.value.search : "");
+            fetchStats();
+            return;
+          }
+  
+          toast.error(response.message);
+        });
+      }
+    },
+    cancel: {
+      text: "Cancel",
+      click() {
+        hasSelectedStudent.value = true;
+        dialog.close(id);
+      }
     }
   });
 }

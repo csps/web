@@ -173,24 +173,28 @@ function fetchAnnouncements(search = "") {
 }
 
 function deleteAnnouncement(announcement: AnnouncementModel) {
-  const id = dialog.open("Delete Announcement", "Are you sure you want to delete this announcement?", {
-    text: "Delete",
-    click() {
-      store.isLoading = true;
+  const id = dialog.open({
+    title: "Delete Announcement",
+    message: "Are you sure you want to delete this announcement?",
+    ok: {
+      text: "Delete",
+      click() {
+        store.isLoading = true;
     
-      makeRequest<AnnouncementModel, AnnouncementModel>("DELETE", Endpoints.AnnouncementsId, announcement, response => {
-        store.isLoading = false;
-        dialog.close(id);
-        
-        if (response.success) {
-          fetchAnnouncements();
-          toast.success(response.message);
-          return;
-        }
+        makeRequest<AnnouncementModel, AnnouncementModel>("DELETE", Endpoints.AnnouncementsId, announcement, response => {
+          store.isLoading = false;
+          dialog.close(id);
+          
+          if (response.success) {
+            fetchAnnouncements();
+            toast.success(response.message);
+            return;
+          }
     
-        message.value = response.message;
-        toast.error(response.message);
-      });
+          message.value = response.message;
+          toast.error(response.message);
+        });
+      }
     }
   });
 }

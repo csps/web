@@ -190,23 +190,27 @@ function onEdit(data: EventModel) {
 }
 
 function onDelete(data: EventModel) {
-  const id = dialog.open("Delete Event?", "Deleting an event will remove it from the bulletin board calendar.", {
-    text: "Yes, Delete",
-    click() {
-      store.isLoading = true;
+  const id = dialog.open({
+    title: "Delete Event",
+    message: "Are you sure you want to delete this event?",
+    ok: {
+      text: "Delete",
+      click() {
+        store.isLoading = true;
 
-      makeRequest("DELETE", Endpoints.EventsId, { id: data.id }, response => {
-        store.isLoading = false;
+        makeRequest("DELETE", Endpoints.EventsId, { id: data.id }, response => {
+          store.isLoading = false;
 
-        if (response.success) {
-          fetchEvents();
-          dialog.close(id);
-          toast.success(response.message);
-          return;
-        }
+          if (response.success) {
+            fetchEvents();
+            dialog.close(id);
+            toast.success(response.message);
+            return;
+          }
 
-        toast.error(response.message);
-      });
+          toast.error(response.message);
+        });
+      }
     }
   });
 }

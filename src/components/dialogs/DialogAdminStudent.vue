@@ -224,16 +224,21 @@ function submit() {
 function close(bypass = false) {
   if (isLoading.value) return;
   if ((studentID.value || firstName.value || lastName.value || email.value) && !bypass) {
-    const id = dialog.open(`Cancel ${props.student ? 'edit' : 'add'} student?`, "You have unsaved changes. Are you sure you want to close this dialog?", {
-      text: "Yes, cancel",
-      click() {
-        dialog.close(id);
-        emit("update:modelValue", false);
-      }
-    }, {
-      text: "No, continue editing",
-      click() {
-        dialog.close(id);
+    const id = dialog.open({
+      title: `Cancel ${props.student ? 'edit' : 'add'} student?`,
+      message: "You have unsaved changes. Are you sure you want to close this dialog?",
+      ok: {
+        text: "Yes, cancel",
+        click() {
+          dialog.close(id);
+          emit("update:modelValue", false);
+        }
+      },
+      cancel:{
+        text: "No, continue editing",
+        click() {
+          dialog.close(id);
+        }
       }
     });
 

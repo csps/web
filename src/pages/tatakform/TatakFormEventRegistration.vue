@@ -89,39 +89,49 @@ function register() {
     return;
   }
 
-  let id = dialog.open("Confirm Details", `
-    <div class="grid grid-cols-2 gap-y-1 mt-3">
-      <div>Student ID:</div>
-      <div>${studentId.value}</div>
-      <div>First name:</div>
-      <div>${firstName.value}</div>
-      <div>Last name:</div>
-      <div>${lastName.value}</div>
-      <div>Email:</div>
-      <div>${email.value}</div>
-      <div>College:</div>
-      <div>${college.value}</div>
-      <div>Program:</div>
-      <div>${program.value}</div>
-      <div>Year level:</div>
-      <div>${yearLevel.value}</div>
-    </div>
-  `, {
-    text: "Proceed",
-    click() {
-      dialog.close(id);
 
-      id = dialog.open("Note", `
-        <p>QR code will be given to your email and will be used during event.</p>
-      `, {
-        text: "I understand, proceed",
-        click() {
-          dialog.close(id);
-        }
-      }, {
-        text: "Cancel",
-        click: () => dialog.close(id)
-      });
+  let id = dialog.open({
+    title: "Confirm Details",
+    message: `
+      <div class="grid grid-cols-2 gap-y-1 mt-3">
+        <div>Student ID:</div>
+        <div>${studentId.value}</div>
+        <div>First name:</div>
+        <div>${firstName.value}</div>
+        <div>Last name:</div>
+        <div>${lastName.value}</div>
+        <div>Email:</div>
+        <div>${email.value}</div>
+        <div>College:</div>
+        <div>${college.value}</div>
+        <div>Program:</div>
+        <div>${program.value}</div>
+        <div>Year level:</div>
+        <div>${yearLevel.value}</div>
+      </div>
+    `,
+    ok: {
+      text: "Proceed",
+      click() {
+        dialog.close(id);
+
+        id = dialog.open({
+          title: "Note",
+          message: `
+            <p>QR code will be given to your email and will be used during event.</p>
+          `,
+          ok: {
+            text: "I understand, proceed",
+            click() {
+              dialog.close(id);
+            }
+          },
+          cancel: {
+            text: "Cancel",
+            click: () => dialog.close(id)
+          }
+        });
+      }
     }
   });
 }

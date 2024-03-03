@@ -1,5 +1,5 @@
 <template>
-  <md-dialog :open="data.show" @close="close" class="max-w-[500px]">
+  <md-dialog @cancel="cancel" :open="data.show" @close="close" class="max-w-[500px]" type="alert">
     <div slot="headline" class="w-full">{{ data.title }}</div>
     <div slot="content" class="pt-2.5" v-html="data.message" />
     <div class="space-x-1" slot="actions">
@@ -13,11 +13,16 @@
 import "@material/web/dialog/dialog";
 import "@material/web/button/text-button";
 
-defineProps<{
+const emit = defineEmits(["close"]);
+const props = defineProps<{
   data: DialogQueueItem
 }>();
 
-const emit = defineEmits(["close"]);
+function cancel(e: Event) {
+  if (!props.data.dismissible) {
+    e.preventDefault();
+  }
+}
 
 function close() {
   emit("close");

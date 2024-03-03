@@ -123,7 +123,6 @@ import "@fancyapps/ui/dist/fancybox/fancybox.css";
 
 import VImage from '~/components/VImage.vue';
 import ImageTemplate from '~/composables/ImageTemplate.vue';
-import Strings from '~/config/strings';
 
 const route = useRoute();
 const store = useStore();
@@ -169,17 +168,22 @@ function onStatuChange(ev: { target: { value: OrderStatus }}) {
   }
 
   if (ev.target.value === OrderStatus.COMPLETED) {
-    const id = dialog.open(Strings.ORDER_UPDATE_STATUS_COMPLETE_TITLE, Strings.ORDER_UPDATE_STATUS_COMPLETE_MESSAGE, {
-      text: "Yes, complete order",
-      click() {
-        dialog.close(id);
-        updateStatus(order.value!.id, OrderStatus.COMPLETED);
-      }
-    }, {
-      text: "No, cancel",
-      click() {
-        dialog.close(id);
-        status.value = currentStatus.value;
+    const id = dialog.open({
+      title: "Complete Order?",
+      message: "It can't be changed once it has been marked as complete. Are you sure you want to continue?",
+      ok: {
+        text: "Yes, complete order",
+        click() {
+          dialog.close(id);
+          updateStatus(order.value!.id, OrderStatus.COMPLETED);
+        }
+      },
+      cancel: {
+        text: "No, cancel",
+        click() {
+          dialog.close(id);
+          status.value = currentStatus.value;
+        }
       }
     });
 

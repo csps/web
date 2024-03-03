@@ -182,18 +182,23 @@ const dialog = useDialog();
 const isMenuOpen = ref(false);
 
 function logout() {
-  const id = dialog.open("Logout confirmation", "This will clear your session data. Are you sure you want to logout?", {
-    text: "Logout",
-    click() {
-      removeStore("iat");
-      removeStore("irt");
-      dialog.close(id);
-      router.push({ path: "admin/login" });
-    }
-  }, {
-    text: "Cancel",
-    click() {
-      dialog.close(id);
+  const id = dialog.open({
+    title: "Logout confirmation",
+    message: "This will clear your session data. Are you sure you want to logout?",
+    ok: {
+      text: "Logout",
+      click() {
+        removeStore("iat");
+        removeStore("irt");
+        dialog.close(id);
+        router.push({ path: "admin/login" });
+      }
+    },
+    cancel:{
+      text: "Cancel",
+      click() {
+        dialog.close(id);
+      }
     }
   });
 }

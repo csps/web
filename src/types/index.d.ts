@@ -33,6 +33,7 @@ declare global {
     message: string;
     ok?: DialogButton;
     cancel?: DialogButton | null;
+    dismissible?: boolean;
     dialogHide?: () => void;
   };
 

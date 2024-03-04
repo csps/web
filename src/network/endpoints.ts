@@ -48,7 +48,6 @@ enum Endpoints {
   ICTCongressExportSheet = "/ictcongress2024/export/xlsx",
   ICTCongressExportCsv = "/ictcongress2024/export/csv",
   ICTCongressStatistics = "/ictcongress2024/statistics",
-  ICTCongressPrice = "/ictcongress2024/price/:discount_code", 
   ICTCongressStudents = "/ictcongress2024/students",
   ICTCongressStudentsId = "/ictcongress2024/students/:student_id",
   ICTCongressTshirtClaim = "/ictcongress2024/students/:student_id/claim-tshirt",

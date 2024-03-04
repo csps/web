@@ -101,12 +101,14 @@
         <div class="flex justify-center">
           <md-filled-text-field
             label="Discount code"
-            v-model.trim="discountCode"
+            :value="discountCode"
             :disabled="store.isLoading || isRegistered"
             maxLength="16"
             class="w-full"
-            supportingText="This is an optional field."
+            supportingText="Discount code applied based on campus and date. (read-only field)"
+            readonly
             data-sal="zoom-in" data-sal-repeat
+            title="Read-only field."
           >
             <md-icon slot="leading-icon" v-html="icon('verified', true)" />
           </md-filled-text-field>
@@ -125,7 +127,7 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, ref } from "vue";
+import { onMounted, ref, watch } from "vue";
 import { icon } from "~/utils/icon";
 import { useStore, useDialog } from "~/store";
 import { Endpoints, makeRequest } from "~/network/request";
@@ -161,6 +163,7 @@ const dialog = useDialog();
 const courses = ref<ICTCourse[]>([]);
 const tshirtSizes = ref<ICTShirtSize[]>([]);
 const campuses = ref<ICTCampus[]>([]);
+const discountCodes = ref<ICTDiscountCode[]>([]);
 const isRegistered = ref(false);
 const intro = ref();
 
@@ -175,6 +178,7 @@ type ICTConfig = {
   courses: ICTCourse[];
   tshirt_sizes: ICTShirtSize[];
   campuses: ICTCampus[];
+  discount_codes: ICTDiscountCode[];
 };
 
 let instance: Typed | undefined;
@@ -200,6 +204,22 @@ onMounted(() => {
   }, 0);
 });
 
+watch(campus, (v) => {
+  if (v) {
+    // Find the code ...
+    discountCode.value = discountCodes.value.find(
+      // with assigned campus
+      dc => dc.campus_id === v &&
+      // and date is earlier than the expiration datetime
+      new Date() < new Date(dc.expiration)
+    )?.code || "";
+
+    return;
+  }
+
+  discountCode.value = "";
+});
+
 function onRegisterClick() {
   window.scrollTo(0, window.innerHeight);
 }
@@ -214,6 +234,7 @@ function getConfig() {
       courses.value = response.data.courses;
       tshirtSizes.value = response.data.tshirt_sizes;
       campuses.value = response.data.campuses;
+      discountCodes.value = response.data.discount_codes;
       return;
     }
 
@@ -305,6 +326,8 @@ function register() {
         <div>${mapYearLevel(yearLevel.value)}</div>
         <div>Discount code:</div>
         <div>${discountCode.value.length > 0 ? discountCode.value : 'N/A'}</div>
+        <div>Price:</div>
+        <div>₱ ${discountCodes.value.find(dc => dc.code === discountCode.value)?.price || 0}.00</div>
       </div>
     `,
     ok: {
@@ -343,6 +366,7 @@ function clearFields() {
   campus.value = undefined;
   course.value = undefined;
   yearLevel.value = undefined;
+  discountCode.value = "";
   isRegistered.value = false;
 
   for (const select of document.querySelectorAll("md-filled-select")) {

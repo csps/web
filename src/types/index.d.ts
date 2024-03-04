@@ -310,7 +310,15 @@ declare global {
     campus_name: string;
   }
 
-  export type CollegeModel = {
+  type ICTDiscountCode = {
+    id: number;
+    campus_id: number;
+    code: string;
+    price: number;
+    expiration: string;
+  }
+
+  type CollegeModel = {
     id: number;
     acronym: string;
     name: string;

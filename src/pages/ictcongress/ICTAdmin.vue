@@ -219,6 +219,7 @@ type ICTConfig = {
   courses: ICTCourse[];
   tshirt_sizes: ICTShirtSize[];
   campuses: ICTCampus[];
+  discount_codes: ICTDiscountCode[];
 };
 
 watch(isRFIDDialogOpen, v => {
@@ -250,6 +251,7 @@ onMounted(() => {
     if (response.success) {
       ict.campuses = response.data.campuses;
       ict.tshirtSizes = response.data.tshirt_sizes;
+      ict.discountCodes = response.data.discount_codes;
       return;
     }
 
@@ -355,59 +357,48 @@ function doStudentAction(selected: number) {
 /**
  * Show more info about the student
  */
- async function moreInfo(row: ICTStudentModel) {
-  store.isLoading = true;
-
-  makeRequest<number, { discount_code: string }>("GET", Endpoints.ICTCongressPrice, {
-    discount_code: row.discount_code.length > 0 ? row.discount_code : "-"
-  }, response => {
-    store.isLoading = false;
-
-    if (!response.success) {
-      toast.error(response.message);
-    }
-
-    const id = dialog.open({
-      title: `${row.first_name} ${row.last_name}`,
-      message: `
-        <div class="grid grid-cols-2 gap-y-1">
-          <div>Student ID</div>
-          <div>${row.student_id}</div>
-          <div>RFID</div>
-          <div>${row.rfid ?? "N/A"}</div>
-          <div>First name</div>
-          <div>${row.first_name}</div>
-          <div>Last name</div>
-          <div>${row.last_name}</div>
-          <div>Email</div>
-          <div>${row.email}</div>
-          <div>Course</div>
-          <div>${row.course}</div>
-          <div>Year level</div>
-          <div>${mapYear(row.year_level)}</div>
-          <div>T-shirt size</div>
-          <div>${ict.tshirtSizes.find(t => t.id === row.tshirt_size_id)?.name || '?'}</div>
-          <div>Price</div>
-          <div>₱ ${response.data}.00</div>
-          <div>Discount Code</div>
-          <div>${row.discount_code.length > 0 ? row.discount_code : "-"}</div>
-          <div>Attendance</div>
-          <div>${row.attendance ? getReadableDate(row.date_stamp) : "(No record)"}</div>
-          <div>Snack Claimed</div>
-          <div>${row.snack_claimed ? "Claimed" : "(No record)"}</div>
-          <div>Payment confirmed</div>
-          <div>${row.payment_confirmed ? getReadableDate(row.payment_confirmed) : "(Not confirmed)"}</div>
-          <div>Date registered</div>
-          <div>${getReadableDate(row.date_stamp)}</div>
-        </div>
-      `,
-      ok: {
-        text: "Close",
-        click() {
-          dialog.close(id);
-        }
+ function moreInfo(row: ICTStudentModel) {
+  const id = dialog.open({
+    title: `${row.first_name} ${row.last_name}`,
+    message: `
+      <div class="grid grid-cols-2 gap-y-1">
+        <div>Student ID</div>
+        <div>${row.student_id}</div>
+        <div>RFID</div>
+        <div>${row.rfid ?? "N/A"}</div>
+        <div>First name</div>
+        <div>${row.first_name}</div>
+        <div>Last name</div>
+        <div>${row.last_name}</div>
+        <div>Email</div>
+        <div>${row.email}</div>
+        <div>Course</div>
+        <div>${row.course}</div>
+        <div>Year level</div>
+        <div>${mapYear(row.year_level)}</div>
+        <div>T-shirt size</div>
+        <div>${ict.tshirtSizes.find(t => t.id === row.tshirt_size_id)?.name || '?'}</div>
+        <div>Price</div>
+        <div>₱ ${ict.discountCodes.find(dc => dc.code = row.discount_code)?.price || 0}.00</div>
+        <div>Discount Code</div>
+        <div>${row.discount_code.length > 0 ? row.discount_code : "-"}</div>
+        <div>Attendance</div>
+        <div>${row.attendance ? getReadableDate(row.date_stamp) : "(No record)"}</div>
+        <div>Snack Claimed</div>
+        <div>${row.snack_claimed ? "Claimed" : "(No record)"}</div>
+        <div>Payment confirmed</div>
+        <div>${row.payment_confirmed ? getReadableDate(row.payment_confirmed) : "(Not confirmed)"}</div>
+        <div>Date registered</div>
+        <div>${getReadableDate(row.date_stamp)}</div>
+      </div>
+    `,
+    cancel: null,
+    ok: {
+      text: "Close",
+      click() {
+        dialog.close(id);
       }
-    })
+    }
   });
 }
 
@@ -561,7 +552,7 @@ function exportToCsv() {
 function confirmPaymentDialog(row: ICTStudentModel) {
   const id = dialog.open({
     title: "Payment confirmation",
-    message: `<p>You are verifying the student's payment for ICT Congress 2024 and will send receipt via their email.</p><br><br>This confirmation is for ${row.first_name} ${row.last_name}`,
+    message: `<p>You are verifying the student's payment for ICT Congress 2024 and will send receipt via their email.</p><br>This confirmation is for ${row.first_name} ${row.last_name}`,
     ok: {
       text: "Yes, confirm",
       click() {

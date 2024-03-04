@@ -1,16 +1,17 @@
 <template>
-  <div class="container flex flex-col items-center justify-center mx-auto px-6">
+  <div class="container flex flex-col items-center justify-center mx-auto px-6 relative overlay">
+    <!-- <img :src="graphic" class="w-full scale-[3] top lg:scale-[1.25] absolute lg:top-20 opacity-[0.04] z-[-1]" /> -->
     <VMouse class="invisible sm:visible absolute bottom-[5%] left-1/2 -translate-x-1/2" />
     <section class="first pb-32 flex items-center z-0 !overflow-visible">
       <div class="grid grid-cols-1 lg:grid-cols-2 items-center gap-8 w-full">
         <div class="flex justify-center items-center" data-sal="zoom-in" data-sal-repeat>
-          <div class="flex justify-center dark:bg-surface rounded-3xl graphic">
+          <div class="flex justify-center rounded-3xl graphic">
             <div class="absolute gradient rounded-3xl" />
-            <img :src="graphic" class="w-2/3 md:w-1/2 lg:w-11/12 xl:w-3/4 2xl:w-3/5 select-none float-anim" alt="ICT Congress Graphics" />
+            <img :src="graphic" class="w-2/3 md:w-1/2 lg:w-11/12 xl:w-3/4 2xl:w-4/5 3xl:w-3/5 select-none float-anim" alt="ICT Congress Graphics" />
           </div>
         </div>
         <div class="text-justify space-y-5 z-[2]">
-          <div data-sal="slide-right" class="graphic" data-sal-repeat>
+          <div data-sal="slide-right" data-sal-repeat>
             <h3 class="text-base lg:text-xl font-bold mb-3 ml-6">10ᵗʰ <span class="text-primary">UC CCS ICT Congress</span></h3>
             <p ref="intro" class="bg-surface-container px-6 py-4 rounded-lg leading-6 text-on-surface-variant" />
           </div>
@@ -426,5 +427,24 @@ section {
 
 .graphic-front {
   transform: translateX(-20px) translateZ(30px);
+}
+
+.overlay {
+  @apply overflow-hidden;
+}
+
+.overlay::before {
+  content: ' ';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: -1;
+  background-image: url('~/assets/img/ictcongress2024.png');
+  background-size: cover;
+  background-position: center;
+
+  @apply opacity-[0.03];
 }
 </style>

@@ -243,6 +243,7 @@ onMounted(() => {
   makeRequest<ICTConfig, null>("GET", Endpoints.ICTCongress, null, response => {
     if (response.success) {
       ict.campuses = response.data.campuses;
+      ict.tshirtSizes = response.data.tshirt_sizes;
       return;
     }
 
@@ -378,10 +379,12 @@ function doStudentAction(selected: number) {
           <div>${row.course}</div>
           <div>Year level</div>
           <div>${mapYear(row.year_level)}</div>
-          <div>Discount Code</div>
-          <div>${row.discount_code.length > 0 ? row.discount_code : "-"}</div>
+          <div>T-shirt size</div>
+          <div>${ict.tshirtSizes.find(t => t.id === row.tshirt_size_id)?.name || '?'}</div>
           <div>Price</div>
           <div>₱ ${response.data}.00</div>
+          <div>Discount Code</div>
+          <div>${row.discount_code.length > 0 ? row.discount_code : "-"}</div>
           <div>Attendance</div>
           <div>${row.attendance ? getReadableDate(row.date_stamp) : "(No record)"}</div>
           <div>Snack Claimed</div>

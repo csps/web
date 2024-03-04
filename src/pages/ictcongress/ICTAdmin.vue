@@ -48,11 +48,16 @@
         </p>
 
         <VTable class="mt-5" :headers="headers" :data="data.students">
-          <template #attendance="{ row }: { row: ICTStudentModel }">
+          <!-- Hide For Now -->
+          <!-- <template #attendance="{ row }: { row: ICTStudentModel }">
             <div class="flex items-center justify-center gap-2 text-outline">
               <md-icon :title="row.attendance ? getReadableDate(row.attendance) : ''" v-html="icon(row.attendance ? 'check' : 'remove')"></md-icon>
               <md-icon :title="row.snack_claimed ? 'Claimed' : 'Not yet claimed'" v-html="icon(row.snack_claimed ? 'check' : 'remove')"></md-icon>
             </div>
+          </template> -->
+
+          <template #tshirt_size_id="{ row }: { row: ICTStudentModel }">
+            <span>{{ ict.tshirtSizes.find(t => t.id === row.tshirt_size_id)?.name || '?' }}</span>
           </template>
           <template #payment_confirmed="{ row }: { row: ICTStudentModel }">
             <span v-if="row.payment_confirmed" :title="getReadableDate(row.payment_confirmed)">
@@ -186,7 +191,8 @@ const headers: TableHeader[] = [
   { id: ICTStudentEnum.student_id, text: "ID", align: "right" },
   { id: ICTStudentEnum.first_name, text: "First name" },
   { id: ICTStudentEnum.last_name, text: "Last name" },
-  { id: ICTStudentEnum.attendance, text: "Attendance / Snack", align: "center" },
+  // { id: ICTStudentEnum.attendance, text: "Attendance / Snack", align: "center" },
+  { id: ICTStudentEnum.tshirt_size_id, text: "T-shirt size", align: "center" },
   { id: ICTStudentEnum.payment_confirmed, text: "Payment Confirmed", align: "center" },
   { id: ICTStudentEnum.tshirt_claimed, text: "T-shirt Claimed", align: "center" },
   { id: ICTStudentEnum.date_stamp, text: "Date registered", align: "center" }

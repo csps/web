@@ -35,7 +35,6 @@
           label="Venue"
           v-model.trim="venue"
           :disabled="isLoading"
-          required
           @keydown.enter="submit"
         >
           <md-icon slot="leading-icon" v-html="icon('location_on', true)" />
@@ -130,7 +129,7 @@ import "@material/web/textfield/filled-text-field";
 import 'v-calendar/style.css'
 
 import { icon } from "~/utils/icon";
-import { ref, computed, watch } from "vue";
+import { ref, computed, watch, nextTick } from "vue";
 import { DatePicker } from "v-calendar";
 import { getHumanDate, getTime, toISODate, toISOTime } from "~/utils/date";
 import { useStore } from "~/store";
@@ -179,15 +178,11 @@ const endTimeText = ref("");
 watch(date, v => {
   dateText.value = v ? getHumanDate(v) : "";
 
-  if (!startTime.value) {
-    startTime.value = new Date();
-    startTime.value.setHours(8, 0);
-  }
+  startTime.value = new Date(v);
+  startTime.value.setHours(8, 0);
 
-  if (!endTime.value) {
-    endTime.value = new Date();
-    endTime.value.setHours(12, 0);
-  }
+  endTime.value = new Date(v);
+  endTime.value.setHours(12, 0);
 });
 
 watch(startTime, v => {
@@ -211,28 +206,32 @@ watch(isDialogOpen, v => {
     venue.value = props.event?.venue;
     date.value = props.event?.date ? new Date(props.event?.date) : undefined;
 
-    if (props.event?.start_time) {
-      const chunks = props.event?.start_time.split(":");
-      const hours = parseInt(chunks[0]);
-      const minutes = parseInt(chunks[1]);
-
-      startTime.value = new Date(props.event?.date);
-      startTime.value.setHours(hours, minutes);
-    }
-
-    if (props.event?.end_time) {
-      const chunks = props.event?.end_time.split(":");
-      const hours = parseInt(chunks[0]);
-      const minutes = parseInt(chunks[1]);
-
-      endTime.value = new Date(props.event?.date);
-      endTime.value.setHours(hours, minutes);
-    }
-
-    if (!props.event) {
-      startTimeText.value = "";
-      endTimeText.value = "";
-    }
+    nextTick(() => {
+      if (props.event?.start_time) {
+        const chunks = props.event?.start_time.split(":");
+        const hours = parseInt(chunks[0]);
+        const minutes = parseInt(chunks[1]);
+  
+        startTime.value = new Date(props.event?.date);
+        startTime.value.setHours(hours, minutes);
+        startTimeText.value = getTime(startTime.value);
+      }
+  
+      if (props.event?.end_time) {
+        const chunks = props.event?.end_time.split(":");
+        const hours = parseInt(chunks[0]);
+        const minutes = parseInt(chunks[1]);
+  
+        endTime.value = new Date(props.event?.date);
+        endTime.value.setHours(hours, minutes);
+        endTimeText.value = getTime(endTime.value);
+      }
+  
+      if (!props.event) {
+        startTimeText.value = "";
+        endTimeText.value = "";
+      }
+    });
   }
 });
 
@@ -242,23 +241,8 @@ function submit() {
     return;
   }
 
-  if (!venue.value?.trim()) {
-    toast.error("Venue is required");
-    return;
-  }
-
   if (!date.value) {
     toast.error("Date is required");
-    return;
-  }
-
-  if (!startTime.value) {
-    toast.error("Start time is required");
-    return;
-  }
-
-  if (!endTime.value) {
-    toast.error("End time is required");
     return;
   }
 
@@ -268,11 +252,11 @@ function submit() {
 
   const data: EventRequest = {
     title: title.value,
-    description: description.value,
-    venue: venue.value,
+    description: description.value || "",
+    venue: venue.value || "",
     date: toISODate(date.value),
-    start_time: toISOTime(startTime.value),
-    end_time: toISOTime(endTime.value),
+    start_time: toISOTime(startTime.value) || "",
+    end_time: toISOTime(endTime.value) || "",
   };
 
   // If thumbnail is set, append it to the data

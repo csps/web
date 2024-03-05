@@ -57,6 +57,11 @@
           <span v-else>{{ row.description }}</span>
         </template>
 
+        <template v-slot:venue="{ row }: { row: EventModel }">
+          <span v-if="row.venue === ''" class="italic font text-on-surface-variant">(no venue)</span>
+          <span v-else>{{ row.venue }}</span>
+        </template>
+
         <template v-slot:date="{ row }: { row: EventModel }">
           {{ getHumanDate(new Date(row.date)) }}
         </template>

@@ -184,7 +184,8 @@ const isRemoveOrdersConfirmOpen = ref(false);
 const isCampusOptionsOpen = ref(false);
 const isRFIDDialogOpen = ref(false);
 const isAuth = ref(false);
-const disabledOptions = ref<number[]>([])
+const disabledOptions = ref<number[]>([]);
+const isCSPSMember = ref(false);
 const message = ref("");
 
 const headers: TableHeader[] = [
@@ -340,6 +341,12 @@ function doStudentAction(selected: number) {
   }
 
   if (selected === 2) {
+    // If a CSPS student is from UC Main
+    if (selectedStudent.value?.course_id === 1 && selectedStudent.value.campus_id === 3) {
+      return askForCSPSMembership(selectedStudent.value!);
+    }
+
+    // If not, ask for RFID
     return askForRFID(selectedStudent.value!);
   }
 
@@ -397,6 +404,37 @@ function doStudentAction(selected: number) {
       text: "Close",
       click() {
         dialog.close(id);
+      }
+    }
+  });
+}
+
+/**
+ * Ask for CSPS membership (UC Main Only)
+ */
+function askForCSPSMembership(row: ICTStudentModel) {
+  hasSelectedStudent.value = false;
+
+  const id = dialog.open({
+    title: "CSPS Membership",
+    message: `
+      <p>
+        Has ${row.first_name} ${row.last_name} paid for the CSPS membership?
+      </p>
+    `,
+    ok: {
+      text: "Yes",
+      click() {
+        dialog.close(id);
+        isCSPSMember.value = true;
+        askForRFID(row);
+      }
+    },
+    cancel: {
+      text: "No",
+      click() {
+        dialog.close(id);
+        askForRFID(row);
       }
     }
   });
@@ -562,10 +600,12 @@ function confirmPaymentDialog(row: ICTStudentModel) {
         // Confirm order
         makeRequest("POST", Endpoints.ICTCongressStudentPaymentConfirm, {
           student_id: row.student_id,
-          rfid: row.rfid
+          rfid: row.rfid,
+          isCSPSMember: isCSPSMember.value ? 1 : 0
         }, response => {
           store.isLoading = false;
           hasSelectedStudent.value = false;
+          isCSPSMember.value = false;
   
           if (response.success) {
             toast.success(response.message);
@@ -582,6 +622,7 @@ function confirmPaymentDialog(row: ICTStudentModel) {
       text: "Cancel",
       click() {
         hasSelectedStudent.value = true;
+        isCSPSMember.value = false;
         dialog.close(id);
       }
     }

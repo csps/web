@@ -134,6 +134,7 @@ import { useStore, useDialog } from "~/store";
 import { Endpoints, makeRequest } from "~/network/request";
 import { toast } from "vue3-toastify";
 import { isEmail } from "~/utils/string";
+import { mapYearLevel } from "~/utils/page";
 
 import "@material/web/icon/icon";
 import "@material/web/button/filled-button";
@@ -387,31 +388,10 @@ function startTyped() {
   });
 }
 
-function mapYearLevel(year: number) {
-  switch (year) {
-    case 1:
-      return "1st year";
-    case 2:
-      return "2nd year";
-    case 3:
-      return "3rd year";
-    case 4:
-      return "4th year";
-    default:
-      return "N/A";
-  }
-}
+
 </script>
 
 <style lang="scss" scoped>
-md-filled-select, md-filled-text-field {
-  --_outline-color: var(--md-sys-color-outline);
-  --_text-field-container-shape: 8px;
-  --_container-shape: 8px;
-  --_active-indicator-color: var(--md-sys-color-outline-variant);
-  --_text-field-active-indicator-color: var(--md-sys-color-outline-variant);
-}
-
 .glow {
   animation: glow 2s ease-in-out infinite alternate;
 }

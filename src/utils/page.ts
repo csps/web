@@ -40,6 +40,25 @@ export function mapOrderStatusLabel(status: OrderStatus): string {
 }
 
 /**
+ * Convert year level to label
+ * @param year Year level
+ */
+export function mapYearLevel(year: number) {
+  switch (year) {
+    case 1:
+      return "1st year";
+    case 2:
+      return "2nd year";
+    case 3:
+      return "3rd year";
+    case 4:
+      return "4th year";
+    default:
+      return "N/A";
+  }
+}
+
+/**
  * Convert order status to status
  */
 export function mapOrderStatus(status: OrderStatus): Status {

@@ -33,17 +33,17 @@ const routes: RouteRecordRaw[] = [
   {
     path: "/tatakforms",
     name: "Tatak Forms Events",
-    component: () => import("../pages/tatakform/TatakFormEvents.vue"),
+    component: () => import("../pages/tatakforms/TatakFormEvents.vue"),
   },
   {
     path: "/tatakforms/:slug",
     name: "Tatak Forms Event",
-    component: () => import("../pages/tatakform/TatakFormEvent.vue"),
+    component: () => import("../pages/tatakforms/TatakFormEvent.vue"),
   },
   {
     path: "/tatakforms/:slug/:college",
     name: "Tatak Forms Registration",
-    component: () => import("../pages/tatakform/TatakFormEventRegistration.vue"),
+    component: () => import("../pages/tatakforms/TatakFormEventRegistration.vue"),
   },
   {
     path: "/",

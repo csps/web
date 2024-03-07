@@ -135,6 +135,14 @@ md-elevated-button {
   }
 }
 
+md-filled-select, md-filled-text-field {
+  --_outline-color: var(--md-sys-color-outline);
+  --_text-field-container-shape: 8px;
+  --_container-shape: 8px;
+  --_active-indicator-color: var(--md-sys-color-outline-variant);
+  --_text-field-active-indicator-color: var(--md-sys-color-outline-variant);
+}
+
 md-filled-button {
   @apply rounded-full;
   box-shadow: 0 0 75px -20px var(--md-sys-color-primary);

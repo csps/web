@@ -325,6 +325,13 @@ declare global {
     courses?: CourseModel[];
   };
 
+  type CourseModel = {
+    id: number;
+    college_id: number;
+    acronym: string;
+    name: string;
+  }
+
   type TatakformModel = {
     id: number;
     slug: string;

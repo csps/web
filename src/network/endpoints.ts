@@ -6,6 +6,7 @@ enum Endpoints {
   ForgotPassword = "/forgot",
   Courses = "/courses",
   Colleges = "/colleges",
+  CollegeCourses = "/colleges/:acronym",
   
   PhotosHash = "/photos/:hash",
   ReferenceHash = "/photos/:hash/reference",

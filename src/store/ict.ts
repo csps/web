@@ -4,6 +4,7 @@ export const useIctStore = defineStore("ict", () => {
   const campuses: ICTCampus[] = [];
   const tshirtSizes: ICTShirtSize[] = [];
   const discountCodes: ICTDiscountCode[] = [];
+  const tshirtSizesCount: Record<number, any> = {};
   const stats: ICTStatistics = {
     countAll: 0,
     countPaymentConfirmed: 0,
@@ -14,6 +15,6 @@ export const useIctStore = defineStore("ict", () => {
   };
 
   return {
-    campuses, stats, tshirtSizes, discountCodes
+    campuses, stats, tshirtSizesCount, tshirtSizes, discountCodes
   }
 });

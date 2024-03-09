@@ -25,6 +25,8 @@ export type PaginationRequest = {
   filterColumns?: ( string | -1)[],
   filter?: string | number,
   filterLogic?: number;
+  filter2?: string,
+  filter2Value?: number,
   page?: number;
   limit?: number;
 };

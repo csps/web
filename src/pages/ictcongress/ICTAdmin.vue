@@ -38,14 +38,33 @@
               :label="`${filter.name} – ${mapStatCount(filter.id) ?? 0}`"
               :selected="data.filter === filter.id && (data.filterLogic !== undefined && data.filterLogic > 0)"
               @click="change(filter)"
+              elevated
             />
           </md-chip-set>
         </div>
 
-        <p class="mt-5 text-center sm:text-left font-medium text-secondary">
-          Showing data for {{ data.filter === ICTStudentEnum.payment_confirmed && data.filterLogic === 0 ?
-            'pending payments (default)' : data.filterColumns.find(f => f.id === data.filter)?.name.toLowerCase() }}
-        </p>
+        <div class="flex flex-col lg:flex-row gap-5 items-center justify-between mt-5">
+          <p class="text-center sm:text-left font-medium text-secondary">
+            Showing data for {{ data.filter === ICTStudentEnum.payment_confirmed && data.filterLogic === 0 ?
+              'pending payments (default)' : data.filterColumns.find(f => f.id === data.filter)?.name.toLowerCase() }}
+          </p>
+          <div>
+            <md-chip-set class="flex justify-center">
+              <div v-for="size in ict.tshirtSizes" :key="size.id" class="relative" :title="`Show students with tshirt size of ${size.name}.`">
+                <div class="absolute top-0 right-0 -translate-x-3 -translate-y-2 z-[10]">
+                  <md-badge :value="ict.tshirtSizesCount[size.id] ?? '0'" />
+                </div>
+                <md-filter-chip
+                  :label="size.name"
+                  :disabled="!ict.tshirtSizesCount[size.id]"
+                  :selected="data.filter2 === ICTStudentEnum.tshirt_size_id && data.filter2Value === size.id"
+                  @click="changeSize(size)"
+                  elevated
+                />
+              </div>
+            </md-chip-set>
+          </div>
+        </div>
 
         <VTable class="mt-5" :headers="headers" :data="data.students">
           <!-- Hide For Now -->
@@ -166,6 +185,7 @@ import "@material/web/chips/chip-set";
 import "@material/web/chips/filter-chip";
 import "@material/web/iconbutton/icon-button";
 import "@material/web/fab/fab";
+import "@material/web/labs/badge/badge";
 
 import { getReadableDate } from "~/utils/date";
 import { mapYear } from "~/utils/page";
@@ -212,6 +232,8 @@ const data = ref({
   ] as {id: ICTStudentEnum | -1, name: string}[],
   filter: ICTStudentEnum.payment_confirmed as (number | ICTStudentEnum),
   filterLogic: 0 as (number | undefined),
+  filter2: undefined as (string | undefined),
+  filter2Value: undefined as (number | undefined),
   students: [] as ICTStudentEnum[],
   column: Object.keys(ICTStudentEnum)
 });
@@ -223,10 +245,21 @@ type ICTConfig = {
   discount_codes: ICTDiscountCode[];
 };
 
+enum Logic {
+  NULL = 0,
+  NOT_NULL = 1,
+  NOT_ZERO = 2
+}
+
 watch(isRFIDDialogOpen, v => {
   if (!v && !selectedStudent.value?.rfid) {
     askForRFID(selectedStudent.value!);
   }
+});
+
+watch(() => data.value.filter, () => {
+  data.value.filter2 = undefined;
+  data.value.filter2Value = undefined;
 });
 
 onMounted(() => {
@@ -291,26 +324,36 @@ function change(filter: { id: number | ICTStudentEnum, name: string }) {
 
   // If from payment pending to payment confirmed
   if (data.value.filter === ICTStudentEnum.payment_confirmed &&
-      data.value.filterLogic === 0 &&
+      data.value.filterLogic === Logic.NULL &&
       filter.id === ICTStudentEnum.payment_confirmed
   ) {
     // Set filter loginc to NOT NULL
-    data.value.filterLogic = 1;
+    data.value.filterLogic = Logic.NOT_NULL;
   }
   
   // Otherwise, set filter to the selected filter
   else {
     data.value.filter = data.value.filter === filter.id ? -2 : filter.id;
-    data.value.filterLogic = filter.id === ICTStudentEnum.snack_claimed ? 2 : 1;
+    data.value.filterLogic = filter.id === ICTStudentEnum.snack_claimed ? Logic.NOT_ZERO : Logic.NOT_NULL;
   }
   
   // If toggling, set back to payment pending
   if (data.value.filter === -2) {
     data.value.filter = ICTStudentEnum.payment_confirmed;
-    data.value.filterLogic = 0;
+    data.value.filterLogic = Logic.NULL;
   }
   
   // Fetch students
+  return fetchStudents(isSearched.value ? data.value.search : "");
+}
+
+/**
+ * Change size
+ */
+function changeSize(size: ICTShirtSize) {
+  data.value.page = 1;
+  data.value.filter2 = data.value.filter2Value === size.id ? undefined : ICTStudentEnum.tshirt_size_id;
+  data.value.filter2Value = data.value.filter2Value === size.id ? undefined : size.id;
   return fetchStudents(isSearched.value ? data.value.search : "");
 }
 
@@ -705,23 +748,27 @@ function fetchStudents(search = "") {
     filterColumns: data.value.filterColumns.map(f => f.id),
     filter: data.value.filter,
     filterLogic: data.value.filterLogic,
+    filter2: data.value.filter2,
+    filter2Value: data.value.filter2Value,
     sort: {
       key: ICTStudentEnum.date_stamp,
       type: "DESC"
     }
   });
 
-  makeRequest<ICTStudentEnum[], Record<string, string>>("GET", Endpoints.ICTCongressStudents, request, response => {
+  makeRequest<{ students: ICTStudentEnum[], tshirt_sizes: Record<number, number> }, Record<string, string>>("GET", Endpoints.ICTCongressStudents, request, response => {
     store.isLoading = false;
 
     if (response.success) {
-      data.value.students = response.data;
+      data.value.students = response.data.students;
+      ict.tshirtSizesCount = response.data.tshirt_sizes;
       data.value.total = response.count ?? 0;
       return;
     }
 
     message.value = response.message;
     data.value.students = [];
+    ict.tshirtSizesCount = {};
   });
 }
 

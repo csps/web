@@ -85,5 +85,13 @@ export function createPagination(pagination: PaginationRequest) {
     out.filterLogic = pagination.filterLogic.toString();
   }
 
+  if (pagination.filter2) {
+    out.filter2 = pagination.filter2;
+  }
+
+  if (pagination.filter2Value) {
+    out.filter2Value = pagination.filter2Value.toString();
+  }
+
   return out;
 }

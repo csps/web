@@ -52,7 +52,7 @@
             <md-chip-set class="flex justify-center">
               <div v-for="size in ict.tshirtSizes" :key="size.id" class="relative" :title="`Show students with tshirt size of ${size.name}.`">
                 <div class="absolute top-0 right-0 -translate-x-3 -translate-y-2 z-[10]">
-                  <md-badge :value="ict.tshirtSizesCount[size.id] ?? '0'" />
+                  <md-badge v-if="ict.tshirtSizesCount[size.id]" :value="ict.tshirtSizesCount[size.id] ?? '0'" />
                 </div>
                 <md-filter-chip
                   :label="size.name"

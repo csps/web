@@ -24,7 +24,7 @@
         </div>
       </div>
     </section>
-    <section class="flex flex-col items-center justify-center h-[100dvh]">
+    <section class="flex flex-col items-center justify-center min-h-[100dvh]">
       <div class="flex flex-col space-y-5 w-full sm:w-3/4 lg:w-3/4 2xl:w-4/5 font-reset bg-surface-container p-6 lg:p-8 rounded-2xl">
         <div class="text-center" data-sal="slide-right" data-sal-repeat>
           <h4 class="mb-1 text-lg lg:text-2xl font-bold"><span class="text-primary">ICT Congress 2024</span> - Registration</h4>

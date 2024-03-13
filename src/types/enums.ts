@@ -34,5 +34,6 @@ export enum ModeOfPayment {
 export enum AuthType {
   STUDENT,
   ADMIN,
-  ICT_ADMIN
+  ICT_ADMIN,
+  UNIV_ACCOUNT
 }

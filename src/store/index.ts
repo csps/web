@@ -12,6 +12,7 @@ export const useStore = defineStore("global", () => {
   const isMaintenance = false;
   const isLoggedIn = undefined as boolean | undefined;
   const isAdminLoggedIn = undefined as boolean | undefined;
+  const isUnivStudentLoggedIn = undefined as boolean | undefined;
   const isLoading = true;
   const isShowBackButton = false;
   const isDark = false;
@@ -55,6 +56,7 @@ export const useStore = defineStore("global", () => {
     checkoutDetails,
     user,
     isAdminLoggedIn,
+    isUnivStudentLoggedIn,
     rails,
     selectedRail,
     courses,

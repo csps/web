@@ -33,7 +33,7 @@
 
       <!-- Navigation Links -->
       <div class="flex items-center gap-5 flex-grow justify-end">
-        <div class="xl:flex justify-end space-x-2 hidden" v-if="!route.name?.toString().includes('ICT')">
+        <div class="xl:flex justify-end space-x-2 hidden" v-if="!route.name?.toString().includes('ICT') && !route.name?.toString().includes('Tatak')">
           <md-tabs :activeTabIndex="NAV_LINKS.findIndex(t => t.name === route.name)" class="overflow-hidden">
             <md-primary-tab
               v-for="(link, i) in NAV_LINKS.slice(0, 4)"
@@ -86,6 +86,41 @@
           </md-tabs>
         </div>
 
+        <div v-if="route.name?.toString().includes('Tatak')">
+        <div v-if="route.name === 'Tatak Forms Home' || route.name === 'Tatak Forms Event'">
+          <md-tabs :activeTabIndex="route.name === 'Tatak Forms Home' || route.name === 'Tatak Forms Event' ? 0 : 1">
+            <md-primary-tab title="Home">
+              <router-link class="link" to="/tatakforms/home">
+                <md-icon v-html="icon('home')" />
+                <span>Home</span>
+              </router-link>
+            </md-primary-tab>
+            <md-primary-tab title="Profile">
+              <router-link class="link" to="">
+                <md-icon v-html="icon('person')" />
+                <span>Profile</span>
+              </router-link>
+            </md-primary-tab>
+          </md-tabs>
+          
+        </div>
+          <md-tabs :activeTabIndex="route.name === 'Tatak Forms Login' ? 0 : 1" v-else>
+            <md-primary-tab title="Login">
+              <router-link class="link" to="/tatakforms/login">
+                <md-icon v-html="icon('home')" />
+                <span>Login</span>
+              </router-link>
+            </md-primary-tab>
+            <md-primary-tab title="Register">
+              <router-link class="link" to="/tatakforms/register">
+                <md-icon v-html="icon('barcode_scanner')" />
+                <span>Register</span>
+              </router-link>
+            </md-primary-tab>
+          </md-tabs>
+        </div>
+            
+
         <md-switch @change="onThemeChange" :selected="store.isDark" icons>
           <md-icon slot="on-icon" class="scale-[0.65]" v-html="icon('dark_mode')" />
           <md-icon slot="off-icon" class="scale-[0.65]" v-html="icon('light_mode')" />
@@ -93,6 +128,10 @@
 
         <md-icon-button title="Logout" @click="logout" v-if="route.path.includes('/ictcongress2024/admin') && !route.path.includes('login')">
           <md-icon v-html="icon('logout')" />
+        </md-icon-button>
+
+        <md-icon-button title="Logout" @click="logoutUniv" v-if="route.path.includes('/tatakforms') && !route.path.includes('login') && !route.path.includes('register')">
+            <md-icon v-html="icon('logout')" />
         </md-icon-button>
 
         <!-- Drawer Button -->
@@ -134,6 +173,7 @@
                 <span slot="headline">Admin</span>
               </md-menu-item>
             </router-link>
+            
           </md-menu>
         </div>
       </div>
@@ -192,6 +232,28 @@ function logout() {
         removeStore("irt");
         dialog.close(id);
         router.push({ path: "admin/login" });
+      }
+    },
+    cancel:{
+      text: "Cancel",
+      click() {
+        dialog.close(id);
+      }
+    }
+  });
+}
+
+function logoutUniv() {
+  const id = dialog.open({
+    title: "Logout confirmation",
+    message: "This will clear your session data. Are you sure you want to logout?",
+    ok: {
+      text: "Logout",
+      click() {
+        removeStore("usat");
+        removeStore("usrt");
+        dialog.close(id);
+        router.push({ path: "/tatakforms/login" });
       }
     },
     cancel:{

@@ -62,7 +62,7 @@ const route = useRoute();
 const errorMessage = ref("");
 
 onMounted(() => {
-  console.log(route.user)
+  console.log(store.user)
 });
 
 

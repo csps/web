@@ -90,6 +90,7 @@ function makeRequest<T, U>(method: HttpMethod, endpoint: Endpoints, data: U, cal
   // Token conditions
   const isICTCongress = location.pathname.startsWith("/ictcongress");
   const isAdmin = location.pathname.startsWith("/admin");
+  const isUnivAccount = location.pathname.startsWith("/tatakforms");
 
   // Tokens for authentication
   let accessToken = "";
@@ -105,6 +106,12 @@ function makeRequest<T, U>(method: HttpMethod, endpoint: Endpoints, data: U, cal
   else if (isAdmin) {
     accessToken = getStore("aat");
     refreshToken = getStore("art");
+  }
+
+  // If using tatak forms toke
+  else if(isUnivAccount){
+    accessToken = getStore("usat");
+    refreshToken = getStore("usrt");
   }
   
   // If using student token
@@ -139,8 +146,16 @@ function makeRequest<T, U>(method: HttpMethod, endpoint: Endpoints, data: U, cal
       
       // If has token
       if (token) {
+        let storeName = "sat"
         // Set token to store
-        setStore(isICTCongress ? "iat" : isAdmin ? "aat" : "sat", token);
+        if(isICTCongress){
+          storeName = "iat"
+        }else if(isAdmin){
+          storeName = "aat"
+        }else if(isUnivAccount){
+          storeName = "usat"
+        }
+        setStore(storeName as StoreKeys, token);
       }
     }
 
@@ -164,6 +179,8 @@ function makeRequest<T, U>(method: HttpMethod, endpoint: Endpoints, data: U, cal
           location.href = "/ictcongress2024/admin/login";
         } else if (isAdmin) {
           location.href = "/admin/login";
+        } else if (isUnivAccount){
+          location.href = "/tatakforms/login"
         } else {
           location.href = "/login";
         }
@@ -196,6 +213,8 @@ function clearSessionTokens() {
   removeStore("art");
   removeStore("sat");
   removeStore("srt");
+  removeStore("usat");
+  removeStore("usrt");
   removeStore("iat");
   removeStore("irt");
 }

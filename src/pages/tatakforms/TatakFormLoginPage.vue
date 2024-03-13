@@ -136,9 +136,8 @@ function login() {
       // Save student tokens to local storage
       setStore("usat", response.data.accessToken);
       setStore("usrt", response.data.refreshToken);
-
       // Set student
-      store.user = response.data.user;
+      store.user = response.data.data;
       store.role = AuthType.UNIV_ACCOUNT;
       // Set is logged in to true
       store.isUnivStudentLoggedIn = true;

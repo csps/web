@@ -50,9 +50,9 @@ enum Endpoints {
   ICTCongressExportCsv = "/ictcongress2024/export/csv",
   ICTCongressStatistics = "/ictcongress2024/statistics",
   ICTCongressStudents = "/ictcongress2024/students",
-  ICTCongressStudentsId = "/ictcongress2024/students/:student_id",
-  ICTCongressTshirtClaim = "/ictcongress2024/students/:student_id/claim-tshirt",
-  ICTCongressStudentPaymentConfirm = "/ictcongress2024/students/:student_id/payment-confirm",
+  ICTCongressStudentsId = "/ictcongress2024/students/:uid",
+  ICTCongressTshirtClaim = "/ictcongress2024/students/:uid/claim-tshirt",
+  ICTCongressStudentPaymentConfirm = "/ictcongress2024/students/:uid/payment-confirm",
   ICTCongressPendingOrders = "/ictcongress2024/campus/pending-orders",
 }
 

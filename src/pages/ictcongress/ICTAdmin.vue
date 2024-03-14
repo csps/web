@@ -531,7 +531,7 @@ function claimTshirt(row: ICTStudentModel) {
         store.isLoading = true;
 
         makeRequest("POST", Endpoints.ICTCongressTshirtClaim, {
-          student_id: row.student_id
+          uid: row.id
         }, response => {
           store.isLoading = false;
 
@@ -642,7 +642,7 @@ function confirmPaymentDialog(row: ICTStudentModel) {
   
         // Confirm order
         makeRequest("POST", Endpoints.ICTCongressStudentPaymentConfirm, {
-          student_id: row.student_id,
+          uid: row.id,
           rfid: row.rfid,
           isCSPSMember: isCSPSMember.value ? 1 : 0
         }, response => {
@@ -701,7 +701,7 @@ function onRemoveStudent(student: ICTStudentModel) {
   isRemoveStudentDialogOpen.value = false;
 
   makeRequest("DELETE", Endpoints.ICTCongressStudentsId, {
-    student_id: student.student_id
+    uid: student.id
   }, response => {
     store.isLoading = false;
 

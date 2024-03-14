@@ -35,7 +35,8 @@
           data-sal-repeat
           v-model.trim="studentId"
           maxLength="8"
-          type="number"
+          type="text"
+          inputmode="numeric"
           label="Student ID"
           min="0"
           oninput="this.value = this.value.slice(0, 8)"
@@ -296,8 +297,15 @@ function register() {
       return;
   }
 
+  // Check student ID's length
   if (studentId.value.toString().length !== 8) {
     toast.error("Student ID must be 8 characters long.");
+    return;
+  }
+
+  // Check student ID's validity
+  if (!/^\d+$/.test(studentId.value)) {
+    toast.error("Student ID must contain only numbers.");
     return;
   }
 

@@ -35,5 +35,6 @@ export enum AuthType {
   STUDENT,
   ADMIN,
   ICT_ADMIN,
-  UNIV_ACCOUNT
+  UNIV__ADMIN_ACCOUNT,
+  UNIV_ACCOUNT,
 }

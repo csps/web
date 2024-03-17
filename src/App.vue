@@ -106,6 +106,7 @@ if (!store.isMaintenance) {
     if (response.data === "UNAUTHORIZED") {
       store.isLoggedIn = false;
       store.isAdminLoggedIn = false;
+      store.isUnivStudentLoggedIn = false;
     }
   });
 }

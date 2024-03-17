@@ -1,7 +1,7 @@
 <template>
   <div class="container px-7 flex flex-col gap-3">
     <div class="mt-1 flex flex-col lg:justify-center lg:items-center">
-        <h4 class="headline-medium font-semibold text-primary">Hello, Brian</h4>
+        <h4 class="headline-medium font-semibold text-primary">Hello, {{store.user.first_name}} {{store.user.last_name}}</h4>
         <div>
         <md-filled-button class="">View Profile</md-filled-button>
         </div>
@@ -9,18 +9,19 @@
 
     <div class="flex flex-col lg:grid lg:grid-cols-2 lg:mt-5">
 
-    <div class="mt-3 lg:order-0 lg:ms-5">
+    <div v-for="e in events" class="mt-3 lg:order-0 lg:ms-5">
         <h5 class="title-medium font-bold text-primary">Event</h5>
-        <router-link to="/tatakforms/event/ucdays">
+        <router-link :to="`/tatakforms/event/${e.slug}`">
         <div class="event px-5 py-3 mt-3 -translate-y-1 w-full sm:w-2/3 md:w-2/5 lg:w-1/3 xl:w-min !overflow-visible">
             <md-ripple />
             <div class="content">
                 <div class="w-full">
                     <h5 class="label-large mb-2 text-error"></h5>
-                    <h4 class="title-large font-bold text-outline">UC Days 2024</h4>
+                    <h4 class="title-large font-bold text-outline">{{e.name}}</h4>
                     <h3 class="flex items-center text-outline">
                         <md-icon class="mr-2" v-html="icon('event')" />
-                        April 11, 2024 to April 13, 2024
+                        {{getHumanDate(new Date(e.from_date))}} to
+                        {{getHumanDate(new Date(e.to_date))}}
                     </h3>
                 </div>
             </div>
@@ -32,13 +33,11 @@
         <h5 class="title-medium font-semibold text-primary mb-2">Recent Activity</h5>
         <section>
             <div>
-                <p>UC DAYS 2024 - ATTENDANCE</p>
-                <p class="text-outline text-xs lg:text-sm">April 11, 2024 at 10:00am</p>
-            </div>
-            <md-divider inset-end class="my-3"></md-divider>
-            <div>
-                <p>UC DAYS 2024 - ATTENDANCE</p>
-                <p class="text-outline text-xs lg:text-sm">April 11, 2024 at 1:00pm</p>
+              <div v-for="history in attendanceHistory">
+                  <p class="font-semibold">UC DAYS 2024 - ATTENDANCE</p>
+                  <p class="text-outline text-xs lg:text-sm">{{getReadableDate(history)}}</p>
+                  <md-divider inset-end class="my-3"></md-divider>
+              </div>
             </div>
         </section>
     </div>
@@ -57,6 +56,7 @@ import { Endpoints, makeRequest } from '~/network/request';
 import { mapYearLevel } from '~/utils/page';
 import { useStore, useDialog } from '~/store';
 import { icon } from '~/utils/icon';
+import { getReadableDate,getHumanDate } from "~/utils/date";
 import sal from "sal.js";
 import dayjs from "dayjs";
 
@@ -80,13 +80,45 @@ const isFetchingTatakform = ref(true);
 const isFetchingCourses = ref(true);
 
 const errorMessage = ref("");
-
+const attendanceHistory = ref([])
+const events = ref<TatakformModel[]>([])
 onMounted(() => {
-});
+  makeRequest<any, { acronym: string }>("GET", Endpoints.TatakformsAttendanceHistory, {}, response => {
+    
+    if (response.success) {
+      
+      console.log(response.data[0][0])
+      const dataObj = response.data[0][0]
+      Object.keys(dataObj).forEach(key => {
+        if(dataObj[key]){
+          const data = dataObj[key].toString().split(" ")
+          if(data.length > 1){
+            attendanceHistory.value.push(dataObj[key])
+          }
+        }
+      })
+      return;
+    }
 
-function register() {
-  
-}
+    errorMessage.value = response.message;
+    toast.error(response.message);
+  });
+
+  makeRequest<TatakformModel[], { acronym: string }>("GET", Endpoints.Tatakforms, {}, response => {
+    
+    if (response.success) {
+      console.log(response.data)
+      events.value = response.data
+      return;
+    }
+
+    errorMessage.value = response.message;
+    toast.error(response.message);
+  });
+
+
+  sal();
+});
 
 </script>
 

@@ -32,8 +32,8 @@ const routes: RouteRecordRaw[] = [
   },
   {
     path: "/tatakforms",
-    name: "Tatak Forms Events",
-    component: () => import("../pages/tatakforms/TatakFormEvents.vue"),
+    name: "Tatak Forms Landing",
+    component: () => import("../pages/tatakforms/TatakFormLandingPage.vue"),
   },
   {
     path: "/tatakforms/home",
@@ -42,7 +42,7 @@ const routes: RouteRecordRaw[] = [
     meta: { requiresAuth: true },
   },
   {
-    path: "/tatakforms/event/ucdays",
+    path: "/tatakforms/event/:slug",
     name: "Tatak Forms Event",
     component: () => import("../pages/tatakforms/profile/EventPage.vue"),
     meta: { requiresAuth: true },
@@ -215,8 +215,6 @@ router.beforeEach(async (to, _from, next) => {
   }
 
   if (isUnivStudent) {
-    console.log(store.role)
-
     if (to.name === "Tatak Forms Login") {
       return next({ name: "Tatak Forms Home" });
     }

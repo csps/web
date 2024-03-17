@@ -1,6 +1,6 @@
 <template>
   <div class="flex items-center space-x-5 justify-end w-full">
-    <div class="title-small">
+    <div class="title-small whitespace-nowrap">
       Showing {{ ((page - 1) * limit) + 1 }} to {{ Math.min(page * limit, total) }} of {{ total }}
     </div>
     <div>

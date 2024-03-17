@@ -44,10 +44,22 @@
         </div>
 
         <div class="flex flex-col lg:flex-row gap-5 items-center justify-between mt-5">
-          <p class="text-center sm:text-left font-medium text-secondary">
-            Showing data for {{ data.filter === ICTStudentEnum.payment_confirmed && data.filterLogic === 0 ?
-              'pending payments (default)' : data.filterColumns.find(f => f.id === data.filter)?.name.toLowerCase() }}
-          </p>
+          <div>
+            <md-chip-set class="flex justify-center">
+              <div v-for="year in 4" :key="year" class="relative" :title="`There are (${ict.confirmedCount?.[year] ?? '0'}) ${mapYearLevel(year)} students with ${mapFilter(data.filter)}.`">
+                <div class="absolute top-0 right-0 -translate-x-3 -translate-y-2 z-[10]">
+                  <md-badge v-if="ict.confirmedCount?.[year] > 0" :value="ict.confirmedCount[year] ?? '0'" />
+                </div>
+                <md-filter-chip
+                  :disabled="!ict.confirmedCount?.[year]"
+                  :selected="data.filter2 === ICTStudentEnum.year_level && data.filter2Value === year"
+                  :label="mapYearLevel(year)"
+                  @click="changeYearLevel(year)"
+                  elevated
+                />
+              </div>
+            </md-chip-set>
+          </div>
           <div>
             <md-chip-set class="flex justify-center">
               <div v-for="size in ict.tshirtSizes" :key="size.id" class="relative" :title="`Show students with tshirt size of ${size.name}.`">
@@ -112,14 +124,22 @@
           {{ message }}
         </div>
 
-        <VPagination
-          class="mt-5"
-          v-if="data.students.length > 0"
-          :limit="parseInt(Env.ict_students_per_page)"
-          :page="data.page"
-          :total="data.total"
-          @change="p => goToPage(p)"
-        />
+        <div class="flex flex-col mt-10 md:mt-0 md:flex-row justify-between items-center">
+          <p class="text-center sm:text-left font-medium text-secondary w-full">
+            Showing data for {{ data.filter === ICTStudentEnum.payment_confirmed && data.filterLogic === 0 ?
+              'pending payments (default)' : data.filterColumns.find(f => f.id === data.filter)?.name.toLowerCase() }}
+          </p>
+          <div>
+            <VPagination
+              class="mt-5"
+              v-if="data.students.length > 0"
+              :limit="parseInt(Env.ict_students_per_page)"
+              :page="data.page"
+              :total="data.total"
+              @change="p => goToPage(p)"
+            />
+          </div>
+        </div>
       </div>
     </Transition>
 
@@ -188,7 +208,7 @@ import "@material/web/fab/fab";
 import "@material/web/labs/badge/badge";
 
 import { getReadableDate } from "~/utils/date";
-import { mapYear } from "~/utils/page";
+import { mapYear, mapYearLevel } from "~/utils/page";
 
 // Get store 
 const store = useStore();
@@ -354,6 +374,16 @@ function changeSize(size: ICTShirtSize) {
   data.value.page = 1;
   data.value.filter2 = data.value.filter2Value === size.id ? undefined : ICTStudentEnum.tshirt_size_id;
   data.value.filter2Value = data.value.filter2Value === size.id ? undefined : size.id;
+  return fetchStudents(isSearched.value ? data.value.search : "");
+}
+
+/**
+ * Change year level
+ */
+function changeYearLevel(level: number) {
+  data.value.page = 1;
+  data.value.filter2 = ICTStudentEnum.year_level;
+  data.value.filter2Value = level;
   return fetchStudents(isSearched.value ? data.value.search : "");
 }
 
@@ -756,12 +786,13 @@ function fetchStudents(search = "") {
     }
   });
 
-  makeRequest<{ students: ICTStudentEnum[], tshirt_sizes: Record<number, number> }, Record<string, string>>("GET", Endpoints.ICTCongressStudents, request, response => {
+  makeRequest<{ students: ICTStudentEnum[], tshirt_sizes: Record<number, number>, confirmed_count: Record<number, number> }, Record<string, string>>("GET", Endpoints.ICTCongressStudents, request, response => {
     store.isLoading = false;
 
     if (response.success) {
       data.value.students = response.data.students;
       ict.tshirtSizesCount = response.data.tshirt_sizes;
+      ict.confirmedCount = response.data.confirmed_count;
       data.value.total = response.count ?? 0;
       return;
     }
@@ -769,6 +800,7 @@ function fetchStudents(search = "") {
     message.value = response.message;
     data.value.students = [];
     ict.tshirtSizesCount = {};
+    ict.confirmedCount = {};
   });
 }
 
@@ -782,6 +814,21 @@ function mapStatCount(id: ICTStudentEnum | -1) {
   if (id === ICTStudentEnum.snack_claimed) return ict.stats.countSnackClaimed;
   if (id === ICTStudentEnum.payment_confirmed) return ict.stats.countPaymentConfirmed;
   if (id === ICTStudentEnum.tshirt_claimed) return ict.stats.countTShirtClaimed;
+}
+
+/**
+ * Map filter name
+ */
+function mapFilter(id: number | ICTStudentEnum) {
+  switch (id) {
+    case ICTStudentEnum.attendance: return "present";
+    case ICTStudentEnum.snack_claimed: return "snack claimed";
+    case ICTStudentEnum.payment_confirmed:
+      return (data.value.filterLogic === Logic.NULL) ?
+        "pending payments" : "payment confirmed";
+    case ICTStudentEnum.tshirt_claimed: return "t-shirt claimed";
+    default: return "all";
+  }
 }
 </script>
 

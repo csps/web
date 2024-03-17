@@ -438,6 +438,15 @@ function doStudentAction(selected: number) {
  * Show more info about the student
  */
  function moreInfo(row: ICTStudentModel) {
+  let price = 0;
+
+  for (const discount of ict.discountCodes) {
+    if (discount.code === row.discount_code) {
+      price = discount.price;
+      break;
+    }
+  }
+
   const id = dialog.open({
     title: `${row.first_name} ${row.last_name}`,
     message: `
@@ -459,7 +468,7 @@ function doStudentAction(selected: number) {
         <div>T-shirt size</div>
         <div>${ict.tshirtSizes.find(t => t.id === row.tshirt_size_id)?.name || '?'}</div>
         <div>Price</div>
-        <div>₱ ${ict.discountCodes.find(dc => dc.code = row.discount_code)?.price || 0}.00</div>
+        <div>₱ ${price}.00</div>
         <div>Discount Code</div>
         <div>${row.discount_code.length > 0 ? row.discount_code : "-"}</div>
         <div>Attendance</div>

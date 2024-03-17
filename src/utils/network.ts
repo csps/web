@@ -44,7 +44,7 @@ export function validateLogin(): Promise<boolean> {
         // If Univ Account
         if (store.role === AuthType.UNIV_ACCOUNT) {
           // Set admin data
-          store.admin = response.data;
+          store.user = response.data;
           store.isUnivStudentLoggedIn = true;
           store.isLoggedIn = false;
           store.isAdminLoggedIn = false;

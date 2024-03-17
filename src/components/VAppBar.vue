@@ -87,8 +87,9 @@
         </div>
 
         <div v-if="route.name?.toString().includes('Tatak')">
-        <div v-if="route.name === 'Tatak Forms Home' || route.name === 'Tatak Forms Event'">
-          <md-tabs :activeTabIndex="route.name === 'Tatak Forms Home' || route.name === 'Tatak Forms Event' ? 0 : 1">
+
+        <div class="xl:flex justify-end space-x-2 hidden" v-if="route.name === 'Tatak Forms Home' || route.name === 'Tatak Forms Event'">
+          <md-tabs class="overflow-hidden" :activeTabIndex="route.name === 'Tatak Forms Home' || route.name === 'Tatak Forms Event' ? 0 : 1">
             <md-primary-tab title="Home">
               <router-link class="link" to="/tatakforms/home">
                 <md-icon v-html="icon('home')" />
@@ -102,8 +103,8 @@
               </router-link>
             </md-primary-tab>
           </md-tabs>
-          
         </div>
+        
           <md-tabs :activeTabIndex="route.name === 'Tatak Forms Login' ? 0 : 1" v-else>
             <md-primary-tab title="Login">
               <router-link class="link" to="/tatakforms/login">
@@ -118,6 +119,7 @@
               </router-link>
             </md-primary-tab>
           </md-tabs>
+          
         </div>
             
 
@@ -148,6 +150,7 @@
             y-offset="8"
             anchor-corner="end-end"
             menu-corner="start-end"
+            v-if="!route.name?.toString().includes('Tatak')"
           >
             <router-link
               v-for="link in NAV_LINKS.slice(0, 4)"
@@ -173,8 +176,33 @@
                 <span slot="headline">Admin</span>
               </md-menu-item>
             </router-link>
-            
           </md-menu>
+
+          <md-menu
+            :open="isMenuOpen"
+            anchor="appbar-menu"
+            @closed="isMenuOpen = false"
+            class="min-w-min"
+            y-offset="8"
+            anchor-corner="end-end"
+            menu-corner="start-end"
+            v-else
+          >
+            <router-link
+            v-if="store.isUnivStudentLoggedIn" to="/tatakforms/home" tabindex="-1"
+            >
+              <md-menu-item>
+                <span slot="headline">Home</span>
+              </md-menu-item>
+            </router-link>
+            <router-link v-if="store.isUnivStudentLoggedIn" to="/profile" tabindex="-1">
+              <md-menu-item>
+                <span slot="headline">Profile</span>
+              </md-menu-item>
+            </router-link>
+          </md-menu>
+
+
         </div>
       </div>
     </div>

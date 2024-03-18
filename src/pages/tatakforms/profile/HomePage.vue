@@ -86,20 +86,19 @@ onMounted(() => {
   makeRequest<any, { acronym: string }>("GET", Endpoints.TatakformsAttendanceHistory, {}, response => {
     
     if (response.success) {
-      
-      console.log(response.data[0][0])
-      const dataObj = response.data[0][0]
-      Object.keys(dataObj).forEach(key => {
-        if(dataObj[key]){
-          const data = dataObj[key].toString().split(" ")
-          if(data.length > 1){
-            attendanceHistory.value.push(dataObj[key])
+      if(response.data[1]>0){
+        const dataObj = response.data[0][0]
+        Object.keys(dataObj).forEach(key => {
+          if(dataObj[key]){
+            const data = dataObj[key].toString().split(" ")
+            if(data.length > 1){
+              attendanceHistory.value.push(dataObj[key])
+            }
           }
-        }
-      })
+        })
+      }
       return;
     }
-
     errorMessage.value = response.message;
     toast.error(response.message);
   });

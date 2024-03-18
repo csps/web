@@ -39,6 +39,15 @@
           </md-outlined-text-field>
         </div>
 
+        <div class="flex justify-end">
+          <p>
+          No Account Yet?
+          <span>
+          <a class="font-bold text-primary" href="/tatakforms/register">Register here</a>
+          </span>
+          </p>
+        </div>
+
         <div class="flex justify-between items-center my-3">
           <label class="flex items-center gap-3 text-sm">
             <md-checkbox @change="isRememberMe = !isRememberMe" :checked="isRememberMe" :disabled="isLoggingIn" />

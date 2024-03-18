@@ -2,7 +2,7 @@
   <div class="container px-7 mx-auto flex flex-col gap-3">
   <div v-if="isLoading" class="flex flex-col justify-center items-center gap-5 h-full">
         <md-linear-progress indeterminate />
-        <p>Fetching products...</p>
+        <p>Fetching Event...</p>
   </div>
     <div class="text-center mb-5" v-else>
         <h2 class="mb-1 text-2xl font-bold text-primary">{{event.name}}</h2>
@@ -10,7 +10,7 @@
             {{getHumanDate(new Date(event.from_date))}} to
             {{getHumanDate(new Date(event.to_date))}}
         </h5>
-        <div class="flex justify-center gap-2">
+        <div class="md:flex justify-center gap-2">
             <md-filled-button class="mt-3" @click="generateQrCode">Generate QR Code</md-filled-button>
             <md-filled-button class="mt-3">Download Tatak Form</md-filled-button>
         </div>
@@ -29,6 +29,9 @@
                 <md-divider inset-end class="my-3"></md-divider>
             </div>
         </section>
+    </div>
+    <div class="text-center" v-if="attendanceHistory.length === 0">
+    <p>No attendance yet</p>
     </div>
   </div>
 </template>
@@ -72,15 +75,17 @@ onMounted(() => {
   makeRequest<any, { acronym: string }>("GET", Endpoints.TatakformsAttendanceHistoryOfEvent, { slug: route.params.slug as string }, response => {
     
     if (response.success) {
-      const dataObj = response.data[0][0]
-      Object.keys(dataObj).forEach(key => {
-        if(dataObj[key]){
-          const data = dataObj[key].toString().split(" ")
-          if(data.length > 1){
-            attendanceHistory.value.push(dataObj[key])
+      if(response.data[1] > 0){
+        const dataObj = response.data[0][0]
+        Object.keys(dataObj).forEach(key => {
+          if(dataObj[key]){
+            const data = dataObj[key].toString().split(" ")
+            if(data.length > 1){
+              attendanceHistory.value.push(dataObj[key])
+            }
           }
-        }
-      })
+        })
+      }
       
     makeRequest<TatakformModel, { acronym: string }>("GET", Endpoints.TatakformsSlug, { slug: route.params.slug as string }, response => {
       isLoading.value = false;
@@ -100,7 +105,6 @@ onMounted(() => {
     errorMessage.value = response.message;
     toast.error(response.message);
   });
-
 
   sal();
 });

@@ -105,20 +105,6 @@
           </md-tabs>
         </div>
         
-          <md-tabs :activeTabIndex="route.name === 'Tatak Forms Login' ? 0 : 1" v-else>
-            <md-primary-tab title="Login">
-              <router-link class="link" to="/tatakforms/login">
-                <md-icon v-html="icon('home')" />
-                <span>Login</span>
-              </router-link>
-            </md-primary-tab>
-            <md-primary-tab title="Register">
-              <router-link class="link" to="/tatakforms/register">
-                <md-icon v-html="icon('barcode_scanner')" />
-                <span>Register</span>
-              </router-link>
-            </md-primary-tab>
-          </md-tabs>
           
         </div>
             
@@ -137,7 +123,7 @@
         </md-icon-button>
 
         <!-- Drawer Button -->
-        <div class="flex justify-end xl:hidden relative" v-if="!route.name?.toString().includes('ICT')">
+        <div class="flex justify-end xl:hidden relative" v-if="!route.name?.toString().includes('ICT') && !route.name?.toString().includes('Tatak')">
           <md-icon-button id="appbar-menu" @click="isMenuOpen = !isMenuOpen">
             <md-icon v-html="icon('menu')" />
           </md-icon-button>

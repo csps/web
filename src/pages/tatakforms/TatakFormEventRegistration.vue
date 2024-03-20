@@ -64,7 +64,7 @@
             data-sal="zoom-in"
             data-sal-repeat
             v-model.trim="confirmPassword"
-            type="confirmPassword"
+            type="password"
             label="Confirm Password"
             :disabled="store.isLoading"
           >

@@ -247,6 +247,7 @@ const data = ref({
     { id: -1, name: "All" },
     { id: ICTStudentEnum.attendance, name: "Present" },
     { id: ICTStudentEnum.snack_claimed, name: "Snack Claimed" },
+    { id: ICTStudentEnum.kits_claimed, name: "Kits Claimed" },
     { id: ICTStudentEnum.payment_confirmed, name: "Payment Confirmed" },
     { id: ICTStudentEnum.tshirt_claimed, name: "T-shirt Claimed" },
   ] as {id: ICTStudentEnum | -1, name: string}[],
@@ -354,7 +355,7 @@ function change(filter: { id: number | ICTStudentEnum, name: string }) {
   // Otherwise, set filter to the selected filter
   else {
     data.value.filter = data.value.filter === filter.id ? -2 : filter.id;
-    data.value.filterLogic = filter.id === ICTStudentEnum.snack_claimed ? Logic.NOT_ZERO : Logic.NOT_NULL;
+    data.value.filterLogic = (filter.id === ICTStudentEnum.snack_claimed || filter.id === ICTStudentEnum.kits_claimed) ? Logic.NOT_ZERO : Logic.NOT_NULL;
   }
   
   // If toggling, set back to payment pending
@@ -475,6 +476,8 @@ function doStudentAction(selected: number) {
         <div>${row.attendance ? getReadableDate(row.date_stamp) : "(No record)"}</div>
         <div>Snack Claimed</div>
         <div>${row.snack_claimed ? "Claimed" : "(No record)"}</div>
+        <div>Kits Claimed</div>
+        <div>${row.kits_claimed ? "Claimed" : "(No record)"}</div>
         <div>Payment confirmed</div>
         <div>${row.payment_confirmed ? getReadableDate(row.payment_confirmed) : "(Not confirmed)"}</div>
         <div>Date registered</div>
@@ -821,6 +824,7 @@ function mapStatCount(id: ICTStudentEnum | -1) {
   if (id === -1) return ict.stats.countAll;
   if (id === ICTStudentEnum.attendance) return ict.stats.countPresent;
   if (id === ICTStudentEnum.snack_claimed) return ict.stats.countSnackClaimed;
+  if (id === ICTStudentEnum.kits_claimed) return ict.stats.countKitsClaimed;
   if (id === ICTStudentEnum.payment_confirmed) return ict.stats.countPaymentConfirmed;
   if (id === ICTStudentEnum.tshirt_claimed) return ict.stats.countTShirtClaimed;
 }
@@ -832,6 +836,7 @@ function mapFilter(id: number | ICTStudentEnum) {
   switch (id) {
     case ICTStudentEnum.attendance: return "present";
     case ICTStudentEnum.snack_claimed: return "snack claimed";
+    case ICTStudentEnum.kits_claimed: return "kits claimed";
     case ICTStudentEnum.payment_confirmed:
       return (data.value.filterLogic === Logic.NULL) ?
         "pending payments" : "payment confirmed";

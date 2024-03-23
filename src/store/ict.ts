@@ -12,6 +12,7 @@ export const useIctStore = defineStore("ict", () => {
     countPendingPayments: 0,
     countPresent: 0,
     countSnackClaimed: 0,
+    countKitsClaimed: 0,
     countTShirtClaimed: 0
   };
 

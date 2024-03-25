@@ -402,6 +402,10 @@ function showStudentOptions(row: ICTStudentModel) {
     disabledOptions.value.push(3);
   }
 
+  if (row.payment_confirmed || row.tshirt_claimed) {
+    disabledOptions.value.push(4);
+  }
+
   selectedStudent.value = row;
   hasSelectedStudent.value = true;
 }

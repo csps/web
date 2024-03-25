@@ -480,6 +480,8 @@ function doStudentAction(selected: number) {
         <div>${row.kits_claimed ? "Claimed" : "(No record)"}</div>
         <div>Payment confirmed</div>
         <div>${row.payment_confirmed ? getReadableDate(row.payment_confirmed) : "(Not confirmed)"}</div>
+        <div>T-shirt claimed</div>
+        <div>${row.tshirt_claimed ? getReadableDate(row.tshirt_claimed) : "(Not yet claimed)"}</div>
         <div>Date registered</div>
         <div>${getReadableDate(row.date_stamp)}</div>
       </div>

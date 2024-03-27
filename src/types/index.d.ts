@@ -354,7 +354,7 @@ declare global {
 
   type StoreKeys = "dark" | "std_token" | "adm_token" | "home_msg_role" | "login_student_id" |
     "tabs_orders_status" | "tabs_orders_page" | "tabs_events_page" | "tabs_orders_sort" | "tabs_orders_column" | 
-    "sat" | "srt" | "aat" | "art" | "iat" | "irt" | "merch_checkout_student_details";
+    "sat" | "srt" | "aat" | "art" | "iat" | "irt" | "usat" | "usrt" | "merch_checkout_student_details";
 }
 
 export {};

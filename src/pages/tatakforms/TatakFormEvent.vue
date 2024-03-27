@@ -4,17 +4,10 @@
       <div v-if="errorMessage.length === 0">
         <div v-if="isFetchingColleges || isFetchingTatakform" key="loading" class="flex flex-col gap-2.5 justify-center items-center h-full">
           <md-linear-progress indeterminate />
-          <span>Fetching {{ isFetchingColleges ? 'colleges' : 'tatakform' }}...</span>
+          <span>Fetching {{ 'colleges' }}...</span>
         </div>
         <div v-else>
-          <div class="text-center mb-5">
-            <h2 class="mb-1 text-2xl font-bold text-primary">{{ tatakform?.name }}</h2>
-            <h5>
-              {{ dayjs(tatakform?.from_date).format("MMMM DD, YYYY") }} to
-              {{ dayjs(tatakform?.to_date).format("MMMM DD, YYYY") }}
-            </h5>
-          </div>
-  
+          
           <p class="text-center font-medium text-outline">Step 1: Select your college</p>
           <div class="grid grid-cols-1 lg:grid-cols-2 justify-center items-center gap-4 mt-6">
             <div
@@ -30,7 +23,7 @@
                 </div>
               </div>
               <div>
-                <router-link :to="`/tatakforms/${route.params.slug}/${college.acronym.toLowerCase()}`">
+                <router-link :to="`/tatakforms/register/${college.acronym.toLowerCase()}`">
                   <md-outlined-button>Select</md-outlined-button>
                 </router-link>
               </div>
@@ -88,9 +81,7 @@ import sal from "sal.js";
 
 const route = useRoute();
 const colleges = ref<CollegeModel[]>([]);
-const tatakform = ref<TatakformModel>();
 const isFetchingColleges = ref(true);
-const isFetchingTatakform = ref(true);
 const errorMessage = ref("");
 
 onMounted(() => {
@@ -104,19 +95,6 @@ onMounted(() => {
       return;
     }
     
-    errorMessage.value = response.message;
-    toast.error(response.message);
-  });
-
-  // Get tatakform by slug name
-  makeRequest<TatakformModel, { slug: string }>("GET", Endpoints.TatakformsSlug, { slug: route.params.slug as string }, response => {
-    isFetchingTatakform.value = false;
-
-    if (response.success) {
-      tatakform.value = response.data;
-      return;
-    }
-
     errorMessage.value = response.message;
     toast.error(response.message);
   });

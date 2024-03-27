@@ -33,7 +33,7 @@
 
       <!-- Navigation Links -->
       <div class="flex items-center gap-5 flex-grow justify-end">
-        <div class="xl:flex justify-end space-x-2 hidden" v-if="!route.name?.toString().includes('ICT')">
+        <div class="xl:flex justify-end space-x-2 hidden" v-if="!route.name?.toString().includes('ICT') && !route.name?.toString().includes('Tatak')">
           <md-tabs :activeTabIndex="NAV_LINKS.findIndex(t => t.name === route.name)" class="overflow-hidden">
             <md-primary-tab
               v-for="(link, i) in NAV_LINKS.slice(0, 4)"
@@ -86,6 +86,29 @@
           </md-tabs>
         </div>
 
+        <div v-if="route.name?.toString().includes('Tatak')">
+
+        <div class="xl:flex justify-end space-x-2 hidden" v-if="route.name === 'Tatak Forms Home' || route.name === 'Tatak Forms Event'">
+          <md-tabs class="overflow-hidden" :activeTabIndex="route.name === 'Tatak Forms Home' || route.name === 'Tatak Forms Event' ? 0 : 1">
+            <md-primary-tab title="Home">
+              <router-link class="link" to="/tatakforms/home">
+                <md-icon v-html="icon('home')" />
+                <span>Home</span>
+              </router-link>
+            </md-primary-tab>
+            <md-primary-tab title="Profile">
+              <router-link class="link" to="">
+                <md-icon v-html="icon('person')" />
+                <span>Profile</span>
+              </router-link>
+            </md-primary-tab>
+          </md-tabs>
+        </div>
+        
+          
+        </div>
+            
+
         <md-switch @change="onThemeChange" :selected="store.isDark" icons>
           <md-icon slot="on-icon" class="scale-[0.65]" v-html="icon('dark_mode')" />
           <md-icon slot="off-icon" class="scale-[0.65]" v-html="icon('light_mode')" />
@@ -95,8 +118,12 @@
           <md-icon v-html="icon('logout')" />
         </md-icon-button>
 
+        <md-icon-button title="Logout" @click="logoutUniv" v-if="route.path.includes('/tatakforms') && !route.path.includes('login') && !route.path.includes('register')">
+            <md-icon v-html="icon('logout')" />
+        </md-icon-button>
+
         <!-- Drawer Button -->
-        <div class="flex justify-end xl:hidden relative" v-if="!route.name?.toString().includes('ICT')">
+        <div class="flex justify-end xl:hidden relative" v-if="!route.name?.toString().includes('ICT') && !route.name?.toString().includes('Tatak')">
           <md-icon-button id="appbar-menu" @click="isMenuOpen = !isMenuOpen">
             <md-icon v-html="icon('menu')" />
           </md-icon-button>
@@ -109,6 +136,7 @@
             y-offset="8"
             anchor-corner="end-end"
             menu-corner="start-end"
+            v-if="!route.name?.toString().includes('Tatak')"
           >
             <router-link
               v-for="link in NAV_LINKS.slice(0, 4)"
@@ -135,6 +163,32 @@
               </md-menu-item>
             </router-link>
           </md-menu>
+
+          <md-menu
+            :open="isMenuOpen"
+            anchor="appbar-menu"
+            @closed="isMenuOpen = false"
+            class="min-w-min"
+            y-offset="8"
+            anchor-corner="end-end"
+            menu-corner="start-end"
+            v-else
+          >
+            <router-link
+            v-if="store.isUnivStudentLoggedIn" to="/tatakforms/home" tabindex="-1"
+            >
+              <md-menu-item>
+                <span slot="headline">Home</span>
+              </md-menu-item>
+            </router-link>
+            <router-link v-if="store.isUnivStudentLoggedIn" to="/profile" tabindex="-1">
+              <md-menu-item>
+                <span slot="headline">Profile</span>
+              </md-menu-item>
+            </router-link>
+          </md-menu>
+
+
         </div>
       </div>
     </div>
@@ -192,6 +246,28 @@ function logout() {
         removeStore("irt");
         dialog.close(id);
         router.push({ path: "admin/login" });
+      }
+    },
+    cancel:{
+      text: "Cancel",
+      click() {
+        dialog.close(id);
+      }
+    }
+  });
+}
+
+function logoutUniv() {
+  const id = dialog.open({
+    title: "Logout confirmation",
+    message: "This will clear your session data. Are you sure you want to logout?",
+    ok: {
+      text: "Logout",
+      click() {
+        removeStore("usat");
+        removeStore("usrt");
+        dialog.close(id);
+        router.push({ path: "/tatakforms/login" });
       }
     },
     cancel:{

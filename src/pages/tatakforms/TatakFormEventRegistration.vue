@@ -4,8 +4,7 @@
       <div v-if="errorMessage.length === 0" class="flex flex-col items-center justify-center pb-5">
         <div class="flex flex-col space-y-5 w-full sm:w-3/4 lg:w-1/2 2xl:w-1/3 font-reset bg-surface-container p-6 lg:p-8 rounded-2xl">
           <div class="text-center mb-1" data-sal="slide-right" data-sal-repeat>
-            <h4 class="mb-1 text-lg lg:text-2xl font-bold"><span class="text-primary">{{ tatakform?.name }}</span> - Registration</h4>
-            <p class="text-outline text-xs lg:text-sm">{{ dayjs(tatakform?.from_date).format("MMMM DD, YYYY") }} to {{ dayjs(tatakform?.to_date).format("MMMM DD, YYYY") }}</p>
+            <h4 class="mb-1 text-lg lg:text-2xl font-bold"><span class="text-primary"></span>Registration</h4>
             <hr class="mt-3 mb-6 border-surface-container-highest" />
             <p class="text-outline text-xs lg:text-sm">You are selecting {{ college?.name }}</p>
           </div>
@@ -46,6 +45,30 @@
             supportingText="Make sure to use your valid email address."
           >
             <md-icon slot="leading-icon" v-html="icon('mail', true)" />
+          </md-filled-text-field>
+
+          <!-- Password -->
+          <md-filled-text-field
+            data-sal="zoom-in"
+            data-sal-repeat
+            v-model.trim="password"
+            type="password"
+            label="Password"
+            :disabled="store.isLoading"
+          >
+            <md-icon slot="leading-icon" v-html="icon('settings', true)" />
+          </md-filled-text-field>
+
+          <!-- Confirm Password -->
+          <md-filled-text-field
+            data-sal="zoom-in"
+            data-sal-repeat
+            v-model.trim="confirmPassword"
+            type="password"
+            label="Confirm Password"
+            :disabled="store.isLoading"
+          >
+            <md-icon slot="leading-icon" v-html="icon('settings', true)" />
           </md-filled-text-field>
   
           <!-- Course and Year level -->
@@ -93,14 +116,14 @@
 
 <script lang="ts" setup>
 import { onMounted, ref, watch } from 'vue';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { toast } from 'vue3-toastify';
 import { isEmail } from '~/utils/string';
 import { Endpoints, makeRequest } from '~/network/request';
 import { mapYearLevel } from '~/utils/page';
 import { useStore, useDialog } from '~/store';
+import { getStore, removeStore, setStore } from "~/utils/storage";
 import { icon } from '~/utils/icon';
-
 import sal from "sal.js";
 import dayjs from "dayjs";
 
@@ -116,6 +139,8 @@ const studentId = ref("");
 const firstName = ref("");
 const lastName = ref("");
 const email = ref("");
+const password = ref("");
+const confirmPassword = ref("");
 const course = ref();
 const yearLevel = ref();
 
@@ -124,32 +149,20 @@ const college = ref<CollegeModel>();
 const dialog = useDialog();
 const store = useStore();
 const route = useRoute();
+const router = useRouter();
 
+const isLoggingIn = ref(false);
 const isRegistered = ref(false);
-const isFetchingTatakform = ref(true);
 const isFetchingCourses = ref(true);
 
 const errorMessage = ref("");
 
-watch([isFetchingTatakform, isFetchingCourses], ([fetchingTatakform, fetchingCourses]) => {
-  store.isLoading = fetchingTatakform || fetchingCourses;
+watch([isFetchingCourses], ([fetchingCourses]) => {
+  store.isLoading = fetchingCourses;
 });
 
 onMounted(() => {
-  store.isLoading = true;
-
-  makeRequest<TatakformModel, { slug: string }>("GET", Endpoints.TatakformsSlug, { slug: route.params.slug as string }, response => {
-    isFetchingTatakform.value = false;
-
-    if (response.success) {
-      tatakform.value = response.data;
-      return;
-    }
-
-    errorMessage.value = response.message;
-    toast.error(response.message);
-  });
-
+  store.isLoading = false;
   makeRequest<CollegeModel, { acronym: string }>("GET", Endpoints.CollegeCourses, { acronym: route.params.college as string }, response => {
     isFetchingCourses.value = false;
 
@@ -168,7 +181,7 @@ onMounted(() => {
 function register() {
   // If one of the fields is empty, show a toast message
   if (!studentId.value || !firstName.value || !lastName.value || !email.value ||
-    !college.value || !course.value || !yearLevel.value) {
+    !college.value || !course.value || !yearLevel.value || !password.value || !confirmPassword.value) {
     toast.error("Please fill up all fields.");
     return;
   }
@@ -177,6 +190,13 @@ function register() {
     toast.error("Invalid email format.");
     return;
   }
+
+  if(confirmPassword.value !== password.value){
+    toast.error("Password does not match");
+    return;
+  }
+
+  
 
 
   let id = dialog.open({
@@ -213,6 +233,36 @@ function register() {
             text: "I understand, proceed",
             click() {
               // TODO: Register the user
+              makeRequest<RegisterRequest>("POST", Endpoints.TatakformsRegister, {
+                student_id: studentId.value,
+                year_level: yearLevel.value,
+                first_name: firstName.value,
+                last_name: lastName.value,
+                course_id: course.value,
+                email_address: email.value,
+                password: password.value
+              }, (response) => {
+                isLoggingIn.value = false;
+                store.isLoading = false;
+                console.log(response)
+                // if success
+                if (response.success) {
+                  // Save student tokens to local storage
+                  // setStore("usat", response.data.accessToken);
+                  // setStore("usrt", response.data.refreshToken);
+
+                  // Set student
+                  // store.user = response.data.user;
+                  // store.role = AuthType.UNIV_ACCOUNT;
+                  // Set is logged in to true
+                  store.isLoggedIn = true;
+                  // Redirect to home page
+                  router.push({ name: "Tatak Forms Login" });
+                  return;
+                }
+
+                toast.error(response.message);
+              });
               dialog.close(id);
             }
           },

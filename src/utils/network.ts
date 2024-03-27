@@ -23,13 +23,13 @@ export function validateLogin(): Promise<boolean> {
         const store = useStore();
         // Role
         store.role = response.count; // 2 = ict_admin, 1 = admin, 0 = student
-
         // If student
         if (store.role === AuthType.STUDENT) {
           // Set student data
           store.user = response.data;
           store.isLoggedIn = true;
           store.isAdminLoggedIn = false;
+          store.isUnivStudentLoggedIn = false;
         }
   
         // If admin
@@ -38,9 +38,20 @@ export function validateLogin(): Promise<boolean> {
           store.admin = response.data;
           store.isAdminLoggedIn = true;
           store.isLoggedIn = false;
+          store.isUnivStudentLoggedIn = false;
         }
-      }
 
+        // If Univ Account
+        if (store.role === AuthType.UNIV_ACCOUNT) {
+          // Set admin data
+          store.user = response.data;
+          store.isUnivStudentLoggedIn = true;
+          store.isLoggedIn = false;
+          store.isAdminLoggedIn = false;
+        }
+
+        
+      }
       resolve(response.success);
     });
   });
@@ -67,8 +78,10 @@ export function getQRCodeLink(q: string, isDark = false) {
 function _hasTokens() {
   const sat = getStore("sat");
   const srt = getStore("srt");
+  const usat = getStore("usat");
+  const usrt = getStore("usrt");
   const aat = getStore("aat");
   const art = getStore("art");
 
-  return (sat && srt) || (aat && art);
+  return (sat && srt) || (aat && art) || (usat && usrt);
 }

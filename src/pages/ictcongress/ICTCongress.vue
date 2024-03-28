@@ -1,6 +1,5 @@
 <template>
   <div class="container flex flex-col items-center justify-center mx-auto px-6 relative overlay">
-    <!-- <img :src="graphic" class="w-full scale-[3] top lg:scale-[1.25] absolute lg:top-20 opacity-[0.04] z-[-1]" /> -->
     <VMouse class="invisible sm:visible absolute bottom-[5%] left-1/2 -translate-x-1/2" />
     <section class="first pb-32 flex items-center z-0 !overflow-visible">
       <div class="grid grid-cols-1 lg:grid-cols-2 items-center gap-8 w-full">
@@ -16,8 +15,8 @@
             <p ref="intro" class="bg-surface-container px-6 py-4 rounded-lg leading-6 text-on-surface-variant" />
           </div>
           <div class="flex justify-end">
-            <md-filled-button data-sal="slide-left" data-sal-repeat @click="onRegisterClick">
-              Register now!
+            <md-filled-button :disabled="!ict.isAcceptingRegistrations" data-sal="slide-left" data-sal-repeat @click="onRegisterClick">
+              {{ !ict.isAcceptingRegistrations ? 'Registration is closed' : 'Register now!'}}
               <md-icon slot="icon" v-html="icon('campaign', true)" />
             </md-filled-button>
           </div>
@@ -25,105 +24,113 @@
       </div>
     </section>
     <section class="flex flex-col items-center justify-center min-h-[100dvh]">
-      <div class="flex flex-col space-y-5 w-full sm:w-3/4 lg:w-3/4 2xl:w-4/5 font-reset bg-surface-container p-6 lg:p-8 rounded-2xl">
-        <div class="text-center" data-sal="slide-right" data-sal-repeat>
-          <h4 class="mb-1 text-lg lg:text-2xl font-bold"><span class="text-primary">ICT Congress 2024</span> - Registration</h4>
-        </div>
-        <!-- Student ID -->
-        <md-filled-text-field
-          data-sal="zoom-in"
-          data-sal-repeat
-          v-model.trim="studentId"
-          maxLength="8"
-          type="text"
-          inputmode="numeric"
-          label="Student ID"
-          min="0"
-          oninput="this.value = this.value.slice(0, 8)"
-          :disabled="store.isLoading || isRegistered"
-        >
-          <md-icon slot="leading-icon" v-html="icon('badge', true)" />
-        </md-filled-text-field>
-    
-        <!-- First and Last name -->
-        <div class="flex gap-5 !mt-1">
-          <md-filled-text-field data-sal="slide-right" data-sal-repeat v-model.trim="firstName" label="First name" :disabled="store.isLoading || isRegistered">
-            <md-icon slot="leading-icon" v-html="icon('person', true)" />
-          </md-filled-text-field> 
-          <md-filled-text-field data-sal="slide-left" data-sal-repeat v-model.trim="lastName" label="Last name" :disabled="store.isLoading || isRegistered">
-            <md-icon slot="leading-icon" v-html="icon('person', true)" />
-          </md-filled-text-field> 
-        </div>
-    
-        <!-- Email -->
-        <md-filled-text-field
-          data-sal="zoom-in"
-          data-sal-repeat
-          v-model.trim="email"
-          type="email"
-          label="Email"
-          :disabled="store.isLoading || isRegistered"
-          supportingText="Make sure to use your valid email address."
-        >
-          <md-icon slot="leading-icon" v-html="icon('mail', true)" />
-        </md-filled-text-field>
-    
-        <!-- T-shirt size and campus -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-5 !mt-3">
-          <md-filled-select data-sal="slide-right" data-sal-repeat v-model="tsize" label="T-shirt size" :disabled="store.isLoading || isRegistered">
-            <md-icon slot="leading-icon" v-html="icon('bar_chart', true)" />
-            <md-select-option v-for="size in tshirtSizes" :key="size.id" :value="size.id">
-              {{ size.name }}
-            </md-select-option> 
-          </md-filled-select>
-          <md-filled-select data-sal="slide-left" data-sal-repeat v-model="campus" label="Campus" :disabled="store.isLoading || isRegistered">
-            <md-icon slot="leading-icon" v-html="icon('location_city', true)" />
-            <md-select-option v-for="campus in campuses" :key="campus.id" :value="campus.id">
-              {{ campus.campus_name }}
-            </md-select-option>
-          </md-filled-select>
-        </div>
-    
-        <!-- Course and Year level -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-          <md-filled-select data-sal="slide-right" data-sal-repeat v-model="course" label="Course" :disabled="store.isLoading || isRegistered">
-            <md-icon slot="leading-icon" v-html="icon('school', true)" />
-            <md-select-option v-for="course in courses" :key="course.id" :value="course.id">
-              {{ course.course_name }}
-            </md-select-option>
-          </md-filled-select>
-          <md-filled-select data-sal="slide-left" data-sal-repeat v-model="yearLevel" label="Year level" :disabled="store.isLoading || isRegistered">
-            <md-icon slot="leading-icon" v-html="icon('school', true)" />
-            <md-select-option v-for="year in 4" :key="year" :value="year">
-              {{ mapYearLevel(year) }}
-            </md-select-option>
-          </md-filled-select>
-        </div>
-    
-        <div class="flex justify-center">
+      <Transition>
+      
+        <div v-if="ict.isAcceptingRegistrations" class="flex flex-col space-y-5 w-full sm:w-3/4 lg:w-3/4 2xl:w-4/5 font-reset bg-surface-container p-6 lg:p-8 rounded-2xl">
+          <div class="text-center" data-sal="slide-right" data-sal-repeat>
+            <h4 class="mb-1 text-lg lg:text-2xl font-bold"><span class="text-primary">ICT Congress 2024</span> - Registration</h4>
+          </div>
+          <!-- Student ID -->
           <md-filled-text-field
-            label="Discount code"
-            :value="discountCode"
+            data-sal="zoom-in"
+            data-sal-repeat
+            v-model.trim="studentId"
+            maxLength="8"
+            type="text"
+            inputmode="numeric"
+            label="Student ID"
+            min="0"
+            oninput="this.value = this.value.slice(0, 8)"
             :disabled="store.isLoading || isRegistered"
-            maxLength="16"
-            class="w-full"
-            supportingText="Discount code applied based on campus and date. (read-only field)"
-            readonly
-            data-sal="zoom-in" data-sal-repeat
-            title="Read-only field."
           >
-            <md-icon slot="leading-icon" v-html="icon('verified', true)" />
+            <md-icon slot="leading-icon" v-html="icon('badge', true)" />
           </md-filled-text-field>
+      
+          <!-- First and Last name -->
+          <div class="flex gap-5 !mt-1">
+            <md-filled-text-field data-sal="slide-right" data-sal-repeat v-model.trim="firstName" label="First name" :disabled="store.isLoading || isRegistered">
+              <md-icon slot="leading-icon" v-html="icon('person', true)" />
+            </md-filled-text-field> 
+            <md-filled-text-field data-sal="slide-left" data-sal-repeat v-model.trim="lastName" label="Last name" :disabled="store.isLoading || isRegistered">
+              <md-icon slot="leading-icon" v-html="icon('person', true)" />
+            </md-filled-text-field> 
+          </div>
+      
+          <!-- Email -->
+          <md-filled-text-field
+            data-sal="zoom-in"
+            data-sal-repeat
+            v-model.trim="email"
+            type="email"
+            label="Email"
+            :disabled="store.isLoading || isRegistered"
+            supportingText="Make sure to use your valid email address."
+          >
+            <md-icon slot="leading-icon" v-html="icon('mail', true)" />
+          </md-filled-text-field>
+      
+          <!-- T-shirt size and campus -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-5 !mt-3">
+            <md-filled-select data-sal="slide-right" data-sal-repeat v-model="tsize" label="T-shirt size" :disabled="store.isLoading || isRegistered">
+              <md-icon slot="leading-icon" v-html="icon('bar_chart', true)" />
+              <md-select-option v-for="size in tshirtSizes" :key="size.id" :value="size.id">
+                {{ size.name }}
+              </md-select-option> 
+            </md-filled-select>
+            <md-filled-select data-sal="slide-left" data-sal-repeat v-model="campus" label="Campus" :disabled="store.isLoading || isRegistered">
+              <md-icon slot="leading-icon" v-html="icon('location_city', true)" />
+              <md-select-option v-for="campus in campuses" :key="campus.id" :value="campus.id">
+                {{ campus.campus_name }}
+              </md-select-option>
+            </md-filled-select>
+          </div>
+      
+          <!-- Course and Year level -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+            <md-filled-select data-sal="slide-right" data-sal-repeat v-model="course" label="Course" :disabled="store.isLoading || isRegistered">
+              <md-icon slot="leading-icon" v-html="icon('school', true)" />
+              <md-select-option v-for="course in courses" :key="course.id" :value="course.id">
+                {{ course.course_name }}
+              </md-select-option>
+            </md-filled-select>
+            <md-filled-select data-sal="slide-left" data-sal-repeat v-model="yearLevel" label="Year level" :disabled="store.isLoading || isRegistered">
+              <md-icon slot="leading-icon" v-html="icon('school', true)" />
+              <md-select-option v-for="year in 4" :key="year" :value="year">
+                {{ mapYearLevel(year) }}
+              </md-select-option>
+            </md-filled-select>
+          </div>
+      
+          <div class="flex justify-center">
+            <md-filled-text-field
+              label="Discount code"
+              :value="discountCode"
+              :disabled="store.isLoading || isRegistered"
+              maxLength="16"
+              class="w-full"
+              supportingText="Discount code applied based on campus and date. (read-only field)"
+              readonly
+              data-sal="zoom-in" data-sal-repeat
+              title="Read-only field."
+            >
+              <md-icon slot="leading-icon" v-html="icon('verified', true)" />
+            </md-filled-text-field>
+          </div>
+      
+          <!-- Register -->
+          <div class="flex justify-end gap-3" data-sal="zoom-in" data-sal-repeat>
+            <md-filled-tonal-button v-if="isRegistered" @click="clearFields">Reset fields</md-filled-tonal-button>
+            <md-filled-button @click="register" :disabled="isRegistered || store.isLoading">
+              {{ store.isLoading ? "Registering..." : isRegistered ? 'Registered' : "Confirm details" }}
+            </md-filled-button>
+          </div>
         </div>
-    
-        <!-- Register -->
-        <div class="flex justify-end gap-3" data-sal="zoom-in" data-sal-repeat>
-          <md-filled-tonal-button v-if="isRegistered" @click="clearFields">Reset fields</md-filled-tonal-button>
-          <md-filled-button @click="register" :disabled="isRegistered || store.isLoading">
-            {{ store.isLoading ? "Registering..." : isRegistered ? 'Registered' : "Confirm details" }}
-          </md-filled-button>
+        <div v-else>
+          <div class="bg-error text-on-error rounded-[28px] p-6">
+            Registration is currently closed.
+          </div>
         </div>
-      </div>
+      </Transition>
     </section>
   </div>
 </template>
@@ -131,7 +138,7 @@
 <script lang="ts" setup>
 import { onMounted, ref, watch } from "vue";
 import { icon } from "~/utils/icon";
-import { useStore, useDialog } from "~/store";
+import { useStore, useDialog, useIctStore } from "~/store";
 import { Endpoints, makeRequest } from "~/network/request";
 import { toast } from "vue3-toastify";
 import { isEmail } from "~/utils/string";
@@ -161,6 +168,7 @@ const course = ref();
 const yearLevel = ref();
 const discountCode = ref("");
 
+const ict = useIctStore();
 const store = useStore();
 const dialog = useDialog();
 const courses = ref<ICTCourse[]>([]);
@@ -224,6 +232,11 @@ watch(campus, (v) => {
 });
 
 function onRegisterClick() {
+  if (!ict.isAcceptingRegistrations) {
+    toast.error("Registration is currently closed.");
+    return;
+  }
+
   window.scrollTo(0, window.innerHeight);
 }
 

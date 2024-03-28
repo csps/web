@@ -1,6 +1,7 @@
 import { defineStore } from "pinia";
 
 export const useIctStore = defineStore("ict", () => {
+  const isAcceptingRegistrations = false;
   const campuses: ICTCampus[] = [];
   const tshirtSizes: ICTShirtSize[] = [];
   const discountCodes: ICTDiscountCode[] = [];
@@ -17,6 +18,7 @@ export const useIctStore = defineStore("ict", () => {
   };
 
   return {
-    campuses, stats, tshirtSizesCount, confirmedCount, tshirtSizes, discountCodes
+    campuses, stats, tshirtSizesCount, confirmedCount, tshirtSizes, discountCodes,
+    isAcceptingRegistrations
   }
 });
